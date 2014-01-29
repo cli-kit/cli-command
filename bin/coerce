@@ -3,7 +3,7 @@
 /**
  *  Example of coercing argument values.
  *
- *  ./bin/coerce -i 10 -f 3.14 --range 1..10 --list=apples,oranges,pears
+ *  ./bin/coerce -i 10 -f 3.14 --range 1..10 --list=apples,oranges file.txt
  */
 var path = require('path');
 require('ttycolor')().defaults();
@@ -37,14 +37,9 @@ for(z in cli._arguments) {
 for(i = 0;i < keys.length;i++) {
   key = keys[i];
   if(cli[key] !== undefined) {
-    console.log('%s: %s (%s)', key, cli[key], typeof(cli[key]));
+    console.log(key + ': %s (%s)', cli[key],
+      Array.isArray(cli[key]) ? 'array' : typeof(cli[key]));
   }
 }
 
-//console.log('int: %j', cli.integer);
-//console.log(' float: %j', cli.float);
-//console.log(' optional: %j', cli.optional);
-//cli.range = cli.range || [];
-//console.log(' range: %j..%j', cli.range[0], cli.range[1]);
-//console.log(' list: %j', cli.list);
-//console.log(' args: %j', cli.args);
+console.log('args: %s', cli.args);

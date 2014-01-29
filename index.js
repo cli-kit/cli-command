@@ -88,6 +88,7 @@ function parse(args) {
   var config = configuration.call(this);
   //console.dir(config);
   this._args = parser(args, config);
+  this.args = this._args.unparsed;
   merge.call(this, this._args.flags);
   merge.call(this, this._args.options);
   builtins.call(this);
