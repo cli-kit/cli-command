@@ -5,6 +5,8 @@
  *
  *  ./bin/help -h
  *  ./bin/help --help
+ *  ./bin/help -V
+ *  ./bin/help --version
  */
 var path = require('path');
 require('ttycolor')().defaults();

@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+/**
+ *  Example subcommand action callback.
+ *
+ *  ./bin/action print
+ *  ./bin/action print [...]
+ *  ./bin/action [...] print
+ */
+var path = require('path');
+require('ttycolor')().defaults();
+var pkg = path.normalize(path.join(__dirname, '..', 'package.json'));
+var cli = require('..')(pkg);
+cli.version().help();
+cli.command('print')
+  .description('print command line arguments')
+  .action(function(cmd, args) {
+    console.log(this._name + ' %s %s', cmd._name, args.join(' '));
+  });
+cli.parse();

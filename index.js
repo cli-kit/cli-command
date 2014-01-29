@@ -49,13 +49,12 @@ function execute(argv, cmd, args) {
   var dir = dirname(argv[1]);
   var bin = basename(argv[1]) + '-' + cmd;
   var local = path.join(dir, bin);
-  //console.log('%s %s %s %j', dir, bin, local, args)
-  var ps = spawn(local, args, { stdio: 'inherit'});
+  var ps = spawn(local, args, {stdio: 'inherit'});
   ps.on('error', function(err){
-    if (err.code == "ENOENT") {
+    if(err.code == 'ENOENT') {
       console.error('%s(1) does not exist, try --help', bin);
-    } else if (err.code == "EACCES") {
-      console.error('%s(1) not executable. try chmod or run with root', bin);
+    }else if (err.code == 'EACCES') {
+      console.error('%s(1) not executable, try chmod or run with root', bin);
     }
   });
   ps.on('close', function (code, signal) {
@@ -72,11 +71,13 @@ function command() {
   var z, i, raw = this._args.raw.slice(0), action, cmd, arg;
   for(i = 0;i < raw.length;i++) {
     cmd = raw[i]; arg = this._commands[cmd];
-    if(arg && !arg.action) {
+    if(arg) {
       raw.splice(i, 1);
-      return execute.call(this, process.argv, cmd, raw);
-    }else if(arg && arg.action) {
-      // TODO: invoke command action function
+      if(!arg._action) {
+        return execute.call(this, process.argv, cmd, raw);
+      }else if(arg._action) {
+        return arg._action.call(this, arg, raw);
+      }
     }
   }
 }

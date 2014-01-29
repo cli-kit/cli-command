@@ -3,9 +3,7 @@
 /**
  *  Example program to test executing subcommands.
  *
- *  ./bin/exec -h
- *  ./bin/exec --version
- *  ./bin/exec init
+ *  ./bin/exec init [...]
  */
 var path = require('path');
 require('ttycolor')().defaults();
