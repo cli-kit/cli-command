@@ -1,0 +1,37 @@
+{
+  "name": "cli-command",
+  "version": "0.0.1",
+  "description": "Command execution for cli programs",
+  "author": "muji <noop@xpm.io>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/freeformsystems/cli-command"
+  },
+  "bugs": {
+    "url": "https://github.com/freeformsystems/cli-command/issues"
+  },
+  "licenses": [{
+    "type": "MIT",
+    "url": "https://github.com/freeformsystems/cli-command/blob/master/LICENSE"
+  }],
+  "keywords": [
+    "cli",
+    "parse",
+    "options",
+    "arguments",
+    "commands"
+  ],
+  "dependencies": {
+    "cli-define": "~0.0.1",
+    "cli-argparse": "~0.1.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.17.0",
+    "chai": "~1.8.1"
+  },
+  "engine": [ "node >= 0.10.21" ],
+  "scripts": {
+    "test": "mocha -u bdd --recursive --reporter list -A test/unit/"
+  },
+  "config" : {}
+}
