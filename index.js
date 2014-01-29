@@ -13,24 +13,26 @@ function configuration() {
   for(k in this._arguments) {
     arg = this._arguments[k];
     if(arg.key) {
-      config.alias[arg.name] = arg.key;
+      config.alias[arg._names.join(' ')] = arg.key;
     }
     if(arg instanceof cli.Flag) {
-      config.flags = config.flags.concat(arg.names);
+      config.flags = config.flags.concat(arg._names);
     }else if(arg instanceof cli.Option) {
-      config.options = config.options.concat(arg.names);
+      config.options = config.options.concat(arg._names);
     }
   }
   return config;
 }
 
-function merge() {
-  var z;
-  for(z in this._args.flags) {
-    this[z] = this._args.flags[z];
-  }
-  for(z in this._args.options) {
-    this[z] = this._args.options[z];
+function merge(target) {
+  var k, v, arg;
+  for(k in target) {
+    arg = this._arguments[k];
+    v = target[k];
+    if(typeof arg._converter == 'function') {
+      v = arg._converter(v);
+    }
+    this[k] = arg.value = v;
   }
 }
 
@@ -84,10 +86,13 @@ function command() {
 
 function parse(args) {
   var config = configuration.call(this);
+  //console.dir(config);
   this._args = parser(args, config);
-  merge.call(this);
+  merge.call(this, this._args.flags);
+  merge.call(this, this._args.options);
   builtins.call(this);
   command.call(this);
+  //console.dir(this._args);
 }
 
 module.exports = function(package, name, description) {
