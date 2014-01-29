@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 /**
- *  Example program to test default help output.
+ *  Example subcommand program for exec.
  *
- *  ./bin/help -h
- *  ./bin/help --help
+ *  ./bin/exec-init -h
+ *  ./bin/exec-init --version
  */
 var path = require('path');
 require('ttycolor')().defaults();
@@ -13,5 +13,5 @@ var cli = require('..')(pkg);
 cli
   .version()
   .help()
-  .command('mock', 'a mock command')
   .parse();
+console.log('%s %s', cli._name, cli._args.raw.join(' '));
