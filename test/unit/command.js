@@ -5,7 +5,7 @@ var cli = require('../..')(pkg);
 
 describe('cli-command:', function() {
   it('should define program structure', function(done) {
-    var args = ['-v', 'add', '-f=file.txt'];
+    var args = ['-v', 'add', '-f=file.txt', '-V'];
     cli
       .version()
       .help()

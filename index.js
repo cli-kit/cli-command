@@ -1,10 +1,18 @@
 var cli = require('cli-define');
 var parser = require('cli-argparse');
+var actions = {
+  help: function() {
 
-function configuration(program) {
+  },
+  version: function() {
+    console.info(this._name + ' %s', this._version);
+  }
+}
+
+function configuration() {
   var config = {alias: {}, flags: [], options: []}, k, arg;
-  for(k in program._arguments) {
-    arg = program._arguments[k];
+  for(k in this._arguments) {
+    arg = this._arguments[k];
     if(arg.key) {
       config.alias[arg.name] = arg.key;
     }
@@ -18,21 +26,32 @@ function configuration(program) {
   return config;
 }
 
-function merge(cli) {
+function merge() {
   var z;
-  for(z in cli._args.flags) {
-    cli[z] = cli._args.flags[z];
+  for(z in this._args.flags) {
+    this[z] = this._args.flags[z];
   }
-  for(z in cli._args.options) {
-    cli[z] = cli._args.options[z];
+  for(z in this._args.options) {
+    this[z] = this._args.options[z];
+  }
+}
+
+function builtins() {
+  var i, action, fn, arr = Object.keys(actions);
+  for(i = 0;i < arr.length;i++) {
+    action = arr[i];
+    if(this._args.flags[action]) {
+      fn = this._arguments[action].action || actions[action];
+      return fn.call(this);
+    }
   }
 }
 
 function parse(args) {
-  var config = configuration(this);
+  var config = configuration.call(this);
   this._args = parser(args, config);
-  merge(this);
-  //console.dir(this);
+  merge.call(this);
+  builtins.call(this);
 }
 
 module.exports = function(package, name, description) {
