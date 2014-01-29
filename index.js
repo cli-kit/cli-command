@@ -1,12 +1,8 @@
 var cli = require('cli-define');
 var parser = require('cli-argparse');
 var actions = {
-  help: function() {
-
-  },
-  version: function() {
-    console.info(this._name + ' %s', this._version);
-  }
+  help: require('./lib/help'),
+  version: require('./lib/version')
 }
 
 function configuration() {
