@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+
+/**
+ *  Example program to test custom version output.
+ *
+ *  ./bin/version/custom
+ *  ./bin/version/custom -h
+ *  ./bin/version/custom --help
+ */
+var os = require('os');
+var path = require('path');
+require('ttycolor')().defaults();
+var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..')(pkg);
+var repeat = require('cli-util').repeat;
+cli
+  .description('Test program for custom version')
+  .version(function(version) {
+    var user = process.env.USER;
+    version.call(this, true, os.type()
+      + ' (' + process.arch + ') '
+      + (user ? user + '@' + os.hostname() : os.hostname()));
+    var keys = Object.keys(process.versions), key;
+    keys.sort();
+    for(var i = 0;i < keys.length;i++) {
+      key = keys[i];
+      console.log(repeat() + '+' + key + ' %s', process.versions[key]);
+    }
+    process.exit();
+  })
+  .help()
+  .action(function(cmd, help, version) {
+    // invoke our custom version logic
+    // when zero arguments are present
+    version.call(this);
+  })
+  .parse();

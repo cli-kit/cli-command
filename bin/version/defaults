@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+/**
+ *  Example program to test default version output.
+ *
+ *  ./bin/version/defaults
+ *  ./bin/version/defaults -h
+ *  ./bin/version/defaults --help
+ */
+var path = require('path');
+require('ttycolor')().defaults();
+var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..')(pkg);
+cli
+  .version()
+  .help()
+  .action(function(cmd, help, version) {
+    version.call(this);
+  })
+  .parse();

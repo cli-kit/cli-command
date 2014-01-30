@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- *  Example program to test custom handlers for help output.
+ *  Example program to test custom help output.
  *
  *  ./bin/help/custom
  *  ./bin/help/custom -h
@@ -50,6 +50,6 @@ cli
   .action(function(cmd, help, version) {
     // invoke our custom help logic
     // when zero arguments are present
-    help.call(this, help);
+    help.call(this);
   })
   .parse();
