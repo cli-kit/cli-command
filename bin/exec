@@ -13,4 +13,5 @@ cli
   .version()
   .help()
   .command('init', 'execute exec-init')
+  .command('absent', 'execute missing executable')
   .parse();

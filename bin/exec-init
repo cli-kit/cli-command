@@ -14,3 +14,4 @@ cli
   .help()
   .parse();
 console.log(cli._name + ' %s', cli._args.raw.join(' '));
+console.log('another line');

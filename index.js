@@ -90,6 +90,10 @@ function execute(argv, cmd, args) {
   var bin = basename(argv[1]) + '-' + cmd;
   var local = path.join(dir, bin);
   var ps = spawn(local, args, {stdio: 'inherit'});
+  //var ewrite = process.stderr.write;
+  //process.stderr.write = function() {
+
+  //}
   ps.on('error', function(err){
     if(err.code == 'ENOENT') {
       console.error('%s(1) does not exist, try --help', bin);
@@ -97,6 +101,21 @@ function execute(argv, cmd, args) {
       console.error('%s(1) not executable, try chmod or run with root', bin);
     }
   });
+  //ps.stdout.on('data', function(data) {
+    //process.stdout.write(data);
+  //})
+  //ps.stderr.on('data', function (data) {
+    //if (/^execvp\(\)/.test(data)) {
+      //if(/denied/.test(data)) {
+        //console.error('%s(1) not executable, try chmod or run with root', bin);
+      //}else{
+        ////console.error('' + data);
+        //console.error('%s(1) does not exist, try --help', bin);
+      //}
+    //}else{
+      //process.stderr.write(data);
+    //}
+  //});
   ps.on('close', function (code, signal) {
     // NOTE: workaround for https://github.com/joyent/node/issues/3222
     // NOTE: assume child process exited gracefully on SIGINT
@@ -105,6 +124,7 @@ function execute(argv, cmd, args) {
     }
     process.exit(code);
   });
+  return ps;
 }
 
 /**
@@ -164,7 +184,7 @@ function parse(args) {
   merge.call(this, this._args.options);
   zero.call(this);
   handled = builtins.call(this);
-  if(!handled) command.call(this);
+  if(!handled) return command.call(this);
 }
 
 module.exports = function(package, name, description) {
