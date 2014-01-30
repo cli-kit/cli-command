@@ -8,7 +8,7 @@ describe('cli-command:', function() {
     var args = ['-v', '-f=file.txt'];
     cli
       .flag('-v --verbose', 'print more information')
-      .option('-f --file', 'files to modify')
+      .option('-f --file [file]', 'files to modify')
       .parse(args);
     expect(cli.verbose).to.eql(true);
     expect(cli.file).to.eql('file.txt');

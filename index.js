@@ -29,11 +29,15 @@ function handler(key) {
  *  the arguments parser.
  */
 function configuration() {
-  var config = {alias: {}, flags: [], options: []}, k, arg;
+  var config = {alias: {}, flags: [], options: []}, k, arg, key, no = /^no/;
   for(k in this._arguments) {
-    arg = this._arguments[k];
-    if(arg.key) {
-      config.alias[arg._names.join(' ')] = arg.key;
+    arg = this._arguments[k]; key = arg.key;
+    if(key) {
+      if(no.test(key)) {
+        key = key.replace(no, '');
+        key = key.charAt(0).toLowerCase() + key.slice(1);
+      }
+      config.alias[arg._names.join(' ')] = key;
     }
     if(arg instanceof cli.Flag) {
       config.flags = config.flags.concat(arg._names);
@@ -51,7 +55,7 @@ function configuration() {
  *  the argument parsing result object.
  */
 function merge(target) {
-  var k, v, arg;
+  var k, v, arg, re = /^no/;
   for(k in target) {
     arg = this._arguments[k];
     //console.log('%s %s', k, arg);
@@ -60,6 +64,7 @@ function merge(target) {
       if(typeof arg._converter == 'function') {
         v = arg._converter(v);
       }
+      // TODO: validate at this point?
       this[k] = arg.value = v;
     }
   }
@@ -205,6 +210,7 @@ function error(cb) {
 function parse(args) {
   var config = configuration.call(this), handled;
   this._args = parser(args, config);
+  this._args.config = config;
   this.args = this._args.unparsed;
   merge.call(this, this._args.flags);
   merge.call(this, this._args.options);
