@@ -113,6 +113,23 @@ function raise(code, parameters) {
 }
 
 /**
+ *  Check file permissions.
+ *
+ *  canExecute():
+ *  checkPermission (stat, 1);
+ *
+ *  canRead():
+ *  checkPermission (stat, 4);
+ *
+ *  canWrite():
+ *  checkPermission (stat, 2);
+ */
+function permissions(stat, mask) {
+  return !!(mask &
+    parseInt((stat.mode & parseInt("777", 8)).toString (8)[0]));
+}
+
+/**
  *  Execute a command as an external program.
  *
  *  @param argv The program arguments.
@@ -120,38 +137,29 @@ function raise(code, parameters) {
  *  @param args Array of arguments to pass to the command.
  */
 function execute(argv, cmd, args) {
+  var scope = this;
   var dir = dirname(argv[1]);
   var bin = basename(argv[1]) + '-' + cmd;
   var local = path.join(dir, bin);
-
-  //var exists = fs.existsSync(local);
-  //if(!exists) {
-    //return console.error('%s(1) does not exist, try --help', bin);
-  //}
-  //var stat = fs.statSync(local);
+  var exists = fs.existsSync(local);
+  if(!exists) {
+    return raise.call(this, codes.ENOENT, [bin, dir, local, args]);
+  }
+  var stat = fs.statSync(local);
   //var perms = stat.mode & 0777;
   //console.log('%s', perms);
-
-  // NOTE: this is kind of weird, what we want to do is
-  // NOTE: is suppress the execvp() error message so that
-  // NOTE: we can present our own message however the only
-  // NOTE: way to do that is to pipe stderr
-  // NOTE: the additional option is for compatibility with
-  // NOTE: the ttycolor module as the child process stderr is not
-  // NOTE: a tty we need to let it know how to behave
-  var c = process.stderr.isTTY ? '--color' : '--no-color';
-  args.push(c);
-  var ps = spawn(local, args, {stdio: [0, 1, 'pipe']});
+  //console.log('%s', check(stat, 1));
+  if(!permissions(stat, 1)) {
+    return raise.call(this, codes.EPERM, [bin, dir, local, args]);
+  }
+  var ps = spawn(local, args, {stdio: 'inherit'});
   ps.on('error', function(err){
+    // NOTE: keep these tests just in case the above logic is wrong
+    // NOTE: or quite likely fails on windows
     if(err.code == 'ENOENT') {
-      raise.call(this, codes.ENOENT, [bin, dir, local, args]);
+      raise.call(scope, codes.ENOENT, [bin, dir, local, args]);
     }else if (err.code == 'EACCES') {
-      raise.call(this, codes.EPERM, [bin, dir, local, args]);
-    }
-  });
-  ps.stderr.on('data', function (data) {
-    if(!/^execvp\(\)/.test(data)) {
-      process.stderr.write(data);
+      raise.call(scope, codes.EPERM, [bin, dir, local, args]);
     }
   });
   ps.on('close', function (code, signal) {

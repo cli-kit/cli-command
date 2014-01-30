@@ -10,9 +10,13 @@ require('ttycolor')().defaults();
 var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..')(pkg);
 cli
+  .usage('[...]')
   .version()
   .help()
+  .action(function(cmd, help, version) {
+    help.usage.call(this);
+  })
   .parse();
-console.log(cli._name + ' %s', cli._args.raw.join(' '));
-console.log('another line');
-console.error('an error');
+if(cli.args.length) {
+  console.log(cli._name + ' %s', cli._args.raw.join(' '));
+}
