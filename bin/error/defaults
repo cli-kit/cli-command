@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+
+/**
+ *  Example program to test default error handling.
+ *
+ *  ./bin/error/defaults
+ */
+var path = require('path');
+require('ttycolor')().defaults();
+var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..')(pkg, 'error/defaults');
+cli
+  .version()
+  .help()
+  .parse();
+throw new Error('a default error message');

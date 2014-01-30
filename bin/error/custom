@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+/**
+ *  Example program to test custom error handling.
+ *
+ *  This handler just traps the EUNCAUGHT error and
+ *  omits the stack trace, all other error codes are
+ *  passed through to the default error handler.
+ *
+ *  ./bin/error/custom
+ */
+var path = require('path');
+require('ttycolor')().defaults();
+var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..')(pkg, 'error/custom');
+cli
+  .error(function(code, codes, parameters, error) {
+    if(code == codes.EUNCAUGHT) {
+      console.error(this._name + ' %s', parameters[0].message);
+      process.exit(code);
+    }
+    return error.call(this, code, codes, parameters);
+  })
+  .version()
+  .help()
+  .parse();
+throw new Error('a custom error message');
