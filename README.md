@@ -5,7 +5,7 @@ Command execution for cli programs.
 ## Install
 
 ```
-nom install cli-command
+npm install cli-command
 ```
 
 ## Test
