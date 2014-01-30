@@ -28,11 +28,14 @@ function merge(target) {
   var k, v, arg;
   for(k in target) {
     arg = this._arguments[k];
-    v = target[k];
-    if(typeof arg._converter == 'function') {
-      v = arg._converter(v);
+    //console.log('%s %s', k, arg);
+    if(arg) {
+      v = target[k];
+      if(typeof arg._converter == 'function') {
+        v = arg._converter(v);
+      }
+      this[k] = arg.value = v;
     }
-    this[k] = arg.value = v;
   }
 }
 
@@ -86,14 +89,12 @@ function command() {
 
 function parse(args) {
   var config = configuration.call(this);
-  //console.dir(config);
   this._args = parser(args, config);
   this.args = this._args.unparsed;
   merge.call(this, this._args.flags);
   merge.call(this, this._args.options);
   builtins.call(this);
   command.call(this);
-  //console.dir(this._args);
 }
 
 module.exports = function(package, name, description) {
