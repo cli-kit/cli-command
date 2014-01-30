@@ -89,11 +89,16 @@ function execute(argv, cmd, args) {
   var dir = dirname(argv[1]);
   var bin = basename(argv[1]) + '-' + cmd;
   var local = path.join(dir, bin);
-  var ps = spawn(local, args, {stdio: 'inherit'});
-  //var ewrite = process.stderr.write;
-  //process.stderr.write = function() {
-
-  //}
+  // NOTE: this is kind of weird, what we want to do is
+  // NOTE: is suppress the execvp() error message so that
+  // NOTE: we can present our own message however the only
+  // NOTE: way to do that is to pipe stderr
+  // NOTE: the additional option is for compatibility with
+  // NOTE: the ttycolor module as the child process stderr is not
+  // NOTE: a tty we need to let it know how to behave
+  var c = process.stderr.isTTY ? '--color' : '--no-color';
+  args.push(c);
+  var ps = spawn(local, args, {stdio: [0, 1, 'pipe']});
   ps.on('error', function(err){
     if(err.code == 'ENOENT') {
       console.error('%s(1) does not exist, try --help', bin);
@@ -101,21 +106,11 @@ function execute(argv, cmd, args) {
       console.error('%s(1) not executable, try chmod or run with root', bin);
     }
   });
-  //ps.stdout.on('data', function(data) {
-    //process.stdout.write(data);
-  //})
-  //ps.stderr.on('data', function (data) {
-    //if (/^execvp\(\)/.test(data)) {
-      //if(/denied/.test(data)) {
-        //console.error('%s(1) not executable, try chmod or run with root', bin);
-      //}else{
-        ////console.error('' + data);
-        //console.error('%s(1) does not exist, try --help', bin);
-      //}
-    //}else{
-      //process.stderr.write(data);
-    //}
-  //});
+  ps.stderr.on('data', function (data) {
+    if(!/^execvp\(\)/.test(data)) {
+      process.stderr.write(data);
+    }
+  });
   ps.on('close', function (code, signal) {
     // NOTE: workaround for https://github.com/joyent/node/issues/3222
     // NOTE: assume child process exited gracefully on SIGINT

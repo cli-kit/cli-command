@@ -7,11 +7,12 @@
  */
 var path = require('path');
 require('ttycolor')().defaults();
-var pkg = path.normalize(path.join(__dirname, '..', 'package.json'));
-var cli = require('..')(pkg);
+var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..')(pkg);
 cli
   .version()
   .help()
   .command('init', 'execute exec-init')
-  .command('absent', 'execute missing executable')
+  .command('enoent', 'missing executable')
+  .command('eperm', 'insufficent permission')
   .parse();

@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+
+/**
+ *  Stub file to test attempting to execute a subcommand
+ *  that is not executable, permissions on this file should
+ *  always be -x.
+ */

@@ -3,15 +3,16 @@
 /**
  *  Example subcommand program for exec.
  *
- *  ./bin/exec-init [...]
+ *  ./bin/exec init [...]
  */
 var path = require('path');
 require('ttycolor')().defaults();
-var pkg = path.normalize(path.join(__dirname, '..', 'package.json'));
-var cli = require('..')(pkg);
+var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..')(pkg);
 cli
   .version()
   .help()
   .parse();
 console.log(cli._name + ' %s', cli._args.raw.join(' '));
 console.log('another line');
+console.error('an error');
