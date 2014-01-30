@@ -147,7 +147,7 @@ function execute(argv, cmd, args) {
 
 /**
  *  Searches the raw arguments looking for the first argument
- *  that matches a known command and either executed the command
+ *  that matches a known command and either executes the command
  *  as an external program or invokes an action associated
  *  with the command.
  */
