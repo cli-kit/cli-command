@@ -71,6 +71,21 @@ function merge(target) {
 }
 
 /**
+ *  Validate that required arguments are present.
+ */
+function required() {
+  var z, arg;
+  for(z in this._arguments) {
+    arg = this._arguments[z];
+    if(!arg.optional && !this._args.options[arg.key]) {
+      raise.call(this, codes.EREQUIRED, [arg]);
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
  *  Execute builtin handlers for help and version.
  */
 function builtins() {
@@ -216,6 +231,7 @@ function parse(args) {
   merge.call(this, this._args.options);
   zero.call(this);
   handled = builtins.call(this);
+  if(!handled) handled = required.call(this);
   if(!handled) return command.call(this);
 }
 
