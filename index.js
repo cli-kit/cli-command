@@ -8,6 +8,23 @@ var actions = {
   version: require('./lib/version')
 }
 
+/**
+ *  Retrieve the handler for a built in action.
+ *
+ *  @param key The argument key.
+ */
+function handler(key) {
+  var fn = actions[key];
+  if(this._arguments[key] && this._arguments[key].action) {
+    return this._arguments[key].action;
+  }
+  return fn;
+}
+
+/**
+ *  Retrieve a configuration suitable for passing to
+ *  the arguments parser.
+ */
 function configuration() {
   var config = {alias: {}, flags: [], options: []}, k, arg;
   for(k in this._arguments) {
@@ -24,6 +41,12 @@ function configuration() {
   return config;
 }
 
+/**
+ *  Merge parsed arguments into the program.
+ *
+ *  @param target The target object encapsulated by
+ *  the argument parsing result object.
+ */
 function merge(target) {
   var k, v, arg;
   for(k in target) {
@@ -39,17 +62,29 @@ function merge(target) {
   }
 }
 
+/**
+ *  Execute builtin handlers for help and version.
+ */
 function builtins() {
   var i, action, fn, arr = Object.keys(actions);
   for(i = 0;i < arr.length;i++) {
     action = arr[i];
     if(this._args.flags[action]) {
-      fn = this._arguments[action].action || actions[action];
-      return fn.call(this);
+      fn = handler.call(this, action);
+      fn.call(this, actions[action]);
+      return true;
     }
   }
+  return false;
 }
 
+/**
+ *  Execute a command as an external program.
+ *
+ *  @param argv The program arguments.
+ *  @param cmd The command to execute.
+ *  @param args Array of arguments to pass to the command.
+ */
 function execute(argv, cmd, args) {
   var dir = dirname(argv[1]);
   var bin = basename(argv[1]) + '-' + cmd;
@@ -72,6 +107,12 @@ function execute(argv, cmd, args) {
   });
 }
 
+/**
+ *  Searches the raw arguments looking for the first argument
+ *  that matches a known command and either executed the command
+ *  as an external program or invokes an action associated
+ *  with the command.
+ */
 function command() {
   var z, i, raw = this._args.raw.slice(0), action, cmd, arg;
   for(i = 0;i < raw.length;i++) {
@@ -87,14 +128,23 @@ function command() {
   }
 }
 
+/**
+ *  Parse the supplied arguments and execute any commands
+ *  found in the arguments, preferring the built in commands
+ *  for help and version.
+ */
 function parse(args) {
-  var config = configuration.call(this);
+  var config = configuration.call(this), handled;
   this._args = parser(args, config);
   this.args = this._args.unparsed;
+  if(!this._args.raw.length && typeof this._action == 'function') {
+    return this._action.call(this, this,
+      handler.call(this, 'help'), handler.call(this, 'version'));
+  }
   merge.call(this, this._args.flags);
   merge.call(this, this._args.options);
-  builtins.call(this);
-  command.call(this);
+  handled = builtins.call(this);
+  if(!handled) command.call(this);
 }
 
 module.exports = function(package, name, description) {

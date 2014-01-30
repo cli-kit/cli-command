@@ -3,6 +3,7 @@
 /**
  *  Example program to test default help output.
  *
+ *  ./bin/help
  *  ./bin/help -h
  *  ./bin/help --help
  *  ./bin/help -V
@@ -10,10 +11,12 @@
  */
 var path = require('path');
 require('ttycolor')().defaults();
-var pkg = path.normalize(path.join(__dirname, '..', 'package.json'));
-var cli = require('..')(pkg);
+var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..')(pkg);
 cli
   .version()
   .help()
-  .command('mock', 'a mock command')
+  .action(function(cmd, help, version) {
+    help.call(this);
+  })
   .parse();

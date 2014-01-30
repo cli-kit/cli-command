@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+/**
+ *  Example program to test custom handlers for help output.
+ *
+ *  ./bin/help
+ *  ./bin/help -h
+ *  ./bin/help --help
+ *  ./bin/help -V
+ *  ./bin/help --version
+ */
+var path = require('path');
+require('ttycolor')().defaults();
+var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..')(pkg);
+cli
+  .version()
+  .help(function(help) {
+    help.call(this);
+  })
+  .action(function(cmd, help, version) {
+    //help.call(this, help);
+    version.call(this);
+  })
+  .parse();
