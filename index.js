@@ -129,6 +129,29 @@ function command() {
 }
 
 /**
+ *  Invokes an action handler on the program if zero arguments
+ *  were passed to the program.
+ */
+function zero() {
+  if(!this._args.raw.length && typeof this._action == 'function') {
+    var help, version, _help, _version, scope = this;
+    help = _help = handler.call(this, 'help');
+    version = _version = handler.call(this, 'version');
+    if(help != actions.help) {
+      help = function() {
+        _help.call(scope, actions.help);
+      }
+    }
+    if(version != actions.version) {
+      version = function() {
+        _version.call(scope, actions.version);
+      }
+    }
+    return this._action.call(this, this, help, version);
+  }
+}
+
+/**
  *  Parse the supplied arguments and execute any commands
  *  found in the arguments, preferring the built in commands
  *  for help and version.
@@ -137,12 +160,9 @@ function parse(args) {
   var config = configuration.call(this), handled;
   this._args = parser(args, config);
   this.args = this._args.unparsed;
-  if(!this._args.raw.length && typeof this._action == 'function') {
-    return this._action.call(this, this,
-      handler.call(this, 'help'), handler.call(this, 'version'));
-  }
   merge.call(this, this._args.flags);
   merge.call(this, this._args.options);
+  zero.call(this);
   handled = builtins.call(this);
   if(!handled) command.call(this);
 }

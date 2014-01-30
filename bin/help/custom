@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+
+/**
+ *  Example program to test custom handlers for help output.
+ *
+ *  ./bin/help/custom
+ *  ./bin/help/custom -h
+ *  ./bin/help/custom --help
+ */
+var path = require('path');
+require('ttycolor')().defaults();
+var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..')(pkg);
+cli
+  .version()
+  .description('Test program for custom help')
+  .help(function(help) {
+    var repeat = help.repeat;
+    var delimiter = repeat(76, '+')
+    var usage = help.usage;
+    help.foot = function() {
+      console.log();
+      console.log(repeat() + delimiter);
+      console.log();
+      console.log(repeat() + 'Author: ' + this._author);
+      console.log(repeat() + 'Repository: '
+        + this._package.repository.url);
+      console.log(repeat() + 'Bugs: '
+        + this._package.bugs.url);
+      console.log(repeat() + 'License: '
+        + this._package.licenses[0].type);
+      console.log();
+    }
+    help.head = function() {
+      console.log();
+      console.info(repeat() + '%s %s', this._name, this._version);
+      console.log();
+      console.log(repeat() + this._description);
+      console.log();
+      console.log(repeat() + delimiter);
+      console.log();
+    }
+    help.usage = function() {
+      console.log(repeat() + 'Usage: ');
+      console.log();
+      usage.call(this);
+    }
+    help.call(this);
+  })
+  .action(function(cmd, help, version) {
+    // invoke our custom help logic
+    // when zero arguments are present
+    help.call(this, help);
+  })
+  .parse();

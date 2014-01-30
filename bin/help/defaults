@@ -3,11 +3,9 @@
 /**
  *  Example program to test default help output.
  *
- *  ./bin/help
- *  ./bin/help -h
- *  ./bin/help --help
- *  ./bin/help -V
- *  ./bin/help --version
+ *  ./bin/help/defaults
+ *  ./bin/help/defaults -h
+ *  ./bin/help/defaults --help
  */
 var path = require('path');
 require('ttycolor')().defaults();
