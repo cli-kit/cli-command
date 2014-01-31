@@ -180,7 +180,7 @@ function execute(argv, cmd, args) {
  *  with the command.
  */
 function command() {
-  var z, i, raw = this._args.raw.slice(0), action, cmd, arg;
+  var z, i, raw = this._args.raw.slice(0), action, cmd, arg, ind;
   for(i = 0;i < raw.length;i++) {
     cmd = raw[i]; arg = this._commands[cmd];
     if(arg) {
@@ -188,6 +188,8 @@ function command() {
       if(!arg._action) {
         return execute.call(this, process.argv, cmd, raw);
       }else if(arg._action) {
+        ind = this.args.indexOf(cmd);
+        if(~ind) this.args.splice(ind, 1);
         return arg._action.call(this, arg, raw);
       }
     }
