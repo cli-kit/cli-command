@@ -155,7 +155,7 @@ function execute(argv, cmd, args) {
     return raise.call(this, codes.EPERM, [bin, dir, local, args]);
   }
   var ps = spawn(local, args, {stdio: 'inherit'});
-  ps.on('error', function(err){
+  //ps.on('error', function(err){
     // NOTE: keep these tests just in case the above logic is wrong
     // NOTE: or quite likely fails on windows
     //if(err.code == 'ENOENT') {
@@ -163,7 +163,7 @@ function execute(argv, cmd, args) {
     //}else if (err.code == 'EACCES') {
       //raise.call(scope, codes.EPERM, [bin, dir, local, args]);
     //}
-  });
+  //});
   ps.on('close', function (code, signal) {
     // NOTE: workaround for https://github.com/joyent/node/issues/3222
     // NOTE: assume child process exited gracefully on SIGINT
