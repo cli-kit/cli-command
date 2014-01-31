@@ -17,12 +17,12 @@
   "keywords": [
     "cli",
     "parse",
-    "options",
-    "arguments",
-    "commands"
+    "option",
+    "argument",
+    "command"
   ],
   "dependencies": {
-    "cli-define": "~0.0.20",
+    "cli-define": "~0.1.2",
     "cli-argparse": "~0.1.4",
     "cli-util": "~1.0.2"
   },
