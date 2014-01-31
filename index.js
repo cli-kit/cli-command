@@ -158,18 +158,19 @@ function execute(argv, cmd, args) {
   ps.on('error', function(err){
     // NOTE: keep these tests just in case the above logic is wrong
     // NOTE: or quite likely fails on windows
-    if(err.code == 'ENOENT') {
-      raise.call(scope, codes.ENOENT, [bin, dir, local, args]);
-    }else if (err.code == 'EACCES') {
-      raise.call(scope, codes.EPERM, [bin, dir, local, args]);
-    }
+    //if(err.code == 'ENOENT') {
+      //raise.call(scope, codes.ENOENT, [bin, dir, local, args]);
+    //}else if (err.code == 'EACCES') {
+      //raise.call(scope, codes.EPERM, [bin, dir, local, args]);
+    //}
   });
   ps.on('close', function (code, signal) {
     // NOTE: workaround for https://github.com/joyent/node/issues/3222
     // NOTE: assume child process exited gracefully on SIGINT
     if(signal == 'SIGINT') {
-      process.exit(0);
+      return process.exit(0);
     }
+    scope.emit('close');
     process.exit(code);
   });
   return ps;

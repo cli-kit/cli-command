@@ -16,9 +16,11 @@ describe('cli-command:', function() {
   });
   it('should execute subcommand executable', function(done) {
     var args = ['build'];
+    cli.once('close', function() {
+      done();
+    })
     cli.command('build', 'build files')
     cli.parse(args, {bin: bin});
-    done();
   });
   it('should error on not found (ENOENT)', function(done) {
     var args = ['enoent'];
@@ -31,5 +33,15 @@ describe('cli-command:', function() {
     cli.command('eperm', 'permission denied')
     cli.parse(args, {bin: bin});
     done();
+  });
+  it('should error gracefully on SIGINT', function(done) {
+    var args = ['build'];
+    process.exit = function(code) {
+      expect(code).to.eql(0);
+      done();
+    }
+    cli.command('build', 'build files')
+    var ps = cli.parse(args, {bin: bin});
+    process.kill(ps.pid, 'SIGINT');
   });
 })
