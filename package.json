@@ -24,7 +24,7 @@
   "dependencies": {
     "cli-define": "~0.0.20",
     "cli-argparse": "~0.1.4",
-    "cli-util": "~1.0.0"
+    "cli-util": "~1.0.2"
   },
   "devDependencies": {
     "ttycolor": "~0.7.5",
