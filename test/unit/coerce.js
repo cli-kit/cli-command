@@ -33,8 +33,6 @@ describe('cli-command:', function() {
           expect(cli.optional).to.eql('value');
           done();
         })
-    cli.version()
-    cli.help()
     cli.parse(args);
   });
 })

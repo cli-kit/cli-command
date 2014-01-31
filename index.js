@@ -18,8 +18,8 @@ var actions = {
  */
 function handler(key) {
   var fn = actions[key];
-  if(this._arguments[key] && this._arguments[key].action) {
-    return this._arguments[key].action;
+  if(this._arguments[key] && this._arguments[key]._action) {
+    return this._arguments[key]._action;
   }
   return fn;
 }
@@ -140,8 +140,8 @@ function permissions(stat, mask) {
  */
 function execute(argv, cmd, args) {
   var scope = this;
-  var dir = dirname(argv[1]);
-  var bin = basename(argv[1]) + '-' + cmd;
+  var dir = this._config.bin || dirname(argv[1]);
+  var bin = this._name + '-' + cmd;
   var local = path.join(dir, bin);
   var exists = fs.existsSync(local);
   if(!exists) {
@@ -235,8 +235,12 @@ function error(cb) {
  *  Parse the supplied arguments and execute any commands
  *  found in the arguments, preferring the built in commands
  *  for help and version.
+ *
+ *  @param args The arguments to parse, default is process.argv.slice(2).
+ *  @param options Configuration options.
  */
-function parse(args) {
+function parse(args, options) {
+  this._config = options || {};
   var config = configuration.call(this), handled;
   this._args = parser(args, config);
   this._args.config = config;
