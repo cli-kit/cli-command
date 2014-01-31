@@ -53,8 +53,10 @@ function configuration() {
  *
  *  @param target The target object encapsulated by
  *  the argument parsing result object.
+ *  @param options An object that will receive the arguments
+ *  being merged.
  */
-function merge(target) {
+function merge(target, options) {
   var k, v, arg, re = /^no/;
   for(k in target) {
     arg = this._arguments[k];
@@ -65,7 +67,7 @@ function merge(target) {
         v = arg._converter(v);
       }
       // TODO: validate at this point?
-      this[k] = arg.value = v;
+      this[k] = options[k] = arg.value = v;
     }
   }
 }
@@ -178,8 +180,10 @@ function execute(argv, cmd, args) {
  *  that matches a known command and either executes the command
  *  as an external program or invokes an action associated
  *  with the command.
+ *
+ *  @param options An object containing all flags and option values.
  */
-function command() {
+function command(options) {
   var z, i, raw = this._args.raw.slice(0), action, cmd, arg, ind;
   for(i = 0;i < raw.length;i++) {
     cmd = raw[i]; arg = this._commands[cmd];
@@ -190,7 +194,7 @@ function command() {
       }else if(arg._action) {
         ind = this.args.indexOf(cmd);
         if(~ind) this.args.splice(ind, 1);
-        return arg._action.call(this, arg, raw);
+        return arg._action.call(this, arg, options, raw);
       }
     }
   }
@@ -237,12 +241,13 @@ function parse(args) {
   this._args = parser(args, config);
   this._args.config = config;
   this.args = this._args.unparsed;
-  merge.call(this, this._args.flags);
-  merge.call(this, this._args.options);
+  var opts = {};
+  merge.call(this, this._args.flags, opts);
+  merge.call(this, this._args.options, opts);
   zero.call(this);
   handled = builtins.call(this);
   if(!handled) handled = required.call(this);
-  if(!handled) return command.call(this);
+  if(!handled) return command.call(this, opts);
 }
 
 module.exports = function(package, name, description) {

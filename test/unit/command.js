@@ -11,11 +11,14 @@ describe('cli-command:', function() {
       .option('-f --file [file]', 'files to modify')
       .command('ls')
         .description('list files')
-        .action(function(cmd, args) {
-          console.dir(args);
+        .action(function(cmd, options, raw) {
+          args.shift();
+          expect(raw).to.eql(args);
           expect(cmd.name).to.equal('ls');
           expect(cli.verbose).to.eql(true);
+          expect(options.verbose).to.eql(true);
           expect(cli.file).to.eql('file.txt');
+          expect(options.file).to.eql('file.txt');
           done();
         })
     cli.parse(args);

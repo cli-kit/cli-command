@@ -14,7 +14,7 @@ function list(val) {
 describe('cli-command:', function() {
   it('should coerce argument values', function(done) {
     var args = ['assert', '-i', '10', '-f', '3.14',
-      '--range', '1..10', '--list=apples,oranges', 'file.txt'];
+      '--range', '1..10', '--list=apples,oranges', 'file.txt', '-o=value'];
     cli
       .usage('[options] <file ...>')
       .option('-i, --integer <n>', 'an integer argument', parseInt)
@@ -30,6 +30,7 @@ describe('cli-command:', function() {
           expect(cli.range).to.eql([1,10]);
           expect(cli.list).to.eql(['apples','oranges']);
           expect(cli.args).to.eql(['file.txt']);
+          expect(cli.optional).to.eql('value');
           done();
         })
     cli.version()
