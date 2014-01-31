@@ -20,6 +20,12 @@ describe('cli-command:', function() {
     cli.parse(args, {bin: bin});
     done();
   });
+  it('should error on not found (ENOENT)', function(done) {
+    var args = ['enoent'];
+    cli.command('enoent', 'not found')
+    cli.parse(args, {bin: bin});
+    done();
+  });
   it('should error on permission denied (EPERM)', function(done) {
     var args = ['eperm'];
     cli.command('eperm', 'permission denied')
