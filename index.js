@@ -2,11 +2,14 @@ var fs = require('fs');
 var path = require('path'), dirname = path.dirname, basename = path.basename;
 var spawn = require('child_process').spawn;
 var cli = require('cli-define');
+var Program = cli.Program;
 var parser = require('cli-argparse');
 var codes = require('./lib/codes');
-var exception = require('./lib/exception');
+var exception = require('./lib/error');
 var types = require('./lib/types');
 var ArgumentTypeError = types.ArgumentTypeError;
+
+Program.prototype.exception = exception;
 
 var actions = {
   help: require('./lib/help'),
