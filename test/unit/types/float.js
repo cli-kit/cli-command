@@ -31,10 +31,10 @@ describe('cli-command:', function() {
         expect(code).to.eql(codes.ETYPE);
         //parameters.unshift(message);
         //console.error.apply(null, parameters);
+        done();
       })
       .option('-f, --float <n>', 'a float argument', types.float)
     cli.parse(args);
-    done();
   });
   it('should error on invalid float in array', function(done) {
     var args = ['-f', '' + pi, '--float=' + golden, '--float', 'zyx'];
@@ -44,9 +44,9 @@ describe('cli-command:', function() {
         expect(code).to.eql(codes.ETYPE);
         //parameters.unshift(message);
         //console.error.apply(null, parameters);
+        done();
       })
       .option('-f, --float <n...>', 'a float argument', types.float)
     cli.parse(args);
-    done();
   });
 })

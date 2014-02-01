@@ -12,7 +12,7 @@ describe('cli-command:', function() {
     var file = 'file.txt';
     var args = ['-p', file];
     cli
-      .option('-p, --path <n>', 'a path argument', types.path)
+      .option('-p, --path <path>', 'a path argument', types.path)
       .parse(args);
     expect(cli.path).to.eql(path.join(cwd, file));
     done();
@@ -21,7 +21,7 @@ describe('cli-command:', function() {
     var file = 'file.txt';
     var args = ['-p', './' + file];
     cli
-      .option('-p, --path <n>', 'a path argument', types.path)
+      .option('-p, --path <path>', 'a path argument', types.path)
       .parse(args);
     expect(cli.path).to.eql(path.join(cwd, file));
     done();
@@ -30,7 +30,7 @@ describe('cli-command:', function() {
     var file = '/file.txt';
     var args = ['-p', file];
     cli
-      .option('-p, --path <n>', 'a path argument', types.path)
+      .option('-p, --path <path>', 'a path argument', types.path)
       .parse(args);
     expect(cli.path).to.eql(file);
     done();
@@ -43,7 +43,7 @@ describe('cli-command:', function() {
     var relative = path.join(cwd, file);
     var args = ['-p', file, '--path=' + rel, '--path', abs, '-p=' + user];
     cli
-      .option('-p, --path <n...>', 'a path argument', types.path)
+      .option('-p, --path <path...>', 'a path argument', types.path)
       .parse(args);
     expect(cli.path).to.eql([relative, relative, abs, path.join(home, file)]);
     done();

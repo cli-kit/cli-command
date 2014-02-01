@@ -32,10 +32,10 @@ describe('cli-command:', function() {
         expect(code).to.eql(codes.ETYPE);
         //parameters.unshift(message);
         //console.error.apply(null, parameters);
+        done();
       })
       .option('-n, --number <n>', 'a number argument', types.number)
     cli.parse(args);
-    done();
   });
   it('should error on invalid number in array', function(done) {
     var args = ['-n', '' + pi, '--number=' + golden, '--number', 'zyx'];
@@ -45,9 +45,9 @@ describe('cli-command:', function() {
         expect(code).to.eql(codes.ETYPE);
         //parameters.unshift(message);
         //console.error.apply(null, parameters);
+        done();
       })
       .option('-n, --number <n...>', 'a number argument', types.number)
     cli.parse(args);
-    done();
   });
 })

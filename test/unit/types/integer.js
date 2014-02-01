@@ -29,10 +29,10 @@ describe('cli-command:', function() {
         expect(code).to.eql(codes.ETYPE);
         //parameters.unshift(message);
         //console.error.apply(null, parameters);
+        done();
       })
       .option('-i, --integer <n>', 'an integer argument', types.integer)
     cli.parse(args);
-    done();
   });
   it('should error on invalid integer in array', function(done) {
     var args = ['-i', '10', '--integer', 'zyx'];
@@ -42,9 +42,9 @@ describe('cli-command:', function() {
         expect(code).to.eql(codes.ETYPE);
         //parameters.unshift(message);
         //console.error.apply(null, parameters);
+        done();
       })
       .option('-i, --integer <n...>', 'an integer argument', types.integer)
     cli.parse(args);
-    done();
   });
 })

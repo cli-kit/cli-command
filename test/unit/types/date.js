@@ -18,7 +18,7 @@ describe('cli-command:', function() {
   it('should coerce multiple values to array of dates', function(done) {
     var args = ['-d', d, '--date=' + d];
     cli
-      .option('-d, --date <n...>', 'a date argument', types.date)
+      .option('-d, --date <date...>', 'a date argument', types.date)
       .parse(args);
     expect(cli.date).to.eql([dt, dt]);
     done();
@@ -31,10 +31,10 @@ describe('cli-command:', function() {
         expect(code).to.eql(codes.ETYPE);
         //parameters.unshift(message);
         //console.error.apply(null, parameters);
+        done();
       })
-      .option('-d, --date <n>', 'a date argument', types.date)
+      .option('-d, --date <date>', 'a date argument', types.date)
     cli.parse(args);
-    done();
   });
   it('should error on invalid date in array', function(done) {
     var args = ['-d', d, '--date=' + d, '--date', d + 'zyx'];
@@ -44,9 +44,9 @@ describe('cli-command:', function() {
         expect(code).to.eql(codes.ETYPE);
         //parameters.unshift(message);
         //console.error.apply(null, parameters);
+        done();
       })
-      .option('-d, --date <n...>', 'a date argument', types.date)
+      .option('-d, --date <date...>', 'a date argument', types.date)
     cli.parse(args);
-    done();
   });
 })
