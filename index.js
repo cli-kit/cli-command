@@ -62,6 +62,7 @@ function getConverter(arg) {
     name = new converter().constructor.name;
   }catch(e){}
   if(name && types.map[name]) return types.map[name];
+  if(arg._converter === JSON) return types.map.JSON;
   return converter;
 }
 

@@ -54,4 +54,14 @@ describe('cli-command:', function() {
     expect(cli.array).to.eql([value]);
     done();
   });
+  it('should be a string (JSON)', function(done) {
+    var cli = require('../../..')(pkg);
+    var value = '"value"';
+    var args = ['-j', value];
+    cli
+      .option('-j, --json <j>', 'a json argument', JSON)
+    cli.parse(args);
+    expect(cli.json).to.eql('value');
+    done();
+  });
 })
