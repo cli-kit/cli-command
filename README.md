@@ -1,6 +1,6 @@
 # Command
 
-Command execution for cli programs, a component of the cli [toolkit][toolkit].
+Command execution for command line interfaces, a component of the [toolkit][toolkit].
 
 This module is a binding of the [define][define] and [argparse][argparse] modules to provide option parsing and command execution for more complex programs. If your requirements are not very complex you may prefer to use [argparse][argparse] by itself.
 
@@ -18,7 +18,7 @@ npm test
 
 ## Examples
 
-Example programs are in the [bin](https://github.com/freeformsystems/cli-command/tree/master/bin) directory, there are also a ton of examples on the [test](https://github.com/freeformsystems/cli-command/tree/master/test) directory.
+Example programs are in the [bin](https://github.com/freeformsystems/cli-command/tree/master/bin) directory, there are also a ton of examples in the [test](https://github.com/freeformsystems/cli-command/tree/master/test) directory.
 
 ## API
 
