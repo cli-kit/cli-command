@@ -14,12 +14,12 @@ require('ttycolor')().defaults();
 var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..')(pkg, 'error/custom');
 cli
-  .error(function(code, codes, parameters, msg, replacements) {
+  .error(function(code, codes, msg, parameters, data) {
     if(code == codes.EUNCAUGHT) {
-      console.error(this._name + ' %s', parameters[0].message);
+      console.error(this._name + ' %s', data[0].message);
       process.exit(code);
     }
-    return error.call(this, code, codes, parameters);
+    return error.call(this, code, codes, data);
   })
   .version()
   .help()

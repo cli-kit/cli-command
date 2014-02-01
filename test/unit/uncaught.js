@@ -18,6 +18,9 @@ describe('cli-command:', function() {
     process.removeAllListeners('uncaughtException');
     var cli = require('../..')(pkg, 'mock-uncaught');
     cli.on('exception', function(code, codes, parameters) {
+      for(var i = 0;i < listeners.length;i++) {
+        process.on('uncaughtException', listeners[i]);
+      }
       done();
     });
     var args = ['uncaught'];

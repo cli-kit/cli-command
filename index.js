@@ -5,6 +5,8 @@ var cli = require('cli-define');
 var parser = require('cli-argparse');
 var codes = require('./lib/codes');
 var exception = require('./lib/exception');
+var types = require('./lib/types');
+var ArgumentTypeError = types.ArgumentTypeError;
 
 var actions = {
   help: require('./lib/help'),
@@ -49,6 +51,28 @@ function configuration() {
 }
 
 /**
+ *  Convert an arguments value.
+ *
+ *  @param value The parsed argument value.
+ *  @param arg The argument definition.
+ *  @param index The index into an array (multiple only).
+ */
+function convert(value, arg, index) {
+  var converter = arg._converter;
+  try {
+    value = converter.call(this, value, arg, index);
+  }catch(e) {
+    if(e instanceof ArgumentTypeError) {
+      raise.call(this, codes.ETYPE, e.message, e.parameters);
+    }else{
+      // pass down as uncaught exception
+      throw e;
+    }
+  }
+  return value;
+}
+
+/**
  *  Coerce an argument value using an assigned converter
  *  function.
  *
@@ -56,13 +80,21 @@ function configuration() {
  *  @param v The value as specified on the command line.
  */
 function coerce(arg, v) {
-  if(typeof arg._converter == 'function') {
-    if(Array.isArray(v)) {
+  var type = false, i;
+  var converter = arg._converter;
+  var keys = Object.keys(types);
+  for(i = 0;i < keys.length;i++) {
+    if(types[keys[i]] === converter) {
+      type = true; break;
+    }
+  }
+  if(typeof converter == 'function') {
+    if(Array.isArray(v) && !type) {
       v.forEach(function(value, index, arr) {
-        arr[index] = arg._converter(value);
+        arr[index] = convert.call(this, value, arg, index);
       });
     }else{
-      v = arg._converter(v);
+      v = convert.call(this, v, arg);
     }
   }
   return v;
@@ -86,9 +118,9 @@ function merge(target, options) {
       if(arg.multiple && !Array.isArray(v)) {
         v = [v];
       }else if(!arg.multiple && Array.isArray(v)) {
-        raise.call(this, codes.EMULTIPLE, [arg, v]);
+        raise.call(this, codes.EMULTIPLE, null, [arg, v]);
       }
-      v = coerce(arg, v);
+      v = coerce.call(this, arg, v);
       // TODO: validate at this point?
       this[k] = options[k] = arg.value = v;
     }
@@ -103,7 +135,7 @@ function required() {
   for(z in this._arguments) {
     arg = this._arguments[z];
     if(!arg.optional && !this._args.options[arg.key]) {
-      raise.call(this, codes.EREQUIRED, [arg]);
+      raise.call(this, codes.EREQUIRED, null, [arg]);
       return true;
     }
   }
@@ -129,12 +161,8 @@ function builtins() {
 /**
  *  Raise an error.
  */
-function raise(code, parameters) {
-  //var fn = this._error || exception;
-  //if(fn == this._error) {
-    //return fn.call(this, code, codes, parameters, exception);
-  //}
-  return exception.call(this, code, codes, parameters);
+function raise(code, message, parameters) {
+  return exception.call(this, code, codes, message, parameters);
 }
 
 /**
@@ -168,23 +196,23 @@ function execute(argv, cmd, args) {
   var local = path.join(dir, bin);
   var exists = fs.existsSync(local);
   if(!exists) {
-    return raise.call(this, codes.ENOENT, [bin, dir, local, args]);
+    return raise.call(this, codes.ENOENT, null, [bin, dir, local, args]);
   }
   var stat = fs.statSync(local);
   //var perms = stat.mode & 0777;
   //console.log('%s', perms);
   //console.log('%s', check(stat, 1));
   if(!permissions(stat, 1)) {
-    return raise.call(this, codes.EPERM, [bin, dir, local, args]);
+    return raise.call(this, codes.EPERM, null, [bin, dir, local, args]);
   }
   var ps = spawn(local, args, {stdio: 'inherit'});
   //ps.on('error', function(err){
     // NOTE: keep these tests just in case the above logic is wrong
     // NOTE: or quite likely fails on windows
     //if(err.code == 'ENOENT') {
-      //raise.call(scope, codes.ENOENT, [bin, dir, local, args]);
+      //raise.call(scope, codes.ENOENT, null, [bin, dir, local, args]);
     //}else if (err.code == 'EACCES') {
-      //raise.call(scope, codes.EPERM, [bin, dir, local, args]);
+      //raise.call(scope, codes.EPERM, null, [bin, dir, local, args]);
     //}
   //});
   ps.on('close', function (code, signal) {
@@ -281,9 +309,11 @@ function parse(args, options) {
 module.exports = function(package, name, description) {
   var program = cli(package, name, description);
   process.on('uncaughtException', function(err) {
-    raise.call(program, codes.EUNCAUGHT, [err]);
+    raise.call(program, codes.EUNCAUGHT, null, [err]);
   })
   program.error = error;
   program.parse = parse;
   return program;
 }
+
+module.exports.types = types;
