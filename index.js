@@ -51,6 +51,21 @@ function configuration() {
 }
 
 /**
+ *  Retrievet the converter reference for an argument,
+ *  respecting the type map.
+ *
+ *  @param arg The argument definition.
+ */
+function getConverter(arg) {
+  var converter = arg._converter, name;
+  try {
+    name = new converter().constructor.name;
+  }catch(e){}
+  if(name && types.map[name]) return types.map[name];
+  return converter;
+}
+
+/**
  *  Convert an arguments value.
  *
  *  @param value The parsed argument value.
@@ -58,7 +73,7 @@ function configuration() {
  *  @param index The index into an array (multiple only).
  */
 function convert(value, arg, index) {
-  var converter = arg._converter;
+  var converter = getConverter(arg);
   try {
     value = converter.call(this, value, arg, index);
   }catch(e) {
@@ -81,7 +96,12 @@ function convert(value, arg, index) {
  */
 function coerce(arg, v) {
   var type = false, i;
-  var converter = arg._converter;
+  var converter = getConverter(arg);
+  // NOTE: we check whether the converter is one of
+  // NOTE: the built in converters as they are responsible
+  // NOTE: for handling array values, other custom converters
+  // NOTE: are invoked for each array entry if the argument
+  // NOTE: value has already been converted to an array
   var keys = Object.keys(types);
   for(i = 0;i < keys.length;i++) {
     if(types[keys[i]] === converter) {

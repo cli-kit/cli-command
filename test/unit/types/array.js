@@ -9,9 +9,18 @@ describe('cli-command:', function() {
     var value = 'value';
     var args = ['-a', value];
     cli
-      .option('-a, --array <s>', 'an array argument', types.array)
+      .option('-a, --array <a>', 'an array argument', types.array)
     cli.parse(args);
     expect(cli.array).to.eql([value]);
+    done();
+  });
+  it('should be an array (multiple value)', function(done) {
+    var value = 'value';
+    var args = ['-a', value, '--array=' + value, '-a', 'value'];
+    cli
+      .option('-a, --array <a...>', 'an array argument', types.array)
+    cli.parse(args);
+    expect(cli.array).to.eql([value, value, value]);
     done();
   });
 })
