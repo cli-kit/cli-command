@@ -49,6 +49,26 @@ function configuration() {
 }
 
 /**
+ *  Coerce an argument value using an assigned converter
+ *  function.
+ *
+ *  @param arg The argument definition.
+ *  @param v The value as specified on the command line.
+ */
+function coerce(arg, v) {
+  if(typeof arg._converter == 'function') {
+    if(Array.isArray(v)) {
+      v.forEach(function(value, index, arr) {
+        arr[index] = arg._converter(value);
+      });
+    }else{
+      v = arg._converter(v);
+    }
+  }
+  return v;
+}
+
+/**
  *  Merge parsed arguments into the program.
  *
  *  @param target The target object encapsulated by
@@ -63,9 +83,12 @@ function merge(target, options) {
     //console.log('%s %s', k, arg);
     if(arg) {
       v = target[k];
-      if(typeof arg._converter == 'function') {
-        v = arg._converter(v);
+      if(arg.multiple && !Array.isArray(v)) {
+        v = [v];
+      }else if(!arg.multiple && Array.isArray(v)) {
+        raise.call(this, codes.EMULTIPLE, [arg, v]);
       }
+      v = coerce(arg, v);
       // TODO: validate at this point?
       this[k] = options[k] = arg.value = v;
     }
