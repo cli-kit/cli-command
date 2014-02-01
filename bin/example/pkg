@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var cli = require('..')();
+cli
+  .version()
+  .help()
+  .command('install', 'install packages')
+  .parse();   // execute pkg-install(1) upon install command

@@ -24,12 +24,12 @@ Example programs are in the [bin](https://github.com/freeformsystems/cli-command
 
 The [define][define] module is thoroughly documented so you should check that out to learn more about defining program options, if you want to dig under the hood a little also read the [argparse][argparse] documentation.
 
-### Commands
+### Commands ([command](https://github.com/freeformsystems/cli-command/tree/master/bin/example/command))
 
 ```javascript
 var path = require('path');
-var cli = require('cli-command')(
-  path.join(__dirname, 'package.json'));  // use existing meta data (package.json)
+var cli = require('..')(
+  path.join(__dirname, '..', 'package.json'));  // use existing meta data (package.json)
 cli
   .option('-f --file <file...>', 'files to copy')
   .option('-v --verbose', 'print more information')
@@ -38,24 +38,40 @@ cli
 cli.command('cp')
   .description('copy files')
   .action(function(cmd, options, raw) {
-    // execute copy logic here, scope is the program instance
+    // execute copy logic here, scope is the program instance (cli)
     console.dir(this.file);
   });
 cli.parse();  // defaults to process.argv.slice(2)
 ```
 
-### Commands (executables)
+### Subcommands ([pkg](https://github.com/freeformsystems/cli-command/tree/master/bin/example/pkg) + [pkg-install](https://github.com/freeformsystems/cli-command/tree/master/bin/example/pkg-install))
 
 If you wish to structure your program as a series of executables for each command ([git][git] style) use the alternative syntax:
 
 ```javascript
 var path = require('path');
-var cli = require('cli-command')(null, 'pkg');
+var cli = require('..')();
 cli
   .version()
   .help()
   .command('install', 'install packages')
   .parse();   // execute pkg-install(1) upon install command
+```
+
+```javascript
+var path = require('path');
+var cli = require('..')();
+cli
+  .usage('[options] <packages...>')
+  .version()
+  .help()
+  .run(function() {
+    console.log('install %s', this.args);
+  })
+  .action(function(cmd, help, version) {
+    help.call(this);  // invoke help on zero arguments
+  })
+  .parse();
 ```
 
 ## License

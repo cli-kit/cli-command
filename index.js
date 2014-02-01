@@ -336,9 +336,21 @@ function zero() {
 
 /**
  *  Register a custom error callback.
+ *
+ *  @param cb The callback function.
  */
 function error(cb) {
   this._error = cb;
+  return this;
+}
+
+/**
+ *  Register a function to start program execution.
+ *
+ *  @param cb The callback function.
+ */
+function run(cb) {
+  this._run = cb;
   return this;
 }
 
@@ -362,6 +374,7 @@ function parse(args, options) {
   zero.call(this);
   handled = builtins.call(this);
   if(!handled) handled = required.call(this);
+  if(this._run && !Object.keys(this._commands).length) return this._run.call(this);
   if(!handled) return command.call(this, opts);
 }
 
@@ -372,6 +385,7 @@ module.exports = function(package, name, description) {
   })
   program.error = error;
   program.parse = parse;
+  program.run = run;
   return program;
 }
 

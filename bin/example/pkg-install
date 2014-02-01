@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var cli = require('..')();
+cli
+  .usage('[options] <packages...>')
+  .version()
+  .help()
+  .run(function() {
+    console.log('install %s', this.args);
+  })
+  .action(function(cmd, help, version) {
+    help.call(this);  // invoke help on zero arguments
+  })
+  .parse();

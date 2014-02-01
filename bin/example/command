@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var cli = require('..')(
+  path.join(__dirname, '..', 'package.json'));  // use existing meta data (package.json)
+cli
+  .option('-f --file <file...>', 'files to copy')
+  .option('-v --verbose', 'print more information')
+  .version()
+  .help();
+cli.command('cp')
+  .description('copy files')
+  .action(function(cmd, options, raw) {
+    // execute copy logic here, scope is the program instance (cli)
+    console.dir(this.file);
+  });
+cli.parse();  // defaults to process.argv.slice(2)
