@@ -374,7 +374,8 @@ function parse(args, options) {
   zero.call(this);
   handled = builtins.call(this);
   if(!handled) handled = required.call(this);
-  if(this._run && !Object.keys(this._commands).length) return this._run.call(this);
+  if(this._run
+     && !Object.keys(this._commands).length) return this._run.call(this);
   if(!handled) return command.call(this, opts);
 }
 

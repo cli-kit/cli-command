@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
 var path = require('path');
+// use existing meta data (package.json)
 var cli = require('..')(
-  path.join(__dirname, '..', 'package.json'));  // use existing meta data (package.json)
+  path.join(__dirname, '..', 'package.json'));
 cli
   .option('-f --file <file...>', 'files to copy')
   .option('-v --verbose', 'print more information')
