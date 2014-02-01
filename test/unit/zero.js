@@ -22,7 +22,7 @@ describe('cli-command:', function() {
     var args = [];
     function helpHandler(help){
       expect(help).to.be.a('function');
-      help.call(this);
+      help.call(this, true);
     }
     function versionHandler(version){
       expect(version).to.be.a('function');

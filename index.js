@@ -55,15 +55,29 @@ function configuration() {
  *  respecting the type map.
  *
  *  @param arg The argument definition.
+ *  @param func A specific function.
  */
-function getConverter(arg) {
-  var converter = arg._converter, name;
+function getConverter(arg, func) {
+  var converter = func || arg._converter, name;
+  if(Array.isArray(converter)) return converter;
   try {
     name = new converter().constructor.name;
   }catch(e){}
   if(name && types.map[name]) return types.map[name];
   if(arg._converter === JSON) return types.map.JSON;
   return converter;
+}
+
+function getConverterNames(arg) {
+  var converter = arg._converter, names = [], i, name;
+  for(i = 0;i < converter.length;i++) {
+    try{
+      name = new converter[i]().constructor.name;
+      if(name) name = name.toLowerCase();
+      names.push(name);
+    }catch(e){}
+  }
+  return names;
 }
 
 /**
@@ -74,16 +88,40 @@ function getConverter(arg) {
  *  @param index The index into an array (multiple only).
  */
 function convert(value, arg, index) {
-  var converter = getConverter(arg);
-  try {
-    value = converter.call(this, value, arg, index);
-  }catch(e) {
+  var converter = getConverter(arg), i, func;
+  function error(e, message, parameters) {
     if(e instanceof ArgumentTypeError) {
-      raise.call(this, codes.ETYPE, e.message, e.parameters);
+      raise.call(this, codes.ETYPE,
+        message || e.message, parameters || e.parameters);
     }else{
       // pass down as uncaught exception
       throw e;
     }
+  }
+  function invoke(converter, fast) {
+    try {
+      value = converter.call(this, value, arg, index);
+    }catch(e) {
+      if(!fast) throw e;
+      error.call(this, e);
+    }
+    return value;
+  }
+  if(Array.isArray(converter)) {
+    for(i = 0;i < converter.length;i++) {
+      func = getConverter(arg, converter[i]);
+      try {
+        return invoke.call(this, func, false);
+      }catch(e) {
+        // NOTE: all coercion attempts failed
+        if(i == (converter.length -1)) {
+          error.call(this, e, 'invalid type for %s, expected (%s)',
+            [arg.names.join(' | '), getConverterNames(arg).join(', ')]);
+        }
+      }
+    }
+  }else{
+    invoke.call(this, converter, true);
   }
   return value;
 }
@@ -109,7 +147,7 @@ function coerce(arg, v) {
       type = true; break;
     }
   }
-  if(typeof converter == 'function') {
+  if(typeof converter == 'function' || Array.isArray(converter)) {
     if(Array.isArray(v) && !type) {
       v.forEach(function(value, index, arr) {
         arr[index] = convert.call(this, value, arg, index);
