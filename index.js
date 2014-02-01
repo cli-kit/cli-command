@@ -130,11 +130,11 @@ function builtins() {
  *  Raise an error.
  */
 function raise(code, parameters) {
-  var fn = this._error || exception;
-  if(fn == this._error) {
-    return fn.call(this, code, codes, parameters, exception);
-  }
-  return fn.call(this, code, codes, parameters);
+  //var fn = this._error || exception;
+  //if(fn == this._error) {
+    //return fn.call(this, code, codes, parameters, exception);
+  //}
+  return exception.call(this, code, codes, parameters);
 }
 
 /**
