@@ -393,7 +393,7 @@ Program.prototype.configuration = function(config) {
  *  @param args The arguments to parse, default is process.argv.slice(2).
  *  @param options Configuration options.
  */
-function parse(args, options) {
+Program.prototype.parse = function(args, options) {
   args = args || process.argv.slice(2);
   var listeners = this.listeners('error');
   if(!listeners.length) {
@@ -433,7 +433,7 @@ module.exports = function(package, name, description, configuration) {
       raise.call(program, errors.EUNCAUGHT, [err.message], {error: err});
     })
   }
-  program.parse = parse;
+  //program.parse = parse;
   clierr({name: program.name});
   return program;
 }
