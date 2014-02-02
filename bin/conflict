@@ -14,4 +14,3 @@ var cli = require('..')(pkg);
 cli.version().help()
   .option('-a, --action [action]', 'argument property conflict')
 cli.parse();
-//console.dir(cli.action);

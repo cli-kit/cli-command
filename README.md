@@ -20,11 +20,9 @@ npm test
 
 Example programs are in the [bin](https://github.com/freeformsystems/cli-command/tree/master/bin) directory, there are also a ton of examples in the [test](https://github.com/freeformsystems/cli-command/tree/master/test) directory.
 
-## API
+### Commands
 
-The [define][define] module is thoroughly documented so you should check that out to learn more about defining program options, if you want to dig under the hood a little also read the [argparse][argparse] documentation.
-
-### Commands ([command](https://github.com/freeformsystems/cli-command/tree/master/bin/example/command))
+Source: [command](https://github.com/freeformsystems/cli-command/tree/master/bin/example/command)
 
 ```javascript
 var path = require('path');
@@ -46,9 +44,11 @@ cli.command('cp')
 cli.parse();  // defaults to process.argv.slice(2)
 ```
 
-### Subcommands ([pkg](https://github.com/freeformsystems/cli-command/tree/master/bin/example/pkg) + [pkg-install](https://github.com/freeformsystems/cli-command/tree/master/bin/example/pkg-install))
+### Subcommands
 
 If you wish to structure your program as a series of executables for each command ([git][git] style) use the alternative syntax:
+
+Source: [pkg](https://github.com/freeformsystems/cli-command/tree/master/bin/example/pkg)
 
 ```javascript
 require('ttycolor')().defaults();
@@ -63,6 +63,8 @@ cli
   .command('install', 'install packages')
   .parse();   // execute pkg-install(1) upon install command
 ```
+
+Source: [pkg-install](https://github.com/freeformsystems/cli-command/tree/master/bin/example/pkg-install)
 
 ```javascript
 require('ttycolor')().defaults();
@@ -82,6 +84,11 @@ cli
   })
   .parse();
 ```
+
+
+## API
+
+The [define][define] module is thoroughly documented so you should check that out to learn more about defining program options, if you want to dig under the hood a little also read the [argparse][argparse] documentation.
 
 ### Methods
 
