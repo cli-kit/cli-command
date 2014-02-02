@@ -122,7 +122,7 @@ If you are only interested in a particular error you can listen for the error ev
 
 Source: [error/event](https://github.com/freeformsystems/cli-command/tree/master/bin/error/event)
 
-```
+```javascript
 var path = require('path');
 require('ttycolor')().defaults();
 var pkg = path.normalize(
