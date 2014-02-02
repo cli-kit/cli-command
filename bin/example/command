@@ -2,7 +2,7 @@
 
 var path = require('path');
 // use existing meta data (package.json)
-var cli = require('..')(
+var cli = require('../..')(
   path.join(__dirname, '..', 'package.json'));
 cli
   .option('-f --file <file...>', 'files to copy')

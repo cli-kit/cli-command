@@ -9,6 +9,7 @@ var exception = require('./lib/error');
 var types = require('./lib/types');
 var ArgumentTypeError = types.ArgumentTypeError;
 var clierr = require('cli-error');
+var errors = clierr.errors;
 
 Program.prototype.exception = exception;
 
@@ -225,8 +226,24 @@ function builtins() {
 /**
  *  Raise an error.
  */
-function raise(code, message, parameters) {
-  return exception.call(this, code, codes, message, parameters);
+//function raise(code, message, parameters) {
+  //return exception.call(this, code, codes, message, parameters);
+//}
+//
+
+/**
+ *  Raise an error from an error definition.
+ *
+ *  @param err The error definition.
+ *  @param parameters The message replacement parameters.
+ *  @param data Additional error data.
+ */
+function raise(err, parameters, data) {
+  var e = err.toError();
+  e.parameters = parameters || [];
+  e.key = err.key;
+  e.data = data;
+  this.emit('error', e);
 }
 
 /**
@@ -259,15 +276,16 @@ function execute(argv, cmd, args) {
   var bin = this._name + '-' + cmd;
   var local = path.join(dir, bin);
   var exists = fs.existsSync(local);
+  var data = {bin: bin, dir: dir, local: local, args: args};
   if(!exists) {
-    return raise.call(this, codes.ENOENT, null, [bin, dir, local, args]);
+    return raise.call(this, errors.ENOENT, [bin], data);
   }
   var stat = fs.statSync(local);
   //var perms = stat.mode & 0777;
   //console.log('%s', perms);
   //console.log('%s', check(stat, 1));
   if(!permissions(stat, 1)) {
-    return raise.call(this, codes.EPERM, null, [bin, dir, local, args]);
+    return raise.call(this, errors.EPERM, [bin], data);
   }
   var ps = spawn(local, args, {stdio: 'inherit'});
   //ps.on('error', function(err){
@@ -368,6 +386,15 @@ function run(cb) {
  *  @param options Configuration options.
  */
 function parse(args, options) {
+  var listeners = this.listeners('error');
+  if(!listeners.length) {
+    this.on('error', function(e) {
+      //console.log('key %s', e.key);
+      e.error(true);
+      e.exit();
+    })
+  }
+
   this._config = options || {};
   var config = configuration.call(this), handled;
   this._args = parser(args, config);
@@ -387,15 +414,15 @@ function parse(args, options) {
 module.exports = function(package, name, description) {
   var locales = path.join(__dirname, 'lib', 'error', 'locales');
   clierr.file({locales: locales}, function (err, file, errors, lang) {
-    console.dir(err);
-    console.log('loaded %s', file);
-    console.dir(errors);
+    //console.dir(err);
+    //console.log('loaded %s', file);
+    //console.dir(errors);
   });
 
   var program = cli(package, name, description);
-  process.on('uncaughtException', function(err) {
-    raise.call(program, codes.EUNCAUGHT, null, [err]);
-  })
+  //process.on('uncaughtException', function(err) {
+    //raise.call(program, codes.EUNCAUGHT, null, [err]);
+  //})
   program.error = error;
   program.parse = parse;
   program.run = run;

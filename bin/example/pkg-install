@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var path = require('path');
-var cli = require('..')();
+var cli = require('../..')();
 cli
   .usage('[options] <packages...>')
   .version()

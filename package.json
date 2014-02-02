@@ -24,7 +24,7 @@
   "dependencies": {
     "cli-define": "~0.1.9",
     "cli-argparse": "~0.1.4",
-    "cli-error": "~0.2.2",
+    "cli-error": "~0.2.3",
     "cli-util": "~1.0.5"
   },
   "devDependencies": {
