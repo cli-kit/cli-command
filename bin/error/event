@@ -13,13 +13,13 @@ var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..')(pkg, 'error/event');
 cli
-  .on('etype', function(e, errors, handler) {
+  .on('etype', function(e) {
     console.error(this.name + ': %s', 'etype listener fired');
     // NOTE: if we did not invoke the default handler
     // NOTE: which exits the process on error by default
     // NOTE: then the default uncaught exception handling
     // NOTE: would also be triggered
-    this.error(e, errors);
+    this.error(e);
   })
   .option('-n, --number [n]', 'a numeric value', Number)
   .version()

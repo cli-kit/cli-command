@@ -16,13 +16,14 @@ var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..')(pkg, 'error/custom');
 cli
-  .on('error', function(e, errors, handler) {
-    if(e.code == errors.EUNCAUGHT.code) {
-      e.error(false);
-      e.exit();
+  .on('error', function(e) {
+    // map of error definitions is `this.errors`
+    if(e.code == this.errors.EUNCAUGHT.code) {
+      e.error(false); // omit stack trace
+      e.exit();       // use error definition exit code
     }
     // pass other errors through to the default handler
-    this.error(e, errors);
+    this.error(e);
   })
   .option('-n, --number [n]', 'a numeric value', Number)
   .version()

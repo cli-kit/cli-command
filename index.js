@@ -394,9 +394,8 @@ function empty() {
  *  Default error handler for the error event.
  *
  *  @param e The error instance.
- *  @param errors Map of error definitinons.
  */
-Program.prototype.error = function(e, errors) {
+Program.prototype.error = function(e) {
   var key = (e.key || '').toLowerCase();
   var trace = key == 'euncaught' ? true : false;
   e.error(trace);
