@@ -1,9 +1,13 @@
 #!/usr/bin/env node
 
-var path = require('path');
+require('ttycolor')().defaults();
 var cli = require('../..')();
 cli
   .version()
   .help()
+  .on('empty', function(help, version) {
+    help.call(this, true);
+    console.error(this.name + ': command required');
+  })
   .command('install', 'install packages')
   .parse();   // execute pkg-install(1) upon install command

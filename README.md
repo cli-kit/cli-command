@@ -28,8 +28,10 @@ The [define][define] module is thoroughly documented so you should check that ou
 
 ```javascript
 var path = require('path');
-var cli = require('..')(
-  path.join(__dirname, '..', 'package.json'));  // use existing meta data (package.json)
+require('ttycolor')().defaults();
+// use existing meta data (package.json)
+var cli = require('../..')(
+  path.join(__dirname, '..', 'package.json'));
 cli
   .option('-f --file <file...>', 'files to copy')
   .option('-v --verbose', 'print more information')
@@ -49,27 +51,34 @@ cli.parse();  // defaults to process.argv.slice(2)
 If you wish to structure your program as a series of executables for each command ([git][git] style) use the alternative syntax:
 
 ```javascript
-var path = require('path');
-var cli = require('..')();
+require('ttycolor')().defaults();
+var cli = require('../..')();
 cli
   .version()
   .help()
+  .on('empty', function(help, version) {
+    help.call(this, true);
+    console.error(this.name + ': command required');
+  })
   .command('install', 'install packages')
   .parse();   // execute pkg-install(1) upon install command
 ```
 
 ```javascript
-var path = require('path');
-var cli = require('..')();
+require('ttycolor')().defaults();
+var cli = require('../..')();
 cli
   .usage('[options] <packages...>')
   .version()
   .help()
-  .run(function() {
+  .on('run', function() {
     console.log('install %s', this.args);
   })
-  .action(function(cmd, help, version) {
-    help.call(this);  // invoke help on zero arguments
+  .on('empty', function(help, version) {
+  })
+  .on('empty', function(help, version) {
+    help.call(this, true);  // invoke help on zero arguments
+    console.error(this.name + ': no packages specified');
   })
   .parse();
 ```

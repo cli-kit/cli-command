@@ -1,15 +1,18 @@
 #!/usr/bin/env node
 
-var path = require('path');
+require('ttycolor')().defaults();
 var cli = require('../..')();
 cli
   .usage('[options] <packages...>')
   .version()
   .help()
-  .run(function() {
+  .on('run', function() {
     console.log('install %s', this.args);
   })
   .on('empty', function(help, version) {
-    help.call(this);  // invoke help on zero arguments
+  })
+  .on('empty', function(help, version) {
+    help.call(this, true);  // invoke help on zero arguments
+    console.error(this.name + ': no packages specified');
   })
   .parse();

@@ -430,6 +430,7 @@ Program.prototype.parse = function(args, options) {
   handled = builtins.call(this);
   if(!handled) handled = required.call(this);
   if(!args.length) return empty.call(this);
+  if(!Object.keys(this._commands).length) return this.emit('run');
   if(!handled) return command.call(this, opts);
 }
 
