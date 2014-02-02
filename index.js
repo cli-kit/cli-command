@@ -339,39 +339,34 @@ function command(options) {
 }
 
 /**
- *  Invokes an action handler on the program if zero arguments
- *  were passed to the program.
+ *  Emits the empty event.
  */
-function zero() {
-  //if(!this._args.raw.length && typeof this._action == 'function') {
-    var help, version, _help, _version, scope = this;
-    help = _help = handler.call(this, 'help');
-    version = _version = handler.call(this, 'version');
-    if(help != actions.help) {
-      help = function() {
-        _help.call(scope, actions.help);
-      }
+function empty() {
+  // NOTE: this little dance allows custom help and version
+  // NOTE: callbacks to invoke the original implementations
+  // NOTE: from empty event listeners
+  var help, version, _help, _version, scope = this;
+  help = _help = handler.call(this, 'help');
+  version = _version = handler.call(this, 'version');
+  if(help != actions.help) {
+    help = function() {
+      _help.call(scope, actions.help);
     }
-    if(version != actions.version) {
-      version = function() {
-        _version.call(scope, actions.version);
-      }
+  }
+  if(version != actions.version) {
+    version = function() {
+      _version.call(scope, actions.version);
     }
-    this.emit('empty', help, version);
-    //return this._action.call(this, this, help, version);
-  //}
+  }
+  this.emit('empty', help, version);
 }
 
 /**
- *  Register a function to start program execution.
+ *  Default error handler for the error event.
  *
- *  @param cb The callback function.
+ *  @param e The error instance.
+ *  @param errors Map of error definitinons.
  */
-function run(cb) {
-  this._run = cb;
-  return this;
-}
-
 Program.prototype.error = function(e, errors) {
   var key = (e.key || '').toLowerCase();
   var trace = key == 'euncaught' ? true : false;
@@ -379,9 +374,15 @@ Program.prototype.error = function(e, errors) {
   if(this._configuration.exit) e.exit();
 }
 
+/**
+ *  Assigns configuration information to the program.
+ *
+ *  @param config The program configuration.
+ */
 Program.prototype.configuration = function(config) {
   this._configuration = config;
   //console.dir(config);
+  return this;
 }
 
 /**
@@ -404,7 +405,6 @@ function parse(args, options) {
   }
   this._config = options || {};
   var config = configuration.call(this), handled;
-  if(!args.length) zero.call(this);
   this._args = parser(args, config);
   this._args.config = config;
   this.args = this._args.unparsed;
@@ -413,8 +413,7 @@ function parse(args, options) {
   merge.call(this, this._args.options, opts);
   handled = builtins.call(this);
   if(!handled) handled = required.call(this);
-  if(this._run
-     && !Object.keys(this._commands).length) return this._run.call(this);
+  if(!args.length) return empty.call(this);
   if(!handled) return command.call(this, opts);
 }
 
@@ -430,12 +429,11 @@ module.exports = function(package, name, description, configuration) {
   var listeners = process.listeners('uncaughtException');
   if(!listeners.length) {
     process.on('uncaughtException', function(err) {
-      //console.error(err);
+      console.error(err);
       raise.call(program, errors.EUNCAUGHT, [err.message], {error: err});
     })
   }
   program.parse = parse;
-  program.run = run;
   clierr({name: program.name});
   return program;
 }
