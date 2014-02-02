@@ -366,16 +366,6 @@ function zero() {
 }
 
 /**
- *  Register a custom error callback.
- *
- *  @param cb The callback function.
- */
-function error(cb) {
-  this._error = cb;
-  return this;
-}
-
-/**
  *  Register a function to start program execution.
  *
  *  @param cb The callback function.
@@ -396,6 +386,7 @@ function run(cb) {
 function parse(args, options) {
   var listeners = this.listeners('error');
   if(!listeners.length) {
+    //console.log('adding error listener');
     this.on('error', function(e) {
       //console.log('key %s', e.key);
       var trace = e.key == 'UNCAUGHT' ? true : false;
@@ -403,7 +394,6 @@ function parse(args, options) {
       //e.exit();
     })
   }
-
   this._config = options || {};
   var config = configuration.call(this), handled;
   this._args = parser(args, config);
@@ -430,9 +420,10 @@ module.exports = function(package, name, description) {
 
   var program = cli(package, name, description);
   process.on('uncaughtException', function(err) {
+    console.error(err);
     raise.call(program, errors.EUNCAUGHT, [err.message], {error: err});
   })
-  program.error = error;
+  //program.error = error;
   program.parse = parse;
   program.run = run;
   return program;
