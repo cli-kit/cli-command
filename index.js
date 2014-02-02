@@ -435,6 +435,7 @@ module.exports = function(package, name, description, configuration) {
   }
   program.parse = parse;
   program.run = run;
+  clierr({name: program.name});
   return program;
 }
 

@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+
+/**
+ *  Example program to test uncaught exception handling.
+ *
+ *  If your program registers an uncaughtException listener
+ *  before creating the program then EUNCAUGHT is not emitted
+ *  by the program and you must handle that error scenario.
+ *
+ *  ./bin/error/uncaught
+ *  ./bin/error/uncaught -n NaN
+ */
+var path = require('path'), cli;
+require('ttycolor')().defaults();
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', 'package.json'));
+process.on('uncaughtException', function(e) {
+  console.error(cli.name + ': %s (%s)', e.message, 'custom listener');
+})
+cli = require('../..')(pkg, 'error/uncaught');
+cli
+  .on('error', function(e, errors) {
+    console.error(this.name + ': %s',
+      'only executes with invalid -n option');
+    // this prints the default message for the error
+    this.error(e, errors);
+  })
+  .option('-n, --number [n]', 'a numeric value', Number)
+  .version()
+  .help()
+  .parse();
+throw new Error('an uncaught exception');
