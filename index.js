@@ -42,7 +42,8 @@ function handler(key) {
  *  the arguments parser.
  */
 function configuration() {
-  var config = {alias: {}, flags: [], options: []}, k, arg, key, no = /^no/;
+  var config = {
+    alias: {}, flags: [], options: []}, k, arg, key, no = /^no/;
   for(k in this._arguments) {
     arg = this._arguments[k]; key = arg.key;
     if(key) {
@@ -62,7 +63,7 @@ function configuration() {
 }
 
 /**
- *  Retrievet the converter reference for an argument,
+ *  Retrieve the converter reference for an argument,
  *  respecting the type map.
  *
  *  @param arg The argument definition.
@@ -79,6 +80,14 @@ function getConverter(arg, func) {
   return converter;
 }
 
+/**
+ *  Attempts to retrieve string names from the functions or
+ *  constructors specified as converter(s).
+ *
+ *  @param arg The argument definition.
+ *
+ *  @return An array of names.
+ */
 function getConverterNames(arg) {
   var converter = arg._converter, names = [], i, name;
   for(i = 0;i < converter.length;i++) {
@@ -266,6 +275,7 @@ function raise(err, parameters, data) {
  *  canWrite():
  *  checkPermission (stat, 2);
  */
+// TODO: move to cli-util module
 function permissions(stat, mask) {
   return !!(mask &
     parseInt((stat.mode & parseInt("777", 8)).toString (8)[0]));
