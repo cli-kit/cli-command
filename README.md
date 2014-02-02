@@ -77,14 +77,11 @@ cli
     console.log('install %s', this.args);
   })
   .on('empty', function(help, version) {
-  })
-  .on('empty', function(help, version) {
     help.call(this, true);  // invoke help on zero arguments
     console.error(this.name + ': no packages specified');
   })
   .parse();
 ```
-
 
 ## API
 
