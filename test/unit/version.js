@@ -1,6 +1,7 @@
 var path = require('path');
 var expect = require('chai').expect;
 var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
+//var exit;
 
 describe('cli-command:', function() {
   it('should execute version handler', function(done) {

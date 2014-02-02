@@ -18,7 +18,8 @@ var CliError = clierr.CliError;
 var errors = clierr.errors;
 var config = {
   exit: true,
-  stash: null
+  stash: null,
+  bin: null
 }
 
 var actions = {
@@ -300,8 +301,9 @@ function permissions(stat, mask) {
  *  @param args Array of arguments to pass to the command.
  */
 function execute(argv, cmd, args) {
+  var config = this.configuration();
   var scope = this;
-  var dir = this._config.bin || dirname(argv[1]);
+  var dir = config.bin || dirname(argv[1]);
   var bin = this._name + '-' + cmd;
   var local = path.join(dir, bin);
   var exists = fs.existsSync(local);
@@ -332,8 +334,8 @@ function execute(argv, cmd, args) {
     if(signal == 'SIGINT') {
       return process.exit(0);
     }
-    scope.emit('close');
-    var config = scope.configuration();
+    // TODO: remove this event?
+    scope.emit('close', code, signal);
     if(config.exit) process.exit(code);
   });
   return ps;
@@ -422,7 +424,7 @@ Program.prototype.configuration = function(conf) {
  *  @param args The arguments to parse, default is process.argv.slice(2).
  *  @param options Configuration options.
  */
-Program.prototype.parse = function(args, options) {
+Program.prototype.parse = function(args) {
   args = args || process.argv.slice(2);
   var listeners = this.listeners('error');
   if(!listeners.length) {
@@ -435,7 +437,7 @@ Program.prototype.parse = function(args, options) {
   //return console.dir(this);
 
   conflict.call(this, Object.keys(actions));
-  this._config = options || {};
+  //this._config = options || {};
   var config = getParserConfiguration.call(this), handled;
   this._args = parser(args, config);
   this._args.config = config;
