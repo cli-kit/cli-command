@@ -13,7 +13,7 @@ cli
   .usage('[...]')
   .version()
   .help()
-  .action(function(cmd, help, version) {
+  .on('empty', function(help, version) {
     help.usage.call(this);
   })
   .parse();

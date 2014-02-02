@@ -47,7 +47,7 @@ cli
     }
     help.call(this);
   })
-  .action(function(cmd, help, version) {
+  .on('empty',function(help, version) {
     // invoke our custom help logic
     // when zero arguments are present
     help.call(this);

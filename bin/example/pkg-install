@@ -9,7 +9,7 @@ cli
   .run(function() {
     console.log('install %s', this.args);
   })
-  .action(function(cmd, help, version) {
+  .on('empty', function(help, version) {
     help.call(this);  // invoke help on zero arguments
   })
   .parse();

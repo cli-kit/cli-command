@@ -343,7 +343,7 @@ function command(options) {
  *  were passed to the program.
  */
 function zero() {
-  if(!this._args.raw.length && typeof this._action == 'function') {
+  //if(!this._args.raw.length && typeof this._action == 'function') {
     var help, version, _help, _version, scope = this;
     help = _help = handler.call(this, 'help');
     version = _version = handler.call(this, 'version');
@@ -357,8 +357,9 @@ function zero() {
         _version.call(scope, actions.version);
       }
     }
-    return this._action.call(this, this, help, version);
-  }
+    this.emit('empty', help, version);
+    //return this._action.call(this, this, help, version);
+  //}
 }
 
 /**
@@ -392,6 +393,7 @@ Program.prototype.configuration = function(config) {
  *  @param options Configuration options.
  */
 function parse(args, options) {
+  args = args || process.argv.slice(2);
   var listeners = this.listeners('error');
   if(!listeners.length) {
     this.on('error', function(e) {
@@ -402,13 +404,13 @@ function parse(args, options) {
   }
   this._config = options || {};
   var config = configuration.call(this), handled;
+  if(!args.length) zero.call(this);
   this._args = parser(args, config);
   this._args.config = config;
   this.args = this._args.unparsed;
   var opts = {};
   merge.call(this, this._args.flags, opts);
   merge.call(this, this._args.options, opts);
-  zero.call(this);
   handled = builtins.call(this);
   if(!handled) handled = required.call(this);
   if(this._run

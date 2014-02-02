@@ -8,9 +8,8 @@ describe('cli-command:', function() {
   it('should execute program action on zero arguments', function(done) {
     var args = [];
     cli
-      .action(function(program, help, version) {
-        expect(cli).to.eql(this).to.eql(program);
-        expect(program).to.be.an.instanceof(Program);
+      .once('empty', function(help, version) {
+        expect(cli).to.eql(this);
         expect(help).to.be.a('function');
         expect(version).to.be.a('function');
         done();
@@ -31,9 +30,8 @@ describe('cli-command:', function() {
     cli
       .help(helpHandler)
       .version(versionHandler)
-      .action(function(program, help, version) {
-        expect(cli).to.eql(this).to.eql(program);
-        expect(program).to.be.an.instanceof(Program);
+      .once('empty', function(help, version) {
+        expect(cli).to.eql(this);
         expect(help).to.be.a('function');
         version.call(this);
         help.call(this);

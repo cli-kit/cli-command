@@ -15,7 +15,7 @@ cli
   .command('init', 'execute exec-init')
   .command('enoent', 'missing executable')
   .command('eperm', 'insufficent permission')
-  .action(function(cmd, help, version) {
+  .on('empty',function(help, version) {
     help.call(this);
   })
   .parse();

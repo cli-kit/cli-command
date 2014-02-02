@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var path = require('path');
+require('ttycolor')().defaults();
 // use existing meta data (package.json)
 var cli = require('../..')(
   path.join(__dirname, '..', 'package.json'));

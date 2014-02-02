@@ -12,7 +12,7 @@ require('ttycolor')().defaults();
 var pkg = path.normalize(path.join(__dirname, '..', 'package.json'));
 var cli = require('..')(pkg);
 cli.version().help()
-  .action(function(cmd, help, version) {
+  .on('empty',function(help, version) {
     help.call(this);
   })
 cli.command('print')

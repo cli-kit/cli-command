@@ -14,7 +14,7 @@ var cli = require('../..')(pkg, 'version/defaults');
 cli
   .version()
   .help()
-  .action(function(cmd, help, version) {
+  .on('empty', function(help, version) {
     version.call(this);
   })
   .parse();

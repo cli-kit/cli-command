@@ -29,7 +29,7 @@ cli
     process.exit();
   })
   .help()
-  .action(function(cmd, help, version) {
+  .on('empty',function(help, version) {
     // invoke our custom version logic
     // when zero arguments are present
     version.call(this);
