@@ -1,15 +1,19 @@
 var fs = require('fs');
-var path = require('path'), dirname = path.dirname, basename = path.basename;
+var path = require('path'),
+  dirname = path.dirname,
+  basename = path.basename;
 var spawn = require('child_process').spawn;
 var cli = require('cli-define');
-var Program = cli.Program;
 var parser = require('cli-argparse');
 var codes = require('./lib/codes');
 var types = require('./lib/types');
-var ArgumentTypeError = types.ArgumentTypeError;
 var clierr = require('cli-error');
+
+var ArgumentTypeError = types.ArgumentTypeError;
+var Program = cli.Program;
 var ErrorDefinition = clierr.ErrorDefinition;
 var CliError = clierr.CliError;
+
 var errors = clierr.errors;
 var config = {
   exit: true
@@ -377,10 +381,12 @@ Program.prototype.error = function(e, errors) {
 /**
  *  Assigns configuration information to the program.
  *
- *  @param config The program configuration.
+ *  @param conf The program configuration.
  */
-Program.prototype.configuration = function(config) {
-  this._configuration = config;
+Program.prototype.configuration = function(conf) {
+  if(!arguments.length) return this._configuration;
+  // TODO: merge with the default configuration
+  this._configuration = conf;
   //console.dir(config);
   return this;
 }
@@ -433,7 +439,6 @@ module.exports = function(package, name, description, configuration) {
       raise.call(program, errors.EUNCAUGHT, [err.message], {error: err});
     })
   }
-  //program.parse = parse;
   clierr({name: program.name});
   return program;
 }
