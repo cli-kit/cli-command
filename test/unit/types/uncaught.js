@@ -1,6 +1,7 @@
 var path = require('path');
 var expect = require('chai').expect;
 var pkg = path.normalize(path.join(__dirname, '..', '..', '..', 'package.json'));
+var ArgumentTypeError = require('../../..').ArgumentTypeError;
 
 describe('cli-command:', function() {
   it('should execute default uncaught code path from type converter',
@@ -13,6 +14,7 @@ describe('cli-command:', function() {
       var cli = require('../../..')(pkg, 'mock-converter-uncaught');
       cli.configuration({exit: false});
       cli.once('error', function(e) {
+        expect(e).to.be.an.instanceof(ArgumentTypeError);
         for(var i = 0;i < listeners.length;i++) {
           process.on('uncaughtException', listeners[i]);
         }

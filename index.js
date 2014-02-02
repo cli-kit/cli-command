@@ -121,8 +121,8 @@ function convert(value, arg, index) {
       e.key = errors.ETYPE.key;
       raise.call(this, e)
     }else{
-      // pass down as uncaught exception
-      throw e;
+      e = new ArgumentTypeError(e, e.parameters || [], errors.ETYPE.code);
+      raise.call(this, e);
     }
   }
   function invoke(converter, fast) {
@@ -262,16 +262,17 @@ function raise(err, parameters, data) {
   if(err instanceof CliError) {
     e = err;
   }else if((err instanceof ErrorDefinition)) {
-    // TODO: do not include this method in the stack trace
     var e = err.toError();
+    e.shift();
     e.parameters = parameters || [];
     e.key = err.key;
     e.data = data;
     if(data && data.error) e.source = data.error;
-  }else{
-    // TODO: wrap normal errors in a CliError for consistency
-    throw e;
   }
+  //}else{
+    //e = new CliError(e, errors.EUNCAUGHT.code);
+    ////e.shift();
+  //}
   this.emit('error', e, errors);
 }
 
@@ -473,3 +474,4 @@ module.exports = function(package, name, description, configuration) {
 }
 
 module.exports.types = types;
+module.exports.ArgumentTypeError = ArgumentTypeError;
