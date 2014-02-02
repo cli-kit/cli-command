@@ -61,7 +61,7 @@ cli
     console.error(this.name + ': command required');
   })
   .command('install', 'install packages')
-  .parse();   // execute pkg-install(1) upon install command
+var ps = cli.parse();   // execute pkg-install(1) upon install command
 ```
 
 Source: [pkg-install](https://github.com/freeformsystems/cli-command/tree/master/bin/example/pkg-install)
