@@ -27,6 +27,7 @@ var actions = {
 }
 
 Program.prototype.errors = errors;
+Program.prototype.args = [];
 
 /**
  *  Retrieve the handler for a built in action.
