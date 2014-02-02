@@ -8,11 +8,12 @@
  *  passed through to the default error handler.
  *
  *  ./bin/error/custom
- *  ./bin/error/custom -n number
+ *  ./bin/error/custom -n NaN
  */
 var path = require('path');
 require('ttycolor')().defaults();
-var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..')(pkg, 'error/custom');
 cli
   .on('error', function(e, errors, handler) {

@@ -3,13 +3,21 @@
 /**
  *  Example program to test default error handling.
  *
+ *  As the error below is an uncaught exception this
+ *  program should print the stack trace.
+ *
+ *  Other errors such as type errors (ETYPE) should not
+ *  include a stack trace.
+ *
  *  ./bin/error/defaults
+ *  ./bin/error/defaults -n NaN
  */
 var path = require('path');
 require('ttycolor')().defaults();
 var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..')(pkg, 'error/defaults');
 cli
+  .option('-n, --number [n]', 'a numeric value', Number)
   .version()
   .help()
   .parse();
