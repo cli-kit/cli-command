@@ -1,7 +1,7 @@
 [
   {
     "key": "EUNCAUGHT",
-    "message": "%s\n%s"
+    "message": "%s"
   },
   {
     "key": "ENOENT",

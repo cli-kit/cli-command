@@ -14,22 +14,10 @@ require('ttycolor')().defaults();
 var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..')(pkg, 'error/custom');
 cli
-  //.error(function(code, codes, msg, parameters, data) {
-    //if(code == codes.EUNCAUGHT) {
-      //console.error(this._name + ' %s', data[0].message);
-      //process.exit(code);
-    //}
-  //})
-  .on('exception', function(code, codes, msg, parameters, data) {
-    //console.dir(this);
-    console.log('exception called..%s', this);
-    //console.dir(this.exception);
-    //return true;
-    //if(code == codes.EUNCAUGHT) {
-      //console.error(this._name + ' %s', data[0].message);
-      //process.exit(code);
-    //}
-    this.exception(code, codes, null, data);
+  .on('error', function(e) {
+    //console.dir(e);
+    e.error(false);
+    e.exit();
   })
   .version()
   .help()

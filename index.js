@@ -243,6 +243,7 @@ function raise(err, parameters, data) {
   e.parameters = parameters || [];
   e.key = err.key;
   e.data = data;
+  if(data && data.error) e.source = data.error;
   this.emit('error', e);
 }
 
@@ -420,9 +421,9 @@ module.exports = function(package, name, description) {
   });
 
   var program = cli(package, name, description);
-  //process.on('uncaughtException', function(err) {
-    //raise.call(program, codes.EUNCAUGHT, null, [err]);
-  //})
+  process.on('uncaughtException', function(err) {
+    raise.call(program, errors.EUNCAUGHT, [err.message], {error: err});
+  })
   program.error = error;
   program.parse = parse;
   program.run = run;
