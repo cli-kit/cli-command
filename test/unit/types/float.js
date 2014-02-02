@@ -42,8 +42,8 @@ describe('cli-command:', function() {
       .error(function(code, codes, message, parameters, data) {
         expect(cli).to.eql(this);
         expect(code).to.eql(codes.ETYPE);
-        //parameters.unshift(message);
-        //console.error.apply(null, parameters);
+        parameters.unshift(message);
+        console.error.apply(null, parameters);
         done();
       })
       .option('-f, --float <n...>', 'a float argument', types.float)

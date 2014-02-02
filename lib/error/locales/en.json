@@ -1,0 +1,26 @@
+[
+  {
+    "key": "EUNCAUGHT",
+    "message": "%s\n%s"
+  },
+  {
+    "key": "ENOENT",
+    "message": "%s(1) does not exist, try --help"
+  },
+  {
+    "key": "EPERM",
+    "message": "%s(1) not executable, try chmod or run with root"
+  },
+  {
+    "key": "EREQUIRED",
+    "message": "missing required option %s"
+  },
+  {
+    "key": "EMULTIPLE",
+    "message": "option %s may only be specified once, got %s"
+  },
+  {
+    "key": "ETYPE",
+    "message": "invalid type for %s, got %s"
+  }
+]

@@ -8,6 +8,7 @@ var codes = require('./lib/codes');
 var exception = require('./lib/error');
 var types = require('./lib/types');
 var ArgumentTypeError = types.ArgumentTypeError;
+var clierr = require('cli-error');
 
 Program.prototype.exception = exception;
 
@@ -96,6 +97,7 @@ function convert(value, arg, index) {
     if(e instanceof ArgumentTypeError) {
       raise.call(this, codes.ETYPE,
         message || e.message, parameters || e.parameters);
+      // TODO: raise.call(this, e)
     }else{
       // pass down as uncaught exception
       throw e;
@@ -383,6 +385,13 @@ function parse(args, options) {
 }
 
 module.exports = function(package, name, description) {
+  var locales = path.join(__dirname, 'lib', 'error', 'locales');
+  clierr.file({locales: locales}, function (err, file, errors, lang) {
+    console.dir(err);
+    console.log('loaded %s', file);
+    console.dir(errors);
+  });
+
   var program = cli(package, name, description);
   process.on('uncaughtException', function(err) {
     raise.call(program, codes.EUNCAUGHT, null, [err]);
