@@ -23,6 +23,22 @@ describe('cli-command:', function() {
       .option('--required <value>', 'required options')
       .parse(args);
   });
+  it('should exit on help', function(done) {
+    var cli = require('../..')(pkg, 'mock-help-exit');
+    process.exit = function(code) {
+      done();
+    }
+    var args = ['-h'];
+    cli.help().parse(args);
+  });
+  it('should exit on version', function(done) {
+    var cli = require('../..')(pkg, 'mock-version-exit');
+    process.exit = function(code) {
+      done();
+    }
+    var args = ['-V'];
+    cli.version().parse(args);
+  });
   it('should exit on subcommand executable', function(done) {
     var cli = require('../..')(pkg, 'mock-subcommand');
     cli.configuration({bin: bin, exit: true});
