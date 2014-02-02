@@ -4,6 +4,14 @@ var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
 var bin = path.normalize(path.join(__dirname, '..', 'bin'));
 
 describe('cli-command:', function() {
+  beforeEach(function(done) {
+    exit = process.exit;
+    done();
+  });
+  afterEach(function(done) {
+    process.exit = exit;
+    done();
+  });
   it('should execute subcommand executable', function(done) {
     var cli = require('../..')(pkg, 'mock-subcommand');
     cli.configuration({exit: false, bin: bin});
