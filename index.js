@@ -99,6 +99,7 @@ function convert(value, arg, index) {
   function error(e, message, parameters) {
     if(e instanceof ArgumentTypeError) {
       if(e.code == 1) e.code = errors.ETYPE.code;
+      e.key = errors.ETYPE.key;
       raise.call(this, e)
     }else{
       // pass down as uncaught exception
@@ -372,12 +373,8 @@ function run(cb) {
 
 Program.prototype.error = function(e, errors) {
   var key = (e.key || '').toLowerCase();
-  if(this.listeners(key).length) return this.emit(key, e);
-  //console.log(key);
   var trace = key == 'euncaught' ? true : false;
   e.error(trace);
-  // TODO: reinstate this and allow a configuration property
-  // TODO: that allows us to bypass this for testing
   if(this._configuration.exit) e.exit();
 }
 
@@ -398,6 +395,8 @@ function parse(args, options) {
   var listeners = this.listeners('error');
   if(!listeners.length) {
     this.on('error', function(e) {
+      var key = (e.key || '').toLowerCase();
+      if(this.listeners(key).length) return this.emit(key, e);
       this.error(e, errors);
     })
   }

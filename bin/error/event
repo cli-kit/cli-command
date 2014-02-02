@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+/**
+ *  Example program to test registering a listener by error
+ *  name.
+ *
+ *  ./bin/error/event
+ *  ./bin/error/event -n NaN
+ */
+var path = require('path');
+require('ttycolor')().defaults();
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..')(pkg, 'error/event');
+cli
+  .on('etype', function(e, errors, handler) {
+    console.error(this.name + ': %s', 'etype listener fired');
+    // NOTE: if we did not invoke the default handler
+    // NOTE: which exits the process on error by default
+    // NOTE: then the default uncaught exception handling
+    // NOTE: would also be triggered
+    this.error(e, errors);
+  })
+  .option('-n, --number [n]', 'a numeric value', Number)
+  .version()
+  .help()
+  .parse();
+throw new Error('an euncaught listener error message');
