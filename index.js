@@ -415,7 +415,7 @@ Program.prototype.parse = function(args, options) {
   if(!listeners.length) {
     this.on('error', function(e) {
       var key = (e.key || '').toLowerCase();
-      if(this.listeners(key).length) return this.emit(key, e);
+      if(this.listeners(key).length) return this.emit(key, e, errors);
       this.error(e, errors);
     })
   }
