@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+//vim: ft=javascript
+
+/**
+ *  Example of declaring an option that conflicts with a program
+ *  property, in this case a method.
+ *
+ *  ./bin/conflict
+ */
+var path = require('path');
+require('ttycolor')().defaults();
+var pkg = path.normalize(path.join(__dirname, '..', 'package.json'));
+var cli = require('..')(pkg);
+cli.version().help()
+  .option('-a, --action [action]', 'argument property conflict')
+cli.parse();
+//console.dir(cli.action);

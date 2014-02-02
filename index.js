@@ -8,6 +8,7 @@ var parser = require('cli-argparse');
 var codes = require('./lib/codes');
 var types = require('./lib/types');
 var clierr = require('cli-error');
+var conflict = require('./lib/conflict');
 
 var ArgumentTypeError = types.ArgumentTypeError;
 var Program = cli.Program;
@@ -16,13 +17,16 @@ var CliError = clierr.CliError;
 
 var errors = clierr.errors;
 var config = {
-  exit: true
+  exit: true,
+  stash: null
 }
 
 var actions = {
   help: require('./lib/help'),
   version: require('./lib/version')
 }
+
+Program.prototype.errors = errors;
 
 /**
  *  Retrieve the handler for a built in action.
@@ -41,7 +45,7 @@ function handler(key) {
  *  Retrieve a configuration suitable for passing to
  *  the arguments parser.
  */
-function configuration() {
+function getParserConfiguration() {
   var config = {
     alias: {}, flags: [], options: []}, k, arg, key, no = /^no/;
   for(k in this._arguments) {
@@ -189,6 +193,11 @@ function coerce(arg, v) {
  *  being merged.
  */
 function merge(target, options) {
+  var receiver = this;
+  var config = this.configuration();
+  if((typeof(config.stash) == 'string') && config.stash.length) {
+    receiver = this[config.stash] = {};
+  }
   var k, v, arg, re = /^no/;
   for(k in target) {
     arg = this._arguments[k];
@@ -202,8 +211,7 @@ function merge(target, options) {
           [arg.names.join(' | '), v.join(', ')], {arg: arg, value: v});
       }
       v = coerce.call(this, arg, v);
-      // TODO: validate at this point?
-      this[k] = options[k] = arg.value = v;
+      receiver[k] = options[k] = arg.value = v;
     }
   }
 }
@@ -251,15 +259,17 @@ function raise(err, parameters, data) {
   var e;
   if(err instanceof CliError) {
     e = err;
-  }else if(err instanceof ErrorDefinition) {
+  }else if((err instanceof ErrorDefinition)) {
     // TODO: do not include this method in the stack trace
     var e = err.toError();
     e.parameters = parameters || [];
     e.key = err.key;
     e.data = data;
     if(data && data.error) e.source = data.error;
+  }else{
+    // TODO: wrap normal errors in a CliError for consistency
+    throw e;
   }
-  // TODO: wrap normal errors in a CliError for consistency
   this.emit('error', e, errors);
 }
 
@@ -395,6 +405,7 @@ Program.prototype.error = function(e, errors) {
  */
 Program.prototype.configuration = function(conf) {
   if(!arguments.length) return this._configuration;
+  // TODO: check the *stash* property does not conflict
   // TODO: merge with the default configuration
   this._configuration = conf;
   //console.dir(config);
@@ -419,8 +430,11 @@ Program.prototype.parse = function(args, options) {
       this.error(e, errors);
     })
   }
+  //return console.dir(this);
+
+  conflict.call(this, Object.keys(actions));
   this._config = options || {};
-  var config = configuration.call(this), handled;
+  var config = getParserConfiguration.call(this), handled;
   this._args = parser(args, config);
   this._args.config = config;
   this.args = this._args.unparsed;
@@ -446,7 +460,7 @@ module.exports = function(package, name, description, configuration) {
   var listeners = process.listeners('uncaughtException');
   if(!listeners.length) {
     process.on('uncaughtException', function(err) {
-      console.error(err);
+      //console.error(err);
       raise.call(program, errors.EUNCAUGHT, [err.message], {error: err});
     })
   }

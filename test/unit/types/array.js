@@ -2,11 +2,11 @@ var path = require('path');
 var expect = require('chai').expect;
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', '..', 'package.json'));
-var cli = require('../../..')(pkg);
 var types = require('../../..').types;
 
 describe('cli-command:', function() {
   it('should be an array (single value)', function(done) {
+    var cli = require('../../..')(pkg);
     var value = 'value';
     var args = ['-a', value];
     cli
@@ -16,6 +16,7 @@ describe('cli-command:', function() {
     done();
   });
   it('should be an array (multiple value)', function(done) {
+    var cli = require('../../..')(pkg);
     var value = 'value';
     var args = ['-a', value, '--array=' + value, '-a', 'value'];
     cli

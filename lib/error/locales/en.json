@@ -1,26 +1,37 @@
 [
   {
     "key": "EUNCAUGHT",
-    "message": "%s"
+    "message": "%s",
+    "code": 64
   },
   {
     "key": "ENOENT",
-    "message": "%s(1) does not exist, try --help"
+    "message": "%s(1) does not exist, try --help",
+    "code": 65
   },
   {
     "key": "EPERM",
-    "message": "%s(1) not executable, try chmod or run with root"
+    "message": "%s(1) not executable, try chmod or run with root",
+    "code": 66
   },
   {
     "key": "EREQUIRED",
-    "message": "missing required option %s"
+    "message": "missing required option %s",
+    "code": 67
   },
   {
     "key": "EMULTIPLE",
-    "message": "option %s may only be specified once, got %s"
+    "message": "option %s may only be specified once, got %s",
+    "code": 68
   },
   {
     "key": "ETYPE",
-    "message": "invalid type for %s, got %s"
+    "message": "invalid type for %s, got %s",
+    "code": 69
+  },
+  {
+    "key": "ECONFLICT",
+    "message": "conflict detected on %s",
+    "code": 70
   }
 ]

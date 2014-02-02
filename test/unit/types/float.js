@@ -1,14 +1,14 @@
 var path = require('path');
 var expect = require('chai').expect;
 var pkg = path.normalize(path.join(__dirname, '..', '..', '..', 'package.json'));
-var cli = require('../../..')(pkg);
-cli.configuration({exit:false});
 var types = require('../../..').types;
 
 describe('cli-command:', function() {
   var pi = 3.14159265359;
   var golden = 1.61803398875;
   it('should coerce single value to float', function(done) {
+    var cli = require('../../..')(pkg);
+    cli.configuration({exit:false});
     var args = ['-f', '' + pi];
     cli
       .option('-f, --float <n>', 'a float argument', types.float)
@@ -17,6 +17,8 @@ describe('cli-command:', function() {
     done();
   });
   it('should coerce multiple values to array of floats', function(done) {
+    var cli = require('../../..')(pkg);
+    cli.configuration({exit:false});
     var args = ['-f', '' + pi, '--float=' + golden];
     cli
       .option('-f, --float <n...>', 'a float argument', types.float)
@@ -25,6 +27,8 @@ describe('cli-command:', function() {
     done();
   });
   it('should error on invalid float', function(done) {
+    var cli = require('../../..')(pkg);
+    cli.configuration({exit:false});
     var args = ['-f', 'xyz'];
     cli
       .once('error', function(e) {
@@ -38,6 +42,8 @@ describe('cli-command:', function() {
     cli.parse(args);
   });
   it('should error on invalid float in array', function(done) {
+    var cli = require('../../..')(pkg);
+    cli.configuration({exit:false});
     var args = ['-f', '' + pi, '--float=' + golden, '--float', 'zyx'];
     cli
       .once('error', function(e) {

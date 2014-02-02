@@ -1,11 +1,9 @@
 var path = require('path');
 var expect = require('chai').expect;
 var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
-var cli = require('../..')(pkg);
-
 describe('cli-command:', function() {
-  cli._arguments = {};
   it('should set positive flag', function(done) {
+    var cli = require('../..')(pkg);
     var args = ['--color'];
     cli
       .option('--color', 'use ansi colors')
@@ -15,6 +13,7 @@ describe('cli-command:', function() {
     done();
   });
   it('should override positive flag', function(done) {
+    var cli = require('../..')(pkg);
     var args = ['--color', '--no-color'];
     cli
       .option('--color', 'use ansi colors')
@@ -24,6 +23,7 @@ describe('cli-command:', function() {
     done();
   });
   it('should override positive override', function(done) {
+    var cli = require('../..')(pkg);
     var args = ['--color', '--no-color', '--color'];
     cli
       .option('--color', 'use ansi colors')
@@ -33,6 +33,7 @@ describe('cli-command:', function() {
     done();
   });
   it('should set positive flag (expansion)', function(done) {
+    var cli = require('../..')(pkg);
     var args = ['-xvc'];
     cli
       .option('-x', 'extract archive')
@@ -44,6 +45,7 @@ describe('cli-command:', function() {
     done();
   });
   it('should override positive flag (expansion)', function(done) {
+    var cli = require('../..')(pkg);
     var args = ['-xvcC'];
     cli
       .option('-x', 'extract archive')
@@ -55,6 +57,7 @@ describe('cli-command:', function() {
     done();
   });
   it('should override positive override (expansion)', function(done) {
+    var cli = require('../..')(pkg);
     var args = ['-xcCcv'];
     cli
       .option('-x', 'extract archive')

@@ -1,8 +1,6 @@
 var path = require('path');
 var expect = require('chai').expect;
 var pkg = path.normalize(path.join(__dirname, '..', '..', '..', 'package.json'));
-var cli = require('../../..')(pkg);
-cli.configuration({exit:false});
 var types = require('../../..').types;
 
 describe('cli-command:', function() {
@@ -10,6 +8,8 @@ describe('cli-command:', function() {
   var golden = 1.61803398875;
   var integer = 128;
   it('should coerce single value to number', function(done) {
+    var cli = require('../../..')(pkg);
+    cli.configuration({exit:false});
     var args = ['-n', '' + pi];
     cli
       .option('-n, --number <n>', 'a number argument', types.number)
@@ -18,6 +18,8 @@ describe('cli-command:', function() {
     done();
   });
   it('should coerce multiple values to array of numbers', function(done) {
+    var cli = require('../../..')(pkg);
+    cli.configuration({exit:false});
     var args = ['-n', '' + pi, '--number=' + golden, '--number', '' + integer];
     cli
       .option('-n, --number <n...>', 'a number argument', types.number)
@@ -26,6 +28,8 @@ describe('cli-command:', function() {
     done();
   });
   it('should error on invalid number', function(done) {
+    var cli = require('../../..')(pkg);
+    cli.configuration({exit:false});
     var args = ['-n', 'xyz'];
     cli
       .once('error', function(e) {
@@ -39,6 +43,8 @@ describe('cli-command:', function() {
     cli.parse(args);
   });
   it('should error on invalid number in array', function(done) {
+    var cli = require('../../..')(pkg);
+    cli.configuration({exit:false});
     var args = ['-n', '' + pi, '--number=' + golden, '--number', 'zyx'];
     cli
       .once('error', function(e) {
