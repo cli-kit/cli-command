@@ -5,13 +5,15 @@ var cli = require('cli-define');
 var Program = cli.Program;
 var parser = require('cli-argparse');
 var codes = require('./lib/codes');
-var exception = require('./lib/error');
 var types = require('./lib/types');
 var ArgumentTypeError = types.ArgumentTypeError;
 var clierr = require('cli-error');
 var ErrorDefinition = clierr.ErrorDefinition;
 var CliError = clierr.CliError;
 var errors = clierr.errors;
+var config = {
+  exit: true
+}
 
 var actions = {
   help: require('./lib/help'),
@@ -96,8 +98,6 @@ function convert(value, arg, index) {
   var converter = getConverter(arg), i, func;
   function error(e, message, parameters) {
     if(e instanceof ArgumentTypeError) {
-      //raise.call(this, codes.ETYPE,
-        //message || e.message, parameters || e.parameters);
       if(e.code == 1) e.code = errors.ETYPE.code;
       raise.call(this, e)
     }else{
@@ -226,15 +226,8 @@ function builtins() {
 }
 
 /**
- *  Raise an error.
- */
-//function raise(code, message, parameters) {
-  //return exception.call(this, code, codes, message, parameters);
-//}
-//
-
-/**
- *  Raise an error from an error definition.
+ *  Raise an error from an error definition or error
+ *  instance.
  *
  *  @param err The error definition.
  *  @param parameters The message replacement parameters.
@@ -245,13 +238,15 @@ function raise(err, parameters, data) {
   if(err instanceof CliError) {
     e = err;
   }else if(err instanceof ErrorDefinition) {
+    // TODO: do not include this method in the stack trace
     var e = err.toError();
     e.parameters = parameters || [];
     e.key = err.key;
     e.data = data;
     if(data && data.error) e.source = data.error;
   }
-  this.emit('error', e);
+  // TODO: wrap normal errors in a CliError for consistency
+  this.emit('error', e, errors);
 }
 
 /**
@@ -375,6 +370,22 @@ function run(cb) {
   return this;
 }
 
+Program.prototype.error = function(e, errors) {
+  var key = (e.key || '').toLowerCase();
+  if(this.listeners(key).length) return this.emit(key, e);
+  //console.log(key);
+  var trace = key == 'euncaught' ? true : false;
+  e.error(trace);
+  // TODO: reinstate this and allow a configuration property
+  // TODO: that allows us to bypass this for testing
+  if(this._configuration.exit) e.exit();
+}
+
+Program.prototype.configuration = function(config) {
+  this._configuration = config;
+  //console.dir(config);
+}
+
 /**
  *  Parse the supplied arguments and execute any commands
  *  found in the arguments, preferring the built in commands
@@ -386,12 +397,8 @@ function run(cb) {
 function parse(args, options) {
   var listeners = this.listeners('error');
   if(!listeners.length) {
-    //console.log('adding error listener');
     this.on('error', function(e) {
-      //console.log('key %s', e.key);
-      var trace = e.key == 'UNCAUGHT' ? true : false;
-      e.error(trace);
-      //e.exit();
+      this.error(e, errors);
     })
   }
   this._config = options || {};
@@ -410,20 +417,22 @@ function parse(args, options) {
   if(!handled) return command.call(this, opts);
 }
 
-module.exports = function(package, name, description) {
+module.exports = function(package, name, description, configuration) {
   var locales = path.join(__dirname, 'lib', 'error', 'locales');
   clierr.file({locales: locales}, function (err, file, errors, lang) {
     //console.dir(err);
     //console.log('loaded %s', file);
     //console.dir(errors);
   });
-
   var program = cli(package, name, description);
-  process.on('uncaughtException', function(err) {
-    console.error(err);
-    raise.call(program, errors.EUNCAUGHT, [err.message], {error: err});
-  })
-  //program.error = error;
+  program.configuration(configuration || config);
+  var listeners = process.listeners('uncaughtException');
+  if(!listeners.length) {
+    process.on('uncaughtException', function(err) {
+      //console.error(err);
+      raise.call(program, errors.EUNCAUGHT, [err.message], {error: err});
+    })
+  }
   program.parse = parse;
   program.run = run;
   return program;

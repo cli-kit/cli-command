@@ -2,6 +2,7 @@ var path = require('path');
 var expect = require('chai').expect;
 var pkg = path.normalize(path.join(__dirname, '..', '..', '..', 'package.json'));
 var cli = require('../../..')(pkg);
+cli.configuration({exit:false});
 var types = require('../../..').types;
 
 describe('cli-command:', function() {
