@@ -76,28 +76,6 @@ cli
 
 ### Methods
 
-#### error(cb)
-
-Register a custom error callback. Use this method to intercept the default error handling.
-
-* `cb`: The callback function.
-
-Returns the program for chaining.
-
-The callback is invoked in the scope of the program and has the signature:
-
-```javascript
-function(code, codes, msg, parameters, data)
-```
-
-* `code`: The error code as a number.
-* `codes`: Map of error code identifiers.
-* `msg`: The default error message.
-* `parameters`: The default error message replacement parameters.
-* `data`: Array of data associated with the error.
-
-For example, compare the output of [error/default][error/defaults] which prints the error stack trace by default on uncaught exception with [error/custom][error/custom] which intercepts `EUNCAUGHT` and omits the stack trace.
-
 ## License
 
 Everything is [MIT](http://en.wikipedia.org/wiki/MIT_License). Read the [license](/LICENSE) if you feel inclined.
