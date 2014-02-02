@@ -1,10 +1,10 @@
 var path = require('path');
 var expect = require('chai').expect;
 var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
-var cli = require('../..')(pkg);
 
 describe('cli-command:', function() {
   it('should execute command function', function(done) {
+    var cli = require('../..')(pkg);
     var args = ['ls', '-v', '-f=file.txt'];
     cli
       .option('-v --verbose', 'print more information')

@@ -1,7 +1,6 @@
 var path = require('path');
 var expect = require('chai').expect;
 var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
-var cli = require('../..')(pkg);
 
 function range(val) {
   return val.split('..').map(Number);
@@ -13,6 +12,7 @@ function list(val) {
 
 describe('cli-command:', function() {
   it('should coerce argument values', function(done) {
+    var cli = require('../..')(pkg);
     var args = ['assert', '-i', '10', '-f', '3.14',
       '--range', '1..10', '--list=apples,oranges', 'file.txt', '-o=value'];
     cli

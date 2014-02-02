@@ -333,7 +333,8 @@ function execute(argv, cmd, args) {
       return process.exit(0);
     }
     scope.emit('close');
-    process.exit(code);
+    var config = scope.configuration();
+    if(config.exit) process.exit(code);
   });
   return ps;
 }

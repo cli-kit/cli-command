@@ -1,11 +1,11 @@
 var path = require('path');
 var expect = require('chai').expect;
 var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
-var cli = require('../..')(pkg, 'zero');
-var Program = require('cli-define').Program;
 
 describe('cli-command:', function() {
   it('should execute program action on zero arguments', function(done) {
+    var cli = require('../..')(pkg, 'zero');
+    cli.configuration({exit: false});
     var args = [];
     cli
       .once('empty', function(help, version) {
@@ -17,7 +17,9 @@ describe('cli-command:', function() {
     cli.parse(args);
   });
 
-  it('should execute program action on zero arguments', function(done) {
+  it('should execute empty listener on zero arguments', function(done) {
+    var cli = require('../..')(pkg, 'zero');
+    cli.configuration({exit: false});
     var args = [];
     function helpHandler(help){
       expect(help).to.be.a('function');

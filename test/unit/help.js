@@ -1,27 +1,18 @@
 var path = require('path');
 var expect = require('chai').expect;
 var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
-var exit;
-process.setMaxListeners(256);
 
 describe('cli-command:', function() {
-  beforeEach(function(done) {
-    exit = process.exit;
-    process.exit = function(code) {return code;}
-    done();
-  });
-  afterEach(function(done) {
-    process.exit = exit;
-    done();
-  });
   it('should execute help handler (zero commands)', function(done) {
     var cli = require('../..')(pkg, 'mock-help');
+    cli.configuration({exit: false});
     var args = ['-h'];
     cli.help().parse(args);
     done();
   });
   it('should execute help handler', function(done) {
     var cli = require('../..')(pkg, 'mock-help');
+    cli.configuration({exit: false});
     var args = ['-h'];
     cli
       .usage('[command] -h')
@@ -32,6 +23,7 @@ describe('cli-command:', function() {
   });
   it('should execute custom help handler', function(done) {
     var cli = require('../..')(pkg, 'mock-custom-help');
+    cli.configuration({exit: false});
     var args = ['-h'];
     cli
       .command('test', 'a test command')

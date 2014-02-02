@@ -1,18 +1,8 @@
 var path = require('path');
 var expect = require('chai').expect;
 var pkg = path.normalize(path.join(__dirname, '..', '..', '..', 'package.json'));
-var exit;
 
 describe('cli-command:', function() {
-  beforeEach(function(done) {
-    exit = process.exit;
-    process.exit = function(code) {return code;}
-    done();
-  });
-  afterEach(function(done) {
-    process.exit = exit;
-    done();
-  });
   it('should execute default uncaught code path from type converter',
     function(done) {
       function converter() {
@@ -21,6 +11,7 @@ describe('cli-command:', function() {
       var listeners = process.listeners('uncaughtException').slice(0);
       process.removeAllListeners('uncaughtException');
       var cli = require('../../..')(pkg, 'mock-converter-uncaught');
+      cli.configuration({exit: false});
       cli.once('error', function(e) {
         for(var i = 0;i < listeners.length;i++) {
           process.on('uncaughtException', listeners[i]);
