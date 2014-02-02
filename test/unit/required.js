@@ -24,8 +24,8 @@ describe('cli-command:', function() {
   it('should invoke error handler on missing required option', function(done) {
     var args = [];
     cli
-      .error(function(code, codes, parameters, error) {
-        expect(code).to.eql(codes.EREQUIRED);
+      .on('error',function(e) {
+        //expect(code).to.eql(codes.EREQUIRED);
         done();
       })
       .option('-i, --integer <n>', 'an integer argument', parseInt)

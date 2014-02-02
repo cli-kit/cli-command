@@ -39,9 +39,9 @@ describe('cli-command:', function() {
   it('should error on invalid url', function(done) {
     var args = ['-u', '/page#about'];
     cli
-      .error(function(code, codes, message, parameters, data) {
+      .once('error',function(e) {
         expect(cli).to.eql(this);
-        expect(code).to.eql(codes.ETYPE);
+        //expect(code).to.eql(codes.ETYPE);
         //parameters.unshift(message);
         //console.error.apply(null, parameters);
         done();

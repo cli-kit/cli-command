@@ -9,9 +9,9 @@ var exception = require('./lib/error');
 var types = require('./lib/types');
 var ArgumentTypeError = types.ArgumentTypeError;
 var clierr = require('cli-error');
+var ErrorDefinition = clierr.ErrorDefinition;
+var CliError = clierr.CliError;
 var errors = clierr.errors;
-
-Program.prototype.exception = exception;
 
 var actions = {
   help: require('./lib/help'),
@@ -96,9 +96,10 @@ function convert(value, arg, index) {
   var converter = getConverter(arg), i, func;
   function error(e, message, parameters) {
     if(e instanceof ArgumentTypeError) {
-      raise.call(this, codes.ETYPE,
-        message || e.message, parameters || e.parameters);
-      // TODO: raise.call(this, e)
+      //raise.call(this, codes.ETYPE,
+        //message || e.message, parameters || e.parameters);
+      if(e.code == 1) e.code = errors.ETYPE.code;
+      raise.call(this, e)
     }else{
       // pass down as uncaught exception
       throw e;
@@ -183,7 +184,8 @@ function merge(target, options) {
       if(arg.multiple && !Array.isArray(v)) {
         v = [v];
       }else if(!arg.multiple && Array.isArray(v)) {
-        raise.call(this, codes.EMULTIPLE, null, [arg, v]);
+        raise.call(this, errors.EMULTIPLE,
+          [arg.names.join(' | '), v.join(', ')], {arg: arg, value: v});
       }
       v = coerce.call(this, arg, v);
       // TODO: validate at this point?
@@ -200,7 +202,7 @@ function required() {
   for(z in this._arguments) {
     arg = this._arguments[z];
     if(!arg.optional && !this._args.options[arg.key]) {
-      raise.call(this, codes.EREQUIRED, null, [arg]);
+      raise.call(this, errors.EREQUIRED, [arg.names.join(' | ')], {arg: arg});
       return true;
     }
   }
@@ -239,11 +241,16 @@ function builtins() {
  *  @param data Additional error data.
  */
 function raise(err, parameters, data) {
-  var e = err.toError();
-  e.parameters = parameters || [];
-  e.key = err.key;
-  e.data = data;
-  if(data && data.error) e.source = data.error;
+  var e;
+  if(err instanceof CliError) {
+    e = err;
+  }else if(err instanceof ErrorDefinition) {
+    var e = err.toError();
+    e.parameters = parameters || [];
+    e.key = err.key;
+    e.data = data;
+    if(data && data.error) e.source = data.error;
+  }
   this.emit('error', e);
 }
 
@@ -391,8 +398,9 @@ function parse(args, options) {
   if(!listeners.length) {
     this.on('error', function(e) {
       //console.log('key %s', e.key);
-      e.error(true);
-      e.exit();
+      var trace = e.key == 'UNCAUGHT' ? true : false;
+      e.error(trace);
+      //e.exit();
     })
   }
 
