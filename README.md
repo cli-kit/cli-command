@@ -20,6 +20,59 @@ npm test
 
 Example programs are in the [bin](https://github.com/freeformsystems/cli-command/tree/master/bin) directory, there are also a ton of examples in the [test](https://github.com/freeformsystems/cli-command/tree/master/test) directory.
 
+### Type
+
+A flexible, extensible and intuitive type system allows coercion between the argument string values and javascript types.
+
+Essentially the type coercion system is just a function that gets passed the string value of the argument, which allows simple coercion with `parseInt` etc.
+
+Source: [test/unit/coerce](https://github.com/freeformsystems/cli-command/blob/master/test/unit/coerce.js)
+
+```javascript
+var cli = require('cli-command')();
+function range(val) {
+  return val.split('..').map(Number);
+}
+
+function list(val) {
+  return val.split(',');
+}
+
+cli
+  .option('-i, --integer <n>', 'an integer argument', parseInt)
+  .option('-f, --float <n>', 'a float argument', parseFloat)
+  .option('-r, --range <a>..<b>', 'a range', range)
+  .option('-l, --list <items>', 'a list', list)
+// ...
+```
+
+The coercion function (referred to as a `converter`) may be more complex, the signature is `function(value, arg, index)` where `value` is the argument string value, `arg` is the argument definition and `index` is the position in an array (only for options that are repeatable).
+
+Native functions are good if you are willing to accept `NaN` as a possible value; for those cases where you must have a valid number you should use one of the pre-defined type coercion functions that will throw an error if the value is `NaN`. The type error will then be emitted as an `error` event (`ETYPE`). If there is no listener for `error` and `etpye` a useful error message is printed and the program will exit, otherwise you are free to handle the error as you like.
+
+Source [test/unit/types](https://github.com/freeformsystems/cli-command/tree/master/test/unit/types)
+
+```javascript
+var cli = require('cli-command');
+var types = cli.types;
+var program = cli()
+  .option('-f, --float <n>', 'a float argument', types.float);
+// ...
+```
+
+#### Type List
+
+* `array`: Argument value must be coerced to an `array`, useful if you wish to ensure that a non-repeatable option becomes an array, for repeatable options it will always be an `array`. This method does not throw an error.
+* `boolean`: Coerce the value to a `boolean`. Accepts the string values `true` and `false` (case insensitive) and converts integers using the javascript notion of truthy, otherwise any positive length string is treated as `true`. The method does not throw an error.
+* `date`: Parse the value as a `Date` and throw an error if the value could not be parsed.
+* `float`: Parse the value as a floating point number and throw an error if the result is `NaN`.
+* `integer`: Parse the value as an integer and throw an error if the result is `NaN`.
+* `json`: Parse the value as a `JSON` string and throw an error if the value is malformed.
+* `number`: Parse the value as a `number` and throw an error if the result is `NaN`.
+* `path`: Parse the value as a file system path, relative paths are resolved relative to the current working directory and tilde expansion is performed to resolve paths relative to the user's home directory. This method does not throw an error.
+* `string`: Strictly speaking a noop, however it is declared if you wish to allow multiple types for an argument and fallback to `string`. This method does not throw an error.
+* `url`: Parse the value to an object containing `URL` information, this method will throw an error if no `host` could be determined from the value.
+
 ### Commands
 
 Source: [command](https://github.com/freeformsystems/cli-command/tree/master/bin/example/command)
