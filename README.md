@@ -50,7 +50,7 @@ The coercion function (referred to as a `converter`) may be more complex, the si
 function(value, arg, index)
 ```
 
-Where `value` is the argument string value, `arg` is the option definition and `index` is the position in an array (only for options that are repeatable).
+Where `value` is the argument string value, `arg` is the option definition and `index` is the position in an array (only for options that are repeatable). Functions are executed in the scope of the program so you can access all it's properties (`this.name` is very useful), run `console.dir(this)` to see the full list.
 
 Native functions are good if you are willing to accept `NaN` as a possible value; for those cases where you must have a valid number you should use one of the pre-defined type coercion functions that will throw an error if the value is `NaN`. The type error will then be emitted as an `error` event (`ETYPE`). If there is no listener for `error` and `etype` a useful error message is printed and the program will exit, otherwise you are free to handle the error as you like.
 
