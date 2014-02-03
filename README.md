@@ -33,11 +33,9 @@ var cli = require('cli-command')();
 function range(val) {
   return val.split('..').map(Number);
 }
-
 function list(val) {
   return val.split(',');
 }
-
 cli
   .option('-i, --integer <n>', 'an integer argument', parseInt)
   .option('-f, --float <n>', 'a float argument', parseFloat)
@@ -52,7 +50,7 @@ The coercion function (referred to as a `converter`) may be more complex, the si
 function(value, arg, index)
 ```
 
-Where `value` is the argument string value, `arg` is the argument definition and `index` is the position in an array (only for options that are repeatable).
+Where `value` is the argument string value, `arg` is the option definition and `index` is the position in an array (only for options that are repeatable).
 
 Native functions are good if you are willing to accept `NaN` as a possible value; for those cases where you must have a valid number you should use one of the pre-defined type coercion functions that will throw an error if the value is `NaN`. The type error will then be emitted as an `error` event (`ETYPE`). If there is no listener for `error` and `etype` a useful error message is printed and the program will exit, otherwise you are free to handle the error as you like.
 
@@ -89,7 +87,7 @@ Boolean == types.boolean;
 Date == types.date;
 JSON == types.json;
 Number == types.number;
-String == type.string;
+String == types.string;
 ```
 
 Such that you can map types with:
@@ -100,6 +98,32 @@ cli.option('-n, --number <n>', 'a number argument', Number)
 
 The `JSON` type is an exception as it is not a constructor, however, it is supported as a shortcut for `types.json`.
 
+#### Multiple Types
+
+It is also possible to declare an option as being one of a list of types by specifying an array of functions:
+
+```javascript
+cli.option('-d, --date <d>', 'a date or string', [Date, String])
+```
+
+When an array is used coercion will be attempted for each listed type function, the first to succeed will become the option's value, if all type coercions fail then an `ETYPE` error event is emitted.
+
+#### Custom Types
+
+Declare a function to create your own custom type:
+
+```javascript
+var ArgumentTypeError = require('cli-command').ArgumentTypeError;
+function mime(value, arg, index) {
+  // validate the value is a recognized mime type
+  // and return it if valid
+  throw new ArgumentTypeError('invalid mime type for %s, got %s',
+    arg.names.join(' | '), value);
+}
+cli.option('-m, --mime-type <mime>', 'a mime type', mime)
+```
+
+If you throw `Error` rather than `ArgumentTypeError` that is fine, it will be wrapped in an `ArgumentTypeError`. You can utilize `ArgumentTypeError` for it's built in message parameter support.
 ### Commands
 
 Source: [command](https://github.com/freeformsystems/cli-command/tree/master/bin/example/command)
