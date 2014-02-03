@@ -136,7 +136,7 @@ Complex types differ a little in that the type function must be invoked when dec
 Splits a value into an array based on a `string` or `regexp` delimiter.
 
 ```javascript
-types.list(string|regexp)
+types.list(String|RegExp)
 ```
 
 ```javascript
@@ -149,7 +149,7 @@ cli.option('-l, --list <list>',
 Validates that a value exists in a list of acceptable values.
 
 ```javascript
-types.enum(array)
+types.enum(Array)
 ```
 
 ```javascript
@@ -163,7 +163,7 @@ cli.option('-c, --css <value>',
 Coalesces related options into an object. Note that the [conflicts](#conflicts) logic applies to object property names when the `stash` configuration property is not set.
 
 ```javascript
-types.object(string)
+types.object(String)
 ```
 
 ```javascript
