@@ -34,7 +34,10 @@ Program.prototype.getReceiver = function() {
   var receiver = this;
   var config = this.configuration();
   if((typeof(config.stash) == 'string') && config.stash.length) {
+    // TODO: check conflict on stash
     receiver = this[config.stash] = {};
+  }else if(config.stash && (typeof(config.stash) == 'object')) {
+    receiver = config.stash;
   }
   return receiver;
 }
@@ -205,10 +208,6 @@ function coerce(arg, v) {
  */
 function merge(target, options) {
   var receiver = this.getReceiver();
-  //var config = this.configuration();
-  //if((typeof(config.stash) == 'string') && config.stash.length) {
-    //receiver = this[config.stash] = {};
-  //}
   var k, v, arg, re = /^no/;
   for(k in target) {
     arg = this._arguments[k];

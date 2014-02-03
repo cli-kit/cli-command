@@ -22,6 +22,15 @@ describe('cli-command:', function() {
     cli.option('-a, --action [action]', 'argument property conflict')
     cli.parse(args);
   });
+  //it('should exit on property conflict (action)', function(done) {
+    //var cli = require('../..')(pkg, 'mock-conflict');
+    //var args = [];
+    //process.exit = function(code) {
+      //done();
+    //}
+    //cli.option('-a, --action [action]', 'argument property conflict')
+    //cli.parse(args);
+  //});
   it('should exit on object group property name conflict (configuration)',
     function(done) {
       var cli = require('../..')(pkg, 'mock-object-conflict');

@@ -20,6 +20,18 @@ npm test
 
 Example programs are in the [bin](https://github.com/freeformsystems/cli-command/tree/master/bin) directory, there are also a ton of examples in the [test](https://github.com/freeformsystems/cli-command/tree/master/test) directory.
 
+## Configuration
+
+Invoke the configuration method with an object to override the default configuration.
+
+```javascript
+cli.configuration({stash: 'data'})
+```
+
+* `bin`: A specific directory to use when executing commands as external programs, defaults to the same directory as the parent executable.
+* `exit`: Whether the default error handler will exit the process when an error occurs, default is `true`.
+* `stash`: The string name of a property that becomes an object to store option values, will be set on the program, this alleviates the potential for conflicts. If you wish to use this then the recommended value is `data`. You may also pass in an existing object as the stash and the argument values will be set on the stash object.
+
 ## Types
 
 A flexible, extensible and intuitive type system allows coercion between the argument string values and javascript types.
@@ -125,7 +137,7 @@ function mime(value, arg, index) {
 cli.option('-m, --mime-type <mime>', 'a mime type', mime)
 ```
 
-If you throw `Error` rather than `ArgumentTypeError` that is fine, it will be wrapped in an `ArgumentTypeError`. You can utilize `ArgumentTypeError` for it's built in message parameter support.
+If you throw `Error` rather than `ArgumentTypeError` that is fine, it will be wrapped in an `ArgumentTypeError`. You can utilize `ArgumentTypeError` for it's message parameter support.
 
 ### Complex Types
 
