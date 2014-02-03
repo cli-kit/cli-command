@@ -98,6 +98,8 @@ Such that you can map types with:
 cli.option('-n, --number <n>', 'a number argument', Number)
 ```
 
+The `JSON` type is an exception as it is not a constructor, however, it is supported as a shortcut for `types.json`.
+
 ### Commands
 
 Source: [command](https://github.com/freeformsystems/cli-command/tree/master/bin/example/command)
