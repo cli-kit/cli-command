@@ -161,7 +161,7 @@ function convert(value, arg, index) {
  *  @param v The value as specified on the command line.
  */
 function coerce(arg, v) {
-  var type = false, i;
+  var type = false, i, scope = this;
   var converter = getConverter(arg);
   // NOTE: we check whether the converter is one of
   // NOTE: the built in converters as they are responsible
@@ -177,7 +177,7 @@ function coerce(arg, v) {
   if(typeof converter == 'function' || Array.isArray(converter)) {
     if(Array.isArray(v) && !type) {
       v.forEach(function(value, index, arr) {
-        arr[index] = convert.call(this, value, arg, index);
+        arr[index] = convert.call(scope, value, arg, index);
       });
     }else{
       v = convert.call(this, v, arg);
