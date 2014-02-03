@@ -10,7 +10,7 @@ var types = require('./lib/types');
 var clierr = require('cli-error');
 var conflict = require('./lib/conflict');
 
-var ArgumentTypeError = types.ArgumentTypeError;
+var ArgumentTypeError = require('./lib/error/argument-type');
 var Program = cli.Program;
 var ErrorDefinition = clierr.ErrorDefinition;
 var CliError = clierr.CliError;
@@ -29,6 +29,14 @@ var actions = {
 
 Program.prototype.errors = errors;
 Program.prototype.args = [];
+Program.prototype.getReceiver = function() {
+  var receiver = this;
+  var config = this.configuration();
+  if((typeof(config.stash) == 'string') && config.stash.length) {
+    receiver = this[config.stash] = {};
+  }
+  return receiver;
+}
 
 /**
  *  Retrieve the handler for a built in action.
@@ -195,11 +203,11 @@ function coerce(arg, v) {
  *  being merged.
  */
 function merge(target, options) {
-  var receiver = this;
-  var config = this.configuration();
-  if((typeof(config.stash) == 'string') && config.stash.length) {
-    receiver = this[config.stash] = {};
-  }
+  var receiver = this.getReceiver();
+  //var config = this.configuration();
+  //if((typeof(config.stash) == 'string') && config.stash.length) {
+    //receiver = this[config.stash] = {};
+  //}
   var k, v, arg, re = /^no/;
   for(k in target) {
     arg = this._arguments[k];
