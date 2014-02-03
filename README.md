@@ -46,9 +46,15 @@ cli
 // ...
 ```
 
-The coercion function (referred to as a `converter`) may be more complex, the signature is `function(value, arg, index)` where `value` is the argument string value, `arg` is the argument definition and `index` is the position in an array (only for options that are repeatable).
+The coercion function (referred to as a `converter`) may be more complex, the signature is:
 
-Native functions are good if you are willing to accept `NaN` as a possible value; for those cases where you must have a valid number you should use one of the pre-defined type coercion functions that will throw an error if the value is `NaN`. The type error will then be emitted as an `error` event (`ETYPE`). If there is no listener for `error` and `etpye` a useful error message is printed and the program will exit, otherwise you are free to handle the error as you like.
+```javascript
+function(value, arg, index)
+```
+
+Where `value` is the argument string value, `arg` is the argument definition and `index` is the position in an array (only for options that are repeatable).
+
+Native functions are good if you are willing to accept `NaN` as a possible value; for those cases where you must have a valid number you should use one of the pre-defined type coercion functions that will throw an error if the value is `NaN`. The type error will then be emitted as an `error` event (`ETYPE`). If there is no listener for `error` and `etype` a useful error message is printed and the program will exit, otherwise you are free to handle the error as you like.
 
 Source [test/unit/types](https://github.com/freeformsystems/cli-command/tree/master/test/unit/types)
 
@@ -72,6 +78,25 @@ var program = cli()
 * `path`: Parse the value as a file system path, relative paths are resolved relative to the current working directory and tilde expansion is performed to resolve paths relative to the user's home directory. This method does not throw an error.
 * `string`: Strictly speaking a noop, however it is declared if you wish to allow multiple types for an argument and fallback to `string`. This method does not throw an error.
 * `url`: Parse the value to an object containing `URL` information, this method will throw an error if no `host` could be determined from the value.
+
+#### Type Map
+
+As a convenience common native types are mapped from the constructor to the coercion function:
+
+```javascript
+Array == types.array;
+Boolean == types.boolean;
+Date == types.date;
+JSON == types.json;
+Number == types.number;
+String == type.string;
+```
+
+Such that you can map types with:
+
+```javascript
+cli.option('-n, --number <n>', 'a number argument', Number)
+```
 
 ### Commands
 
