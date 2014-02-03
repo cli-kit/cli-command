@@ -22,4 +22,23 @@ describe('cli-command:', function() {
     expect(cli.server).to.eql({scheme: scheme, host: host, port: port });
     done();
   });
+
+  it('should group arguments into object (nested array)', function(done) {
+    var cli = require('../../..')(pkg);
+    var scheme = 'http';
+    var node = 'nodejs.org';
+    var npm = 'npmjs.org';
+    var port = '80';
+    var args = ['-s', scheme, '-h', node, '--host=' + npm, '--port=' + port];
+    cli
+      .option('-s, --scheme <scheme>',
+        'transport scheme', types.object('server'))
+      .option('-h, --host <host...>',
+        'server hostname', types.object('server'))
+      .option('-p, --port <n>',
+        'server port', types.object('server'))
+    cli.parse(args);
+    expect(cli.server).to.eql({scheme: scheme, host: [node, npm], port: port });
+    done();
+  });
 })

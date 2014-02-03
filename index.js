@@ -27,6 +27,7 @@ var actions = {
   version: require('./lib/version')
 }
 
+Program.prototype.__actions = Object.keys(actions);
 Program.prototype.errors = errors;
 Program.prototype.args = [];
 Program.prototype.getReceiver = function() {
@@ -444,7 +445,7 @@ Program.prototype.parse = function(args) {
   }
   //return console.dir(this);
 
-  conflict.call(this, Object.keys(actions));
+  conflict.call(this);
   //this._config = options || {};
   var config = getParserConfiguration.call(this), handled;
   this._args = parser(args, config);
