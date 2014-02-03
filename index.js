@@ -34,7 +34,6 @@ Program.prototype.getReceiver = function() {
   var receiver = this;
   var config = this.configuration();
   if((typeof(config.stash) == 'string') && config.stash.length) {
-    // TODO: check conflict on stash
     receiver = this[config.stash] = {};
   }else if(config.stash && (typeof(config.stash) == 'object')) {
     receiver = config.stash;
@@ -208,6 +207,7 @@ function coerce(arg, v) {
  */
 function merge(target, options) {
   var receiver = this.getReceiver();
+  //console.log('got receiver%s', receiver);
   var k, v, arg, re = /^no/;
   for(k in target) {
     arg = this._arguments[k];
@@ -224,6 +224,7 @@ function merge(target, options) {
       receiver[k] = options[k] = arg.value = v;
     }
   }
+  return true;
 }
 
 /**
@@ -417,9 +418,14 @@ Program.prototype.error = function(e) {
  */
 Program.prototype.configuration = function(conf) {
   if(!arguments.length) return this._configuration;
-  // TODO: check the *stash* property does not conflict
-  // TODO: merge with the default configuration
+  conf = conf || {};
+  var stash = conf.stash;
+  if((typeof stash == 'string') && (stash in this)) {
+    conflict.call(this, stash, {name: stash});
+  }
+
   this._configuration = conf;
+
   //console.dir(config);
   return this;
 }

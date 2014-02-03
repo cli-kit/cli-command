@@ -22,15 +22,25 @@ describe('cli-command:', function() {
     cli.option('-a, --action [action]', 'argument property conflict')
     cli.parse(args);
   });
-  //it('should exit on property conflict (action)', function(done) {
-    //var cli = require('../..')(pkg, 'mock-conflict');
-    //var args = [];
-    //process.exit = function(code) {
-      //done();
-    //}
-    //cli.option('-a, --action [action]', 'argument property conflict')
-    //cli.parse(args);
-  //});
+  it('should exit on function conflict (parse)', function(done) {
+    var cli = require('../..')(pkg, 'mock-function-conflict');
+    var args = [];
+    process.exit = function(code) {
+      done();
+    }
+    cli.option('-p, --parse [value]', 'function property conflict')
+    cli.parse(args);
+  });
+  it('should exit on stash property conflict (name)', function(done) {
+    process.exit = function(code) {
+      done();
+    }
+    var cli = require('../..')(pkg, 'mock-stash-conflict');
+    var args = [];
+    cli.configuration({stash: 'name'})
+      .option('-a, --action [action]', 'argument property conflict')
+      .parse(args);
+  });
   it('should exit on object group property name conflict (configuration)',
     function(done) {
       var cli = require('../..')(pkg, 'mock-object-conflict');
