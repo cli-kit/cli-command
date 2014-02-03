@@ -20,7 +20,7 @@ npm test
 
 Example programs are in the [bin](https://github.com/freeformsystems/cli-command/tree/master/bin) directory, there are also a ton of examples in the [test](https://github.com/freeformsystems/cli-command/tree/master/test) directory.
 
-### Type
+## Types
 
 A flexible, extensible and intuitive type system allows coercion between the argument string values and javascript types.
 
@@ -64,7 +64,7 @@ var program = cli()
 // ...
 ```
 
-#### Type List
+### Type List
 
 * `array`: Argument value must be coerced to an `array`, useful if you wish to ensure that a non-repeatable option becomes an array, for repeatable options it will always be an `array`. This method does not throw an error.
 * `boolean`: Coerce the value to a `boolean`. Accepts the string values `true` and `false` (case insensitive) and converts integers using the javascript notion of truthy, otherwise any positive length string is treated as `true`. The method does not throw an error.
@@ -77,7 +77,7 @@ var program = cli()
 * `string`: Strictly speaking a noop, however it is declared if you wish to allow multiple types for an argument and fallback to `string`. This method does not throw an error.
 * `url`: Parse the value to an object containing `URL` information, this method will throw an error if no `host` could be determined from the value.
 
-#### Type Map
+### Type Map
 
 As a convenience common native types are mapped from the constructor to the coercion function:
 
@@ -100,7 +100,7 @@ cli.option('-n, --number <n>', 'a number argument', Number)
 
 The `JSON` type is an exception as it is not a constructor, however, it is supported as a shortcut for `types.json`.
 
-#### Multiple Types
+### Multiple Types
 
 It is also possible to declare an option as being one of a list of types by specifying an array of functions:
 
@@ -110,7 +110,7 @@ cli.option('-d, --date <d>', 'a date or string', [Date, String])
 
 When an array is used coercion will be attempted for each listed type function, the first to succeed will become the option's value, if all type coercions fail then an `ETYPE` error event is emitted.
 
-#### Custom Types
+### Custom Types
 
 Declare a function to create your own custom type:
 
@@ -127,11 +127,11 @@ cli.option('-m, --mime-type <mime>', 'a mime type', mime)
 
 If you throw `Error` rather than `ArgumentTypeError` that is fine, it will be wrapped in an `ArgumentTypeError`. You can utilize `ArgumentTypeError` for it's built in message parameter support.
 
-#### Complex Types
+### Complex Types
 
-Complex types differ a little in that the type function must be invoked when declaring the option and it *returns a closure* that is the `converter`.
+Complex types differ in that the type function must be invoked when declaring the option and it *returns a closure* that is the `converter`.
 
-##### List
+#### List
 
 Splits a value into an array based on a `string` or `regexp` delimiter.
 
@@ -144,7 +144,7 @@ cli.option('-l, --list <list>',
     'a comma-delimited list argument', types.list(/\s*,\s*/))
 ```
 
-##### Enum
+#### Enum
 
 Validates that a value exists in a list of acceptable values.
 
@@ -158,7 +158,7 @@ cli.option('-c, --css <value>',
     'css preprocessor', types.enum(list))
 ```
 
-##### Object
+#### Object
 
 Coalesces related options into an object. Note that the [conflicts](#conflicts) logic applies to object property names when the `stash` configuration property is not set.
 
@@ -176,7 +176,7 @@ cli
     'server port', types.object('server'))
 ```
 
-### Commands
+## Commands
 
 Source: [command](https://github.com/freeformsystems/cli-command/tree/master/bin/example/command)
 
@@ -200,7 +200,7 @@ cli.command('cp')
 cli.parse();  // defaults to process.argv.slice(2)
 ```
 
-### Subcommands
+## Subcommands
 
 If you wish to structure your program as a series of executables for each command ([git][git] style) use the alternative syntax:
 
