@@ -160,7 +160,7 @@ cli.option('-c, --css <value>',
 
 ##### Object
 
-Coalesces related options into an object.
+Coalesces related options into an object. Note that the [conflicts](#conflicts) logic applies to object property names when the `stash` configuration property is not set.
 
 ```javascript
 types.object(string)
