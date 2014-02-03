@@ -82,12 +82,14 @@ var program = cli()
 As a convenience common native types are mapped from the constructor to the coercion function:
 
 ```javascript
-Array == types.array;
-Boolean == types.boolean;
-Date == types.date;
-JSON == types.json;
-Number == types.number;
-String == types.string;
+{
+  Array: types.array,
+  Boolean: types.boolean,
+  Date: types.date,
+  JSON: types.json,
+  Number: types.number,
+  String: types.string
+}
 ```
 
 Such that you can map types with:
