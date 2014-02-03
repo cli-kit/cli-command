@@ -124,6 +124,56 @@ cli.option('-m, --mime-type <mime>', 'a mime type', mime)
 ```
 
 If you throw `Error` rather than `ArgumentTypeError` that is fine, it will be wrapped in an `ArgumentTypeError`. You can utilize `ArgumentTypeError` for it's built in message parameter support.
+
+#### Complex Types
+
+Complex types differ a little in that the type function must be invoked when declaring the option and it *returns a closure* that is the `converter`.
+
+##### List
+
+Splits a value into an array based on a `string` or `regexp` delimiter.
+
+```javascript
+types.list(string|regexp)
+```
+
+```javascript
+cli.option('-l, --list <list>',
+    'a comma-delimited list argument', types.list(/\s*,\s*/))
+```
+
+##### Enum
+
+Validates that a value exists in a list of acceptable values.
+
+```javascript
+types.enum(array)
+```
+
+```javascript
+var list = ['css', 'scss', 'less'];
+cli.option('-c, --css <value>',
+    'css preprocessor', types.enum(list))
+```
+
+##### Object
+
+Coalesces related options into an object.
+
+```javascript
+types.object(string)
+```
+
+```javascript
+cli
+  .option('-s, --scheme <scheme>',
+    'transport scheme', types.object('server'))
+  .option('-h, --host <host>',
+    'server hostname', types.object('server'))
+  .option('-p, --port <n>',
+    'server port', types.object('server'))
+```
+
 ### Commands
 
 Source: [command](https://github.com/freeformsystems/cli-command/tree/master/bin/example/command)
