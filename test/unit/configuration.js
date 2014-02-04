@@ -10,6 +10,8 @@ describe('cli-command:', function() {
       //.parse(args);
     var config = cli.configuration();
     expect(config.exit).to.eql(true);
+    expect(config.stash).to.eql(null);
+    expect(config.bin).to.eql(null);
     done();
   });
   it('should set configuration (exit)', function(done) {
@@ -20,6 +22,20 @@ describe('cli-command:', function() {
       .parse(args);
     var config = cli.configuration();
     expect(config.exit).to.eql(false);
+    expect(config.stash).to.eql(null);
+    expect(config.bin).to.eql(null);
+    done();
+  });
+  it('should set configuration (bin)', function(done) {
+    var cli = require('../..')(pkg, 'configuration');
+    var args = [];
+    cli
+      .configuration({bin: './bin'})
+      .parse(args);
+    var config = cli.configuration();
+    expect(config.exit).to.eql(true);
+    expect(config.stash).to.eql(null);
+    expect(config.bin).to.eql('./bin');
     done();
   });
 })
