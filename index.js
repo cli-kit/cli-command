@@ -36,7 +36,7 @@ Program.prototype.getReceiver = function() {
   var receiver = this;
   var config = this.configuration();
   if((typeof(config.stash) == 'string') && config.stash.length) {
-    receiver = this[config.stash] = {};
+    receiver = this[config.stash] = this[config.stash] || {};
   }else if(config.stash && (typeof(config.stash) == 'object')) {
     receiver = config.stash;
   }
@@ -209,11 +209,9 @@ function coerce(arg, v) {
  */
 function merge(target, options) {
   var receiver = this.getReceiver();
-  //console.log('got receiver%s', receiver);
   var k, v, arg, re = /^no/;
   for(k in target) {
     arg = this._arguments[k];
-    //console.log('%s %s', k, arg);
     if(arg) {
       v = target[k];
       if(arg.multiple && !Array.isArray(v)) {
@@ -223,10 +221,33 @@ function merge(target, options) {
           [arg.names.join(' | '), v.join(', ')], {arg: arg, value: v});
       }
       v = coerce.call(this, arg, v);
-      receiver[k] = options[k] = arg.value = v;
+      assign.call(this, arg, k, v, options);
+    }else{
+      // TODO: handle unknown option here?
     }
   }
   return true;
+}
+
+function assign(arg, key, value, options) {
+  var receiver = this.getReceiver();
+  receiver[key] = arg.value = value;
+  if(options) options[key] = value;
+}
+
+/**
+ *  Finds arguments specified as multiple and ensures
+ *  that the value is an empty array if no arguments
+ *  were specified that set the value.
+ */
+function multiple() {
+  var arg, receiver = this.getReceiver();
+  for(var z in this._arguments) {
+    arg = this._arguments[z];
+    if(arg.multiple && arg.value === undefined) {
+      assign.call(this, arg, z, []);
+    }
+  }
 }
 
 /**
@@ -427,7 +448,6 @@ Program.prototype.configuration = function(conf) {
     return this;
   }
   merger(conf, this._configuration || merger(config, {}));
-  //this._configuration = conf;
   return this;
 }
 
@@ -460,6 +480,7 @@ Program.prototype.parse = function(args) {
   var opts = {};
   merge.call(this, this._args.flags, opts);
   merge.call(this, this._args.options, opts);
+  multiple.call(this);
   handled = builtins.call(this);
   if(!handled) handled = required.call(this);
   if(!args.length) return empty.call(this);

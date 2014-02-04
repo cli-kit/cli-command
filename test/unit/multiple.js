@@ -35,4 +35,14 @@ describe('cli-command:', function() {
     expect(cli.integer).to.eql([10, 20]);
     done();
   });
+  it('should be empty array on zero arguments', function(done) {
+    var cli = require('../..')(pkg);
+    cli.configuration({exit:false});
+    var args = [];
+    cli
+      .option('-i, --integer [n...]', 'an integer argument', parseInt)
+    cli.parse(args);
+    expect(cli.integer).to.eql([]);
+    done();
+  });
 })
