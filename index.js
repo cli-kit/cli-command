@@ -229,6 +229,15 @@ function merge(target, options) {
   return true;
 }
 
+/**
+ *  Assign a value to an option.
+ *
+ *  @param arg The argument definition.
+ *  @param key The option key.
+ *  @param value The value for the option.
+ *  @param options An additional object to
+ *  receive the value (optional).
+ */
 function assign(arg, key, value, options) {
   var receiver = this.getReceiver();
   receiver[key] = arg.value = value;
@@ -240,7 +249,7 @@ function assign(arg, key, value, options) {
  *  that the value is an empty array if no arguments
  *  were specified that set the value.
  */
-function multiple() {
+function initialize() {
   var arg, receiver = this.getReceiver();
   for(var z in this._arguments) {
     arg = this._arguments[z];
@@ -480,7 +489,7 @@ Program.prototype.parse = function(args) {
   var opts = {};
   merge.call(this, this._args.flags, opts);
   merge.call(this, this._args.options, opts);
-  multiple.call(this);
+  initialize.call(this);
   handled = builtins.call(this);
   if(!handled) handled = required.call(this);
   if(!args.length) return empty.call(this);
