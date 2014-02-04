@@ -5,6 +5,7 @@ var path = require('path'),
 var spawn = require('child_process').spawn;
 var cli = require('cli-define');
 var parser = require('cli-argparse');
+var merger = require('cli-util').merge;
 var codes = require('./lib/codes');
 var types = require('./lib/types');
 var clierr = require('cli-error');
@@ -16,7 +17,7 @@ var ErrorDefinition = clierr.ErrorDefinition;
 var CliError = clierr.CliError;
 
 var errors = clierr.errors;
-var config = {
+var defaults = {
   exit: true,
   stash: null,
   bin: null
@@ -28,6 +29,7 @@ var actions = {
 }
 
 Program.prototype.__actions = Object.keys(actions);
+Program.prototype._configuration = merger(defaults, {});
 Program.prototype.errors = errors;
 Program.prototype.args = [];
 Program.prototype.getReceiver = function() {
@@ -422,11 +424,10 @@ Program.prototype.configuration = function(conf) {
   var stash = conf.stash;
   if((typeof stash == 'string') && (stash in this)) {
     conflict.call(this, stash, {name: stash});
+    return this;
   }
-
-  this._configuration = conf;
-
-  //console.dir(config);
+  merger(conf, this._configuration || merger(config, {}));
+  //this._configuration = conf;
   return this;
 }
 
@@ -474,7 +475,7 @@ module.exports = function(package, name, description, configuration) {
     //console.dir(errors);
   });
   var program = cli(package, name, description);
-  program.configuration(configuration || config);
+  program.configuration(configuration || defaults);
   var listeners = process.listeners('uncaughtException');
   if(!listeners.length) {
     process.on('uncaughtException', function(err) {
