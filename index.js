@@ -250,6 +250,7 @@ function assign(arg, key, value, options) {
  *  were specified that set the value.
  */
 function initialize() {
+  // TODO : initialize unset values from their defaults where applicable
   var arg, receiver = this.getReceiver();
   for(var z in this._arguments) {
     arg = this._arguments[z];
@@ -310,10 +311,6 @@ function raise(err, parameters, data) {
     e.data = data;
     if(data && data.error) e.source = data.error;
   }
-  //}else{
-    //e = new CliError(e, errors.EUNCAUGHT.code);
-    ////e.shift();
-  //}
   this.emit('error', e, errors);
 }
 
@@ -478,10 +475,7 @@ Program.prototype.parse = function(args) {
       this.error(e, errors);
     })
   }
-  //return console.dir(this);
-
   conflict.call(this);
-  //this._config = options || {};
   var config = getParserConfiguration.call(this), handled;
   this._args = parser(args, config);
   this._args.config = config;
