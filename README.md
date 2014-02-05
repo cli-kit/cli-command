@@ -62,7 +62,7 @@ The coercion function (referred to as a `converter`) may be more complex, the si
 function(value, arg, index)
 ```
 
-Where `value` is the argument string value, `arg` is the option definition and `index` is the position in an array (only for options that are repeatable). Functions are executed in the scope of the program so you can access all it's properties (`this.name` is very useful), run `console.dir(this)` to see the full list.
+Where `value` is the argument string value, `arg` is the option definition and `index` is the position in an array (only for options that are repeatable). Functions are executed in the scope of the program so you can access all it's properties (`this.name()` is very useful), run `console.dir(this)` to see the full list.
 
 Native functions are good if you are willing to accept `NaN` as a possible value; for those cases where you must have a valid number you should use one of the pre-defined type coercion functions that will throw an error if the value is `NaN`. The type error will then be emitted as an `error` event (`ETYPE`). If there is no listener for `error` and `etype` a useful error message is printed and the program will exit, otherwise you are free to handle the error as you like.
 
@@ -132,7 +132,7 @@ function mime(value, arg, index) {
   // validate the value is a recognized mime type
   // and return it if valid
   throw new ArgumentTypeError('invalid mime type for %s, got %s',
-    arg.names.join(' | '), value);
+    arg.names().join(' | '), value);
 }
 cli.option('-m, --mime-type <mime>', 'a mime type', mime)
 ```
@@ -255,7 +255,7 @@ cli
 
 Handling errors in any program is important but doing it elegantly in a command line program can be tricky, so the [error] module has been integrated to make error handling consistent and robust.
 
-The pre-defined error conditions are in [en.json][en.json]. The [error][error] module intentionally starts incorementing exit status codes from `128` so as not to conflict with low exit status codes, for example, `node` uses exit code `8` to indicate an uncaught exception. The command module uses exit codes from `64-127` and you are encouraged to start your exit codes from `128`.
+The pre-defined error conditions are in [en.json][en.json]. The [error][error] module intentionally starts incrementing exit status codes from `128` so as not to conflict with low exit status codes, for example, `node` uses exit code `8` to indicate an uncaught exception. The command module uses exit codes from `64-127` and you are encouraged to start your exit codes from `128`.
 
 Error conditions encountered by the module are treated in an idiomatic manner, they are dispatched as an `error` event from the program. However, you may just want some default error handling, so if you have not registered an `eror` listener on the program by the time `parse()` is called then the default error handling will be used.
 
@@ -298,7 +298,7 @@ var pkg = path.normalize(
 var cli = require('../..')(pkg, 'error/event');
 cli
   .on('etype', function(e) {
-    console.error(this.name + ': %s', 'etype listener fired');
+    console.error(this.name() + ': %s', 'etype listener fired');
     // NOTE: if we did not invoke the default handler
     // NOTE: which exits the process on error by default
     // NOTE: then the default uncaught exception handling
@@ -330,6 +330,16 @@ cli.configuration({stash: 'data'});
 // ...
 cli.parse();
 // now access the option values via cli.data
+```
+
+Or if you prefer you can specify an object:
+
+```javascript
+var cli = require('..');
+var stash = {};
+cli.configuration({stash: stash});
+// ...
+cli.parse();
 ```
 
 If a `stash` has not been configured and your program declares an option that would cause a conflict, the program will scream at you, literally [scream][scream].
