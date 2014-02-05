@@ -230,6 +230,21 @@ function merge(target, options) {
 }
 
 /**
+ *  Iterate over the options and ensure that the receiver
+ *  (program or stash) has the default values.
+ */
+function values() {
+  var receiver = this.getReceiver();
+  var opts = this._arguments, k, v;
+  for(k in opts) {
+    v = opts[k].value();
+    if(v !== undefined) {
+      receiver[k] = v;
+    }
+  }
+}
+
+/**
  *  Assign a value to an option.
  *
  *  @param arg The argument definition.
@@ -483,6 +498,7 @@ Program.prototype.parse = function(args) {
   this._args.config = config;
   this.args = this._args.unparsed;
   var opts = {};
+  values.call(this);
   merge.call(this, this._args.flags, opts);
   merge.call(this, this._args.options, opts);
   initialize.call(this);
