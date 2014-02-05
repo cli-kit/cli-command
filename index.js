@@ -485,6 +485,20 @@ Program.prototype.configuration = function(conf) {
 }
 
 /**
+ *  Coerces unparsed arguments.
+ *
+ *  The resulting array is then assigned to the program
+ *  for easy access.
+ */
+function unparsed() {
+  var args = this._args.unparsed.slice(0);
+  for(var i =0;i < args.length;i++) {
+    args[i] = coerce.call(this, this, args[i]);
+  }
+  this.args = args;
+}
+
+/**
  *  Parse the supplied arguments and execute any commands
  *  found in the arguments, preferring the built in commands
  *  for help and version.
@@ -506,7 +520,7 @@ Program.prototype.parse = function(args) {
   var config = getParserConfiguration.call(this), handled;
   this._args = parser(args, config);
   this._args.config = config;
-  this.args = this._args.unparsed;
+  unparsed.call(this);
   var opts = {};
   values.call(this);
   merge.call(this, this._args.flags, opts);

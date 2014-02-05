@@ -188,6 +188,18 @@ cli
     'server port', types.object('server'))
 ```
 
+### Unparsed Types
+
+It is possible to coerce or validate the unparsed options by specifying a `converter` on the program:
+
+```javascript
+cli
+  .converter(types.integer)
+  .parse(); 
+```
+
+Note that because the unparsed arguments list is always an arrray specifying the `Array` type will result in a multi-dimensional array of strings.
+
 ## Commands
 
 Source: [command](https://github.com/freeformsystems/cli-command/tree/master/bin/example/command)
