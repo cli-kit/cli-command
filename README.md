@@ -34,6 +34,14 @@ cli.configuration({stash: 'data'})
 
 ## Help
 
+```javascript
+var cli = require('cli-command');
+cli
+  .help()
+  // ...
+  .parse();
+```
+
 The `help` method adds a special builtin flag to the program which by default is mapped to `-h | --help`. The default help output is sufficient for many programs however you can pass a callback to `help` if you wish to customize the help output.
 
 See the [help/defaults][help/defaults] and [help/custom][help/custom] example executables or consult the [define][define] documentation for the method signature.
@@ -42,6 +50,26 @@ Source: [help/defaults][help/defaults]
 
 <p align="center">
   <img src="https://raw.github.com/freeformsystems/cli-command/master/img/help-defaults.png" />
+</p>
+
+## Version
+
+```javascript
+var cli = require('cli-command');
+cli
+  .version()
+  // ...
+  .parse();
+```
+
+The `version` method adds a special builtin flag to the program which by default is mapped to `-V | --version`. The default version output is sufficient for many programs however you can pass a callback to `version` if you wish to customize the version output, this can be useful if you want to include version information for external programs you depend upon or just to include more useful information.
+
+See the [version/defaults][version/defaults] and [version/custom][version/custom] example executables or consult the [define][define] documentation for the method signature.
+
+Source: [version/defaults][version/defaults] and [version/custom][version/custom]
+
+<p align="center">
+  <img src="https://raw.github.com/freeformsystems/cli-command/master/img/version.png" />
 </p>
 
 # Types
@@ -368,11 +396,11 @@ cli.parse();
 
 If a `stash` has not been configured and your program declares an option that would cause a conflict, the program will scream at you, literally [scream][scream].
 
+Source: [conflict][conflict]
+
 <p align="center">
   <img src="https://raw.github.com/freeformsystems/cli-command/master/img/conflict.png" />
 </p>
-
-The [conflict][conflict] test executable illustrates this behaviour.
 
 ## License
 
@@ -386,6 +414,9 @@ Everything is [MIT](http://en.wikipedia.org/wiki/MIT_License). Read the [license
 
 [help/defaults]: https://github.com/freeformsystems/cli-command/blob/master/bin/help/defaults
 [help/custom]: https://github.com/freeformsystems/cli-command/blob/master/bin/help/custom
+
+[version/defaults]: https://github.com/freeformsystems/cli-command/blob/master/bin/version/defaults
+[version/custom]: https://github.com/freeformsystems/cli-command/blob/master/bin/version/custom
 
 [en.json]: https://github.com/freeformsystems/cli-command/blob/master/lib/error/locales/en.json
 
