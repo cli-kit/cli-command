@@ -32,7 +32,13 @@ cli.configuration({stash: 'data'})
 * `exit`: Whether the default error handler will exit the process when an error occurs, default is `true`.
 * `stash`: The string name of a property that becomes an object to store option values, will be set on the program, this alleviates the potential for conflicts. If you wish to use this then the recommended value is `data`. You may also pass in an existing object as the stash and the argument values will be set on the stash object.
 
-## Types
+## Help
+
+The `help` method adds a special builtin flag to the program which by default is mapped to `-h | --help`. The default help output is sufficient for many programs however you can pass a callback to `help` if you wish to customize the help output.
+
+See the [help/defaults](https://github.com/freeformsystems/cli-command/blob/master/bin/help/defaults) and [help/custom](https://github.com/freeformsystems/cli-command/blob/master/bin/help/custom) example executables or consult the [define][define] documentation for the method signature.
+
+# Types
 
 A flexible, extensible and intuitive type system allows coercion between the argument string values and javascript types.
 
