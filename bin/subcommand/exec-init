@@ -18,5 +18,5 @@ cli
   })
   .parse();
 if(cli.args.length) {
-  console.log(cli._name + ' %s', cli._args.raw.join(' '));
+  console.log(cli.name() + ' %s', cli._args.raw.join(' '));
 }

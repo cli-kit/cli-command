@@ -33,9 +33,9 @@ cli
     }
     help.head = function() {
       console.log();
-      console.info(repeat() + '%s %s', this._name, this._version);
+      console.info(repeat() + '%s %s', this.name(), this.version());
       console.log();
-      console.log(repeat() + this._description);
+      console.log(repeat() + this.description());
       console.log();
       console.log(repeat() + delimiter);
       console.log();

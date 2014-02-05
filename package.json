@@ -1,6 +1,6 @@
 {
   "name": "cli-command",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Command execution for cli programs",
   "author": "muji <noop@xpm.io>",
   "repository": {
@@ -22,7 +22,7 @@
     "command"
   ],
   "dependencies": {
-    "cli-define": "~0.2.6",
+    "cli-define": "~0.3.2",
     "cli-argparse": "~0.3.3",
     "cli-error": "~0.4.0",
     "cli-util": "~1.0.8"

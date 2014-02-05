@@ -15,7 +15,7 @@ require('ttycolor')().defaults();
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
 process.on('uncaughtException', function(e) {
-  console.error(cli.name + ': %s (%s)', e.message, 'custom listener');
+  console.error(cli.name() + ': %s (%s)', e.message, 'custom listener');
 })
 cli = require('../..')(pkg, 'error/uncaught');
 cli

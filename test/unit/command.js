@@ -14,7 +14,7 @@ describe('cli-command:', function() {
         .action(function(cmd, options, raw) {
           args.shift();
           expect(raw).to.eql(args);
-          expect(cmd.name).to.equal('ls');
+          expect(cmd.name()).to.equal('ls');
           expect(cli.verbose).to.eql(true);
           expect(options.verbose).to.eql(true);
           expect(cli.file).to.eql('file.txt');

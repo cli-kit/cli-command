@@ -12,6 +12,7 @@ var clierr = require('cli-error');
 var conflict = require('./lib/conflict');
 
 var ArgumentTypeError = require('./lib/error/argument-type');
+var Option = cli.Option;
 var Program = cli.Program;
 var ErrorDefinition = clierr.ErrorDefinition;
 var CliError = clierr.CliError;
@@ -22,7 +23,6 @@ var defaults = {
   stash: null,
   bin: null
 }
-
 var actions = {
   help: require('./lib/help'),
   version: require('./lib/version')
@@ -64,18 +64,18 @@ function getParserConfiguration() {
   var config = {
     alias: {}, flags: [], options: []}, k, arg, key, no = /^no/;
   for(k in this._arguments) {
-    arg = this._arguments[k]; key = arg.key;
+    arg = this._arguments[k]; key = arg.key();
     if(key) {
       if(no.test(key)) {
         key = key.replace(no, '');
         key = key.charAt(0).toLowerCase() + key.slice(1);
       }
-      config.alias[arg._names.join(' ')] = key;
+      config.alias[arg.names().join(' ')] = key;
     }
     if(arg instanceof cli.Flag) {
-      config.flags = config.flags.concat(arg._names);
+      config.flags = config.flags.concat(arg.names());
     }else if(arg instanceof cli.Option) {
-      config.options = config.options.concat(arg._names);
+      config.options = config.options.concat(arg.names());
     }
   }
   return config;
@@ -89,13 +89,13 @@ function getParserConfiguration() {
  *  @param func A specific function.
  */
 function getConverter(arg, func) {
-  var converter = func || arg._converter, name;
+  var converter = func || arg.converter(), name;
   if(Array.isArray(converter)) return converter;
   try {
     name = new converter().constructor.name;
   }catch(e){}
   if(name && types.map[name]) return types.map[name];
-  if(arg._converter === JSON) return types.map.JSON;
+  if(arg.converter() === JSON) return types.map.JSON;
   return converter;
 }
 
@@ -108,7 +108,7 @@ function getConverter(arg, func) {
  *  @return An array of names.
  */
 function getConverterNames(arg) {
-  var converter = arg._converter, names = [], i, name;
+  var converter = arg.converter(), names = [], i, name;
   for(i = 0;i < converter.length;i++) {
     try{
       name = new converter[i]().constructor.name;
@@ -156,7 +156,7 @@ function convert(value, arg, index) {
         // NOTE: all coercion attempts failed
         if(i == (converter.length -1)) {
           error.call(this, e, 'invalid type for %s, expected (%s)',
-            [arg.names.join(' | '), getConverterNames(arg).join(', ')]);
+            [arg.names().join(' | '), getConverterNames(arg).join(', ')]);
         }
       }
     }
@@ -214,11 +214,11 @@ function merge(target, options) {
     arg = this._arguments[k];
     if(arg) {
       v = target[k];
-      if(arg.multiple && !Array.isArray(v)) {
+      if(arg.multiple() && !Array.isArray(v)) {
         v = [v];
-      }else if(!arg.multiple && Array.isArray(v)) {
+      }else if(!arg.multiple() && Array.isArray(v)) {
         raise.call(this, errors.EMULTIPLE,
-          [arg.names.join(' | '), v.join(', ')], {arg: arg, value: v});
+          [arg.names().join(' | '), v.join(', ')], {arg: arg, value: v});
       }
       v = coerce.call(this, arg, v);
       assign.call(this, arg, k, v, options);
@@ -240,7 +240,8 @@ function merge(target, options) {
  */
 function assign(arg, key, value, options) {
   var receiver = this.getReceiver();
-  receiver[key] = arg.value = value;
+  receiver[key] = value;
+  arg.value(value);
   if(options) options[key] = value;
 }
 
@@ -254,7 +255,7 @@ function initialize() {
   var arg, receiver = this.getReceiver();
   for(var z in this._arguments) {
     arg = this._arguments[z];
-    if(arg.multiple && arg.value === undefined) {
+    if(arg.multiple() && arg.value() === undefined) {
       assign.call(this, arg, z, []);
     }
   }
@@ -267,8 +268,8 @@ function required() {
   var z, arg;
   for(z in this._arguments) {
     arg = this._arguments[z];
-    if(!arg.optional && !this._args.options[arg.key]) {
-      raise.call(this, errors.EREQUIRED, [arg.names.join(' | ')], {arg: arg});
+    if(!arg.optional() && !this._args.options[arg.key()]) {
+      raise.call(this, errors.EREQUIRED, [arg.names().join(' | ')], {arg: arg});
       return true;
     }
   }
@@ -394,12 +395,13 @@ function command(options) {
     cmd = raw[i]; arg = this._commands[cmd];
     if(arg) {
       raw.splice(i, 1);
-      if(!arg._action) {
+      action = arg.action();
+      if(!action) {
         return execute.call(this, process.argv, cmd, raw);
-      }else if(arg._action) {
+      }else if(action) {
         ind = this.args.indexOf(cmd);
         if(~ind) this.args.splice(ind, 1);
-        return arg._action.call(this, arg, options, raw);
+        return action.call(this, arg, options, raw);
       }
     }
   }
@@ -450,7 +452,7 @@ Program.prototype.configuration = function(conf) {
   conf = conf || {};
   var stash = conf.stash;
   if((typeof stash == 'string') && (stash in this)) {
-    conflict.call(this, stash, {name: stash});
+    conflict.call(this, stash, new Option(stash));
     return this;
   }
   merger(conf, this._configuration || merger(config, {}));
@@ -507,7 +509,7 @@ module.exports = function(package, name, description, configuration) {
       raise.call(program, errors.EUNCAUGHT, [err.message], {error: err});
     })
   }
-  clierr({name: program.name});
+  clierr({name: program.name()});
   return program;
 }
 

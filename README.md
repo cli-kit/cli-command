@@ -207,7 +207,7 @@ cli.command('cp')
   .description('copy files')
   .action(function(cmd, options, raw) {
     // execute copy logic here, scope is the program instance (cli)
-    console.dir(this.file);
+    console.log('files: %j', this.file);
   });
 cli.parse();  // defaults to process.argv.slice(2)
 ```
@@ -226,7 +226,7 @@ cli
   .help()
   .on('empty', function(help, version) {
     help.call(this, true);
-    console.error(this.name + ': command required');
+    console.error(this.name() + ': command required');
   })
   .command('install', 'install packages')
 var ps = cli.parse();   // execute pkg-install(1) upon install command
@@ -246,7 +246,7 @@ cli
   })
   .on('empty', function(help, version) {
     help.call(this, true);  // invoke help on zero arguments
-    console.error(this.name + ': no packages specified');
+    console.error(this.name() + ': no packages specified');
   })
   .parse();
 ```

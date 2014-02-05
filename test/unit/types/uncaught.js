@@ -20,8 +20,8 @@ describe('cli-command:', function() {
         }
         done();
       });
-      var args = ['-a'];
-      cli.option('-a, --arguments', 'an argument', converter);
+      var args = ['-v'];
+      cli.option('-v, --verbose', 'verbose argument', converter);
       process.nextTick(function(){
         cli.parse(args);
       });
