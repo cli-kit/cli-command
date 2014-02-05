@@ -42,7 +42,25 @@ cli
   .parse();
 ```
 
-The `help` method adds a special builtin flag to the program which by default is mapped to `-h | --help`. The default help output is sufficient for many programs however you can pass a callback to `help` if you wish to customize the help output.
+The `help` method adds a flag to the program which by default is mapped to `-h | --help`. The default help output is sufficient for many programs however you can pass a callback to `help` if you wish to customize the help output.
+
+The signature for a custom callback is `function(help)` where `help` is the default function for printing help.
+
+If invoked directly you defer to the default help output.
+
+```javascript
+function custom(help) {
+  help.call(this);
+}
+```
+
+Otherwise you may re-use some of the default help functions (be sure to always invoke with the correct scope, ie, `call(this)`):
+
+* `head`: Print the help header.
+* `usage`: Print program usage.
+* `commands`: Print program commands.
+* `options`: Print program options.
+* `head`: Print the help footer.
 
 See the [help/defaults][help/defaults] and [help/custom][help/custom] example executables or consult the [define][define] documentation for the method signature.
 
@@ -62,7 +80,7 @@ cli
   .parse();
 ```
 
-The `version` method adds a special builtin flag to the program which by default is mapped to `-V | --version`. The default version output is sufficient for many programs however you can pass a callback to `version` if you wish to customize the version output, this can be useful if you want to include version information for external programs you depend upon or just to include more useful information.
+The `version` method adds a flag to the program which by default is mapped to `-V | --version`. If you wish to customize the version output pass a function to the `help` method, this can be useful if you want to include version information for external programs you depend upon or just to include more useful information.
 
 See the [version/defaults][version/defaults] and [version/custom][version/custom] example executables or consult the [define][define] documentation for the method signature.
 
