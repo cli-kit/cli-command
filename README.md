@@ -54,7 +54,7 @@ function custom(help) {
 }
 ```
 
-Otherwise you may re-use some of the default help functions (be sure to always invoke with the correct scope, ie, `call(this)`):
+Otherwise you may re-use some of the default help functions as properties of the main help function (be sure to always invoke with the correct scope, ie, `help.usage.call(this)`):
 
 * `head`: Print the help header.
 * `usage`: Print program usage.
@@ -81,6 +81,16 @@ cli
 ```
 
 The `version` method adds a flag to the program which by default is mapped to `-V | --version`. If you wish to customize the version output pass a function to the `help` method, this can be useful if you want to include version information for external programs you depend upon or just to include more useful information.
+
+The signature for a custom callback is `function(version)` where `version` is the default function for printing version.
+
+If invoked directly you defer to the default version output.
+
+```javascript
+function custom(version) {
+  version.call(this);
+}
+```
 
 See the [version/defaults][version/defaults] and [version/custom][version/custom] example executables or consult the [define][define] documentation for the method signature.
 
