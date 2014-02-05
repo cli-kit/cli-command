@@ -320,7 +320,7 @@ function raise(err, parameters, data) {
   if(err instanceof CliError) {
     e = err;
   }else if((err instanceof ErrorDefinition)) {
-    var e = err.toError();
+    e = err.toError();
     e.shift();
     e.parameters = parameters || [];
     e.key = err.key;
@@ -405,9 +405,19 @@ function execute(argv, cmd, args) {
  *  @param options An object containing all flags and option values.
  */
 function command(options) {
+  var commands = this._commands;
+  function find(cmd) {
+    var z, arg;
+    for(z in commands) {
+      arg = commands[z];
+      if(~arg.names().indexOf(cmd)) {
+        return arg;
+      }
+    }
+  }
   var z, i, raw = this._args.raw.slice(0), action, cmd, arg, ind;
   for(i = 0;i < raw.length;i++) {
-    cmd = raw[i]; arg = this._commands[cmd];
+    cmd = raw[i]; arg = find(cmd);
     if(arg) {
       raw.splice(i, 1);
       action = arg.action();

@@ -23,4 +23,43 @@ describe('cli-command:', function() {
         })
     cli.parse(args);
   });
+  it('should execute command function by alias (space delimited)',
+    function(done) {
+      var cli = require('../..')(pkg);
+      var args = ['i', 'package.tgz'];
+      cli
+        .command('install i')
+          .description('install packages')
+          .action(function(cmd, options, raw) {
+            done();
+          })
+      cli.parse(args);
+    }
+  );
+  it('should execute command function by alias (pipe delimited)',
+    function(done) {
+      var cli = require('../..')(pkg);
+      var args = ['install', 'package.tgz'];
+      cli
+        .command('install|i')
+          .description('install packages')
+          .action(function(cmd, options, raw) {
+            done();
+          })
+      cli.parse(args);
+    }
+  );
+  it('should execute command function by alias (comma delimited)',
+    function(done) {
+      var cli = require('../..')(pkg);
+      var args = ['ins', 'package.tgz'];
+      cli
+        .command('install, i, ins')
+          .description('install packages')
+          .action(function(cmd, options, raw) {
+            done();
+          })
+      cli.parse(args);
+    }
+  );
 })
