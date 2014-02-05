@@ -36,7 +36,13 @@ cli.configuration({stash: 'data'})
 
 The `help` method adds a special builtin flag to the program which by default is mapped to `-h | --help`. The default help output is sufficient for many programs however you can pass a callback to `help` if you wish to customize the help output.
 
-See the [help/defaults](https://github.com/freeformsystems/cli-command/blob/master/bin/help/defaults) and [help/custom](https://github.com/freeformsystems/cli-command/blob/master/bin/help/custom) example executables or consult the [define][define] documentation for the method signature.
+See the [help/defaults][help/defaults] and [help/custom][help/custom] example executables or consult the [define][define] documentation for the method signature.
+
+Source: [help/defaults][help/defaults]
+
+<p align="center">
+  <img src="https://raw.github.com/freeformsystems/cli-command/master/img/help-defaults.png" />
+</p>
 
 # Types
 
@@ -377,6 +383,9 @@ Everything is [MIT](http://en.wikipedia.org/wiki/MIT_License). Read the [license
 [define]: https://github.com/freeformsystems/cli-define
 [error]: https://github.com/freeformsystems/cli-error
 [git]: http://git-scm.com
+
+[help/defaults]: https://github.com/freeformsystems/cli-command/blob/master/bin/help/defaults
+[help/custom]: https://github.com/freeformsystems/cli-command/blob/master/bin/help/custom
 
 [en.json]: https://github.com/freeformsystems/cli-command/blob/master/lib/error/locales/en.json
 

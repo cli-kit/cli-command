@@ -12,8 +12,16 @@ require('ttycolor')().defaults();
 var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..')(pkg, 'help/defaults');
 cli
-  //.command('install, i', 'install packages')
-  //.option('-v --verbose', 'print more information')
+  .usage('[options] <command> <package...>')
+  .command('install, ins, i', 'install packages')
+  .command('publish, pub, p', 'publish packages')
+  .command('update, up, u', 'update dependencies')
+  .command('list, ls', 'list dependencies')
+  .command('pack, pk', 'create archive')
+  .option('-r --registry [url]', 'registry url')
+  .option('-v --verbose', 'print more information')
+  .option('-f --force', 'force overwrite')
+  .option('-d --debug', 'enable debugging')
   .version()
   .help()
   .on('empty', function(help, version) {
