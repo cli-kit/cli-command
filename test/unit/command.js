@@ -62,4 +62,13 @@ describe('cli-command:', function() {
       cli.parse(args);
     }
   );
+  it('should execute command next code path', function(done) {
+    var cli = require('../..')(pkg);
+    var args = ['ls'];
+    cli
+      .option('-v --verbose', 'print more information')
+      .option('-f --file [file]', 'files to modify');
+    cli.parse(args);
+    done();
+  });
 })

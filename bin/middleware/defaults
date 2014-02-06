@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+
+/**
+ *  Example for illustrating and testing that when use()
+ *  has not been invoked then the program is configured
+ *  with some sensible default middleware.
+ *
+ *  ./bin/middleware/defaults
+ *  ./bin/middleware/defaults --version
+ *  ./bin/middleware/defaults --help
+ */
+var path = require('path');
+require('ttycolor')().defaults();
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..');
+cli(pkg, 'middleware/defaults')
+  .on('empty', function(help, version) {
+    help.call(this);
+  })
+  .parse();

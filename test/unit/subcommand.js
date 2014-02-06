@@ -47,7 +47,9 @@ describe('cli-command:', function() {
       done();
     }
     cli.command('build', 'build files')
-    var ps = cli.parse(args);
-    process.kill(ps.pid, 'SIGINT');
+    cli.on('exec', function(ps, cmd, args) {
+      process.kill(ps.pid, 'SIGINT');
+    })
+    cli.parse(args);
   });
 })

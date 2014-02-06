@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+
+/**
+ *  Example for configuring an application as middleware.
+ *
+ *  ./bin/middleware/custom
+ *  ./bin/middleware/custom --version
+ *  ./bin/middleware/custom --help
+ *  ./bin/middleware/custom --value 'an option value'
+ */
+var path = require('path');
+require('ttycolor')().defaults();
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..');
+var middleware = cli.middleware;
+process.env.custom_middleware_url = 'http://nodejs.org';
+var program = cli(pkg, 'custom_middleware')
+  .configuration({env: {merge: true}})
+  .use(middleware.error)
+  .use(middleware.parser)
+  .use(middleware.unparsed)
+  .use(middleware.defaults)
+  .use(middleware.env)
+  .use(middleware.merge)
+  .use(middleware.multiple)
+  .use(middleware.action)
+  .use(middleware.required)
+  .use(middleware.command)
+  .use(middleware.empty)
+  .use(middleware.run)
+  .use(middleware.version)
+  .use(middleware.help)
+  .option('-v --value [value]', 'an option value', 'default value')
+  .option('-r --repeat [value...]', 'a repeatable value')
+  //.option('--required <value>', 'a required option')
+  .converter(Boolean)
+  .on('run', function() {
+    console.log('value: %s', this.value);
+    console.log('url: %s', this.url);
+    console.log('repeat is array: %s', Array.isArray(this.repeat));
+  })
+  .on('empty', function(help, version) {
+    help.call(this);
+  })
+
+  program.command('ls')
+    .description('list files')
+    .action(function(cmd, options, raw) {
+      console.log('ls action called. %j', options)
+    });
+
+  program.parse();
