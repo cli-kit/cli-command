@@ -152,18 +152,7 @@ define(CommandProgram.prototype, 'configuration', configuration, false);
  *  @param action A function to invoke.
  */
 function version(semver, name, description, action) {
-  if(!arguments.length && this._arguments.version) return this._version;
-  if(typeof semver == 'function') {
-    action = semver;
-    semver = null;
-  }
-  if(semver) this._version = semver;
-  name = name || '-V --version';
-  var flag = new Flag(
-    name, description || 'print the program version', {action: action});
-  flag.key('version');
-  this.flag(flag);
-  return this;
+  return this.use(middlewares.version, semver, name, description, action);
 }
 define(CommandProgram.prototype, 'version', version, false);
 

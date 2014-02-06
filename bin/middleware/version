@@ -16,6 +16,7 @@ var middleware = cli.middleware;
 //console.log(middleware.version);
 var program = cli(pkg)
   .use(middleware.parser)
-  .use(middleware.version)
   .use(middleware.action)
+  //.use(middleware.version)
+  .version()
   .parse();
