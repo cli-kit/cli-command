@@ -3,7 +3,9 @@ var path = require('path'),
   dirname = path.dirname,
   basename = path.basename;
 var spawn = require('child_process').spawn;
+var util = require('util');
 var cli = require('cli-define');
+var define = cli.define;
 var parser = require('cli-argparse');
 var merger = require('cli-util').merge;
 var codes = require('./lib/codes');
@@ -30,6 +32,13 @@ var actions = {
   help: require('./lib/help'),
   version: require('./lib/version')
 }
+
+var CommandProgram = function() {
+  Program.apply(this, arguments);
+  define(this, '_configuration', merger(defaults, {}), false);
+}
+
+util.inherits(CommandProgram, Program);
 
 Program.prototype.__actions = Object.keys(actions);
 Program.prototype._configuration = merger(defaults, {});
@@ -83,6 +92,44 @@ Program.prototype.configuration = function(conf) {
   merger(conf, this._configuration || merger(config, {}));
   return this;
 }
+
+/**
+ *  Parse the supplied arguments and execute any commands
+ *  found in the arguments, preferring the built in commands
+ *  for help and version.
+ *
+ *  @param args The arguments to parse, default is process.argv.slice(2).
+ *  @param options Configuration options.
+ */
+Program.prototype.parse = function(args) {
+  args = args || process.argv.slice(2);
+  var listeners = this.listeners('error');
+  if(!listeners.length) {
+    this.on('error', function(e) {
+      var key = (e.key || '').toLowerCase();
+      if(this.listeners(key).length) return this.emit(key, e, errors);
+      this.error(e, errors);
+    })
+  }
+  conflict.call(this);
+  //var conf = this.configuration();
+  var config = getParserConfiguration.call(this), handled;
+  this._args = parser(args, config);
+  this._args.config = config;
+  unparsed.call(this);
+  var opts = {};
+  values.call(this);
+  environ.call(this);
+  merge.call(this, this._args.flags, opts);
+  merge.call(this, this._args.options, opts);
+  initialize.call(this);
+  handled = builtins.call(this);
+  if(!handled) handled = required.call(this);
+  if(!args.length) return empty.call(this);
+  if(!Object.keys(this._commands).length) return this.emit('run');
+  if(!handled) return command.call(this, opts);
+}
+
 
 /**
  *  Retrieve the handler for a built in action.
@@ -541,43 +588,6 @@ function environ() {
       }
     }
   }
-}
-
-/**
- *  Parse the supplied arguments and execute any commands
- *  found in the arguments, preferring the built in commands
- *  for help and version.
- *
- *  @param args The arguments to parse, default is process.argv.slice(2).
- *  @param options Configuration options.
- */
-Program.prototype.parse = function(args) {
-  args = args || process.argv.slice(2);
-  var listeners = this.listeners('error');
-  if(!listeners.length) {
-    this.on('error', function(e) {
-      var key = (e.key || '').toLowerCase();
-      if(this.listeners(key).length) return this.emit(key, e, errors);
-      this.error(e, errors);
-    })
-  }
-  conflict.call(this);
-  //var conf = this.configuration();
-  var config = getParserConfiguration.call(this), handled;
-  this._args = parser(args, config);
-  this._args.config = config;
-  unparsed.call(this);
-  var opts = {};
-  values.call(this);
-  environ.call(this);
-  merge.call(this, this._args.flags, opts);
-  merge.call(this, this._args.options, opts);
-  initialize.call(this);
-  handled = builtins.call(this);
-  if(!handled) handled = required.call(this);
-  if(!args.length) return empty.call(this);
-  if(!Object.keys(this._commands).length) return this.emit('run');
-  if(!handled) return command.call(this, opts);
 }
 
 module.exports = function(package, name, description, configuration) {
