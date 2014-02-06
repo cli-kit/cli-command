@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+/**
+ *  Example to illustrate that only properties set on the program
+ *  are enumerable.
+ *
+ *  ./bin/enumerate/defaults -i 16 -i 32
+ */
+var path = require('path');
+require('ttycolor')().defaults();
+//process.env.CLI_DEBUG=true;
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..')(pkg, 'enumerate/defaults');
+cli
+  .option('-i --integer <n...>', 'an integer argument', parseInt)
+  .version()
+  .help()
+  .parse();
+console.dir(cli);

@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+/**
+ *  Example to illustrate that setting the CLI_TOOLKIT_DEBUG
+ *  environment variable (before the require()) allows us to
+ *  inspect the program internals with console.dir().
+ *
+ *  ./bin/enumerate/debug
+ */
+var path = require('path');
+require('ttycolor')().defaults();
+// set the environment variable that allows us to inspect
+// the internal structure of the program, must be set before
+// the require() statements
+process.env.CLI_TOOLKIT_DEBUG=true;
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..')(pkg, 'enumerate/defaults');
+cli
+  .version()
+  .help()
+  .parse();
+console.dir(cli);
