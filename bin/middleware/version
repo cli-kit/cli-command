@@ -16,10 +16,12 @@ var middleware = cli.middleware;
 var program = cli(pkg)
   .use(middleware.parser)
   .use(middleware.unparsed)
+  .use(middleware.defaults)
   .use(middleware.action)
   .use(middleware.version)
   .use(middleware.help)
+  .option('-v --value [value]', 'an option value', 'default value')
   .converter(Boolean)
   //.version()
   .parse();
-//console.dir(program.args);
+//console.dir(program.value);
