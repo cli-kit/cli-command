@@ -4,7 +4,7 @@ var util = require('util');
 var cli = require('cli-define');
 var define = cli.define;
 
-var merger = require('cli-util').merge;
+var merge = require('cli-util').merge;
 
 var types = require('./lib/types');
 var clierr = require('cli-error');
@@ -28,7 +28,7 @@ var CommandProgram = function() {
   Program.apply(this, arguments);
   // private
   define(this, '_middleware', undefined, true);
-  define(this, '_configuration', merger(defaults, {}), false);
+  define(this, '_configuration', merge(defaults, {}), false);
 
   // public
   define(this, 'errors', errors, false);
@@ -131,7 +131,7 @@ function configuration(conf) {
     conflict.call(this, stash, new Option(stash));
     return this;
   }
-  merger(conf, this._configuration || merger(config, {}));
+  merge(conf, this._configuration || merge(config, {}));
   return this;
 }
 define(CommandProgram.prototype, 'configuration', configuration, false);
