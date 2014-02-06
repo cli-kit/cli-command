@@ -82,6 +82,8 @@ define(CommandProgram.prototype, 'use', use, false);
 
 /**
  *  Execute middleware.
+ *
+ *  @param args The arguments pass to parse.
  */
 function middleware(args) {
   var i = 0, list = this._middleware, scope = this;
@@ -113,7 +115,7 @@ function middleware(args) {
   }
   exec();
 }
-define(CommandProgram.prototype, 'middleware', middleware, false);
+//define(CommandProgram.prototype, 'middleware', middleware, false);
 
 /**
  *  Get or set the environment instance.
@@ -205,8 +207,24 @@ function parse(args) {
   conflict.call(this);
 
   // TODO: set up default middleware if _middleware === undefined
+  if(this._middleware === undefined) {
+    this.use(middlewares.error)
+      .use(middlewares.parser)
+      .use(middlewares.unparsed)
+      .use(middlewares.defaults)
+      .use(middlewares.env)
+      .use(middlewares.merge)
+      .use(middlewares.multiple)
+      .use(middlewares.action)
+      .use(middlewares.required)
+      .use(middlewares.empty)
+      .use(middlewares.run)
+      .use(middlewares.command)
+      .use(middlewares.version)
+      .use(middlewares.help);
+  }
 
-  this.middleware(args);
+  middleware.call(this, args);
   return this;
 
   //conflict.call(this);
