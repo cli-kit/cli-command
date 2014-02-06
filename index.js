@@ -48,11 +48,7 @@ var CommandProgram = function() {
 
 util.inherits(CommandProgram, Program);
 
-Program.prototype.__actions = Object.keys(actions);
-Program.prototype._configuration = merger(defaults, {});
-Program.prototype.errors = errors;
-Program.prototype.args = [];
-Program.prototype.getReceiver = function() {
+CommandProgram.prototype.getReceiver = function() {
   var receiver = this;
   var config = this.configuration();
   if((typeof(config.stash) == 'string') && config.stash.length) {
@@ -66,7 +62,7 @@ Program.prototype.getReceiver = function() {
 /**
  *  Get or set the environment instance.
  */
-Program.prototype.env = function(value) {
+CommandProgram.prototype.env = function(value) {
   if(!arguments.length) return this._env;
   this._env = value;
   return this;
@@ -77,7 +73,7 @@ Program.prototype.env = function(value) {
  *
  *  @param e The error instance.
  */
-Program.prototype.error = function(e) {
+CommandProgram.prototype.error = function(e) {
   var key = (e.key || '').toLowerCase();
   var trace = key == 'euncaught' ? true : false;
   e.error(trace);
@@ -89,7 +85,7 @@ Program.prototype.error = function(e) {
  *
  *  @param conf The program configuration.
  */
-Program.prototype.configuration = function(conf) {
+CommandProgram.prototype.configuration = function(conf) {
   if(!arguments.length) return this._configuration;
   conf = conf || {};
   var stash = conf.stash;
@@ -109,7 +105,7 @@ Program.prototype.configuration = function(conf) {
  *  @param args The arguments to parse, default is process.argv.slice(2).
  *  @param options Configuration options.
  */
-Program.prototype.parse = function(args) {
+CommandProgram.prototype.parse = function(args) {
   args = args || process.argv.slice(2);
   var listeners = this.listeners('error');
   if(!listeners.length) {
@@ -606,7 +602,7 @@ module.exports = function(package, name, description, configuration) {
     //console.log('loaded %s', file);
     //console.dir(errors);
   });
-  var program = cli(package, name, description);
+  var program = cli(package, name, description, CommandProgram);
   program.configuration(configuration || defaults);
   var listeners = process.listeners('uncaughtException');
   if(!listeners.length) {
