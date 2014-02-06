@@ -523,6 +523,10 @@ function builtins() {
  *  @param data Additional error data.
  */
 function raise(err, parameters, data) {
+  // FIXME: if we have a source error in data.error
+  // FIXME: we should use the stack trace from the source
+  // FIXME: error, this makes for a more meaningful stack
+  // FIXME: trace from uncaught exceptions
   var e;
   if(err instanceof CliError) {
     e = err;
@@ -718,8 +722,9 @@ module.exports = function(package, name, description, configuration) {
   if(!listeners.length) {
     process.on('uncaughtException', function(err) {
       //console.error(err);
-      console.error(err.stack);
+      //console.error(err.stack);
       raise.call(program, errors.EUNCAUGHT, [err.message], {error: err});
+      //program.emit('error', err);
     })
   }
   // TODO: allow setting error configuration on the program configuration

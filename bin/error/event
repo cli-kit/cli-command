@@ -14,7 +14,7 @@ var pkg = path.normalize(
 var cli = require('../..')(pkg, 'error/event');
 cli
   .on('etype', function(e) {
-    console.error(this.name + ': %s', 'etype listener fired');
+    console.error(this.name() + ': %s', 'etype listener fired');
     // NOTE: if we did not invoke the default handler
     // NOTE: which exits the process on error by default
     // NOTE: then the default uncaught exception handling
