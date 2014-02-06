@@ -91,8 +91,22 @@ function middleware(args) {
     var func = list[i];
     func.call(scope, req, next);
   }
-  function next(err) {
-    //console.log('next function called...');
+  function next(err, parameters, data) {
+    // FIXME: handle plain error instances here
+    if(err) {
+      var e;
+      if(err instanceof CliError) {
+        e = err;
+      }else if((err instanceof ErrorDefinition)) {
+        e = err.toError();
+        e.shift();
+        e.parameters = parameters || [];
+        e.key = err.key;
+        e.data = data;
+        if(data && data.error) e.source = data.error;
+      }
+      return scope.emit('error', e, errors);
+    }
     i++;
     if(i < list.length) {
       exec();
@@ -180,14 +194,14 @@ function parse(args) {
   args = args || process.argv.slice(2);
 
   // TODO: migrate default error handling to middleware
-  var listeners = this.listeners('error');
-  if(!listeners.length) {
-    this.on('error', function(e) {
-      var key = (e.key || '').toLowerCase();
-      if(this.listeners(key).length) return this.emit(key, e, errors);
-      this.error(e, errors);
-    })
-  }
+  //var listeners = this.listeners('error');
+  //if(!listeners.length) {
+    //this.on('error', function(e) {
+      //var key = (e.key || '').toLowerCase();
+      //if(this.listeners(key).length) return this.emit(key, e, errors);
+      //this.error(e, errors);
+    //})
+  //}
 
   //conflict.call(this);
 

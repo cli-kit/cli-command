@@ -17,6 +17,7 @@ process.env.custom_middleware_url = 'http://nodejs.org';
 //console.dir(process.env);
 var program = cli(pkg, 'custom_middleware')
   .configuration({env: {merge: true}})
+  .use(middleware.error)
   .use(middleware.parser)
   .use(middleware.unparsed)
   .use(middleware.defaults)
@@ -24,10 +25,12 @@ var program = cli(pkg, 'custom_middleware')
   .use(middleware.merge)
   .use(middleware.multiple)
   .use(middleware.action)
+  .use(middleware.required)
   .use(middleware.version)
   .use(middleware.help)
   .option('-v --value [value]', 'an option value', 'default value')
   .option('-r --repeat [value...]', 'a repeatable value')
+  //.option('--required <value>', 'a required option')
   .converter(Boolean)
   .parse();
 console.log('value: %s', program.value);
