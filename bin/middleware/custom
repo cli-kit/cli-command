@@ -21,11 +21,15 @@ var program = cli(pkg, 'custom_middleware')
   .use(middleware.unparsed)
   .use(middleware.defaults)
   .use(middleware.env)
+  .use(middleware.merge)
+  .use(middleware.multiple)
   .use(middleware.action)
   .use(middleware.version)
   .use(middleware.help)
   .option('-v --value [value]', 'an option value', 'default value')
+  .option('-r --repeat [value...]', 'a repeatable value')
   .converter(Boolean)
   .parse();
 console.log('value: %s', program.value);
 console.log('url: %s', program.url);
+console.log('repeat is array: %s', Array.isArray(program.repeat));

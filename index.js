@@ -189,6 +189,8 @@ function parse(args) {
     })
   }
 
+  //conflict.call(this);
+
   this.middleware(args);
   return this;
 
@@ -204,6 +206,7 @@ function parse(args) {
   //environ.call(this);
   //merge.call(this, this._args.flags, opts);
   //merge.call(this, this._args.options, opts);
+  //
   //initialize.call(this);
   ////handled = builtins.call(this);
 
