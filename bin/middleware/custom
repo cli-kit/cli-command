@@ -26,12 +26,16 @@ var program = cli(pkg, 'custom_middleware')
   .use(middleware.multiple)
   .use(middleware.action)
   .use(middleware.required)
+  .use(middleware.empty)
   .use(middleware.version)
   .use(middleware.help)
   .option('-v --value [value]', 'an option value', 'default value')
   .option('-r --repeat [value...]', 'a repeatable value')
   //.option('--required <value>', 'a required option')
   .converter(Boolean)
+  .on('empty', function(help, version) {
+    help.call(this);
+  })
   .parse();
 console.log('value: %s', program.value);
 console.log('url: %s', program.url);
