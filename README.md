@@ -69,8 +69,8 @@ You may re-use some of the default help functions as properties of the main help
 
 ```javascript
 cli.help()
-cli.help('--help', 'print help')
-cli.help(function(help){help.call(this)})
+cli.help('--help', 'print help', function(){})
+cli.help(function(){})
 ```
 
 Adds a help flag to the program, scope for the `action` callback is the program instance.
@@ -120,8 +120,8 @@ cli()
 ```javascript
 cli.version()
 cli.version('1.0.0')
-cli.version('1.0.0', '--version', 'print version')
-cli.version(function(version){version.call(this)})
+cli.version('1.0.0', '--version', 'print version', function(){})
+cli.version(function(){})
 ```
 
 Adds a version flag to the program, scope for the `action` callback is the program instance. Configured version number is available via after setting the flag option by invoking with zero arguments.
