@@ -21,7 +21,8 @@ var errors = clierr.errors;
 var defaults = {
   exit: true,
   stash: null,
-  bin: null
+  bin: null,
+  env: null
 }
 var actions = {
   help: require('./lib/help'),
@@ -517,12 +518,18 @@ Program.prototype.parse = function(args) {
     })
   }
   conflict.call(this);
+  var conf = this.configuration();
   var config = getParserConfiguration.call(this), handled;
   this._args = parser(args, config);
   this._args.config = config;
   unparsed.call(this);
   var opts = {};
   values.call(this);
+
+  if(conf.env) {
+    var environ = require('cli-env')(conf.env);
+  }
+
   merge.call(this, this._args.flags, opts);
   merge.call(this, this._args.options, opts);
   initialize.call(this);
