@@ -1,22 +1,21 @@
 var path = require('path');
 var util = require('util');
 
-var cli = require('cli-define');
-var define = cli.define;
-
 var merge = require('cli-util').merge;
-
 var types = require('./lib/types');
 var clierr = require('cli-error');
 var conflict = require('./lib/conflict');
 var middlewares = require('./lib/middleware');
 
-//var ArgumentTypeError = require('./lib/error/argument-type');
+var cli = require('cli-define');
+var define = cli.define;
 var Program = cli.Program;
 var Option = cli.Option;
+
+var errors = clierr.errors;
 var ErrorDefinition = clierr.ErrorDefinition;
 var CliError = clierr.CliError;
-var errors = clierr.errors;
+
 var defaults = {
   exit: true,
   stash: null,
@@ -37,6 +36,13 @@ var CommandProgram = function() {
 
 util.inherits(CommandProgram, Program);
 
+/**
+ *  Get a reference to the object that will be assigned
+ *  properties corresponding to the argument values.
+ *
+ *  This will be either the program instance or a stash object
+ *  if the program has been configured to use a stash.
+ */
 function getReceiver() {
   var receiver = this;
   var config = this.configuration();
@@ -183,9 +189,9 @@ function parse(args) {
       .use(middlewares.multiple)
       .use(middlewares.action)
       .use(middlewares.required)
+      .use(middlewares.command)
       .use(middlewares.empty)
       .use(middlewares.run)
-      .use(middlewares.command)
   }
 
   middleware.call(this, args);
@@ -203,6 +209,7 @@ function middleware(args) {
   var req = {program: this, argv: args};
   function exec() {
     var func = list[i];
+    //console.log('exec middleware: %s', func)
     func.call(scope, req, next);
   }
   function next(err, parameters, data) {
