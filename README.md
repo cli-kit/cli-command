@@ -44,17 +44,18 @@ cli
 
 The `help` method adds a flag to the program which by default is mapped to `-h | --help`. The default help output is sufficient for many programs however you can pass a callback to `help` if you wish to customize the help output.
 
-The signature for a custom callback is `function(help)` where `help` is the default function for printing help.
-
-If invoked directly you defer to the default help output.
-
 ```javascript
-function custom(help) {
-  help.call(this);
-}
+var cli = require('cli-command');
+var help = cli.help;
+cli()
+  .help(function() {
+    // only print usage information
+    help.usage.call(this);
+  })
+  .parse();
 ```
 
-Otherwise you may re-use some of the default help functions as properties of the main help function (be sure to always invoke with the correct scope, ie, `help.usage.call(this)`):
+You may re-use some of the default help functions as properties of the main help function (be sure to always invoke with the correct scope, ie, `help.usage.call(this)`):
 
 * `head`: Print the help header.
 * `usage`: Print program usage.
@@ -66,7 +67,7 @@ Otherwise you may re-use some of the default help functions as properties of the
 
 ```javascript
 cli.help()
-cli.help('--help')
+cli.help('--help', 'print help')
 cli.help(function(help){help.call(this)})
 ```
 
@@ -74,7 +75,7 @@ Adds a help flag to the program, scope for the `action` callback is the program 
 
 * `name`: A specific name for the help flag, default is `-h | --help`.
 * `description`: A specific description for the option, overrides the default.
-* `action`: A callback to invoke when the help option is encountered, signature is `function(help)` where `help` is the default callback function if you wish to re-use it's functionality.
+* `action`: A callback to invoke when the help option is encountered.
 
 Returns the program for chaining.
 
@@ -98,14 +99,17 @@ cli
 
 The `version` method adds a flag to the program which by default is mapped to `-V | --version`. If you wish to customize the version output pass a function to the `help` method, this can be useful if you want to include version information for external programs you depend upon or just to include more useful information.
 
-The signature for a custom callback is `function(version)` where `version` is the default function for printing version.
-
-If invoked directly you defer to the default version output.
-
 ```javascript
-function custom(version) {
-  version.call(this);
-}
+var cli = require('cli-command');
+var version = cli.version;
+cli()
+  .version(function() {
+    // invoke the default version action
+    // and pass true so it does not exit the process
+    version.call(this, true);
+    // add additional version information here
+  })
+  .parse();
 ```
 
 ### version([version], [name], [description], [action])
@@ -113,7 +117,7 @@ function custom(version) {
 ```javascript
 cli.version()
 cli.version('1.0.0')
-cli.version('1.0.0', '--version')
+cli.version('1.0.0', '--version', 'print version')
 cli.version(function(version){version.call(this)})
 ```
 
@@ -122,7 +126,7 @@ Adds a version flag to the program, scope for the `action` callback is the progr
 * `version`: A specific version for the program, overrides any version extracted from `package.json`.
 * `name`: A specific name for the version option flags, default is `-V | --version`.
 * `description`: A specific description for the option, overrides the default.
-* `action`: A callback to invoke when the version option is encountered, signature is `function(version)` where `version` is the default callback function if you wish to re-use it's functionality.
+* `action`: A callback to invoke when the version option is encountered.
 
 Returns the program for chaining or the version string if a version flag exists and zero arguments are passed.
 
