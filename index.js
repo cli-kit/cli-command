@@ -64,20 +64,20 @@ define(CommandProgram.prototype, 'getReceiver', getReceiver, false);
  *  @param data Additional error data.
  */
 function raise(err, parameters, data) {
-  // FIXME: if we have a source error in data.error
-  // FIXME: we should use the stack trace from the source
-  // FIXME: error, this makes for a more meaningful stack
-  // FIXME: trace from uncaught exceptions
-  var e;
+  var e, code, source = data && data.error ? data.error : null;
   if(err instanceof CliError) {
     e = err;
   }else if((err instanceof ErrorDefinition)) {
-    e = err.toError();
-    e.shift();
+    e = err.toError(source);
+    if(!source) e.shift();
     e.parameters = parameters || [];
     e.key = err.key;
     e.data = data;
-    if(data && data.error) e.source = data.error;
+    //if(data && data.error) e.source = data.error;
+  }else if(err instanceof Error) {
+    code = err.code || errors.EUNCAUGHT.code;
+    e = new CliError(err, code, parameters);
+    e.key = err.key || errors.EUNCAUGHT.key;
   }
   this.emit('error', e, errors);
 }
@@ -117,8 +117,7 @@ define(CommandProgram.prototype, 'env', env, false);
  *  @param e The error instance.
  */
 function error(e) {
-  var key = (e.key || '').toLowerCase();
-  var trace = key == 'euncaught' ? true : false;
+  var trace = e.code === errors.EUNCAUGHT.code ? true : false;
   e.error(trace);
   if(this._configuration.exit) e.exit();
 }
@@ -232,8 +231,8 @@ module.exports = function(package, name, description, configuration) {
   var listeners = process.listeners('uncaughtException');
   if(!listeners.length) {
     process.on('uncaughtException', function(err) {
-      //console.error(err.stack);
-      program.raise(errors.EUNCAUGHT, [err.message], {error: err});
+      err.code = errors.EUNCAUGHT.code;
+      program.raise(err);
     })
   }
   // TODO: allow setting error configuration on the program configuration
