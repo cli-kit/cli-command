@@ -12,6 +12,7 @@ var codes = require('./lib/codes');
 var types = require('./lib/types');
 var clierr = require('cli-error');
 var conflict = require('./lib/conflict');
+var middlewares = require('./lib/middleware');
 
 var ArgumentTypeError = require('./lib/error/argument-type');
 var Program = cli.Program;
@@ -36,6 +37,7 @@ var actions = {
 var CommandProgram = function() {
   Program.apply(this, arguments);
   // private
+  define(this, '_middleware', undefined, true);
   define(this, '_configuration', merger(defaults, {}), false);
 
   // public
@@ -59,6 +61,46 @@ function getReceiver() {
   return receiver;
 }
 define(CommandProgram.prototype, 'getReceiver', getReceiver, false);
+
+/**
+ *  Define program middleware.
+ */
+function use(middleware) {
+  if(this._middleware === undefined) this._middleware = [];
+  //console.log(typeof(this._middleware));
+  var args = [].slice.call(arguments, 1);
+  if(typeof middleware != 'function') {
+    throw new Error('Invalid middleware, must be a function');
+  }
+  var result = middleware.apply(this, args);
+  if(typeof(result) == 'function') {
+    this._middleware.push(result);
+  }
+  return this;
+}
+define(CommandProgram.prototype, 'use', use, false);
+
+/**
+ *  Execute middleware.
+ */
+function middleware(args) {
+  var i = 0, list = this._middleware;
+  var scope = this;
+  var req = {program: this, argv: args};
+  function exec() {
+    var func = list[i];
+    func.call(scope, req, next);
+  }
+  function next(err) {
+    //console.log('next function called...');
+    i++;
+    if(i < list.length) {
+      exec();
+    }
+  }
+  exec();
+}
+define(CommandProgram.prototype, 'middleware', middleware, false);
 
 /**
  *  Get or set the environment instance.
@@ -146,7 +188,6 @@ function help(name, description, action) {
 }
 define(CommandProgram.prototype, 'help', help, false);
 
-
 /**
  *  Parse the supplied arguments and execute any commands
  *  found in the arguments, preferring the built in commands
@@ -172,16 +213,21 @@ function parse(args) {
   this._args.config = config;
   unparsed.call(this);
   var opts = {};
-  values.call(this);
-  environ.call(this);
-  merge.call(this, this._args.flags, opts);
-  merge.call(this, this._args.options, opts);
-  initialize.call(this);
-  handled = builtins.call(this);
-  if(!handled) handled = required.call(this);
-  if(!args.length) return empty.call(this);
-  if(!Object.keys(this._commands).length) return this.emit('run');
-  if(!handled) return command.call(this, opts);
+
+  this.middleware(args);
+  return;
+
+  //values.call(this);
+  //environ.call(this);
+  //merge.call(this, this._args.flags, opts);
+  //merge.call(this, this._args.options, opts);
+  //initialize.call(this);
+  ////handled = builtins.call(this);
+
+  //if(!handled) handled = required.call(this);
+  //if(!args.length) return empty.call(this);
+  //if(!Object.keys(this._commands).length) return this.emit('run');
+  //if(!handled) return command.call(this, opts);
 }
 define(CommandProgram.prototype, 'parse', parse, false);
 
@@ -653,6 +699,7 @@ module.exports = function(package, name, description, configuration) {
   if(!listeners.length) {
     process.on('uncaughtException', function(err) {
       //console.error(err);
+      console.error(err.stack);
       raise.call(program, errors.EUNCAUGHT, [err.message], {error: err});
     })
   }
@@ -661,5 +708,6 @@ module.exports = function(package, name, description, configuration) {
   return program;
 }
 
+module.exports.middleware = middlewares;
 module.exports.types = types;
 module.exports.ArgumentTypeError = ArgumentTypeError;

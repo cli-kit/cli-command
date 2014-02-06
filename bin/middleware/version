@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+
+/**
+ *  Example subcommand action callback.
+ *
+ *  ./bin/action print
+ *  ./bin/action print [...]
+ *  ./bin/action [...] print
+ */
+var path = require('path');
+require('ttycolor')().defaults();
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..');
+var middleware = cli.middleware;
+//console.log(middleware.version);
+var program = cli(pkg)
+  .use(middleware.parser)
+  .use(middleware.version)
+  .use(middleware.action)
+  .parse();
