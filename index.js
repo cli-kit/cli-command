@@ -104,18 +104,18 @@ define(CommandProgram.prototype, 'configuration', configuration, false);
 /**
  *  Adds a version flag to the program.
  *
- *  @param version A specific version number.
+ *  @param semver A specific version number.
  *  @param name The argument name.
  *  @param description The argument description.
  *  @param action A function to invoke.
  */
-function version(version, name, description, action) {
+function version(semver, name, description, action) {
   if(!arguments.length && this._arguments.version) return this._version;
-  if(typeof version == 'function') {
-    action = version;
-    version = null;
+  if(typeof semver == 'function') {
+    action = semver;
+    semver = null;
   }
-  if(version) this._version = version;
+  if(semver) this._version = semver;
   name = name || '-V --version';
   var flag = new Flag(
     name, description || 'print the program version', {action: action});
