@@ -12,8 +12,9 @@ var clierr = require('cli-error');
 var conflict = require('./lib/conflict');
 
 var ArgumentTypeError = require('./lib/error/argument-type');
-var Option = cli.Option;
 var Program = cli.Program;
+var Option = cli.Option;
+var Flag = cli.Flag;
 var ErrorDefinition = clierr.ErrorDefinition;
 var CliError = clierr.CliError;
 
@@ -42,6 +43,44 @@ Program.prototype.getReceiver = function() {
     receiver = config.stash;
   }
   return receiver;
+}
+
+/**
+ *  Get or set the environment instance.
+ */
+Program.prototype.env = function(value) {
+  if(!arguments.length) return this._env;
+  this._env = value;
+  return this;
+}
+
+/**
+ *  Default error handler for the error event.
+ *
+ *  @param e The error instance.
+ */
+Program.prototype.error = function(e) {
+  var key = (e.key || '').toLowerCase();
+  var trace = key == 'euncaught' ? true : false;
+  e.error(trace);
+  if(this._configuration.exit) e.exit();
+}
+
+/**
+ *  Assigns configuration information to the program.
+ *
+ *  @param conf The program configuration.
+ */
+Program.prototype.configuration = function(conf) {
+  if(!arguments.length) return this._configuration;
+  conf = conf || {};
+  var stash = conf.stash;
+  if((typeof stash == 'string') && (stash in this)) {
+    conflict.call(this, stash, new Option(stash));
+    return this;
+  }
+  merger(conf, this._configuration || merger(config, {}));
+  return this;
 }
 
 /**
@@ -457,35 +496,6 @@ function empty() {
 }
 
 /**
- *  Default error handler for the error event.
- *
- *  @param e The error instance.
- */
-Program.prototype.error = function(e) {
-  var key = (e.key || '').toLowerCase();
-  var trace = key == 'euncaught' ? true : false;
-  e.error(trace);
-  if(this._configuration.exit) e.exit();
-}
-
-/**
- *  Assigns configuration information to the program.
- *
- *  @param conf The program configuration.
- */
-Program.prototype.configuration = function(conf) {
-  if(!arguments.length) return this._configuration;
-  conf = conf || {};
-  var stash = conf.stash;
-  if((typeof stash == 'string') && (stash in this)) {
-    conflict.call(this, stash, new Option(stash));
-    return this;
-  }
-  merger(conf, this._configuration || merger(config, {}));
-  return this;
-}
-
-/**
  *  Coerces unparsed arguments.
  *
  *  The resulting array is then assigned to the program
@@ -497,6 +507,36 @@ function unparsed() {
     args[i] = coerce.call(this, this, args[i]);
   }
   this.args = args;
+}
+
+/**
+ *  Imports program-specific environment variables
+ *  into the program.
+ */
+function environ() {
+  var env = this.env(), z, receiver = this.getReceiver();
+  var conf = this.configuration();
+  if(!env && conf.env) {
+    if(typeof conf.env.prefix != 'string') {
+      conf.env.prefix = this.name();
+    }
+    if(!conf.env.match) {
+      conf.env.match = new RegExp('^' + this.name() + '_');
+    }
+    conf.env.initialize = true;
+    env = require('cli-env')(conf.env);
+    this.env(env);
+    var all = typeof(conf.env.merge) == 'string';
+    if(conf.env.merge) {
+      for(z in env) {
+        if(!all && this._arguments[z]) {
+          receiver[z] = env[z];
+        }else if(conf.env.merge === true){
+          receiver[z] = env[z];
+        }
+      }
+    }
+  }
 }
 
 /**
@@ -518,18 +558,14 @@ Program.prototype.parse = function(args) {
     })
   }
   conflict.call(this);
-  var conf = this.configuration();
+  //var conf = this.configuration();
   var config = getParserConfiguration.call(this), handled;
   this._args = parser(args, config);
   this._args.config = config;
   unparsed.call(this);
   var opts = {};
   values.call(this);
-
-  if(conf.env) {
-    var environ = require('cli-env')(conf.env);
-  }
-
+  environ.call(this);
   merge.call(this, this._args.flags, opts);
   merge.call(this, this._args.options, opts);
   initialize.call(this);
