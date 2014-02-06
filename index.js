@@ -84,8 +84,7 @@ define(CommandProgram.prototype, 'use', use, false);
  *  Execute middleware.
  */
 function middleware(args) {
-  var i = 0, list = this._middleware;
-  var scope = this;
+  var i = 0, list = this._middleware, scope = this;
   var req = {program: this, argv: args};
   function exec() {
     var func = list[i];
@@ -203,7 +202,9 @@ function parse(args) {
     //})
   //}
 
-  //conflict.call(this);
+  conflict.call(this);
+
+  // TODO: set up default middleware if _middleware === undefined
 
   this.middleware(args);
   return this;
