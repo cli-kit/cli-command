@@ -48,7 +48,7 @@ var CommandProgram = function() {
 
 util.inherits(CommandProgram, Program);
 
-CommandProgram.prototype.getReceiver = function() {
+function getReceiver() {
   var receiver = this;
   var config = this.configuration();
   if((typeof(config.stash) == 'string') && config.stash.length) {
@@ -58,34 +58,37 @@ CommandProgram.prototype.getReceiver = function() {
   }
   return receiver;
 }
+define(CommandProgram.prototype, 'getReceiver', getReceiver, false);
 
 /**
  *  Get or set the environment instance.
  */
-CommandProgram.prototype.env = function(value) {
+function env(value) {
   if(!arguments.length) return this._env;
   this._env = value;
   return this;
 }
+define(CommandProgram.prototype, 'env', env, false);
 
 /**
  *  Default error handler for the error event.
  *
  *  @param e The error instance.
  */
-CommandProgram.prototype.error = function(e) {
+function error(e) {
   var key = (e.key || '').toLowerCase();
   var trace = key == 'euncaught' ? true : false;
   e.error(trace);
   if(this._configuration.exit) e.exit();
 }
+define(CommandProgram.prototype, 'error', error, false);
 
 /**
  *  Assigns configuration information to the program.
  *
  *  @param conf The program configuration.
  */
-CommandProgram.prototype.configuration = function(conf) {
+function configuration(conf) {
   if(!arguments.length) return this._configuration;
   conf = conf || {};
   var stash = conf.stash;
@@ -96,6 +99,7 @@ CommandProgram.prototype.configuration = function(conf) {
   merger(conf, this._configuration || merger(config, {}));
   return this;
 }
+define(CommandProgram.prototype, 'configuration', configuration, false);
 
 /**
  *  Parse the supplied arguments and execute any commands
@@ -105,7 +109,7 @@ CommandProgram.prototype.configuration = function(conf) {
  *  @param args The arguments to parse, default is process.argv.slice(2).
  *  @param options Configuration options.
  */
-CommandProgram.prototype.parse = function(args) {
+function parse(args) {
   args = args || process.argv.slice(2);
   var listeners = this.listeners('error');
   if(!listeners.length) {
@@ -133,7 +137,7 @@ CommandProgram.prototype.parse = function(args) {
   if(!Object.keys(this._commands).length) return this.emit('run');
   if(!handled) return command.call(this, opts);
 }
-
+define(CommandProgram.prototype, 'parse', parse, false);
 
 /**
  *  Retrieve the handler for a built in action.
