@@ -164,16 +164,7 @@ define(CommandProgram.prototype, 'version', version, false);
  *  @param action A function to invoke.
  */
 function help(name, description, action) {
-  if(typeof name == 'function') {
-    action = name;
-    name = null;
-  }
-  name = name || '-h --help';
-  var flag = new Flag(
-    name, description || 'print usage information', {action: action});
-  flag.key('help');
-  this.flag(flag);
-  return this;
+  return this.use(middlewares.help, name, description, action);
 }
 define(CommandProgram.prototype, 'help', help, false);
 
@@ -187,6 +178,8 @@ define(CommandProgram.prototype, 'help', help, false);
  */
 function parse(args) {
   args = args || process.argv.slice(2);
+
+  // TODO: migrate default error handling to middleware
   var listeners = this.listeners('error');
   if(!listeners.length) {
     this.on('error', function(e) {
@@ -195,16 +188,17 @@ function parse(args) {
       this.error(e, errors);
     })
   }
-  conflict.call(this);
-  //var conf = this.configuration();
-  var config = getParserConfiguration.call(this), handled;
-  this._args = parser(args, config);
-  this._args.config = config;
-  unparsed.call(this);
-  var opts = {};
 
   this.middleware(args);
-  return;
+  return this;
+
+  //conflict.call(this);
+  //var conf = this.configuration();
+  //var config = getParserConfiguration.call(this), handled;
+  //this._args = parser(args, config);
+  //this._args.config = config;
+  //unparsed.call(this);
+  //var opts = {};
 
   //values.call(this);
   //environ.call(this);
