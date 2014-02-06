@@ -167,6 +167,7 @@ define(CommandProgram.prototype, 'configuration', configuration, false);
  *  @param action A function to invoke.
  */
 function version(semver, name, description, action) {
+  if(!arguments.length && this._arguments.version) return this._version;
   return this.use(middlewares.version, semver, name, description, action);
 }
 define(CommandProgram.prototype, 'version', version, false);
@@ -727,5 +728,7 @@ module.exports = function(package, name, description, configuration) {
 }
 
 module.exports.middleware = middlewares;
+module.exports.help = middlewares.help.action;
+module.exports.version = middlewares.version.action;
 module.exports.types = types;
 module.exports.ArgumentTypeError = ArgumentTypeError;
