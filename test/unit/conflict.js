@@ -52,4 +52,17 @@ describe('cli-command:', function() {
       cli.parse(args);
     }
   );
+  it('should exit on environment variable merge',
+    function(done) {
+      process.env.mock_env_conflict_action = true;
+      var conf = {env: {merge: true}};
+      var cli = require('../..')(pkg, 'mock_env_conflict');
+      var args = [];
+      process.exit = function(code) {
+        done();
+      }
+      cli.configuration(conf)
+      cli.parse(args);
+    }
+  );
 })

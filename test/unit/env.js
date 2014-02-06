@@ -89,5 +89,4 @@ describe('cli-command:', function() {
       done();
     }
   );
-  // TODO: test environment variable property conflict
 })

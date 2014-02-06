@@ -530,6 +530,9 @@ function environ() {
     var all = typeof(conf.env.merge) == 'string';
     if(conf.env.merge) {
       for(z in env) {
+        if((z in this) && typeof(this[z]) == 'function') {
+          return conflict.call(this, z, new Option(z));
+        }
         if(!all && this._arguments[z]) {
           receiver[z] = env[z];
         }else if(conf.env.merge === true){
