@@ -25,13 +25,14 @@ Example programs are in the [bin](https://github.com/freeformsystems/cli-command
 Invoke the configuration method with an object to override the default configuration.
 
 ```javascript
-cli.configuration({stash: 'data'})
+var stash = {};
+cli.configuration({stash: stash})
 ```
 
 * `bin`: A specific directory to use when executing commands as external programs, defaults to the same directory as the parent executable.
 * `exit`: Whether the default error handler will exit the process when an error occurs, default is `true`.
 * `stash`: The string name of a property that becomes an object to store option values, will be set on the program, this alleviates the potential for conflicts. If you wish to use this then the recommended value is `data`. You may also pass in an existing object as the stash and the argument values will be set on the stash object.
-* `trace`: A boolean that forces the default error handling to always print stack traces, default is `false`.
+* `trace`: A boolean that forces the default error handler to always print stack traces, default is `false`.
 
 ## Help
 
