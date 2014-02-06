@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- *  Example subcommand action callback.
+ *  Example for configuring an application as middleware.
  *
  *  ./bin/action print
  *  ./bin/action print [...]
@@ -13,10 +13,10 @@ var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..');
 var middleware = cli.middleware;
-//console.log(middleware.version);
 var program = cli(pkg)
   .use(middleware.parser)
   .use(middleware.action)
-  //.use(middleware.version)
-  .version()
+  .use(middleware.version)
+  .use(middleware.help)
+  //.version()
   .parse();
