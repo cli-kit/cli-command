@@ -70,6 +70,24 @@ describe('cli-command:', function() {
       done();
     }
   );
-  // TODO: test merging into a configured stash
+  it('should override environment variable with option in stash',
+    function(done) {
+      var stash = {};
+      var rc = '/usr/local/etc/envrc';
+      process.env.env_url = 'http://nodejs.org';
+      process.env.env_rc = rc;
+      var value = 'http://npmjs.org';
+      var conf = {env: {merge: 'options'}, stash: stash};
+      var cli = require('../..')(pkg, 'env');
+      var args = ['--url=' + value];
+      cli
+        .configuration(conf)
+        .option('-u --url [url]', 'a url')
+        .parse(args);
+      expect(stash.url).to.eql(value);
+      expect(stash.rc).to.eql(undefined);
+      done();
+    }
+  );
   // TODO: test environment variable property conflict
 })

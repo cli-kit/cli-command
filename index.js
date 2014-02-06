@@ -25,6 +25,7 @@ var defaults = {
   bin: null,
   env: null
 }
+
 var actions = {
   help: require('./lib/help'),
   version: require('./lib/version')
