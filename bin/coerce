@@ -45,3 +45,7 @@ for(i = 0;i < keys.length;i++) {
 if(cli.args && cli.args.length) {
   console.log('args: %s', cli.args);
 }
+
+for(var z in cli) {
+  console.log('%s=%s', z, cli[z]);
+}
