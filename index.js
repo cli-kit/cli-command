@@ -30,8 +30,8 @@ var defaults = {
 }
 
 var actions = {
-  help: require('./lib/help'),
-  version: require('./lib/version')
+  help: null,
+  version: null
 }
 
 var CommandProgram = function() {
@@ -79,43 +79,6 @@ function use(middleware) {
   return this;
 }
 define(CommandProgram.prototype, 'use', use, false);
-
-/**
- *  Execute middleware.
- *
- *  @param args The arguments pass to parse.
- */
-function middleware(args) {
-  var i = 0, list = this._middleware, scope = this;
-  var req = {program: this, argv: args};
-  function exec() {
-    var func = list[i];
-    func.call(scope, req, next);
-  }
-  function next(err, parameters, data) {
-    // FIXME: handle plain error instances here
-    if(err) {
-      var e;
-      if(err instanceof CliError) {
-        e = err;
-      }else if((err instanceof ErrorDefinition)) {
-        e = err.toError();
-        e.shift();
-        e.parameters = parameters || [];
-        e.key = err.key;
-        e.data = data;
-        if(data && data.error) e.source = data.error;
-      }
-      return scope.emit('error', e, errors);
-    }
-    i++;
-    if(i < list.length) {
-      exec();
-    }
-  }
-  if(list.length) exec();
-}
-//define(CommandProgram.prototype, 'middleware', middleware, false);
 
 /**
  *  Get or set the environment instance.
@@ -251,42 +214,79 @@ function parse(args) {
 define(CommandProgram.prototype, 'parse', parse, false);
 
 /**
+ *  Execute middleware.
+ *
+ *  @param args The arguments pass to parse.
+ */
+function middleware(args) {
+  var i = 0, list = this._middleware, scope = this;
+  var req = {program: this, argv: args};
+  function exec() {
+    var func = list[i];
+    func.call(scope, req, next);
+  }
+  function next(err, parameters, data) {
+    // FIXME: handle plain error instances here
+    if(err) {
+      var e;
+      if(err instanceof CliError) {
+        e = err;
+      }else if((err instanceof ErrorDefinition)) {
+        e = err.toError();
+        e.shift();
+        e.parameters = parameters || [];
+        e.key = err.key;
+        e.data = data;
+        if(data && data.error) e.source = data.error;
+      }
+      return scope.emit('error', e, errors);
+    }
+    i++;
+    if(i < list.length) {
+      exec();
+    }
+  }
+  if(list.length) exec();
+}
+
+
+/**
  *  Retrieve the handler for a built in action.
  *
  *  @param key The argument key.
  */
-function handler(key) {
-  var fn = actions[key];
-  if(this._arguments[key] && this._arguments[key]._action) {
-    return this._arguments[key]._action;
-  }
-  return fn;
-}
+//function handler(key) {
+  //var fn = actions[key];
+  //if(this._arguments[key] && this._arguments[key]._action) {
+    //return this._arguments[key]._action;
+  //}
+  //return fn;
+//}
 
 /**
  *  Retrieve a configuration suitable for passing to
  *  the arguments parser.
  */
-function getParserConfiguration() {
-  var config = {
-    alias: {}, flags: [], options: []}, k, arg, key, no = /^no/;
-  for(k in this._arguments) {
-    arg = this._arguments[k]; key = arg.key();
-    if(key) {
-      if(no.test(key)) {
-        key = key.replace(no, '');
-        key = key.charAt(0).toLowerCase() + key.slice(1);
-      }
-      config.alias[arg.names().join(' ')] = key;
-    }
-    if(arg instanceof cli.Flag) {
-      config.flags = config.flags.concat(arg.names());
-    }else if(arg instanceof cli.Option) {
-      config.options = config.options.concat(arg.names());
-    }
-  }
-  return config;
-}
+//function getParserConfiguration() {
+  //var config = {
+    //alias: {}, flags: [], options: []}, k, arg, key, no = /^no/;
+  //for(k in this._arguments) {
+    //arg = this._arguments[k]; key = arg.key();
+    //if(key) {
+      //if(no.test(key)) {
+        //key = key.replace(no, '');
+        //key = key.charAt(0).toLowerCase() + key.slice(1);
+      //}
+      //config.alias[arg.names().join(' ')] = key;
+    //}
+    //if(arg instanceof cli.Flag) {
+      //config.flags = config.flags.concat(arg.names());
+    //}else if(arg instanceof cli.Option) {
+      //config.options = config.options.concat(arg.names());
+    //}
+  //}
+  //return config;
+//}
 
 /**
  *  Retrieve the converter reference for an argument,
@@ -295,16 +295,16 @@ function getParserConfiguration() {
  *  @param arg The argument definition.
  *  @param func A specific function.
  */
-function getConverter(arg, func) {
-  var converter = func || arg.converter(), name;
-  if(Array.isArray(converter)) return converter;
-  try {
-    name = new converter().constructor.name;
-  }catch(e){}
-  if(name && types.map[name]) return types.map[name];
-  if(arg.converter() === JSON) return types.map.JSON;
-  return converter;
-}
+//function getConverter(arg, func) {
+  //var converter = func || arg.converter(), name;
+  //if(Array.isArray(converter)) return converter;
+  //try {
+    //name = new converter().constructor.name;
+  //}catch(e){}
+  //if(name && types.map[name]) return types.map[name];
+  //if(arg.converter() === JSON) return types.map.JSON;
+  //return converter;
+//}
 
 /**
  *  Attempts to retrieve string names from the functions or
@@ -314,17 +314,17 @@ function getConverter(arg, func) {
  *
  *  @return An array of names.
  */
-function getConverterNames(arg) {
-  var converter = arg.converter(), names = [], i, name;
-  for(i = 0;i < converter.length;i++) {
-    try{
-      name = new converter[i]().constructor.name;
-      if(name) name = name.toLowerCase();
-      names.push(name);
-    }catch(e){}
-  }
-  return names;
-}
+//function getConverterNames(arg) {
+  //var converter = arg.converter(), names = [], i, name;
+  //for(i = 0;i < converter.length;i++) {
+    //try{
+      //name = new converter[i]().constructor.name;
+      //if(name) name = name.toLowerCase();
+      //names.push(name);
+    //}catch(e){}
+  //}
+  //return names;
+//}
 
 /**
  *  Convert an arguments value.
@@ -333,45 +333,45 @@ function getConverterNames(arg) {
  *  @param arg The argument definition.
  *  @param index The index into an array (multiple only).
  */
-function convert(value, arg, index) {
-  var converter = getConverter(arg), i, func;
-  function error(e, message, parameters) {
-    if(e instanceof ArgumentTypeError) {
-      if(e.code == 1) e.code = errors.ETYPE.code;
-      e.key = errors.ETYPE.key;
-      raise.call(this, e)
-    }else{
-      e = new ArgumentTypeError(e, e.parameters || [], errors.ETYPE.code);
-      raise.call(this, e);
-    }
-  }
-  function invoke(converter, fast) {
-    try {
-      value = converter.call(this, value, arg, index);
-    }catch(e) {
-      if(!fast) throw e;
-      error.call(this, e);
-    }
-    return value;
-  }
-  if(Array.isArray(converter)) {
-    for(i = 0;i < converter.length;i++) {
-      func = getConverter(arg, converter[i]);
-      try {
-        return invoke.call(this, func, false);
-      }catch(e) {
-        // NOTE: all coercion attempts failed
-        if(i == (converter.length -1)) {
-          error.call(this, e, 'invalid type for %s, expected (%s)',
-            [arg.names().join(' | '), getConverterNames(arg).join(', ')]);
-        }
-      }
-    }
-  }else{
-    invoke.call(this, converter, true);
-  }
-  return value;
-}
+//function convert(value, arg, index) {
+  //var converter = getConverter(arg), i, func;
+  //function error(e, message, parameters) {
+    //if(e instanceof ArgumentTypeError) {
+      //if(e.code == 1) e.code = errors.ETYPE.code;
+      //e.key = errors.ETYPE.key;
+      //raise.call(this, e)
+    //}else{
+      //e = new ArgumentTypeError(e, e.parameters || [], errors.ETYPE.code);
+      //raise.call(this, e);
+    //}
+  //}
+  //function invoke(converter, fast) {
+    //try {
+      //value = converter.call(this, value, arg, index);
+    //}catch(e) {
+      //if(!fast) throw e;
+      //error.call(this, e);
+    //}
+    //return value;
+  //}
+  //if(Array.isArray(converter)) {
+    //for(i = 0;i < converter.length;i++) {
+      //func = getConverter(arg, converter[i]);
+      //try {
+        //return invoke.call(this, func, false);
+      //}catch(e) {
+        //// NOTE: all coercion attempts failed
+        //if(i == (converter.length -1)) {
+          //error.call(this, e, 'invalid type for %s, expected (%s)',
+            //[arg.names().join(' | '), getConverterNames(arg).join(', ')]);
+        //}
+      //}
+    //}
+  //}else{
+    //invoke.call(this, converter, true);
+  //}
+  //return value;
+//}
 
 /**
  *  Coerce an argument value using an assigned converter
@@ -380,31 +380,31 @@ function convert(value, arg, index) {
  *  @param arg The argument definition.
  *  @param v The value as specified on the command line.
  */
-function coerce(arg, v) {
-  var type = false, i, scope = this;
-  var converter = getConverter(arg);
-  // NOTE: we check whether the converter is one of
-  // NOTE: the built in converters as they are responsible
-  // NOTE: for handling array values, other custom converters
-  // NOTE: are invoked for each array entry if the argument
-  // NOTE: value has already been converted to an array
-  var keys = Object.keys(types);
-  for(i = 0;i < keys.length;i++) {
-    if(types[keys[i]] === converter) {
-      type = true; break;
-    }
-  }
-  if(typeof converter == 'function' || Array.isArray(converter)) {
-    if(Array.isArray(v) && !type) {
-      v.forEach(function(value, index, arr) {
-        arr[index] = convert.call(scope, value, arg, index);
-      });
-    }else{
-      v = convert.call(this, v, arg);
-    }
-  }
-  return v;
-}
+//function coerce(arg, v) {
+  //var type = false, i, scope = this;
+  //var converter = getConverter(arg);
+  //// NOTE: we check whether the converter is one of
+  //// NOTE: the built in converters as they are responsible
+  //// NOTE: for handling array values, other custom converters
+  //// NOTE: are invoked for each array entry if the argument
+  //// NOTE: value has already been converted to an array
+  //var keys = Object.keys(types);
+  //for(i = 0;i < keys.length;i++) {
+    //if(types[keys[i]] === converter) {
+      //type = true; break;
+    //}
+  //}
+  //if(typeof converter == 'function' || Array.isArray(converter)) {
+    //if(Array.isArray(v) && !type) {
+      //v.forEach(function(value, index, arr) {
+        //arr[index] = convert.call(scope, value, arg, index);
+      //});
+    //}else{
+      //v = convert.call(this, v, arg);
+    //}
+  //}
+  //return v;
+//}
 
 /**
  *  Merge parsed arguments into the program.
@@ -414,42 +414,42 @@ function coerce(arg, v) {
  *  @param options An object that will receive the arguments
  *  being merged.
  */
-function merge(target, options) {
-  var receiver = this.getReceiver();
-  var k, v, arg, re = /^no/;
-  for(k in target) {
-    arg = this._arguments[k];
-    if(arg) {
-      v = target[k];
-      if(arg.multiple() && !Array.isArray(v)) {
-        v = [v];
-      }else if(!arg.multiple() && Array.isArray(v)) {
-        raise.call(this, errors.EMULTIPLE,
-          [arg.names().join(' | '), v.join(', ')], {arg: arg, value: v});
-      }
-      v = coerce.call(this, arg, v);
-      assign.call(this, arg, k, v, options);
-    }else{
-      // TODO: handle unknown option here?
-    }
-  }
-  return true;
-}
+//function merge(target, options) {
+  //var receiver = this.getReceiver();
+  //var k, v, arg, re = /^no/;
+  //for(k in target) {
+    //arg = this._arguments[k];
+    //if(arg) {
+      //v = target[k];
+      //if(arg.multiple() && !Array.isArray(v)) {
+        //v = [v];
+      //}else if(!arg.multiple() && Array.isArray(v)) {
+        //raise.call(this, errors.EMULTIPLE,
+          //[arg.names().join(' | '), v.join(', ')], {arg: arg, value: v});
+      //}
+      //v = coerce.call(this, arg, v);
+      //assign.call(this, arg, k, v, options);
+    //}else{
+      //// TODO: handle unknown option here?
+    //}
+  //}
+  //return true;
+//}
 
 /**
  *  Iterate over the options and ensure that the receiver
  *  (program or stash) has the default values.
  */
-function values() {
-  var receiver = this.getReceiver();
-  var opts = this._arguments, k, v;
-  for(k in opts) {
-    v = opts[k].value();
-    if(v !== undefined) {
-      receiver[k] = v;
-    }
-  }
-}
+//function values() {
+  //var receiver = this.getReceiver();
+  //var opts = this._arguments, k, v;
+  //for(k in opts) {
+    //v = opts[k].value();
+    //if(v !== undefined) {
+      //receiver[k] = v;
+    //}
+  //}
+//}
 
 /**
  *  Assign a value to an option.
@@ -460,59 +460,59 @@ function values() {
  *  @param options An additional object to
  *  receive the value (optional).
  */
-function assign(arg, key, value, options) {
-  var receiver = this.getReceiver();
-  receiver[key] = value;
-  arg.value(value);
-  if(options) options[key] = value;
-}
+//function assign(arg, key, value, options) {
+  //var receiver = this.getReceiver();
+  //receiver[key] = value;
+  //arg.value(value);
+  //if(options) options[key] = value;
+//}
 
 /**
  *  Finds arguments specified as multiple and ensures
  *  that the value is an empty array if no arguments
  *  were specified that set the value.
  */
-function initialize() {
-  // TODO : initialize unset values from their defaults where applicable
-  var arg, receiver = this.getReceiver();
-  for(var z in this._arguments) {
-    arg = this._arguments[z];
-    if(arg.multiple() && arg.value() === undefined) {
-      assign.call(this, arg, z, []);
-    }
-  }
-}
+//function initialize() {
+  //// TODO : initialize unset values from their defaults where applicable
+  //var arg, receiver = this.getReceiver();
+  //for(var z in this._arguments) {
+    //arg = this._arguments[z];
+    //if(arg.multiple() && arg.value() === undefined) {
+      //assign.call(this, arg, z, []);
+    //}
+  //}
+//}
 
 /**
  *  Validate that required arguments are present.
  */
-function required() {
-  var z, arg;
-  for(z in this._arguments) {
-    arg = this._arguments[z];
-    if(!arg.optional() && !this._args.options[arg.key()]) {
-      raise.call(this, errors.EREQUIRED, [arg.names().join(' | ')], {arg: arg});
-      return true;
-    }
-  }
-  return false;
-}
+//function required() {
+  //var z, arg;
+  //for(z in this._arguments) {
+    //arg = this._arguments[z];
+    //if(!arg.optional() && !this._args.options[arg.key()]) {
+      //raise.call(this, errors.EREQUIRED, [arg.names().join(' | ')], {arg: arg});
+      //return true;
+    //}
+  //}
+  //return false;
+//}
 
 /**
  *  Execute builtin handlers for help and version.
  */
-function builtins() {
-  var i, action, fn, arr = Object.keys(actions);
-  for(i = 0;i < arr.length;i++) {
-    action = arr[i];
-    if(this._args.flags[action]) {
-      fn = handler.call(this, action);
-      fn.call(this, actions[action]);
-      return true;
-    }
-  }
-  return false;
-}
+//function builtins() {
+  //var i, action, fn, arr = Object.keys(actions);
+  //for(i = 0;i < arr.length;i++) {
+    //action = arr[i];
+    //if(this._args.flags[action]) {
+      //fn = handler.call(this, action);
+      //fn.call(this, actions[action]);
+      //return true;
+    //}
+  //}
+  //return false;
+//}
 
 /**
  *  Raise an error from an error definition or error
@@ -522,24 +522,24 @@ function builtins() {
  *  @param parameters The message replacement parameters.
  *  @param data Additional error data.
  */
-function raise(err, parameters, data) {
-  // FIXME: if we have a source error in data.error
-  // FIXME: we should use the stack trace from the source
-  // FIXME: error, this makes for a more meaningful stack
-  // FIXME: trace from uncaught exceptions
-  var e;
-  if(err instanceof CliError) {
-    e = err;
-  }else if((err instanceof ErrorDefinition)) {
-    e = err.toError();
-    e.shift();
-    e.parameters = parameters || [];
-    e.key = err.key;
-    e.data = data;
-    if(data && data.error) e.source = data.error;
-  }
-  this.emit('error', e, errors);
-}
+//function raise(err, parameters, data) {
+  //// FIXME: if we have a source error in data.error
+  //// FIXME: we should use the stack trace from the source
+  //// FIXME: error, this makes for a more meaningful stack
+  //// FIXME: trace from uncaught exceptions
+  //var e;
+  //if(err instanceof CliError) {
+    //e = err;
+  //}else if((err instanceof ErrorDefinition)) {
+    //e = err.toError();
+    //e.shift();
+    //e.parameters = parameters || [];
+    //e.key = err.key;
+    //e.data = data;
+    //if(data && data.error) e.source = data.error;
+  //}
+  //this.emit('error', e, errors);
+//}
 
 /**
  *  Check file permissions.
@@ -554,10 +554,10 @@ function raise(err, parameters, data) {
  *  checkPermission (stat, 2);
  */
 // TODO: move to cli-util module
-function permissions(stat, mask) {
-  return !!(mask &
-    parseInt((stat.mode & parseInt("777", 8)).toString (8)[0]));
-}
+//function permissions(stat, mask) {
+  //return !!(mask &
+    //parseInt((stat.mode & parseInt("777", 8)).toString (8)[0]));
+//}
 
 /**
  *  Execute a command as an external program.
@@ -566,46 +566,46 @@ function permissions(stat, mask) {
  *  @param cmd The command to execute.
  *  @param args Array of arguments to pass to the command.
  */
-function execute(argv, cmd, args) {
-  var config = this.configuration();
-  var scope = this;
-  var dir = config.bin || dirname(argv[1]);
-  var bin = this._name + '-' + cmd;
-  var local = path.join(dir, bin);
-  var exists = fs.existsSync(local);
-  var data = {bin: bin, dir: dir, local: local, args: args};
-  if(!exists) {
-    return raise.call(this, errors.ENOENT, [bin], data);
-  }
-  var stat = fs.statSync(local);
-  //var perms = stat.mode & 0777;
-  //console.log('%s', perms);
-  //console.log('%s', check(stat, 1));
-  if(!permissions(stat, 1)) {
-    return raise.call(this, errors.EPERM, [bin], data);
-  }
-  var ps = spawn(local, args, {stdio: 'inherit'});
-  //ps.on('error', function(err){
-    // NOTE: keep these tests just in case the above logic is wrong
-    // NOTE: or quite likely fails on windows
-    //if(err.code == 'ENOENT') {
-      //raise.call(scope, codes.ENOENT, null, [bin, dir, local, args]);
-    //}else if (err.code == 'EACCES') {
-      //raise.call(scope, codes.EPERM, null, [bin, dir, local, args]);
+//function execute(argv, cmd, args) {
+  //var config = this.configuration();
+  //var scope = this;
+  //var dir = config.bin || dirname(argv[1]);
+  //var bin = this._name + '-' + cmd;
+  //var local = path.join(dir, bin);
+  //var exists = fs.existsSync(local);
+  //var data = {bin: bin, dir: dir, local: local, args: args};
+  //if(!exists) {
+    //return raise.call(this, errors.ENOENT, [bin], data);
+  //}
+  //var stat = fs.statSync(local);
+  ////var perms = stat.mode & 0777;
+  ////console.log('%s', perms);
+  ////console.log('%s', check(stat, 1));
+  //if(!permissions(stat, 1)) {
+    //return raise.call(this, errors.EPERM, [bin], data);
+  //}
+  //var ps = spawn(local, args, {stdio: 'inherit'});
+  ////ps.on('error', function(err){
+    //// NOTE: keep these tests just in case the above logic is wrong
+    //// NOTE: or quite likely fails on windows
+    ////if(err.code == 'ENOENT') {
+      ////raise.call(scope, codes.ENOENT, null, [bin, dir, local, args]);
+    ////}else if (err.code == 'EACCES') {
+      ////raise.call(scope, codes.EPERM, null, [bin, dir, local, args]);
+    ////}
+  ////});
+  //ps.on('close', function (code, signal) {
+    //// NOTE: workaround for https://github.com/joyent/node/issues/3222
+    //// NOTE: assume child process exited gracefully on SIGINT
+    //if(signal == 'SIGINT') {
+      //return process.exit(0);
     //}
+    //// TODO: remove this event?
+    //scope.emit('close', code, signal);
+    //if(config.exit) process.exit(code);
   //});
-  ps.on('close', function (code, signal) {
-    // NOTE: workaround for https://github.com/joyent/node/issues/3222
-    // NOTE: assume child process exited gracefully on SIGINT
-    if(signal == 'SIGINT') {
-      return process.exit(0);
-    }
-    // TODO: remove this event?
-    scope.emit('close', code, signal);
-    if(config.exit) process.exit(code);
-  });
-  return ps;
-}
+  //return ps;
+//}
 
 /**
  *  Searches the raw arguments looking for the first argument
@@ -615,56 +615,56 @@ function execute(argv, cmd, args) {
  *
  *  @param options An object containing all flags and option values.
  */
-function command(options) {
-  var commands = this._commands;
-  function find(cmd) {
-    var z, arg;
-    for(z in commands) {
-      arg = commands[z];
-      if(~arg.names().indexOf(cmd)) {
-        return arg;
-      }
-    }
-  }
-  var z, i, raw = this._args.raw.slice(0), action, cmd, arg, ind;
-  for(i = 0;i < raw.length;i++) {
-    cmd = raw[i]; arg = find(cmd);
-    if(arg) {
-      raw.splice(i, 1);
-      action = arg.action();
-      if(!action) {
-        return execute.call(this, process.argv, cmd, raw);
-      }else if(action) {
-        ind = this.args.indexOf(cmd);
-        if(~ind) this.args.splice(ind, 1);
-        return action.call(this, arg, options, raw);
-      }
-    }
-  }
-}
+//function command(options) {
+  //var commands = this._commands;
+  //function find(cmd) {
+    //var z, arg;
+    //for(z in commands) {
+      //arg = commands[z];
+      //if(~arg.names().indexOf(cmd)) {
+        //return arg;
+      //}
+    //}
+  //}
+  //var z, i, raw = this._args.raw.slice(0), action, cmd, arg, ind;
+  //for(i = 0;i < raw.length;i++) {
+    //cmd = raw[i]; arg = find(cmd);
+    //if(arg) {
+      //raw.splice(i, 1);
+      //action = arg.action();
+      //if(!action) {
+        //return execute.call(this, process.argv, cmd, raw);
+      //}else if(action) {
+        //ind = this.args.indexOf(cmd);
+        //if(~ind) this.args.splice(ind, 1);
+        //return action.call(this, arg, options, raw);
+      //}
+    //}
+  //}
+//}
 
 /**
  *  Emits the empty event.
  */
-function empty() {
-  // NOTE: this little dance allows custom help and version
-  // NOTE: callbacks to invoke the original implementations
-  // NOTE: from empty event listeners
-  var help, version, _help, _version, scope = this;
-  help = _help = handler.call(this, 'help');
-  version = _version = handler.call(this, 'version');
-  if(help != actions.help) {
-    help = function() {
-      _help.call(scope, actions.help);
-    }
-  }
-  if(version != actions.version) {
-    version = function() {
-      _version.call(scope, actions.version);
-    }
-  }
-  this.emit('empty', help, version);
-}
+//function empty() {
+  //// NOTE: this little dance allows custom help and version
+  //// NOTE: callbacks to invoke the original implementations
+  //// NOTE: from empty event listeners
+  //var help, version, _help, _version, scope = this;
+  //help = _help = handler.call(this, 'help');
+  //version = _version = handler.call(this, 'version');
+  //if(help != actions.help) {
+    //help = function() {
+      //_help.call(scope, actions.help);
+    //}
+  //}
+  //if(version != actions.version) {
+    //version = function() {
+      //_version.call(scope, actions.version);
+    //}
+  //}
+  //this.emit('empty', help, version);
+//}
 
 /**
  *  Coerces unparsed arguments.
@@ -672,46 +672,46 @@ function empty() {
  *  The resulting array is then assigned to the program
  *  for easy access.
  */
-function unparsed() {
-  var args = this._args.unparsed.slice(0);
-  for(var i =0;i < args.length;i++) {
-    args[i] = coerce.call(this, this, args[i]);
-  }
-  this.args = args;
-}
+//function unparsed() {
+  //var args = this._args.unparsed.slice(0);
+  //for(var i =0;i < args.length;i++) {
+    //args[i] = coerce.call(this, this, args[i]);
+  //}
+  //this.args = args;
+//}
 
 /**
  *  Imports program-specific environment variables
  *  into the program.
  */
-function environ() {
-  var env = this.env(), z, receiver = this.getReceiver();
-  var conf = this.configuration();
-  if(!env && conf.env) {
-    if(typeof conf.env.prefix != 'string') {
-      conf.env.prefix = this.name();
-    }
-    if(!conf.env.match) {
-      conf.env.match = new RegExp('^' + this.name() + '_');
-    }
-    conf.env.initialize = true;
-    env = require('cli-env')(conf.env);
-    this.env(env);
-    var all = typeof(conf.env.merge) == 'string';
-    if(conf.env.merge) {
-      for(z in env) {
-        if((z in this) && typeof(this[z]) == 'function') {
-          return conflict.call(this, z, new Option(z));
-        }
-        if(!all && this._arguments[z]) {
-          receiver[z] = env[z];
-        }else if(conf.env.merge === true){
-          receiver[z] = env[z];
-        }
-      }
-    }
-  }
-}
+//function environ() {
+  //var env = this.env(), z, receiver = this.getReceiver();
+  //var conf = this.configuration();
+  //if(!env && conf.env) {
+    //if(typeof conf.env.prefix != 'string') {
+      //conf.env.prefix = this.name();
+    //}
+    //if(!conf.env.match) {
+      //conf.env.match = new RegExp('^' + this.name() + '_');
+    //}
+    //conf.env.initialize = true;
+    //env = require('cli-env')(conf.env);
+    //this.env(env);
+    //var all = typeof(conf.env.merge) == 'string';
+    //if(conf.env.merge) {
+      //for(z in env) {
+        //if((z in this) && typeof(this[z]) == 'function') {
+          //return conflict.call(this, z, new Option(z));
+        //}
+        //if(!all && this._arguments[z]) {
+          //receiver[z] = env[z];
+        //}else if(conf.env.merge === true){
+          //receiver[z] = env[z];
+        //}
+      //}
+    //}
+  //}
+//}
 
 module.exports = function(package, name, description, configuration) {
   var locales = path.join(__dirname, 'lib', 'error', 'locales');
@@ -723,8 +723,10 @@ module.exports = function(package, name, description, configuration) {
     process.on('uncaughtException', function(err) {
       //console.error(err);
       //console.error(err.stack);
-      raise.call(program, errors.EUNCAUGHT, [err.message], {error: err});
-      //program.emit('error', err);
+      //raise.call(program, errors.EUNCAUGHT, [err.message], {error: err});
+      //
+      // FIXME: wrap error so it has the right exit code etc.
+      program.emit('error', err);
     })
   }
   // TODO: allow setting error configuration on the program configuration
