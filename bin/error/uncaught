@@ -25,6 +25,7 @@ process.on('uncaughtException', function(e) {
 })
 cli = require('../..')(pkg, 'error/uncaught');
 cli
+  .configuration({trace: true})
   .on('etype', function(e, errors) {
     //console.log(e.key);
     console.error(this.name() + ': %s',

@@ -20,7 +20,8 @@ var defaults = {
   exit: true,
   stash: null,
   bin: null,
-  env: null
+  env: null,
+  trace: false
 }
 
 var CommandProgram = function() {
@@ -118,7 +119,9 @@ define(CommandProgram.prototype, 'env', env, false);
  *  @param e The error instance.
  */
 function error(e) {
-  var trace = e.code === errors.EUNCAUGHT.code ? true : false;
+  var conf = this.configuration();
+  var trace =
+    (e.code === errors.EUNCAUGHT.code || conf.trace) ? true : false;
   e.error(trace);
   if(this._configuration.exit) e.exit();
 }
