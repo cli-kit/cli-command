@@ -16,7 +16,7 @@ cli
   .on('empty', function(help, version) {
     help.usage.call(this);
   })
+  .on('run', function(req) {
+    console.log(this.name() + ' %s', req.result.raw.join(' '));
+  })
   .parse();
-if(cli.args.length) {
-  console.log(cli.name() + ' %s', cli._args.raw.join(' '));
-}

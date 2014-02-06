@@ -11,11 +11,13 @@ var os = require('os');
 var path = require('path');
 require('ttycolor')().defaults();
 var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
-var cli = require('../..')(pkg, 'version/custom');
+var cli = require('../..');
+var version = cli.version;
+cli = cli(pkg, 'version/custom');
 var repeat = require('cli-util').repeat;
 cli
   .description('Test program for custom version')
-  .version(function(version) {
+  .version(function() {
     var user = process.env.USER;
     version.call(this, true, os.type() +
       ' (' + process.arch + ') ' +
