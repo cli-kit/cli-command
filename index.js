@@ -599,13 +599,8 @@ function environ() {
 }
 
 module.exports = function(package, name, description, configuration) {
-  //var cmdprg = new CommandProgram();
   var locales = path.join(__dirname, 'lib', 'error', 'locales');
-  clierr.file({locales: locales}, function (err, file, errors, lang) {
-    //console.dir(err);
-    //console.log('loaded %s', file);
-    //console.dir(errors);
-  });
+  clierr.file({locales: locales});
   var program = cli(package, name, description, CommandProgram);
   program.configuration(configuration || defaults);
   var listeners = process.listeners('uncaughtException');
