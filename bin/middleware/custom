@@ -3,9 +3,9 @@
 /**
  *  Example for configuring an application as middleware.
  *
- *  ./bin/action print
- *  ./bin/action print [...]
- *  ./bin/action [...] print
+ *  ./bin/custom --version
+ *  ./bin/custom --help
+ *  ./bin/custom --value 'an option value'
  */
 var path = require('path');
 require('ttycolor')().defaults();
@@ -13,15 +13,19 @@ var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..');
 var middleware = cli.middleware;
-var program = cli(pkg)
+process.env.custom_middleware_url = 'http://nodejs.org';
+//console.dir(process.env);
+var program = cli(pkg, 'custom_middleware')
+  .configuration({env: {merge: true}})
   .use(middleware.parser)
   .use(middleware.unparsed)
   .use(middleware.defaults)
+  .use(middleware.env)
   .use(middleware.action)
   .use(middleware.version)
   .use(middleware.help)
   .option('-v --value [value]', 'an option value', 'default value')
   .converter(Boolean)
-  //.version()
   .parse();
-//console.dir(program.value);
+console.log('value: %s', program.value);
+console.log('url: %s', program.url);
