@@ -66,7 +66,6 @@ define(CommandProgram.prototype, 'getReceiver', getReceiver, false);
  *  Define program middleware.
  */
 function use(middleware) {
-  if(this._middleware === undefined) this._middleware = [];
   //console.log(typeof(this._middleware));
   var args = [].slice.call(arguments, 1);
   if(typeof middleware != 'function') {
@@ -74,6 +73,7 @@ function use(middleware) {
   }
   var result = middleware.apply(this, args);
   if(typeof(result) == 'function') {
+    if(this._middleware === undefined) this._middleware = [];
     this._middleware.push(result);
   }
   return this;
@@ -113,7 +113,7 @@ function middleware(args) {
       exec();
     }
   }
-  exec();
+  if(list.length) exec();
 }
 //define(CommandProgram.prototype, 'middleware', middleware, false);
 
@@ -208,6 +208,7 @@ function parse(args) {
 
   // TODO: set up default middleware if _middleware === undefined
   if(this._middleware === undefined) {
+    //console.log('configure default middleware');
     this.use(middlewares.error)
       .use(middlewares.parser)
       .use(middlewares.unparsed)
@@ -220,8 +221,6 @@ function parse(args) {
       .use(middlewares.empty)
       .use(middlewares.run)
       .use(middlewares.command)
-      .use(middlewares.version)
-      .use(middlewares.help);
   }
 
   middleware.call(this, args);

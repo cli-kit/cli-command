@@ -9,7 +9,7 @@
  *  ./bin/middleware/custom --value 'an option value'
  */
 var path = require('path');
-//require('ttycolor')().defaults();
+require('ttycolor')().defaults();
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..');
