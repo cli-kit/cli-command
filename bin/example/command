@@ -4,7 +4,7 @@ var path = require('path');
 require('ttycolor')().defaults();
 // use existing meta data (package.json)
 var cli = require('../..')(
-  path.join(__dirname, '..', 'package.json'));
+  path.join(__dirname, '..', '..', 'package.json'));
 cli
   .option('-f --file <file...>', 'files to copy')
   .option('-v --verbose', 'print more information')
@@ -16,4 +16,5 @@ cli.command('cp')
     // execute copy logic here, scope is the program instance (cli)
     console.log('files: %j', this.file);
   });
+// TODO: show help if no command was specified
 cli.parse();  // defaults to process.argv.slice(2)
