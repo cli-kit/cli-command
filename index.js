@@ -102,6 +102,52 @@ function configuration(conf) {
 define(CommandProgram.prototype, 'configuration', configuration, false);
 
 /**
+ *  Adds a version flag to the program.
+ *
+ *  @param version A specific version number.
+ *  @param name The argument name.
+ *  @param description The argument description.
+ *  @param action A function to invoke.
+ */
+function version(version, name, description, action) {
+  if(!arguments.length && this._arguments.version) return this._version;
+  if(typeof version == 'function') {
+    action = version;
+    version = null;
+  }
+  if(version) this._version = version;
+  name = name || '-V --version';
+  var flag = new Flag(
+    name, description || 'print the program version', {action: action});
+  flag.key('version');
+  this.flag(flag);
+  return this;
+}
+define(CommandProgram.prototype, 'version', version, false);
+
+/**
+ *  Adds a help flag to the program.
+ *
+ *  @param name The argument name.
+ *  @param description The argument description.
+ *  @param action A function to invoke.
+ */
+function help(name, description, action) {
+  if(typeof name == 'function') {
+    action = name;
+    name = null;
+  }
+  name = name || '-h --help';
+  var flag = new Flag(
+    name, description || 'print usage information', {action: action});
+  flag.key('help');
+  this.flag(flag);
+  return this;
+}
+define(CommandProgram.prototype, 'help', help, false);
+
+
+/**
  *  Parse the supplied arguments and execute any commands
  *  found in the arguments, preferring the built in commands
  *  for help and version.
