@@ -62,13 +62,29 @@ Otherwise you may re-use some of the default help functions as properties of the
 * `options`: Print program options.
 * `foot`: Print the help footer.
 
-See the [help/defaults][help/defaults] and [help/custom][help/custom] example executables or consult the [define][define] documentation for the method signature.
+### help([name], [description], [action])
 
-Source: [help/defaults][help/defaults]
+```javascript
+cli.help()
+cli.help('--help')
+cli.help(function(help){help.call(this)})
+```
+
+Adds a help flag to the program, scope for the `action` callback is the program instance.
+
+* `name`: A specific name for the help flag, default is `-h | --help`.
+* `description`: A specific description for the option, overrides the default.
+* `action`: A callback to invoke when the help option is encountered, signature is `function(help)` where `help` is the default callback function if you wish to re-use it's functionality.
+
+Returns the program for chaining.
+
+See the [help/defaults][help/defaults] and [help/custom][help/custom] example executables.
 
 <p align="center">
   <img src="https://raw.github.com/freeformsystems/cli-command/master/img/help-defaults.png" />
 </p>
+
+Source: [help/defaults][help/defaults]
 
 ## Version
 
@@ -92,21 +108,37 @@ function custom(version) {
 }
 ```
 
-See the [version/defaults][version/defaults] and [version/custom][version/custom] example executables or consult the [define][define] documentation for the method signature.
+### version([version], [name], [description], [action])
 
-Source: [version/defaults][version/defaults] and [version/custom][version/custom]
+```javascript
+cli.version()
+cli.version('1.0.0')
+cli.version('1.0.0', '--version')
+cli.version(function(version){version.call(this)})
+```
+
+Adds a version flag to the program, scope for the `action` callback is the program instance. Configured version number is available via after setting the flag option by invoking with zero arguments.
+
+* `version`: A specific version for the program, overrides any version extracted from `package.json`.
+* `name`: A specific name for the version option flags, default is `-V | --version`.
+* `description`: A specific description for the option, overrides the default.
+* `action`: A callback to invoke when the version option is encountered, signature is `function(version)` where `version` is the default callback function if you wish to re-use it's functionality.
+
+Returns the program for chaining or the version string if a version flag exists and zero arguments are passed.
+
+See the [version/defaults][version/defaults] and [version/custom][version/custom] example executables.
 
 <p align="center">
   <img src="https://raw.github.com/freeformsystems/cli-command/master/img/version.png" />
 </p>
+
+Source: [version/defaults][version/defaults] and [version/custom][version/custom]
 
 # Types
 
 A flexible, extensible and intuitive type system allows coercion between the argument string values and javascript types.
 
 Essentially the type coercion system is just a function that gets passed the string value of the argument, which allows simple coercion with `parseInt` etc.
-
-Source: [test/unit/coerce](https://github.com/freeformsystems/cli-command/blob/master/test/unit/coerce.js)
 
 ```javascript
 var cli = require('cli-command')();
@@ -123,6 +155,7 @@ cli
   .option('-l, --list <items>', 'a list', list)
 // ...
 ```
+Source: [test/unit/coerce](https://github.com/freeformsystems/cli-command/blob/master/test/unit/coerce.js)
 
 The coercion function (referred to as a `converter`) may be more complex, the signature is:
 
@@ -272,8 +305,6 @@ Note that because the unparsed arguments list is always an arrray specifying the
 
 ## Commands
 
-Source: [command](https://github.com/freeformsystems/cli-command/tree/master/bin/example/command)
-
 ```javascript
 var path = require('path');
 require('ttycolor')().defaults();
@@ -294,11 +325,11 @@ cli.command('cp')
 cli.parse();  // defaults to process.argv.slice(2)
 ```
 
+Source: [command](https://github.com/freeformsystems/cli-command/tree/master/bin/example/command)
+
 ## Subcommands
 
 If you wish to structure your program as a series of executables for each command ([git][git] style) use the alternative syntax:
-
-Source: [pkg](https://github.com/freeformsystems/cli-command/tree/master/bin/example/pkg)
 
 ```javascript
 require('ttycolor')().defaults();
@@ -314,7 +345,7 @@ cli
 var ps = cli.parse();   // execute pkg-install(1) upon install command
 ```
 
-Source: [pkg-install](https://github.com/freeformsystems/cli-command/tree/master/bin/example/pkg-install)
+Source: [pkg](https://github.com/freeformsystems/cli-command/tree/master/bin/example/pkg)
 
 ```javascript
 require('ttycolor')().defaults();
@@ -333,6 +364,8 @@ cli
   .parse();
 ```
 
+Source: [pkg-install](https://github.com/freeformsystems/cli-command/tree/master/bin/example/pkg-install)
+
 ## Errors
 
 Handling errors in any program is important but doing it elegantly in a command line program can be tricky, so the [error] module has been integrated to make error handling consistent and robust.
@@ -342,8 +375,6 @@ The pre-defined error conditions are in [en.json][en.json]. The [error][error] m
 Error conditions encountered by the module are treated in an idiomatic manner, they are dispatched as an `error` event from the program. However, you may just want some default error handling, so if you have not registered an `eror` listener on the program by the time `parse()` is called then the default error handling will be used.
 
 The default error handling prints useful messages to `stderr` with information about the error except for an uncaught exception which will also print the stack trace.
-
-Source: [error/custom](https://github.com/freeformsystems/cli-command/tree/master/bin/error/custom)
 
 ```javascript
 var path = require('path');
@@ -368,9 +399,9 @@ cli
 throw new Error('a custom error message');
 ```
 
-If you are only interested in a particular error you can listen for the error event by error definition `key` (note the event name is lowercase). When you listen for a particular error the generic `error` event is not dispatched for that error condition.
+Source: [error/custom](https://github.com/freeformsystems/cli-command/tree/master/bin/error/custom)
 
-Source: [error/event](https://github.com/freeformsystems/cli-command/tree/master/bin/error/event)
+If you are only interested in a particular error you can listen for the error event by error definition `key` (note the event name is lowercase). When you listen for a particular error the generic `error` event is not dispatched for that error condition.
 
 ```javascript
 var path = require('path');
@@ -393,6 +424,8 @@ cli
   .parse();
 throw new Error('an euncaught listener error message');
 ```
+
+Source: [error/event](https://github.com/freeformsystems/cli-command/tree/master/bin/error/event)
 
 ## API
 
@@ -426,11 +459,11 @@ cli.parse();
 
 If a `stash` has not been configured and your program declares an option that would cause a conflict, the program will scream at you, literally [scream][scream].
 
-Source: [conflict][conflict]
-
 <p align="center">
   <img src="https://raw.github.com/freeformsystems/cli-command/master/img/conflict.png" />
 </p>
+
+Source: [conflict][conflict]
 
 ## License
 
