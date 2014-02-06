@@ -60,7 +60,7 @@ Otherwise you may re-use some of the default help functions as properties of the
 * `usage`: Print program usage.
 * `commands`: Print program commands.
 * `options`: Print program options.
-* `head`: Print the help footer.
+* `foot`: Print the help footer.
 
 See the [help/defaults][help/defaults] and [help/custom][help/custom] example executables or consult the [define][define] documentation for the method signature.
 
