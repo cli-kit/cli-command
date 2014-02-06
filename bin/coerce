@@ -7,6 +7,7 @@
  */
 var path = require('path');
 require('ttycolor')().defaults();
+//process.env.CLI_DEBUG=true;
 var pkg = path.normalize(path.join(__dirname, '..', 'package.json'));
 var cli = require('..')(pkg);
 
@@ -46,6 +47,7 @@ if(cli.args && cli.args.length) {
   console.log('args: %s', cli.args);
 }
 
-for(var z in cli) {
-  console.log('%s=%s', z, cli[z]);
-}
+//for(var z in cli) {
+  //console.log('%s=%s', z, cli[z]);
+//}
+//console.dir(cli);
