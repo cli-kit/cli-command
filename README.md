@@ -108,6 +108,7 @@ cli()
     // and pass true so it does not exit the process
     version.call(this, true);
     // add additional version information here
+    process.exit(0);
   })
   .parse();
 ```
