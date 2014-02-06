@@ -35,7 +35,15 @@ var actions = {
 
 var CommandProgram = function() {
   Program.apply(this, arguments);
+  // private
   define(this, '_configuration', merger(defaults, {}), false);
+
+  // public
+  define(this, 'errors', errors, false);
+  define(this, 'args', [], true);
+
+  // deprecated
+  define(this, '__actions', Object.keys(actions), false);
 }
 
 util.inherits(CommandProgram, Program);
@@ -591,6 +599,7 @@ function environ() {
 }
 
 module.exports = function(package, name, description, configuration) {
+  //var cmdprg = new CommandProgram();
   var locales = path.join(__dirname, 'lib', 'error', 'locales');
   clierr.file({locales: locales}, function (err, file, errors, lang) {
     //console.dir(err);
@@ -606,6 +615,7 @@ module.exports = function(package, name, description, configuration) {
       raise.call(program, errors.EUNCAUGHT, [err.message], {error: err});
     })
   }
+  // TODO: allow setting error configuration on the program configuration
   clierr({name: program.name()});
   return program;
 }
