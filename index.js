@@ -79,6 +79,7 @@ function raise(err, parameters, data) {
     e = new CliError(err, code, parameters);
     e.key = err.key || errors.EUNCAUGHT.key;
   }
+  //if(err && parameters === false) return;
   this.emit('error', e, errors);
 }
 define(CommandProgram.prototype, 'raise', raise, false);

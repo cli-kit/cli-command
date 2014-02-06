@@ -15,12 +15,18 @@ require('ttycolor')().defaults();
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
 process.on('uncaughtException', function(e) {
+  // indicate our listener fired
   console.error(cli.name() + ': %s (%s)', e.message, 'custom listener');
-  //console.error(e.stack);
+  // raise the error via the program for the default behaviour
+  // which fires an error event that is captured by the
+  // default error listener (middleware.error) and passed
+  // to program.error() so that the error is printed
+  cli.raise(e);
 })
 cli = require('../..')(pkg, 'error/uncaught');
 cli
-  .on('error', function(e, errors) {
+  .on('etype', function(e, errors) {
+    //console.log(e.key);
     console.error(this.name() + ': %s',
       'only executes with invalid -n option');
     // this prints the default message for the error
