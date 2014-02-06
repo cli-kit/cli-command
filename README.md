@@ -261,7 +261,9 @@ cli
 It is possible to coerce or validate the unparsed options by specifying a `converter` on the program:
 
 ```javascript
-cli
+var cli = require('cli-command');
+var types = cli.types;
+var program = cli()
   .converter(types.integer)
   .parse(); 
 ```
