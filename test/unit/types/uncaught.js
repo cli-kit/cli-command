@@ -1,7 +1,7 @@
 var path = require('path');
 var expect = require('chai').expect;
 var pkg = path.normalize(path.join(__dirname, '..', '..', '..', 'package.json'));
-var ArgumentTypeError = require('../../..').ArgumentTypeError;
+var ArgumentTypeError = require('../../..').error.type;
 
 describe('cli-command:', function() {
   it('should execute default uncaught code path from type converter',

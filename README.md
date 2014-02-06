@@ -228,7 +228,7 @@ When an array is used coercion will be attempted for each listed type function, 
 Declare a function to create your own custom type:
 
 ```javascript
-var ArgumentTypeError = require('cli-command').ArgumentTypeError;
+var ArgumentTypeError = require('cli-command').error.type;
 function mime(value, arg, index) {
   // validate the value is a recognized mime type
   // and return it if valid
