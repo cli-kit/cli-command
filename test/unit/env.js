@@ -70,4 +70,6 @@ describe('cli-command:', function() {
       done();
     }
   );
+  // TODO: test merging into a configured stash
+  // TODO: test environment variable property conflict
 })
