@@ -22,22 +22,24 @@ describe('cli-command:', function() {
     done();
   });
   it('should execute custom help handler', function(done) {
-    var cli = require('../..')(pkg, 'mock-custom-help');
+    var cli = require('../..')
+    var help = cli.help;
+    cli = cli(pkg, 'mock-custom-help');
     cli.configuration({exit: false});
     var args = ['-h'];
     cli
       .command('test', 'a test command')
-      .help(function(help) {
-      expect(cli).to.eql(this);
-      expect(help.head).to.be.a('function');
-      expect(help.usage).to.be.a('function');
-      expect(help.commands).to.be.a('function');
-      expect(help.options).to.be.a('function');
-      expect(help.foot).to.be.a('function');
-      delete this._arguments.help;
-      help.call(this);
-      done();
-    })
+      .help(function() {
+        expect(cli).to.eql(this);
+        expect(help.head).to.be.a('function');
+        expect(help.usage).to.be.a('function');
+        expect(help.commands).to.be.a('function');
+        expect(help.options).to.be.a('function');
+        expect(help.foot).to.be.a('function');
+        delete this._arguments.help;
+        help.call(this);
+        done();
+      })
     cli.parse(args);
   });
 })

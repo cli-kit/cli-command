@@ -34,10 +34,12 @@ describe('cli-command:', function() {
     done();
   });
   it('should execute custom version handler', function(done) {
-    var cli = require('../..')(pkg, 'mock-custom-version');
+    var cli = require('../..')
+    var version = cli.version;
+    cli = cli(pkg, 'mock-custom-version');
     cli.configuration({exit: false});
     var args = ['-V'];
-    cli.version(function(version) {
+    cli.version(function() {
       expect(cli).to.eql(this);
       version.call(this, false, 'some more version info');
       done();
