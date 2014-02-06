@@ -55,6 +55,34 @@ function getReceiver() {
 define(CommandProgram.prototype, 'getReceiver', getReceiver, false);
 
 /**
+ *  Raise an error from an error definition or error
+ *  instance.
+ *
+ *  @param err The error definition.
+ *  @param parameters The message replacement parameters.
+ *  @param data Additional error data.
+ */
+function raise(err, parameters, data) {
+  // FIXME: if we have a source error in data.error
+  // FIXME: we should use the stack trace from the source
+  // FIXME: error, this makes for a more meaningful stack
+  // FIXME: trace from uncaught exceptions
+  var e;
+  if(err instanceof CliError) {
+    e = err;
+  }else if((err instanceof ErrorDefinition)) {
+    e = err.toError();
+    e.shift();
+    e.parameters = parameters || [];
+    e.key = err.key;
+    e.data = data;
+    if(data && data.error) e.source = data.error;
+  }
+  this.emit('error', e, errors);
+}
+define(CommandProgram.prototype, 'raise', raise, false);
+
+/**
  *  Define program middleware.
  */
 function use(middleware) {
@@ -218,20 +246,8 @@ function middleware(args) {
     func.call(scope, req, next);
   }
   function next(err, parameters, data) {
-    // FIXME: handle plain error instances here
     if(err) {
-      var e;
-      if(err instanceof CliError) {
-        e = err;
-      }else if((err instanceof ErrorDefinition)) {
-        e = err.toError();
-        e.shift();
-        e.parameters = parameters || [];
-        e.key = err.key;
-        e.data = data;
-        if(data && data.error) e.source = data.error;
-      }
-      return scope.emit('error', e, errors);
+      scope.raise(err, parameters, data);
     }
     i++;
     if(i < list.length) {
@@ -240,7 +256,6 @@ function middleware(args) {
   }
   if(list.length) exec();
 }
-
 
 /**
  *  Retrieve the handler for a built in action.
@@ -507,33 +522,6 @@ function middleware(args) {
 //}
 
 /**
- *  Raise an error from an error definition or error
- *  instance.
- *
- *  @param err The error definition.
- *  @param parameters The message replacement parameters.
- *  @param data Additional error data.
- */
-function raise(err, parameters, data) {
-  // FIXME: if we have a source error in data.error
-  // FIXME: we should use the stack trace from the source
-  // FIXME: error, this makes for a more meaningful stack
-  // FIXME: trace from uncaught exceptions
-  var e;
-  if(err instanceof CliError) {
-    e = err;
-  }else if((err instanceof ErrorDefinition)) {
-    e = err.toError();
-    e.shift();
-    e.parameters = parameters || [];
-    e.key = err.key;
-    e.data = data;
-    if(data && data.error) e.source = data.error;
-  }
-  this.emit('error', e, errors);
-}
-
-/**
  *  Check file permissions.
  *
  *  canExecute():
@@ -714,8 +702,8 @@ module.exports = function(package, name, description, configuration) {
   if(!listeners.length) {
     process.on('uncaughtException', function(err) {
       //console.error(err);
-      console.error(err.stack);
-      raise.call(program, errors.EUNCAUGHT, [err.message], {error: err});
+      //console.error(err.stack);
+      program.raise(errors.EUNCAUGHT, [err.message], {error: err});
       //
       // FIXME: wrap error so it has the right exit code etc.
       //program.emit('error', err);
