@@ -29,11 +29,6 @@ var defaults = {
   env: null
 }
 
-var actions = {
-  help: null,
-  version: null
-}
-
 var CommandProgram = function() {
   Program.apply(this, arguments);
   // private
@@ -43,9 +38,6 @@ var CommandProgram = function() {
   // public
   define(this, 'errors', errors, false);
   define(this, 'args', [], true);
-
-  // deprecated
-  define(this, '__actions', Object.keys(actions), false);
 }
 
 util.inherits(CommandProgram, Program);
@@ -130,7 +122,7 @@ define(CommandProgram.prototype, 'configuration', configuration, false);
  *  @param action A function to invoke.
  */
 function version(semver, name, description, action) {
-  if(!arguments.length && this._arguments.version) return this._version;
+  if(!arguments.length && this._arguments.versionopt) return this._version;
   return this.use(middlewares.version, semver, name, description, action);
 }
 define(CommandProgram.prototype, 'version', version, false);
