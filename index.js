@@ -46,9 +46,12 @@ var CommandProgram = function() {
   define(this, '_middleware', undefined, true);
   define(this, '_configuration', merge(defaults, {}), false);
   define(this, '__middleware__', [], false);
+  define(this, '_exec', {}, false);
 
   // public
   define(this, 'errors', errors, false);
+
+  // TODO: depreacte this public property
   define(this, 'args', [], true);
 }
 
@@ -100,6 +103,23 @@ function raise(err, parameters, data) {
   this.emit('error', e, errors);
 }
 define(CommandProgram.prototype, 'raise', raise, false);
+
+/**
+ *  Override so we can maintain a list of commands
+ *  that should be executed as external child processes.
+ *
+ *  @param name The command name.
+ *  @param description The command description.
+ *  @param options The command options.
+ */
+function command(name, description, options) {
+  var cmd = Program.prototype.command.apply(this, arguments);
+  if(description) {
+    this._exec[cmd.key()] = cmd;
+  }
+  return cmd;
+}
+define(CommandProgram.prototype, 'command', command, false);
 
 /**
  *  Define program middleware.
