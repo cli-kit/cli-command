@@ -10,6 +10,7 @@ var cname = require('./lib/util/name');
 
 var cli = require('cli-define');
 var define = cli.define;
+var key = cli.key;
 var Program = cli.Program;
 var Option = cli.Option;
 
@@ -34,6 +35,7 @@ var all = [
   middlewares.env,
   middlewares.merge,
   middlewares.multiple,
+  middlewares.exec,
   middlewares.action,
   middlewares.required,
   middlewares.command,
@@ -115,7 +117,8 @@ define(CommandProgram.prototype, 'raise', raise, false);
 function command(name, description, options) {
   var cmd = Program.prototype.command.apply(this, arguments);
   if(description) {
-    this._exec[cmd.key()] = cmd;
+    var id = key(name);
+    this._exec[id] = cmd;
   }
   return cmd;
 }
