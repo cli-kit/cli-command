@@ -6,6 +6,7 @@ var types = require('./lib/types');
 var clierr = require('cli-error');
 var conflict = require('./lib/conflict');
 var middlewares = require('./lib/middleware');
+var cname = require('./lib/util/name');
 
 var cli = require('cli-define');
 var define = cli.define;
@@ -21,7 +22,8 @@ var defaults = {
   stash: null,
   bin: null,
   env: null,
-  trace: false
+  trace: false,
+  middleware: null
 }
 
 var all = [
@@ -95,7 +97,6 @@ function raise(err, parameters, data) {
     e = new CliError(err, code, parameters);
     e.key = err.key || errors.EUNCAUGHT.key;
   }
-  //if(err && parameters === false) return;
   this.emit('error', e, errors);
 }
 define(CommandProgram.prototype, 'raise', raise, false);
@@ -104,17 +105,29 @@ define(CommandProgram.prototype, 'raise', raise, false);
  *  Define program middleware.
  */
 function use(middleware) {
+  var i, nm, args, result, conf = this.configuration();
   if(!arguments.length && this._middleware === undefined) {
-    for(var i = 0;i < all.length;i++) {
+    for(i = 0;i < all.length;i++) {
+      if(conf && conf.middleware) {
+        result = all[i].call(this);
+        if(typeof result !== 'function') {
+          continue;
+        }
+        nm = cname(result);
+        //console.log('got name %s', nm);
+        if(nm && conf.middleware[nm] === false) {
+          continue;
+        }
+      }
       this.use(all[i]);
     }
     return this;
   }
-  var args = [].slice.call(arguments, 1);
+  args = [].slice.call(arguments, 1);
   if(typeof middleware != 'function') {
     throw new Error('Invalid middleware, must be a function');
   }
-  var result = middleware.apply(this, args);
+  result = middleware.apply(this, args);
 
   if(~this.__middleware__.indexOf(middleware)) {
     throw new Error('Invalid middleware, duplicate detected');

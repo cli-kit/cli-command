@@ -33,6 +33,7 @@ cli.configuration({stash: stash})
 * `exit`: Whether the default error handler will exit the process when an error occurs, default is `true`.
 * `stash`: The string name of a property that becomes an object to store option values, will be set on the program, this alleviates the potential for conflicts. If you wish to use this then the recommended value is `data`. You may also pass in an existing object as the stash and the argument values will be set on the stash object.
 * `trace`: A boolean that forces the default error handler to always print stack traces, default is `false`.
+* `middleware`: An object containing booleans that allows subtractive configuration of the default middleware.
 
 ## Help
 

@@ -24,4 +24,16 @@ describe('cli-command:', function() {
     expect(fn).throws(/^Invalid middleware/);
     done();
   });
+  it('should subtract middleware from default middleware', function(done) {
+    var cli = require('../..');
+    var env = cli.middleware.env;
+    var middleware = cli.middleware;
+    var conf = {middleware: {env: false}};
+    var prg = cli(pkg).use();
+    var len = prg._middleware.length;
+    cli = cli(pkg)
+      .configuration(conf).use();
+    expect(cli._middleware.length).to.eql(len - 1);
+    done();
+  });
 })
