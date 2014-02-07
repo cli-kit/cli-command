@@ -24,6 +24,20 @@ var defaults = {
   trace: false
 }
 
+var all = [
+  middlewares.error,
+  middlewares.parser,
+  middlewares.unparsed,
+  middlewares.defaults,
+  middlewares.env,
+  middlewares.merge,
+  middlewares.multiple,
+  middlewares.action,
+  middlewares.required,
+  middlewares.command,
+  middlewares.empty,
+  middlewares.run];
+
 var CommandProgram = function() {
   Program.apply(this, arguments);
   // private
@@ -90,7 +104,12 @@ define(CommandProgram.prototype, 'raise', raise, false);
  *  Define program middleware.
  */
 function use(middleware) {
-  //console.log(typeof(this._middleware));
+  if(!arguments.length && this._middleware === undefined) {
+    for(var i = 0;i < all.length;i++) {
+      this.use(all[i]);
+    }
+    return this;
+  }
   var args = [].slice.call(arguments, 1);
   if(typeof middleware != 'function') {
     throw new Error('Invalid middleware, must be a function');
@@ -192,18 +211,7 @@ function parse(args) {
   args = args || process.argv.slice(2);
   conflict.call(this);
   if(this._middleware === undefined) {
-    this.use(middlewares.error)
-      .use(middlewares.parser)
-      .use(middlewares.unparsed)
-      .use(middlewares.defaults)
-      .use(middlewares.env)
-      .use(middlewares.merge)
-      .use(middlewares.multiple)
-      .use(middlewares.action)
-      .use(middlewares.required)
-      .use(middlewares.command)
-      .use(middlewares.empty)
-      .use(middlewares.run)
+    this.use();
   }
 
   middleware.call(this, args);

@@ -5,7 +5,7 @@ describe('cli-command:', function() {
   it('should throw error on invalid middleware', function(done) {
     var cli = require('../..')(pkg);
     function fn() {
-      cli.use();
+      cli.use(null);
     }
     expect(fn).throws(Error);
     expect(fn).throws(/^Invalid middleware/);
