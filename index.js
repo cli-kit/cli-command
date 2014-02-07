@@ -85,10 +85,10 @@ define(CommandProgram.prototype, 'getReceiver', getReceiver, false);
  *
  *  @param err The error definition.
  *  @param parameters The message replacement parameters.
- *  @param data Additional error data.
+ *  @param source A source error to wrap.
  */
-function raise(err, parameters, data) {
-  var e, code, source = data && data.error ? data.error : null;
+function raise(err, parameters, source) {
+  var e, code;//, source = data && data.error ? data.error : null;
   if(err instanceof CliError) {
     e = err;
   }else if((err instanceof ErrorDefinition)) {
@@ -96,8 +96,7 @@ function raise(err, parameters, data) {
     if(!source) e.shift();
     e.parameters = parameters || [];
     e.key = err.key;
-    e.data = data;
-    //if(data && data.error) e.source = data.error;
+    //e.data = data;
   }else if(err instanceof Error) {
     code = err.code || errors.EUNCAUGHT.code;
     e = new CliError(err, code, parameters);
@@ -266,12 +265,11 @@ function middleware(args) {
   var req = {program: this, argv: args};
   function exec() {
     var func = list[i];
-    //console.log('exec middleware: %s', func)
     func.call(scope, req, next);
   }
-  function next(err, parameters, data) {
+  function next(err, parameters, e) {
     if(err) {
-      scope.raise(err, parameters, data);
+      scope.raise(err, parameters, e);
     }
     i++;
     if(i < list.length) {
