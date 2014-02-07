@@ -29,6 +29,7 @@ var CommandProgram = function() {
   // private
   define(this, '_middleware', undefined, true);
   define(this, '_configuration', merge(defaults, {}), false);
+  define(this, '__middleware__', [], false);
 
   // public
   define(this, 'errors', errors, false);
@@ -95,10 +96,18 @@ function use(middleware) {
     throw new Error('Invalid middleware, must be a function');
   }
   var result = middleware.apply(this, args);
+
+  if(~this.__middleware__.indexOf(middleware)) {
+    throw new Error('Invalid middleware, duplicate detected');
+  }
+
   if(typeof(result) == 'function') {
     if(this._middleware === undefined) this._middleware = [];
     this._middleware.push(result);
   }
+
+  this.__middleware__.push(middleware);
+
   return this;
 }
 define(CommandProgram.prototype, 'use', use, false);

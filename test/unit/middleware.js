@@ -11,4 +11,17 @@ describe('cli-command:', function() {
     expect(fn).throws(/^Invalid middleware/);
     done();
   });
+
+  it('should throw error on duplicate middleware', function(done) {
+    var cli = require('../..');
+    var middleware = cli.middleware;
+    cli = cli(pkg);
+    cli.use(middleware.error);
+    function fn() {
+      cli.use(middleware.error);
+    }
+    expect(fn).throws(Error);
+    expect(fn).throws(/^Invalid middleware/);
+    done();
+  });
 })

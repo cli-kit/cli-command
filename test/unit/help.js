@@ -42,4 +42,16 @@ describe('cli-command:', function() {
       })
     cli.parse(args);
   });
+  it('should display minimal help output', function(done) {
+    var cli = require('../..')
+    var help = cli.help;
+    var args = [];
+    cli = cli(pkg, 'mock-minimal-help')
+      .configuration({exit: false})
+      .on('empty', function(help, version) {
+        help.call(this);
+        done();
+      })
+      .parse(args);
+  });
 })

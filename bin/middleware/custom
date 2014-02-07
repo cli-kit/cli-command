@@ -15,7 +15,7 @@ var pkg = path.normalize(
 var cli = require('../..');
 var middleware = cli.middleware;
 process.env.custom_middleware_url = 'http://nodejs.org';
-var program = cli(pkg, 'custom_middleware')
+var cli = cli(pkg, 'custom_middleware')
   .configuration({env: {merge: true}})
   .use(middleware.error)
   .use(middleware.parser)
@@ -44,10 +44,10 @@ var program = cli(pkg, 'custom_middleware')
     help.call(this);
   })
 
-  program.command('ls')
+  cli.command('ls')
     .description('list files')
     .action(function(cmd, options, raw) {
       console.log('ls action called. %j', options)
     });
 
-  program.parse();
+  cli.parse();
