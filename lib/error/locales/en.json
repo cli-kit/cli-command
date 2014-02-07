@@ -16,17 +16,17 @@
   },
   {
     "key": "EREQUIRED",
-    "message": "missing required option %s",
+    "message": "missing required option: %s",
     "code": 67
   },
   {
     "key": "EMULTIPLE",
-    "message": "option %s may only be specified once, got %s",
+    "message": "option %s may only be specified once, got: %s",
     "code": 68
   },
   {
     "key": "ETYPE",
-    "message": "invalid type for %s, got %s",
+    "message": "invalid type for %s, got: %s",
     "code": 69
   },
   {

@@ -18,7 +18,7 @@ describe('cli-command:', function() {
     var args = [];
     cli
       .on('error',function(e) {
-        //expect(code).to.eql(codes.EREQUIRED);
+        expect(e.code).to.eql(this.errors.EREQUIRED.code);
         done();
       })
       .option('-i, --integer <n>', 'an integer argument', parseInt)

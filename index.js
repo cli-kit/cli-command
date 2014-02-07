@@ -37,7 +37,8 @@ var all = [
   middlewares.multiple,
   middlewares.exec,
   middlewares.action,
-  middlewares.required,
+  middlewares.emultiple,
+  middlewares.erequired,
   middlewares.command,
   middlewares.empty,
   middlewares.run];

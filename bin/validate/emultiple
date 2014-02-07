@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+
+/**
+ *  Example to illustrate that the emultiple middleware throws an
+ *  error when an option that has not been marked as multiple (...)
+ *  but is specified multiple times in the argument list.
+ *
+ *  ./bin/validate/emultiple -i 16 -i 32
+ */
+require('ttycolor')().defaults();
+var path = require('path');
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..')(pkg, 'validate/emultiple')
+  .option('-i, --integer <n>', 'an integer argument', parseInt)
+  .help()
+  .version()
+  .parse();

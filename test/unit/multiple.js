@@ -9,7 +9,7 @@ describe('cli-command:', function() {
     var args = ['-i', '10', '--integer', '20'];
     cli
       .on('error', function(e) {
-        //expect(code).to.eql(codes.EMULTIPLE);
+        expect(e.code).to.eql(this.errors.EMULTIPLE.code);
         done();
       })
       .option('-i, --integer <n>', 'an integer argument', parseInt)

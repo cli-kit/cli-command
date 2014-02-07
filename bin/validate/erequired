@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+
+/**
+ *  Example to illustrate the validation logic that throws an
+ *  error when an option that has been marked as required is not
+ *  specified.
+ *
+ *  ./bin/validate/erequired
+ */
+require('ttycolor')().defaults();
+var path = require('path');
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..')(pkg, 'validate/erequired')
+  .option('-i, --integer <n>', 'a required integer argument', parseInt)
+  .help()
+  .version()
+  .parse();
