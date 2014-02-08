@@ -32,14 +32,14 @@ var all = [
   middlewares.parser,
   middlewares.unparsed,
   middlewares.defaults,
+  middlewares.action,
+  middlewares.emultiple,
+  middlewares.erequired,
   middlewares.env,
   middlewares.multiple,
   middlewares.merge,
   middlewares.convert,
-  middlewares.action,
   middlewares.exec,
-  middlewares.emultiple,
-  middlewares.erequired,
   middlewares.command,
   middlewares.empty,
   middlewares.run];
@@ -51,6 +51,7 @@ var CommandProgram = function() {
   define(this, '_configuration', merge(defaults, {}), false);
   define(this, '__middleware__', [], false);
   define(this, '_exec', {}, false);
+  define(this, '_request', undefined, true);
 
   // public
   define(this, 'errors', errors, false);
@@ -79,6 +80,18 @@ function getReceiver() {
   return receiver;
 }
 define(CommandProgram.prototype, 'getReceiver', getReceiver, false);
+
+/**
+ *  Get or set the middleware request object.
+ *
+ *  @param req The request object.
+ */
+function request(req) {
+  if(!arguments.length) return this._request;
+  this._request = req;
+  return this;
+}
+define(CommandProgram.prototype, 'request', request, false);
 
 /**
  *  Generate an error from an error definition or plain error instance.
