@@ -252,19 +252,6 @@ If you throw `Error` rather than `ArgumentTypeError` that is fine, it will be wr
 
 Complex types differ in that the type function must be invoked when declaring the option and it *returns a closure* that is the `converter`.
 
-#### List
-
-Splits a value into an array based on a `string` or `regexp` delimiter.
-
-```javascript
-types.list(String|RegExp)
-```
-
-```javascript
-cli.option('-l, --list <list>',
-    'a comma-delimited list argument', types.list(/\s*,\s*/))
-```
-
 #### Enum
 
 Validates that a value exists in a list of acceptable values.
@@ -277,6 +264,36 @@ types.enum(Array)
 var list = ['css', 'scss', 'less'];
 cli.option('-c, --css <value>',
     'css preprocessor', types.enum(list))
+```
+
+#### File
+
+It is useful to be able to test options that are files to be of a particular type. You may use the file type with a series of file test expressions:
+
+```javascript
+types.file(String)
+```
+
+To test that an option's value is a regular file and exists use:
+
+```javascript
+cli.option('-f, --file <file>',
+    'file to process', types.file('f'))
+```
+
+See the [fs][fs] documentation for the list of file expressions and some caveats. Note that multiple expressions can be specified, so to test a file is readable and has it's executable bit set you could use 'rx'.
+
+#### List
+
+Splits a value into an array based on a `string` or `regexp` delimiter.
+
+```javascript
+types.list(String|RegExp)
+```
+
+```javascript
+cli.option('-l, --list <list>',
+    'a comma-delimited list argument', types.list(/\s*,\s*/))
 ```
 
 #### Object
@@ -489,6 +506,7 @@ Everything is [MIT](http://en.wikipedia.org/wiki/MIT_License). Read the [license
 
 [toolkit]: https://github.com/freeformsystems/cli-toolkit
 [argparse]: https://github.com/freeformsystems/cli-argparse
+[fs]: https://github.com/freeformsystems/cli-fs
 [define]: https://github.com/freeformsystems/cli-define
 [error]: https://github.com/freeformsystems/cli-error
 [git]: http://git-scm.com
