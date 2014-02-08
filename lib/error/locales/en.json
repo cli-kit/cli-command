@@ -33,5 +33,10 @@
     "key": "ECONFLICT",
     "message": "conflict detected on %s",
     "code": 70
+  },
+  {
+    "key": "EFILE_TYPE_F",
+    "message": "%s is not a file",
+    "code": 71
   }
 ]
