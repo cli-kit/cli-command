@@ -27,24 +27,22 @@ describe('cli-command:', function() {
     cli.configuration({exit: false, bin: bin});
     var args = ['enoent'];
     cli.command('enoent', 'not found')
+    cli.on('error', function(e) {
+      e.error();
+      done();
+    })
     cli.parse(args);
-    done();
   });
   it('should error on permission denied (EPERM)', function(done) {
     var cli = require('../..')(pkg, 'mock-subcommand');
     cli.configuration({exit: false, bin: bin});
     var args = ['eperm'];
     cli.command('eperm', 'permission denied')
+    cli.on('error', function(e) {
+      e.error();
+      done();
+    })
     cli.parse(args);
-    done();
-  });
-  it('should error on permission denied (EPERM)', function(done) {
-    var cli = require('../..')(pkg, 'mock-subcommand');
-    cli.configuration({exit: false, bin: bin});
-    var args = ['root-eperm'];
-    cli.command('root-eperm', 'permission denied')
-    cli.parse(args);
-    done();
   });
   it('should error gracefully on SIGINT', function(done) {
     var cli = require('../..')(pkg, 'mock-subcommand');

@@ -1,6 +1,0 @@
-#!/usr/bin/env node
-
-// NOTE: this program is intentionally not executable to mock
-// NOTE: the EPERM permission denied error
-//
-console.log(process.argv[1]);
