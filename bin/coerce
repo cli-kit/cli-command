@@ -3,7 +3,7 @@
 /**
  *  Example of coercing argument values.
  *
- *  ./bin/coerce -i 10 -f 3.14 --range 1..10 --list=apples,oranges file.txt
+ *  ./bin/coerce -i 10 -f 3.14 --range 1..10 -o=10 --list=apples,oranges file.txt
  */
 var path = require('path');
 require('ttycolor')().defaults();
