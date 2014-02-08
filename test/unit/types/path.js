@@ -3,10 +3,11 @@ var expect = require('chai').expect;
 var pkg = path.normalize(path.join(__dirname, '..', '..', '..', 'package.json'));
 var types = require('../../..').types;
 var utils = require('cli-util');
+var fs = require('cli-fs');
 
 describe('cli-command:', function() {
   var cwd = process.cwd();
-  var home = utils.home();
+  var home = fs.home();
   it('should resolve relative path', function(done) {
     var cli = require('../../..')(pkg);
     var file = 'file.txt';
