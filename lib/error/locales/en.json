@@ -38,5 +38,75 @@
     "key": "EFILE_TYPE_F",
     "message": "%s is not a file",
     "code": 71
+  },
+  {
+    "key": "EFILE_TYPE_D",
+    "message": "%s is not a directory",
+    "code": 72
+  },
+  {
+    "key": "EFILE_TYPE_E",
+    "message": "%s does not exist",
+    "code": 73
+  },
+  {
+    "key": "EFILE_TYPE_X",
+    "message": "%s is not executable",
+    "code": 74
+  },
+  {
+    "key": "EFILE_TYPE_R",
+    "message": "%s is not readable",
+    "code": 75
+  },
+  {
+    "key": "EFILE_TYPE_W",
+    "message": "%s is not writable",
+    "code": 76
+  },
+  {
+    "key": "EFILE_TYPE_L",
+    "message": "%s is not a symbolic link",
+    "code": 77
+  },
+  {
+    "key": "EFILE_TYPE_S",
+    "message": "%s is not a socket",
+    "code": 78
+  },
+  {
+    "key": "EFILE_TYPE_T",
+    "message": "%s is not a tty",
+    "code": 79
+  },
+  {
+    "key": "EFILE_TYPE_B",
+    "message": "%s is not a block special file",
+    "code": 80
+  },
+  {
+    "key": "EFILE_TYPE_C",
+    "message": "%s is not a character special file",
+    "code": 81
+  },
+  {
+    "key": "EFILE_TYPE_P",
+    "message": "%s is not a named pipe (fifo)",
+    "code": 82
+  },
+  {
+    "key": "EFILE_TYPE_N",
+    "message": "%s is the empty string",
+    "code": 83
+  },
+  {
+    "key": "EFILE_TYPE_Z",
+    "message": "%s is not the empty string",
+    "code": 84
+  },
+  {
+    "key": "EFILE_TYPE_SIZE",
+    "message": "%s is an empty file",
+    "code": 85
   }
 ]
