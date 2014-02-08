@@ -26,7 +26,8 @@
     "cli-env": "~1.0.1",
     "cli-argparse": "~0.3.3",
     "cli-error": "~0.4.3",
-    "cli-util": "~1.0.8"
+    "cli-util": "~1.0.8",
+    "cli-fs": "~0.0.2"
   },
   "devDependencies": {
     "ttycolor": "~0.7.8",
