@@ -271,8 +271,10 @@ cli.option('-c, --css <value>',
 It is useful to be able to test options that are files to be of a particular type. You may use the file type with a series of file test expressions:
 
 ```javascript
-types.file(String)
+types.file(String, [Boolean])
 ```
+
+By default files are resolved according to the rules for the `path` type, you may specify the second argument as `false` to disable this behaviour.
 
 To test that an option's value is a regular file and exists use:
 
@@ -281,7 +283,7 @@ cli.option('-f, --file <file>',
     'file to process', types.file('f'))
 ```
 
-See the [fs][fs] documentation for the list of file expressions and some caveats. Note that multiple expressions can be specified, so to test a file is readable and has it's executable bit set you could use 'rx'.
+See the [fs][fs] documentation for the list of file expressions and some caveats. Note that multiple expressions can be specified, so to test a file is readable and has it's executable bit set you could use `rx`.
 
 #### List
 
