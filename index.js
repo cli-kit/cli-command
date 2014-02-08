@@ -293,10 +293,12 @@ define(CommandProgram.prototype, 'parse', parse, false);
  */
 function middleware(args) {
   var i = 0, list = this._middleware, scope = this;
-  var req = {program: this, argv: args};
+  var req = {argv: args};
   function exec() {
     var func = list[i];
     func.call(scope, req, next);
+    //console.log('' + func);
+    //console.log('file %s', scope.file);
   }
   function next(err, parameters, e) {
     if(err) {

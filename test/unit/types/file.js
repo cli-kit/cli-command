@@ -42,4 +42,14 @@ describe('cli-command:', function() {
       })
     cli.parse(args);
   });
+  it('should be a file type (repeatable)', function(done) {
+    var cli = require('../../..')(pkg, 'mock-file-type');
+    var value = files.file;
+    var args = ['-f', value, '-f=' + value];
+    cli
+      .option('-f, --file <file...>', 'a file argument', types.file('f'))
+    cli.parse(args);
+    expect(cli.file).to.eql([value, value]);
+    done();
+  });
 })
