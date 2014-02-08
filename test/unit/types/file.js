@@ -5,7 +5,8 @@ var pkg = path.normalize(
 var types = require('../../..').types;
 
 var files = {
-  regular: pkg,
+  file: __filename,
+  dir: __dirname,
   missing: 'this-file-really-does-not-want-to-be-found.txt'
 }
 
@@ -21,7 +22,7 @@ describe('cli-command:', function() {
   });
   it('should be a file type', function(done) {
     var cli = require('../../..')(pkg, 'mock-file-type');
-    var value = files.regular;
+    var value = files.file;
     var args = ['-f', value];
     cli
       .option('-f, --file <file>', 'a file argument', types.file('f'))
