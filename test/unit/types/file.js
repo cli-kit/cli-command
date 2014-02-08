@@ -10,6 +10,15 @@ var files = {
 }
 
 describe('cli-command:', function() {
+  it('should throw error on unsupported expression', function(done) {
+    var cli = require('../../..')(pkg, 'mock-file-type');
+    function fn() {
+      cli
+        .option('-f, --file <file>', 'a file argument', types.file('Z'))
+    }
+    expect(fn).throws(Error);
+    done();
+  });
   it('should be a file type', function(done) {
     var cli = require('../../..')(pkg, 'mock-file-type');
     var value = files.regular;
