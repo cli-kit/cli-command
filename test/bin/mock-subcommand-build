@@ -2,4 +2,5 @@
 
 var basename = require('path').basename;
 
+console.error('a mock warning message to trigger a code path');
 console.log('%s invoked', basename(process.argv[1]));

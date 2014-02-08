@@ -20,9 +20,32 @@ describe('cli-command:', function() {
         .description('uncaught')
         .action( function(cmd, opts, raw) {
           throw new Error('an uncaught error');
-          for(var i = 0;i < listeners.length;i++) {
-            process.on('uncaughtException', listeners[i]);
-          }
+        })
+    process.nextTick(function(){
+      cli.parse(args);
+    });
+  });
+  it('should wrap uncaught error from error handler', function(done) {
+    var cli = require('../..')(pkg, 'mock-uncaught');
+    var listeners = process.listeners('uncaughtException').slice(0);
+    process.removeAllListeners('uncaughtException');
+    process.once('uncaughtException', function(e) {
+      cli.emit('error', e);
+    });
+    cli.configuration({exit: false, trace: false});
+    cli.once('error', function(e) {
+      this.error(e);
+      for(var i = 0;i < listeners.length;i++) {
+        process.on('uncaughtException', listeners[i]);
+      }
+      done();
+    });
+    var args = ['uncaught'];
+    cli
+      .command('uncaught')
+        .description('uncaught')
+        .action(function(cmd, opts, raw) {
+          throw new Error('an uncaught error');
         })
     process.nextTick(function(){
       cli.parse(args);

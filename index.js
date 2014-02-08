@@ -23,7 +23,7 @@ var defaults = {
   stash: null,
   bin: null,
   env: null,
-  trace: false,
+  trace: undefined,
   middleware: null
 }
 
@@ -215,7 +215,8 @@ function error(e) {
     e = this.wrap(e);
   }
   var trace =
-    (e.code === errors.EUNCAUGHT.code || conf.trace) ? true : false;
+    (conf.trace !== undefined) ? conf.trace : (e.code === errors.EUNCAUGHT.code);
+    //(e.code === errors.EUNCAUGHT.code || conf.trace) ? true : false;
   e.error(trace);
   if(conf.exit) e.exit();
 }
