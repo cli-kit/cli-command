@@ -81,14 +81,13 @@ function getReceiver() {
 define(CommandProgram.prototype, 'getReceiver', getReceiver, false);
 
 /**
- *  Raise an error from an error definition or error
- *  instance.
+ *  Generate an error from an error definition or plain error instance.
  *
  *  @param err The error definition.
  *  @param parameters The message replacement parameters.
  *  @param source A source error to wrap.
  */
-function raise(err, parameters, source) {
+function wrap(err, parameters, source) {
   var e, code;//, source = data && data.error ? data.error : null;
   if(err instanceof CliError) {
     e = err;
@@ -103,6 +102,20 @@ function raise(err, parameters, source) {
     e = new CliError(err, code, parameters);
     e.key = err.key || errors.EUNCAUGHT.key;
   }
+  return e;
+}
+define(CommandProgram.prototype, 'wrap', wrap, false);
+
+/**
+ *  Raise an error from an error definition or error
+ *  instance.
+ *
+ *  @param err The error definition.
+ *  @param parameters The message replacement parameters.
+ *  @param source A source error to wrap.
+ */
+function raise(err, parameters, source) {
+  var e = this.wrap(err, parameters, source);
   this.emit('error', e, errors);
 }
 define(CommandProgram.prototype, 'raise', raise, false);
@@ -185,10 +198,13 @@ define(CommandProgram.prototype, 'env', env, false);
  */
 function error(e) {
   var conf = this.configuration();
+  if(!(e instanceof CliError)) {
+    e = this.wrap(e);
+  }
   var trace =
     (e.code === errors.EUNCAUGHT.code || conf.trace) ? true : false;
   e.error(trace);
-  if(this._configuration.exit) e.exit();
+  if(conf.exit) e.exit();
 }
 define(CommandProgram.prototype, 'error', error, false);
 
