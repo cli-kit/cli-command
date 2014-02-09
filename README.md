@@ -243,7 +243,9 @@ function mime(value, arg, index) {
   throw new ArgumentTypeError('invalid mime type for %s, got %s',
     arg.names().join(' | '), value);
 }
+// ...
 cli.option('-m, --mime-type <mime>', 'a mime type', mime)
+// ...
 ```
 
 If you throw `Error` rather than `ArgumentTypeError` that is fine, it will be wrapped in an `ArgumentTypeError`. You can utilize `ArgumentTypeError` for it's message parameter support.
