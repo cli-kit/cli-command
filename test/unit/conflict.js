@@ -31,14 +31,6 @@ describe('cli-command:', function() {
     cli.option('-p, --parse [value]', 'function property conflict')
     cli.parse(args);
   });
-  it('should exit on stash property conflict (name)', function(done) {
-    var cli = require('../..')(pkg, 'mock-stash-conflict');
-    process.exit = function(code) {
-      done();
-    }
-    var args = [];
-    cli.configure({stash: 'name'});
-  });
   it('should exit on object group property name conflict (configuration)',
     function(done) {
       var cli = require('../..')(pkg, 'mock-object-conflict');

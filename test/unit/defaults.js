@@ -12,16 +12,6 @@ describe('cli-command:', function() {
     expect(cli.default).to.eql(value);
     done();
   });
-  it('should set default value on stash property', function(done) {
-    var value = 'a default value';
-    var cli = require('../..')(pkg);
-    var args = [];
-    cli.configure({stash: 'data'});
-    cli.option('-d --default [str]', 'a default value option', value);
-    cli.parse(args);
-    expect(cli.data.default).to.eql(value);
-    done();
-  });
   it('should set default value on stash object', function(done) {
     var value = 'a default value';
     var cli = require('../..')(pkg);

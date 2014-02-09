@@ -70,14 +70,9 @@ util.inherits(CommandProgram, Program);
  *  if the program has been configured to use a stash.
  */
 function getReceiver() {
-  var receiver = this;
   var config = this.configure();
-  if((typeof(config.stash) == 'string') && config.stash.length) {
-    receiver = this[config.stash] = this[config.stash] || {};
-  }else if(config.stash && (typeof(config.stash) == 'object')) {
-    receiver = config.stash;
-  }
-  return receiver;
+  if(config.stash) return config.stash;
+  return this;
 }
 define(CommandProgram.prototype, 'getReceiver', getReceiver, false);
 
@@ -230,11 +225,11 @@ define(CommandProgram.prototype, 'error', error, false);
 function configure(conf) {
   if(!arguments.length) return this._conf;
   conf = conf || {};
-  var stash = conf.stash;
-  if((typeof stash == 'string') && (stash in this)) {
-    conflict.call(this, stash, new Option(stash));
-    return this;
-  }
+  //var stash = conf.stash;
+  //if((typeof stash == 'string') && (stash in this)) {
+    //conflict.call(this, stash, new Option(stash));
+    //return this;
+  //}
   merge(conf, this._conf || merge(config, {}));
   return this;
 }
