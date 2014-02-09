@@ -502,6 +502,10 @@ At times you may wish to inspect the internal structure of the program using `co
 
 See the [enumerate/defaults][enumerate/defaults] and [enumerate/debug][enumerate/debug] examples.
 
+## Credits
+
+Chainable program definition inspired by [commander][commander], type conversion on native type constructors lifted from [nopt][nopt] and middleware design thanks to [express][express].
+
 ## License
 
 Everything is [MIT](http://en.wikipedia.org/wiki/MIT_License). Read the [license](/LICENSE) if you feel inclined.
@@ -529,3 +533,7 @@ Everything is [MIT](http://en.wikipedia.org/wiki/MIT_License). Read the [license
 
 [error/defaults]: https://github.com/freeformsystems/cli-command/blob/master/bin/error/defaults
 [error/custom]: https://github.com/freeformsystems/cli-command/blob/master/bin/error/custom
+
+[commander]: https://github.com/visionmedia/commander.js
+[nopt]: https://github.com/npm/nopt
+[express]: http://expressjs.com/
