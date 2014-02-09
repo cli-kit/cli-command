@@ -32,7 +32,7 @@ describe('cli-command:', function() {
     var prg = cli(pkg).use();
     var len = prg._middleware.length;
     cli = cli(pkg)
-      .configuration(conf).use();
+      .configure(conf).use();
     expect(cli._middleware.length).to.eql(len - 1);
     done();
   });

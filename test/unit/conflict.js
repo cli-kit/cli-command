@@ -37,7 +37,7 @@ describe('cli-command:', function() {
       done();
     }
     var args = [];
-    cli.configuration({stash: 'name'});
+    cli.configure({stash: 'name'});
   });
   it('should exit on object group property name conflict (configuration)',
     function(done) {
@@ -48,7 +48,7 @@ describe('cli-command:', function() {
       }
       cli
         .option('-c, --conf <file>',
-          'configuration file', types.object('configuration'))
+          'configuration file', types.object('configure'))
       cli.parse(args);
     }
   );
@@ -61,7 +61,7 @@ describe('cli-command:', function() {
       process.exit = function(code) {
         done();
       }
-      cli.configuration(conf)
+      cli.configure(conf)
       cli.parse(args);
     }
   );

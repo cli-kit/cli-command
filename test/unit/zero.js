@@ -5,7 +5,7 @@ var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
 describe('cli-command:', function() {
   it('should execute program action on zero arguments', function(done) {
     var cli = require('../..')(pkg, 'zero');
-    cli.configuration({exit: false});
+    cli.configure({exit: false});
     var args = [];
     cli
       .once('empty', function(help, version) {
@@ -19,7 +19,7 @@ describe('cli-command:', function() {
 
   it('should execute empty listener on zero arguments', function(done) {
     var cli = require('../..')(pkg, 'zero');
-    cli.configuration({exit: false});
+    cli.configure({exit: false});
     var args = [];
     function helpHandler(req, next){
       //expect(help).to.be.a('function');

@@ -5,7 +5,7 @@ var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
 describe('cli-command:', function() {
   it('should print error on missing required option', function(done) {
     var cli = require('../..')(pkg);
-    cli.configuration({exit: false});
+    cli.configure({exit: false});
     var args = [];
     cli
       .option('-i, --integer <n>', 'an integer argument', parseInt)
@@ -14,7 +14,7 @@ describe('cli-command:', function() {
   });
   it('should invoke error handler on missing required option', function(done) {
     var cli = require('../..')(pkg);
-    cli.configuration({exit: false});
+    cli.configure({exit: false});
     var args = [];
     cli
       .on('error',function(e) {

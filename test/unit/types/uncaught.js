@@ -12,7 +12,7 @@ describe('cli-command:', function() {
       var listeners = process.listeners('uncaughtException').slice(0);
       process.removeAllListeners('uncaughtException');
       var cli = require('../../..')(pkg, 'mock-converter-uncaught');
-      cli.configuration({exit: false});
+      cli.configure({exit: false});
       cli.once('error', function(e) {
         expect(e).to.be.an.instanceof(ArgumentTypeError);
         for(var i = 0;i < listeners.length;i++) {

@@ -5,7 +5,7 @@ var pkg = path.normalize(
 describe('cli-command:', function() {
   it('should listen for erequired event', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var args = [];
     cli
       .on('erequired',function(e, errors) {

@@ -6,7 +6,7 @@ var types = require('../../..').types;
 describe('cli-command:', function() {
   it('should return a string [Number, Date, String]', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var value = 'value';
     var args = ['-s', value];
     cli
@@ -17,7 +17,7 @@ describe('cli-command:', function() {
   });
   it('should return a string [String, Number, Date]', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var value = 'value';
     var args = ['-s', value];
     cli
@@ -28,7 +28,7 @@ describe('cli-command:', function() {
   });
   it('should error on invalid type [Number, Date]', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var value = 'value';
     var args = ['-s', value];
     cli

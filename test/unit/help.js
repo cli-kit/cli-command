@@ -5,14 +5,14 @@ var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
 describe('cli-command:', function() {
   it('should execute help handler (zero commands)', function(done) {
     var cli = require('../..')(pkg, 'mock-help');
-    cli.configuration({exit: false});
+    cli.configure({exit: false});
     var args = ['-h'];
     cli.help().parse(args);
     done();
   });
   it('should execute help handler', function(done) {
     var cli = require('../..')(pkg, 'mock-help');
-    cli.configuration({exit: false});
+    cli.configure({exit: false});
     var args = ['-h'];
     cli
       .usage('[command] -h')
@@ -25,7 +25,7 @@ describe('cli-command:', function() {
     var cli = require('../..')
     var help = cli.help;
     cli = cli(pkg, 'mock-custom-help');
-    cli.configuration({exit: false});
+    cli.configure({exit: false});
     var args = ['-h'];
     cli
       .command('test', 'a test command')
@@ -47,7 +47,7 @@ describe('cli-command:', function() {
     var help = cli.help;
     var args = [];
     cli = cli(pkg, 'mock-minimal-help')
-      .configuration({exit: false})
+      .configure({exit: false})
       .on('empty', function(help, version) {
         help.call(this);
         done();

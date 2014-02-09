@@ -14,7 +14,7 @@ describe('cli-command:', function() {
   });
   it('should execute subcommand executable', function(done) {
     var cli = require('../..')(pkg, 'mock-subcommand');
-    cli.configuration({exit: false, bin: bin});
+    cli.configure({exit: false, bin: bin});
     var args = ['build'];
     cli.once('close', function() {
       done();
@@ -24,7 +24,7 @@ describe('cli-command:', function() {
   });
   it('should error on not found (ENOENT)', function(done) {
     var cli = require('../..')(pkg, 'mock-subcommand');
-    cli.configuration({exit: false, bin: bin});
+    cli.configure({exit: false, bin: bin});
     var args = ['enoent'];
     cli.command('enoent', 'not found')
     cli.on('error', function(e) {
@@ -35,7 +35,7 @@ describe('cli-command:', function() {
   });
   it('should error on permission denied (EPERM)', function(done) {
     var cli = require('../..')(pkg, 'mock-subcommand');
-    cli.configuration({exit: false, bin: bin});
+    cli.configure({exit: false, bin: bin});
     var args = ['eperm'];
     cli.command('eperm', 'permission denied')
     cli.on('error', function(e) {
@@ -46,7 +46,7 @@ describe('cli-command:', function() {
   });
   it('should error gracefully on SIGINT', function(done) {
     var cli = require('../..')(pkg, 'mock-subcommand');
-    cli.configuration({exit: false, bin: bin});
+    cli.configure({exit: false, bin: bin});
     var args = ['build'];
     process.exit = function(code) {
       expect(code).to.eql(0);

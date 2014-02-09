@@ -26,7 +26,7 @@ Invoke the configuration method with an object to override the default configura
 
 ```javascript
 var stash = {};
-cli.configuration({stash: stash})
+cli.configure({stash: stash})
 ```
 
 * `bin`: A specific directory to use when executing commands as external programs, defaults to the same directory as the parent executable.
@@ -468,7 +468,7 @@ However, there may be times when an argument key conflicts with an internal prop
 
 ```javascript
 var cli = require('..');
-cli.configuration({stash: 'data'});
+cli.configure({stash: 'data'});
 // ...
 cli.parse();
 // now access the option values via cli.data
@@ -479,7 +479,7 @@ Or if you prefer you can specify an object:
 ```javascript
 var cli = require('..');
 var stash = {};
-cli.configuration({stash: stash});
+cli.configure({stash: stash});
 // ...
 cli.parse();
 ```

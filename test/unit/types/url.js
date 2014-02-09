@@ -7,7 +7,7 @@ var types = require('../../..').types;
 describe('cli-command:', function() {
   it('should coerce single value to url', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var u = 'http://nodejs.org';
     var expected = url.parse(u, true, true);
     var args = ['-u', u];
@@ -19,7 +19,7 @@ describe('cli-command:', function() {
   });
   it('should coerce scheme less url', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var u = '//nodejs.org?page=10';
     var expected = url.parse(u, true, true);
     var args = ['-u', u];
@@ -31,7 +31,7 @@ describe('cli-command:', function() {
   });
   it('should coerce multiple urls', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var u = '//nodejs.org#about';
     var expected = url.parse(u, true, true);
     var args = ['-u', u, '--url=' + u];
@@ -43,7 +43,7 @@ describe('cli-command:', function() {
   });
   it('should error on invalid url', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var args = ['-u', '/page#about'];
     cli
       .once('error',function(e) {

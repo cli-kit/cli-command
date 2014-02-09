@@ -9,7 +9,7 @@ describe('cli-command:', function() {
   var dt = new Date(d);
   it('should coerce single value to date', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var args = ['-d', d];
     cli
       .option('-d, --date <d>', 'a date argument', types.date)
@@ -19,7 +19,7 @@ describe('cli-command:', function() {
   });
   it('should coerce multiple values to array of dates', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var args = ['-d', d, '--date=' + d];
     cli
       .option('-d, --date <date...>', 'a date argument', types.date)
@@ -29,7 +29,7 @@ describe('cli-command:', function() {
   });
   it('should error on invalid date', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var args = ['-d', 'xyz' + d];
     cli
       .once('error', function(e) {
@@ -44,7 +44,7 @@ describe('cli-command:', function() {
   });
   it('should error on invalid date in array', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var args = ['-d', d, '--date=' + d, '--date', d + 'zyx'];
     cli
       .once('error',function(e) {

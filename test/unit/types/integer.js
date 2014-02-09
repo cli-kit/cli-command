@@ -6,7 +6,7 @@ var types = require('../../..').types;
 describe('cli-command:', function() {
   it('should coerce single value to integer', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var args = ['-i', '10'];
     cli
       .option('-i, --integer <n>', 'an integer argument', types.integer)
@@ -16,7 +16,7 @@ describe('cli-command:', function() {
   });
   it('should coerce multiple values to array of integers', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var args = ['-i', '10', '--integer=20'];
     cli
       .option('-i, --integer <n...>', 'an integer argument', types.integer)
@@ -26,7 +26,7 @@ describe('cli-command:', function() {
   });
   it('should error on invalid integer', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var args = ['-i', 'xyz'];
     cli
       .once('error', function(e) {
@@ -41,7 +41,7 @@ describe('cli-command:', function() {
   });
   it('should error on invalid integer in array', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var args = ['-i', '10', '--integer', 'zyx'];
     cli
       .once('error', function(e) {

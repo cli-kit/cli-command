@@ -7,7 +7,7 @@ describe('cli-command:', function() {
     var listeners = process.listeners('uncaughtException').slice(0);
     process.removeAllListeners('uncaughtException');
     var cli = require('../..')(pkg, 'mock-uncaught');
-    cli.configuration({exit: false});
+    cli.configure({exit: false});
     cli.once('error', function(e) {
       for(var i = 0;i < listeners.length;i++) {
         process.on('uncaughtException', listeners[i]);
@@ -32,7 +32,7 @@ describe('cli-command:', function() {
     process.once('uncaughtException', function(e) {
       cli.emit('error', e);
     });
-    cli.configuration({exit: false, trace: false});
+    cli.configure({exit: false, trace: false});
     cli.once('error', function(e) {
       this.error(e);
       for(var i = 0;i < listeners.length;i++) {

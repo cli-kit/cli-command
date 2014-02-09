@@ -16,7 +16,7 @@ var cli = require('../..');
 var middleware = cli.middleware;
 process.env.custom_middleware_url = 'http://nodejs.org';
 var cli = cli(pkg, 'custom_middleware')
-  .configuration({env: {merge: true}})
+  .configure({env: {merge: true}})
   .use(middleware.error)
   .use(middleware.parser)
   .use(middleware.unparsed)

@@ -5,7 +5,7 @@ var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
 describe('cli-command:', function() {
   it('should set property on stash (data)', function(done) {
     var cli = require('../..')(pkg, 'mock-stash');
-    cli.configuration({stash: 'data'});
+    cli.configure({stash: 'data'});
     var args = ['-i=10'];
     cli.option('-i, --integer [n]', 'an integer', Number);
     cli.parse(args);
@@ -16,7 +16,7 @@ describe('cli-command:', function() {
   it('should set property on stash object', function(done) {
     var cli = require('../..')(pkg, 'mock-stash-object');
     var stash = {};
-    cli.configuration({stash: stash});
+    cli.configure({stash: stash});
     var args = ['-i=10'];
     cli.option('-i, --integer [n]', 'an integer', Number);
     cli.parse(args);

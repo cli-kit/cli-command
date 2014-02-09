@@ -8,7 +8,7 @@ describe('cli-command:', function() {
   var golden = 1.61803398875;
   it('should coerce single value to float', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var args = ['-f', '' + pi];
     cli
       .option('-f, --float <n>', 'a float argument', types.float)
@@ -18,7 +18,7 @@ describe('cli-command:', function() {
   });
   it('should coerce multiple values to array of floats', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var args = ['-f', '' + pi, '--float=' + golden];
     cli
       .option('-f, --float <n...>', 'a float argument', types.float)
@@ -28,7 +28,7 @@ describe('cli-command:', function() {
   });
   it('should error on invalid float', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var args = ['-f', 'xyz'];
     cli
       .once('error', function(e) {
@@ -43,7 +43,7 @@ describe('cli-command:', function() {
   });
   it('should error on invalid float in array', function(done) {
     var cli = require('../../..')(pkg);
-    cli.configuration({exit:false});
+    cli.configure({exit:false});
     var args = ['-f', '' + pi, '--float=' + golden, '--float', 'zyx'];
     cli
       .once('error', function(e) {

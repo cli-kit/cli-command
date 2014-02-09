@@ -48,7 +48,7 @@ var CommandProgram = function() {
   Program.apply(this, arguments);
   // private
   define(this, '_middleware', undefined, true);
-  define(this, '_configuration', merge(defaults, {}), false);
+  define(this, '_conf', merge(defaults, {}), false);
   define(this, '__middleware__', [], false);
   define(this, '_exec', {}, false);
   define(this, '_request', undefined, true);
@@ -71,7 +71,7 @@ util.inherits(CommandProgram, Program);
  */
 function getReceiver() {
   var receiver = this;
-  var config = this.configuration();
+  var config = this.configure();
   if((typeof(config.stash) == 'string') && config.stash.length) {
     receiver = this[config.stash] = this[config.stash] || {};
   }else if(config.stash && (typeof(config.stash) == 'object')) {
@@ -155,7 +155,7 @@ define(CommandProgram.prototype, 'command', command, false);
  *  Define program middleware.
  */
 function use(middleware) {
-  var i, nm, args, result, conf = this.configuration();
+  var i, nm, args, result, conf = this.configure();
   if(!arguments.length && this._middleware === undefined) {
     for(i = 0;i < all.length;i++) {
       if(conf && conf.middleware) {
@@ -210,7 +210,7 @@ define(CommandProgram.prototype, 'env', env, false);
  *  @param e The error instance.
  */
 function error(e) {
-  var conf = this.configuration();
+  var conf = this.configure();
   if(!(e instanceof CliError)) {
     e = this.wrap(e);
   }
@@ -227,18 +227,18 @@ define(CommandProgram.prototype, 'error', error, false);
  *
  *  @param conf The program configuration.
  */
-function configuration(conf) {
-  if(!arguments.length) return this._configuration;
+function configure(conf) {
+  if(!arguments.length) return this._conf;
   conf = conf || {};
   var stash = conf.stash;
   if((typeof stash == 'string') && (stash in this)) {
     conflict.call(this, stash, new Option(stash));
     return this;
   }
-  merge(conf, this._configuration || merge(config, {}));
+  merge(conf, this._conf || merge(config, {}));
   return this;
 }
-define(CommandProgram.prototype, 'configuration', configuration, false);
+define(CommandProgram.prototype, 'configure', configure, false);
 
 /**
  *  Adds a version flag to the program.
@@ -272,7 +272,6 @@ define(CommandProgram.prototype, 'help', help, false);
  *  for help and version.
  *
  *  @param args The arguments to parse, default is process.argv.slice(2).
- *  @param options Configuration options.
  */
 function parse(args) {
   args = args || process.argv.slice(2);
@@ -312,11 +311,11 @@ function middleware(args) {
   if(list.length) exec();
 }
 
-module.exports = function(package, name, description, configuration) {
+module.exports = function(package, name, description, conf) {
   var locales = path.join(__dirname, 'lib', 'error', 'locales');
   clierr.file({locales: locales});
   var program = cli(package, name, description, CommandProgram);
-  program.configuration(configuration || defaults);
+  program.configure(conf || defaults);
   var listeners = process.listeners('uncaughtException');
   if(!listeners.length) {
     process.on('uncaughtException', function(err) {

@@ -14,7 +14,7 @@ describe('cli-command:', function() {
       var cli = require('../..')(pkg, 'env');
       var args = ['--no-verbose'];
       cli
-        .configuration(conf)
+        .configure(conf)
         .option('-v --verbose', 'print more information')
         .parse(args);
       expect(cli.verbose).to.eql(false);
@@ -28,7 +28,7 @@ describe('cli-command:', function() {
       var cli = require('../..')(pkg, 'env');
       var args = [];
       cli
-        .configuration(conf)
+        .configure(conf)
         .parse(args);
       expect(cli.url).to.eql(process.env.env_url);
       done();
@@ -44,7 +44,7 @@ describe('cli-command:', function() {
       var cli = require('../..')(pkg, 'env');
       var args = ['--url=' + value];
       cli
-        .configuration(conf)
+        .configure(conf)
         .option('-u --url [url]', 'a url')
         .parse(args);
       expect(cli.url).to.eql(value);
@@ -62,7 +62,7 @@ describe('cli-command:', function() {
       var cli = require('../..')(pkg, 'env');
       var args = ['--url=' + value];
       cli
-        .configuration(conf)
+        .configure(conf)
         .option('-u --url [url]', 'a url')
         .parse(args);
       expect(cli.url).to.eql(value);
@@ -82,7 +82,7 @@ describe('cli-command:', function() {
       var cli = require('../..')(pkg, 'env');
       var args = ['--url=' + value];
       cli
-        .configuration(conf)
+        .configure(conf)
         .option('-u --url [url]', 'a url')
         .parse(args);
       expect(stash.url).to.eql(value);

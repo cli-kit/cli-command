@@ -41,7 +41,7 @@ describe('cli-command:', function() {
   });
   it('should exit on subcommand executable', function(done) {
     var cli = require('../..')(pkg, 'mock-subcommand');
-    cli.configuration({bin: bin, exit: true});
+    cli.configure({bin: bin, exit: true});
     var args = ['build'];
     process.exit = function(code) {
       done();

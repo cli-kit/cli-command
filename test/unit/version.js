@@ -31,7 +31,7 @@ describe('cli-command:', function() {
   });
   it('should execute version handler', function(done) {
     var cli = require('../..')(pkg, 'mock-version');
-    cli.configuration({exit: false});
+    cli.configure({exit: false});
     var args = ['-V'];
     cli.version().parse(args);
     done();
@@ -40,7 +40,7 @@ describe('cli-command:', function() {
     var cli = require('../..')
     var version = cli.version;
     cli = cli(pkg, 'mock-custom-version');
-    cli.configuration({exit: false});
+    cli.configure({exit: false});
     var args = ['-V'];
     cli.version(function() {
       expect(cli).to.eql(this);

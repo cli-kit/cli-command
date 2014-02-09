@@ -16,7 +16,7 @@ describe('cli-command:', function() {
     var value = 'a default value';
     var cli = require('../..')(pkg);
     var args = [];
-    cli.configuration({stash: 'data'});
+    cli.configure({stash: 'data'});
     cli.option('-d --default [str]', 'a default value option', value);
     cli.parse(args);
     expect(cli.data.default).to.eql(value);
@@ -27,7 +27,7 @@ describe('cli-command:', function() {
     var cli = require('../..')(pkg);
     var stash = {};
     var args = [];
-    cli.configuration({stash: stash});
+    cli.configure({stash: stash});
     cli.option('-d --default [str]', 'a default value option', value);
     cli.parse(args);
     expect(stash.default).to.eql(value);
