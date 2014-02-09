@@ -464,17 +464,7 @@ The [define][define] module is thoroughly documented so you should check that ou
 
 By default the module will set parsed options as properties of the program. This makes for very convenient access to option values, it is just `this.option` (or `program.option` if the scope is not the program).
 
-However, there may be times when an argument key conflicts with an internal property or method. To prevent this you can either rename the option or set the configuration property `stash` to a string naming an object that will contain the option values, for example:
-
-```javascript
-var cli = require('..');
-cli.configure({stash: 'data'});
-// ...
-cli.parse();
-// now access the option values via cli.data
-```
-
-Or if you prefer you can specify an object:
+However, there may be times when an argument key conflicts with an internal property or method. To prevent this you can either rename the option or set the configuration property `stash` to an object that will contain the option values, for example:
 
 ```javascript
 var cli = require('..');
