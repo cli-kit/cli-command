@@ -22,7 +22,7 @@ Example programs are in the [bin](https://github.com/freeformsystems/cli-command
 
 ## Configuration
 
-Invoke the configuration method with an object to override the default configuration.
+Invoke the `configure()` method with an object to override the default configuration.
 
 ```javascript
 var stash = {};
