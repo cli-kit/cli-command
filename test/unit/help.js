@@ -21,6 +21,17 @@ describe('cli-command:', function() {
       .parse(args);
     done();
   });
+  it('should print vanilla help', function(done) {
+    var cli = require('../..')(pkg, 'mock-vanilla-help');
+    cli.configure({exit: false, help: {vanilla: true}});
+    var args = ['-h'];
+    cli
+      .configure({usage: '[command] -h'})
+      .command('test', 'a test command')
+      .help()
+      .parse(args);
+    done();
+  });
   it('should execute custom help handler', function(done) {
     var cli = require('../..')
     var help = cli.help;
