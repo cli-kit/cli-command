@@ -497,7 +497,7 @@ See the [enumerate/defaults][enumerate/defaults] and [enumerate/debug][enumerate
 
 ## Reserved Keywords
 
-`_action`, `_options`, `_commands`, `_conf`, `_converter`, `_description`, `_emitter`, `_events`, `_exec`, `_key`, `_maxListeners`, `_middleware`, `_name`, `_names`, `_package`, `_request`, `_version`, `action`, `addListener`, `command`, `configure`, `converter`, `description`, `domain`, `emit`, `error`, `errors`, `flag`, `help`, `key`, `listeners`, `name`, `names`, `on`, `once`, `option`, `package`, `parse`, `raise`, `removeAllListeners`, `removeListener`, `request`, `setMaxListeners`, `toString`, `use`, `version`, `wrap`
+`_action`, `_commands`, `_conf`, `_converter`, `_description`, `_emitter`, `_events`, `_exec`, `_key`, `_maxListeners`, `_middleware`, `_name`, `_names`, `_options`, `_package`, `_request`, `_version`, `action`, `addListener`, `command`, `commands`, `configure`, `converter`, `description`, `domain`, `emit`, `error`, `errors`, `flag`, `help`, `key`, `listeners`, `name`, `names`, `on`, `once`, `option`, `options`, `package`, `parse`, `raise`, `removeAllListeners`, `removeListener`, `request`, `setMaxListeners`, `toString`, `use`, `version`, `wrap`
 
 ## Credits
 
