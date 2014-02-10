@@ -3,7 +3,7 @@
 require('ttycolor')().defaults();
 var cli = require('../..')();
 cli
-  .usage('[options] <packages...>')
+  .configure({usage: '[options] <packages...>'})
   .version()
   .help()
   .on('run', function() {

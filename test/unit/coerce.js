@@ -16,7 +16,7 @@ describe('cli-command:', function() {
     var args = ['assert', '-i', '10', '-f', '3.14',
       '--range', '1..10', '--list=apples,oranges', 'file.txt', '-v=value'];
     cli
-      .usage('[options] <file ...>')
+      .configure({usage: '[options] <file ...>'})
       .option('-i, --integer <n>', 'an integer argument', parseInt)
       .option('-f, --float <n>', 'a float argument', parseFloat)
       .option('-r, --range <a>..<b>', 'a range', range)

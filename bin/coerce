@@ -19,7 +19,7 @@ function list(val) {
 }
 
 cli
-  .usage('[options] <file ...>')
+  .configure({usage:'[options] <file ...>'})
   .option('-i, --integer <n>', 'an integer argument', parseInt)
   .option('-f, --float <n>', 'a float argument', parseFloat)
   .option('-r, --range <a>..<b>', 'a range', range)

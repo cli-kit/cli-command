@@ -32,6 +32,7 @@ cli.configure({stash: stash})
 * `bin`: A specific directory to use when executing commands as external programs, defaults to the same directory as the parent executable.
 * `exit`: Whether the default error handler will exit the process when an error occurs, default is `true`.
 * `stash`: An object to receive parsed options as properties.
+* `usage`: A custom usage string for default help output.
 * `trace`: A boolean that forces the default error handler to always print stack traces, default is `false`.
 * `middleware`: An object containing booleans that allows subtractive configuration of the default middleware.
 
@@ -496,7 +497,7 @@ See the [enumerate/defaults][enumerate/defaults] and [enumerate/debug][enumerate
 
 ## Reserved Keywords
 
-`_action`, `_arguments`, `_commands`, `_conf`, `_converter`, `_description`, `_emitter`, `_events`, `_exec`, `_key`, `_maxListeners`, `_middleware`, `_name`, `_names`, `_package`, `_request`, `_usage`, `_version`, `action`, `addListener`, `arguments`, `command`, `commands`, `configure`, `converter`, `description`, `domain`, `emit`, `error`, `errors`, `flag`, `getReceiver`, `help`, `key`, `listeners`, `name`, `names`, `on`, `once`, `option`, `package`, `parse`, `raise`, `removeAllListeners`, `removeListener`, `request`, `setMaxListeners`, `toString`, `usage`, `use`, `version`, `wrap`
+`_action`, `_arguments`, `_commands`, `_conf`, `_converter`, `_description`, `_emitter`, `_events`, `_exec`, `_key`, `_maxListeners`, `_middleware`, `_name`, `_names`, `_package`, `_request`, `_version`, `action`, `addListener`, `arguments`, `command`, `commands`, `configure`, `converter`, `description`, `domain`, `emit`, `error`, `errors`, `flag`, `getReceiver`, `help`, `key`, `listeners`, `name`, `names`, `on`, `once`, `option`, `package`, `parse`, `raise`, `removeAllListeners`, `removeListener`, `request`, `setMaxListeners`, `toString`, `use`, `version`, `wrap`
 
 ## Credits
 
