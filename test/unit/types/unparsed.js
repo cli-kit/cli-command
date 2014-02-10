@@ -11,6 +11,7 @@ describe('cli-command:', function() {
     cli
       .converter(parseInt)
       .parse(args);
+    expect(cli.request().unparsed).to.eql([]);
     expect(cli.request().args).to.eql([1,2,3]);
     done();
   });
@@ -20,6 +21,7 @@ describe('cli-command:', function() {
     cli
       .converter(Array)
       .parse(args);
+    expect(cli.request().unparsed).to.eql([]);
     expect(cli.request().args).to.eql([['1'],['2'],['3']]);
     done();
   });
@@ -29,6 +31,7 @@ describe('cli-command:', function() {
     cli
       .converter(Boolean)
       .parse(args);
+    expect(cli.request().unparsed).to.eql([]);
     expect(cli.request().args).to.eql([true, false, true, false]);
     done();
   });
@@ -40,6 +43,7 @@ describe('cli-command:', function() {
     cli
       .converter(Date)
       .parse(args);
+    expect(cli.request().unparsed).to.eql([]);
     expect(cli.request().args).to.eql([dt]);
     done();
   });
@@ -50,6 +54,7 @@ describe('cli-command:', function() {
     cli
       .converter(types.enum(list))
       .parse(args);
+    expect(cli.request().unparsed).to.eql([]);
     expect(cli.request().args).to.eql(['css', 'scss']);
     done();
   });
@@ -60,6 +65,7 @@ describe('cli-command:', function() {
     cli
       .converter(types.float)
       .parse(args);
+    expect(cli.request().unparsed).to.eql([]);
     expect(cli.request().args).to.eql([golden]);
     done();
   });
@@ -70,6 +76,7 @@ describe('cli-command:', function() {
     cli
       .converter(types.float)
       .parse(args);
+    expect(cli.request().unparsed).to.eql([]);
     expect(cli.request().args).to.eql([integer]);
     done();
   });
@@ -82,6 +89,7 @@ describe('cli-command:', function() {
     cli
       .converter(JSON)
       .parse(args);
+    expect(cli.request().unparsed).to.eql([]);
     expect(cli.request().args).to.eql([value]);
     done();
   });

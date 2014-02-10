@@ -26,6 +26,8 @@ var defaults = {
   bin: null,
   env: null,
   trace: undefined,
+  unknown: true,
+  strict: false,
   middleware: null
 }
 
