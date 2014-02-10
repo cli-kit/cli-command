@@ -14,7 +14,8 @@ var cli = require('../..')(pkg, 'help/defaults');
 cli
   .configure({usage: '[options] <command> <package...>'})
   .command('install, ins, i', 'install packages')
-  .command('publish, pub, p', 'publish packages')
+  .command('publish, pub, p',
+    'publish packages to the registry creating a new package version')
   .command('update, up, u', 'update dependencies')
   .command('list, ls', 'list dependencies')
   .command('pack, pk', 'create archive')

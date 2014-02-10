@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-//vim: ft=javascript
 
 /**
  *  Example of declaring an option that conflicts with a program
