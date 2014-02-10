@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+process.env.CLI_TOOLKIT_DEBUG=true;
+var cli = require('..')();
+var keys = [];
+for(var z in cli) {
+  keys.push(z);
+}
+keys.sort();
+keys = keys.map(function(k) {return '`' + k + '`'})
+//console.dir(keys);
+console.log('## Reserved Keywords');
+console.log();
+console.log(keys.join(', '));

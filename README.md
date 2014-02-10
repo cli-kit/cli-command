@@ -494,6 +494,10 @@ At times you may wish to inspect the internal structure of the program using `co
 
 See the [enumerate/defaults][enumerate/defaults] and [enumerate/debug][enumerate/debug] examples.
 
+## Reserved Keywords
+
+`__middleware__`, `_action`, `_arguments`, `_author`, `_commands`, `_conf`, `_converter`, `_description`, `_emitter`, `_events`, `_exec`, `_id`, `_key`, `_maxListeners`, `_middleware`, `_name`, `_names`, `_package`, `_request`, `_usage`, `_version`, `action`, `addListener`, `args`, `arguments`, `command`, `commands`, `configure`, `converter`, `description`, `domain`, `emit`, `env`, `error`, `errors`, `flag`, `getReceiver`, `help`, `id`, `key`, `listeners`, `name`, `names`, `on`, `once`, `option`, `package`, `parse`, `raise`, `removeAllListeners`, `removeListener`, `request`, `setMaxListeners`, `toString`, `usage`, `use`, `version`, `wrap`
+
 ## Credits
 
 Chainable program definition inspired by [commander][commander], type conversion on native type constructors lifted from [nopt][nopt] and middleware design thanks to [express][express].
