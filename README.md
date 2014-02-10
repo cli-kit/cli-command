@@ -241,7 +241,7 @@ function mime(value, arg, index) {
   // validate the value is a recognized mime type
   // and return it if valid
   throw new ArgumentTypeError('invalid mime type for %s, got %s',
-    arg.names().join(' | '), value);
+    arg.toString(null), value);
 }
 // ...
 cli.option('-m, --mime-type <mime>', 'a mime type', mime)
