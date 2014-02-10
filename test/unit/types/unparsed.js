@@ -74,7 +74,7 @@ describe('cli-command:', function() {
     var cli = require('../../..')(pkg);
     var args = ['' + integer];
     cli
-      .converter(types.float)
+      .converter(types.integer)
       .parse(args);
     expect(cli.request().unparsed).to.eql([]);
     expect(cli.request().args).to.eql([integer]);
@@ -92,5 +92,16 @@ describe('cli-command:', function() {
     expect(cli.request().unparsed).to.eql([]);
     expect(cli.request().args).to.eql([value]);
     done();
+  });
+  it('should error on invalid number', function(done) {
+    var cli = require('../../..')(pkg);
+    var args = ['NaN'];
+    cli
+      .on('error', function(e) {
+        expect(e.code).to.eql(this.errors.ETYPE.code);
+        done();
+      })
+      .converter(Number)
+      .parse(args);
   });
 })
