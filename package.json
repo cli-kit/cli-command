@@ -22,7 +22,7 @@
     "command"
   ],
   "dependencies": {
-    "cli-define": "~0.4.1",
+    "cli-define": "~0.4.2",
     "cli-env": "~1.0.2",
     "cli-argparse": "~0.3.5",
     "cli-error": "~0.4.3",
