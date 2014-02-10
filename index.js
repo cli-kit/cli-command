@@ -25,6 +25,10 @@ var defaults = {
   stash: null,
   bin: null,
   env: null,
+  help: {
+    vanilla: false,
+    sort: true
+  },
   trace: undefined,
   unknown: true,
   strict: false,
