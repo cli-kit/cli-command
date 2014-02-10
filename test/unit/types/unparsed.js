@@ -11,7 +11,7 @@ describe('cli-command:', function() {
     cli
       .converter(parseInt)
       .parse(args);
-    expect(cli.args).to.eql([1,2,3]);
+    expect(cli.request().args).to.eql([1,2,3]);
     done();
   });
   it('should coerce unparsed arguments (Array)', function(done) {
@@ -20,7 +20,7 @@ describe('cli-command:', function() {
     cli
       .converter(Array)
       .parse(args);
-    expect(cli.args).to.eql([['1'],['2'],['3']]);
+    expect(cli.request().args).to.eql([['1'],['2'],['3']]);
     done();
   });
   it('should coerce unparsed arguments (Boolean)', function(done) {
@@ -29,7 +29,7 @@ describe('cli-command:', function() {
     cli
       .converter(Boolean)
       .parse(args);
-    expect(cli.args).to.eql([true, false, true, false]);
+    expect(cli.request().args).to.eql([true, false, true, false]);
     done();
   });
   it('should coerce unparsed arguments (Date)', function(done) {
@@ -40,7 +40,7 @@ describe('cli-command:', function() {
     cli
       .converter(Date)
       .parse(args);
-    expect(cli.args).to.eql([dt]);
+    expect(cli.request().args).to.eql([dt]);
     done();
   });
   it('should coerce unparsed arguments (enum)', function(done) {
@@ -50,7 +50,7 @@ describe('cli-command:', function() {
     cli
       .converter(types.enum(list))
       .parse(args);
-    expect(cli.args).to.eql(['css', 'scss']);
+    expect(cli.request().args).to.eql(['css', 'scss']);
     done();
   });
   it('should coerce unparsed arguments (float)', function(done) {
@@ -60,7 +60,7 @@ describe('cli-command:', function() {
     cli
       .converter(types.float)
       .parse(args);
-    expect(cli.args).to.eql([golden]);
+    expect(cli.request().args).to.eql([golden]);
     done();
   });
   it('should coerce unparsed arguments (integer)', function(done) {
@@ -70,7 +70,7 @@ describe('cli-command:', function() {
     cli
       .converter(types.float)
       .parse(args);
-    expect(cli.args).to.eql([integer]);
+    expect(cli.request().args).to.eql([integer]);
     done();
   });
   it('should coerce unparsed arguments (JSON)', function(done) {
@@ -82,7 +82,7 @@ describe('cli-command:', function() {
     cli
       .converter(JSON)
       .parse(args);
-    expect(cli.args).to.eql([value]);
+    expect(cli.request().args).to.eql([value]);
     done();
   });
 })

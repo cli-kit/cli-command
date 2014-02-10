@@ -29,7 +29,7 @@ describe('cli-command:', function() {
           expect(cli.float).to.eql(3.14);
           expect(cli.range).to.eql([1,10]);
           expect(cli.list).to.eql(['apples','oranges']);
-          expect(cli.args).to.eql(['file.txt']);
+          expect(cli.request().args).to.eql(['file.txt']);
           expect(cli.value).to.eql('value');
           done();
         })

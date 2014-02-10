@@ -55,9 +55,6 @@ var CommandProgram = function() {
 
   // public
   define(this, 'errors', errors, false);
-
-  // TODO: depreacte this public property
-  define(this, 'args', [], true);
 }
 
 util.inherits(CommandProgram, Program);

@@ -384,7 +384,7 @@ cli
   .version()
   .help()
   .on('run', function() {
-    console.log('install %s', this.args);
+    console.log('install %s', this.request().args);
   })
   .on('empty', function(help, version) {
     help.call(this, true);  // invoke help on zero arguments
