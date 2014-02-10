@@ -18,6 +18,8 @@ var errors = clierr.errors;
 var ErrorDefinition = clierr.ErrorDefinition;
 var CliError = clierr.CliError;
 
+var __middleware__;
+
 var defaults = {
   exit: true,
   stash: null,
@@ -46,10 +48,10 @@ var all = [
 
 var CommandProgram = function() {
   Program.apply(this, arguments);
+  __middleware__ = [];
   // private
   define(this, '_middleware', undefined, true);
   define(this, '_conf', merge(defaults, {}), false);
-  define(this, '__middleware__', [], false);
   define(this, '_exec', {}, false);
   define(this, '_request', undefined, true);
 
@@ -171,7 +173,8 @@ function use(middleware) {
   }
   result = middleware.apply(this, args);
 
-  if(~this.__middleware__.indexOf(middleware)) {
+  if(~__middleware__.indexOf(middleware)) {
+    console.dir(__middleware__);
     throw new Error('Invalid middleware, duplicate detected');
   }
 
@@ -180,7 +183,7 @@ function use(middleware) {
     this._middleware.push(result);
   }
 
-  this.__middleware__.push(middleware);
+  __middleware__.push(middleware);
 
   return this;
 }
