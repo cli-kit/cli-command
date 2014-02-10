@@ -27,7 +27,8 @@ var defaults = {
   env: null,
   help: {
     vanilla: false,
-    sort: true
+    sort: true,
+    column: 80
   },
   trace: undefined,
   unknown: true,
