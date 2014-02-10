@@ -20,17 +20,18 @@ cli
     var repeat = help.repeat;
     var delimiter = repeat(76, '+')
     var usage = help.usage;
+    var pkg = this.package();
     help.foot = function() {
       console.log();
       console.log(repeat() + delimiter);
       console.log();
-      console.log(repeat() + 'Author: ' + this._author);
+      console.log(repeat() + 'Author: ' + pkg.author);
       console.log(repeat() + 'Repository: '
-        + this._package.repository.url);
+        + pkg.repository.url);
       console.log(repeat() + 'Bugs: '
-        + this._package.bugs.url);
+        + pkg.bugs.url);
       console.log(repeat() + 'License: '
-        + this._package.licenses[0].type);
+        + pkg.licenses[0].type);
       console.log();
     }
     help.head = function() {
