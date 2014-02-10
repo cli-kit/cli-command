@@ -18,7 +18,7 @@ describe('cli-command:', function() {
     var ver = '0.0.1', name = '-v', description = 'print version';
     cli.version(ver, name, description);
     expect(cli._version).to.eql(ver);
-    expect(cli._arguments.versionopt.description()).to.eql(description);
+    expect(cli._options.versionopt.description()).to.eql(description);
     done();
   });
   it('should set program version as action', function(done) {
@@ -26,7 +26,7 @@ describe('cli-command:', function() {
       path.join(__dirname, '..', '..', 'package.json'));
     function version(){}
     cli.version(version);
-    expect(cli._arguments.versionopt.action()).to.eql(version);
+    expect(cli._options.versionopt.action()).to.eql(version);
     done();
   });
   it('should execute version handler', function(done) {

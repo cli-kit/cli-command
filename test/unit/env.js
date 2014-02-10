@@ -66,7 +66,7 @@ describe('cli-command:', function() {
         .option('-u --url [url]', 'a url')
         .parse(args);
       expect(cli.url).to.eql(value);
-      expect(cli._arguments.url.value()).to.eql(value);
+      expect(cli._options.url.value()).to.eql(value);
       expect(cli.rc).to.eql(undefined);
       done();
     }

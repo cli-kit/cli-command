@@ -221,7 +221,7 @@ define(CommandProgram.prototype, 'configure', configure, false);
  *  @param action A function to invoke.
  */
 function version(semver, name, description, action) {
-  if(!arguments.length && this._arguments.versionopt) return this._version;
+  if(!arguments.length && this._options.versionopt) return this._version;
   return this.use(middlewares.version, semver, name, description, action);
 }
 define(CommandProgram.prototype, 'version', version, false);

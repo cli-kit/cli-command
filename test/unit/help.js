@@ -36,7 +36,7 @@ describe('cli-command:', function() {
         expect(help.commands).to.be.a('function');
         expect(help.options).to.be.a('function');
         expect(help.foot).to.be.a('function');
-        delete this._arguments.help;
+        delete this._options.help;
         help.call(this);
         done();
       })
