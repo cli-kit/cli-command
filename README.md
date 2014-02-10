@@ -501,7 +501,7 @@ See the [enumerate/defaults][enumerate/defaults] and [enumerate/debug][enumerate
 
 ## Credits
 
-Chainable program definition inspired by [commander][commander], type conversion on native type constructors lifted from [nopt][nopt] and middleware design thanks to [express][express].
+Chainable program definition inspired by [commander][commander], type conversion on native type constructors lifted from [nopt][nopt] and middleware concept thanks to [express][express].
 
 ## License
 

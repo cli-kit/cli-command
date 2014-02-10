@@ -20,6 +20,7 @@ describe('cli-command:', function() {
     cli.configure({stash: stash});
     cli.option('-d --default [str]', 'a default value option', value);
     cli.parse(args);
+    //console.dir(stash);
     expect(stash.default).to.eql(value);
     done();
   });

@@ -26,6 +26,7 @@ cli
   .option('-l, --list <items>', 'a list', list)
   .option('-o, --optional [value]', 'an optional value')
   .on('run', function() {
+    //console.log(JSON.stringify(this));
     for(var key in this) {
       console.log(key + ': %s (%s)', this[key],
         Array.isArray(this[key]) ? 'array' : typeof(this[key]));

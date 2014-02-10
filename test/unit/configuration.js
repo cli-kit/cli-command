@@ -10,7 +10,7 @@ describe('cli-command:', function() {
       //.parse(args);
     var config = cli.configure();
     expect(config.exit).to.eql(true);
-    expect(config.stash).to.eql(null);
+    //expect(config.stash).to.eql(null);
     expect(config.bin).to.eql(null);
     done();
   });
@@ -22,7 +22,7 @@ describe('cli-command:', function() {
       .parse(args);
     var config = cli.configure();
     expect(config.exit).to.eql(false);
-    expect(config.stash).to.eql(null);
+    //expect(config.stash).to.eql(null);
     expect(config.bin).to.eql(null);
     done();
   });
@@ -34,7 +34,7 @@ describe('cli-command:', function() {
       .parse(args);
     var config = cli.configure();
     expect(config.exit).to.eql(true);
-    expect(config.stash).to.eql(null);
+    //expect(config.stash).to.eql(null);
     expect(config.bin).to.eql('./bin');
     done();
   });

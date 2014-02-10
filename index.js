@@ -51,29 +51,18 @@ var CommandProgram = function() {
   __middleware__ = [];
   // private
   define(this, '_middleware', undefined, true);
-  define(this, '_conf', merge(defaults, {}), false);
+  define(this, '_conf', merge(defaults, {}), true);
   define(this, '_exec', {}, false);
   define(this, '_request', undefined, true);
+
+  //
+  this._conf.stash = this;
 
   // public
   define(this, 'errors', errors, false);
 }
 
 util.inherits(CommandProgram, Program);
-
-/**
- *  Get a reference to the object that will be assigned
- *  properties corresponding to the argument values.
- *
- *  This will be either the program instance or a stash object
- *  if the program has been configured to use a stash.
- */
-function getReceiver() {
-  var config = this.configure();
-  if(config.stash) return config.stash;
-  return this;
-}
-define(CommandProgram.prototype, 'getReceiver', getReceiver, false);
 
 /**
  *  Get or set the middleware request object.
@@ -215,12 +204,10 @@ define(CommandProgram.prototype, 'error', error, false);
 function configure(conf) {
   if(!arguments.length) return this._conf;
   conf = conf || {};
-  //var stash = conf.stash;
-  //if((typeof stash == 'string') && (stash in this)) {
-    //conflict.call(this, stash, new Option(stash));
-    //return this;
-  //}
-  merge(conf, this._conf || merge(config, {}));
+  this._conf = merge(conf, this._conf || defaults);
+  if(conf.stash) {
+    this._conf.stash = conf.stash;
+  }
   return this;
 }
 define(CommandProgram.prototype, 'configure', configure, false);
@@ -296,11 +283,10 @@ function middleware(args) {
   if(list.length) exec();
 }
 
-module.exports = function(package, name, description, conf) {
+module.exports = function(package, name, description) {
   var locales = path.join(__dirname, 'lib', 'error', 'locales');
   clierr.file({locales: locales});
   var program = cli(package, name, description, CommandProgram);
-  program.configure(conf || defaults);
   var listeners = process.listeners('uncaughtException');
   if(!listeners.length) {
     process.on('uncaughtException', function(err) {
