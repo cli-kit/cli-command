@@ -37,6 +37,7 @@ var all = [
   middlewares.unparsed,
   middlewares.defaults,
   middlewares.action,
+  middlewares.eunknown,
   middlewares.emultiple,
   middlewares.erequired,
   middlewares.env,
