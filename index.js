@@ -187,16 +187,6 @@ function use(middleware) {
 define(CommandProgram.prototype, 'use', use, false);
 
 /**
- *  Get or set the environment instance.
- */
-function env(value) {
-  if(!arguments.length) return this._env;
-  this._env = value;
-  return this;
-}
-define(CommandProgram.prototype, 'env', env, false);
-
-/**
  *  Default error handler for the error event.
  *
  *  @param e The error instance.
