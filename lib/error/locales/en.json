@@ -113,5 +113,15 @@
     "key": "EFILE_TYPE_SIZE",
     "message": "%s is an empty file",
     "code": 86
+  },
+  {
+    "key": "ERC_SYNTAX",
+    "message": "syntax error in rc file %s",
+    "code": 87
+  },
+  {
+    "key": "ERC_LOAD",
+    "message": "error loading rc file %s",
+    "code": 88
   }
 ]

@@ -315,17 +315,22 @@ function middleware(args) {
   var req = {argv: args};
   function exec() {
     var func = list[i];
+    //console.log('' + func);
     func.call(scope, req, next);
     //console.log('' + func);
     //console.log('file %s', scope.file);
   }
   function next(err, parameters, e) {
-    if(err) {
+    if(err === true) {
+      return scope.emit('complete');
+    }else if(err) {
       scope.raise(err, parameters, e);
     }
     i++;
     if(i < list.length) {
       exec();
+    }else{
+      scope.emit('complete');
     }
   }
   if(list.length) exec();
