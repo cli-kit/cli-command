@@ -33,6 +33,17 @@ describe('cli-command:', function() {
     })
     cli.parse(args);
   });
+  it('should error on not found with invalid bin (ENOENT)', function(done) {
+    var cli = require('../..')(pkg, 'mock-subcommand');
+    cli.configure({exit: false, bin: false});
+    var args = ['enoent'];
+    cli.command('enoent', 'not found')
+    cli.on('error', function(e) {
+      e.error();
+      done();
+    })
+    cli.parse(args);
+  });
   it('should error on permission denied (EPERM)', function(done) {
     var cli = require('../..')(pkg, 'mock-subcommand');
     cli.configure({exit: false, bin: bin});

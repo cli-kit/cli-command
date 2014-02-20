@@ -4,7 +4,6 @@ describe('cli-command:', function() {
   it('should use custom env configuration', function(done) {
     var cli = require('../../..');
     var middleware = cli.middleware;
-    var conf = {};
     cli = cli(null, 'middleware/env')
       .configure({env: {prefix: 'env_', match: /^env_/}});
     expect(cli.configure().env.prefix).to.eql('env_');
