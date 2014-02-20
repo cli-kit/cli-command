@@ -28,6 +28,19 @@ describe('cli-command:', function() {
     expect(cli.path).to.eql(path.join(cwd, file));
     done();
   });
+  it('should return untouched with invalid home (./file.txt)', function(done) {
+    var home = process.env.HOME;
+    delete process.env.HOME;
+    var cli = require('../../..')(pkg);
+    var file = 'file.txt';
+    var args = ['-p', '~/' + file];
+    cli
+      .option('-p, --path <path>', 'a path argument', types.path)
+      .parse(args);
+    expect(cli.path).to.eql('~/file.txt');
+    process.env.HOME = home;
+    done();
+  });
   it('should respect absolute path', function(done) {
     var cli = require('../../..')(pkg);
     var file = '/file.txt';

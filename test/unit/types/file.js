@@ -20,6 +20,16 @@ describe('cli-command:', function() {
     expect(fn).throws(Error);
     done();
   });
+  it('should not resolve path', function(done) {
+    var cli = require('../../..')(pkg, 'mock-file-type');
+    var value = files.file;
+    var args = ['-f', value];
+    cli
+      .option('-f, --file <file>', 'a file argument', types.file('f', false));
+    cli.parse(args);
+    expect(cli.file).to.eql(value);
+    done();
+  });
   it('should be a file type', function(done) {
     var cli = require('../../..')(pkg, 'mock-file-type');
     var value = files.file;
