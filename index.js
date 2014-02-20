@@ -147,6 +147,11 @@ define(CommandProgram.prototype, 'command', command, false);
  */
 function use(middleware) {
   var i, nm, args, result, conf = this.configure();
+  if(middleware === false) {
+    __middleware__ = [];
+    this._middleware = [];
+    return this;
+  }
   if(!arguments.length && this._middleware === undefined) {
     for(i = 0;i < all.length;i++) {
       if(conf && conf.middleware) {
