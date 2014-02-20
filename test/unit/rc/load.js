@@ -4,7 +4,7 @@ describe('cli-command:', function() {
     var cli = require('../../..');
     var middleware = cli.middleware;
     cli = cli()
-      .configure({exit: false, rc: {name: 'load.json', path: [__dirname]}})
+      .configure({exit: false, rc: {name: 'rc.json', path: [__dirname]}})
       .on('complete', function(req) {
         expect(req.rc).to.be.an('object');
         expect(req.rc.prefix).to.be.a('string');
