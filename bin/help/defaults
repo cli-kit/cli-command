@@ -6,6 +6,7 @@
  *  ./bin/help/defaults
  *  ./bin/help/defaults -h
  *  ./bin/help/defaults --help
+ *  ./bin/help/defaults --help --no-color
  */
 var path = require('path');
 require('ttycolor')().defaults();

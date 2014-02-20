@@ -6,6 +6,7 @@
  *  ./bin/help/custom
  *  ./bin/help/custom -h
  *  ./bin/help/custom --help
+ *  ./bin/help/custom --help --no-color
  */
 var path = require('path');
 require('ttycolor')().defaults();
@@ -13,7 +14,7 @@ var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..'),
   help = cli.help;
 cli(pkg, 'help/custom')
-  //.use(cli.middleware.color)
+  .use(cli.middleware.color)
   .version()
   .description('Test program for custom help')
   .help(function(req, next) {

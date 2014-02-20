@@ -7,6 +7,15 @@ describe('cli-command:', function() {
     var cli = require('../..');
     var args = ['--color=never'];
     cli(pkg, 'mock-color')
+      .use(cli.middleware.color)
+      .configure({exit: false})
+      .parse(args);
+    done();
+  });
+  it('should use color middleware (defaults: false)', function(done) {
+    var cli = require('../..');
+    var args = ['--color=never'];
+    cli(pkg, 'mock-color')
       .use(cli.middleware.color, {defaults: false})
       .configure({exit: false})
       .parse(args);
