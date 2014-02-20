@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 
 /**
- *  Example program to test default help output.
+ *  Example program to test vanilla help output.
  *
- *  ./bin/help/defaults
- *  ./bin/help/defaults -h
- *  ./bin/help/defaults --help
+ *  ./bin/help/vanilla
+ *  ./bin/help/vanilla -h
+ *  ./bin/help/vanilla --help
  */
 var path = require('path');
 require('ttycolor')().defaults();
 var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
-var cli = require('../..')(pkg, 'help/defaults');
+var cli = require('../..')(pkg, 'help/vanilla');
 cli
   .configure({help: {vanilla: true}})
   .usage('[options] <command> <package...>')
