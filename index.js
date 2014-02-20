@@ -171,7 +171,7 @@ function use(middleware) {
   result = middleware.apply(this, args);
 
   if(~__middleware__.indexOf(middleware)) {
-    console.dir(__middleware__);
+    //console.dir(__middleware__);
     throw new Error('Invalid middleware, duplicate detected');
   }
 

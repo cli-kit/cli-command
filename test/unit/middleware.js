@@ -36,4 +36,15 @@ describe('cli-command:', function() {
     expect(cli._middleware.length).to.eql(len - 1);
     done();
   });
+  it('should use custom middleware', function(done) {
+    var cli = require('../..');
+    var middleware = cli.middleware;
+    cli = cli(pkg)
+      .use(middleware.error)
+      .use(middleware.parser);
+    // NOTE: the errror middleware does not return a function
+    // NOTE: therefore does not become part of the middleware execution chain
+    expect(cli._middleware.length).to.eql(1);
+    done();
+  });
 })
