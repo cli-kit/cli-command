@@ -1,9 +1,10 @@
 var path = require('path');
 var expect = require('chai').expect;
-var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', '..', 'package.json'));
 describe('cli-command:', function() {
   it('should throw error on invalid middleware', function(done) {
-    var cli = require('../..')(pkg);
+    var cli = require('../../..')(pkg);
     function fn() {
       cli.use(null);
     }
@@ -13,7 +14,7 @@ describe('cli-command:', function() {
   });
 
   it('should throw error on duplicate middleware', function(done) {
-    var cli = require('../..');
+    var cli = require('../../..');
     var middleware = cli.middleware;
     cli = cli(pkg);
     cli.use(middleware.error);
@@ -25,7 +26,7 @@ describe('cli-command:', function() {
     done();
   });
   it('should subtract middleware from default middleware', function(done) {
-    var cli = require('../..');
+    var cli = require('../../..');
     var env = cli.middleware.env;
     var middleware = cli.middleware;
     var conf = {middleware: {env: false}};
@@ -39,7 +40,7 @@ describe('cli-command:', function() {
   it('should use custom middleware', function(done) {
     var argv = process.argv.slice(0);
     process.argv = process.argv.slice(0, 2);
-    var cli = require('../..');
+    var cli = require('../../..');
     var middleware = cli.middleware;
     cli = cli(pkg)
       .use(middleware.error)
@@ -52,7 +53,7 @@ describe('cli-command:', function() {
     done();
   });
   it('should do nothing with no configured middleware', function(done) {
-    var cli = require('../..');
+    var cli = require('../../..');
     cli = cli(pkg)
       .use(false)
       .parse();
