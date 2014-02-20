@@ -5,7 +5,9 @@ var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
 describe('cli-command:', function() {
   it('should execute help handler (zero commands)', function(done) {
     var cli = require('../..')(pkg, 'mock-help');
-    cli.configure({exit: false});
+    cli
+      .usage('...')
+      .configure({exit: false});
     var args = ['-h'];
     cli.help().parse(args);
     done();

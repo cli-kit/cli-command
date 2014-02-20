@@ -10,7 +10,7 @@ require('ttycolor')().defaults();
 var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..')(pkg);
 cli
-  .configure({usage: '[...]'})
+  .usage('[...]')
   .version()
   .help()
   .on('empty', function(help, version) {

@@ -36,7 +36,6 @@ cli.configure({stash: stash})
 * `strict`: Do not allow any unparsed options, default `false`.
 * `trace`: A boolean that forces the default error handler to always print stack traces, default is `false`.
 * `unknown`: Whether unknown option error handling is enabled, default `true`.
-* `usage`: A custom usage string for default help output.
 
 ## Help
 

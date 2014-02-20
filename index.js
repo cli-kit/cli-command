@@ -62,6 +62,7 @@ var CommandProgram = function() {
   define(this, '_conf', merge(defaults, {}), true);
   define(this, '_exec', {}, false);
   define(this, '_request', undefined, true);
+  define(this, '_usage', undefined, true);
 
   //
   this._conf.stash = this;
@@ -130,6 +131,18 @@ function raise(err, parameters, source) {
   this.emit('error', e, errors);
 }
 define(CommandProgram.prototype, 'raise', raise, false);
+
+/**
+ *  Get or set the program usage.
+ *
+ *  @param usage The program usage string.
+ */
+function usage(usage) {
+  if(!arguments.length) return this._usage;
+  this._usage = usage;
+  return this;
+}
+define(CommandProgram.prototype, 'usage', usage, false);
 
 /**
  *  Override so we can maintain a list of commands
