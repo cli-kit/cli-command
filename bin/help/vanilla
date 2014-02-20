@@ -8,11 +8,12 @@
  *  ./bin/help/vanilla --help
  */
 var path = require('path');
-require('ttycolor')().defaults();
-var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..');
 cli(pkg, 'help/vanilla')
   .configure({help: {vanilla: true}})
+  .use(cli.middleware.color)
   .usage('[options] <command> <package...>')
   .command('install, ins, i', 'install packages')
   .command('publish, pub, p',

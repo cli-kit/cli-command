@@ -9,10 +9,9 @@
  *  ./bin/help/custom --help --no-color
  */
 var path = require('path');
-require('ttycolor')().defaults();
-var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
-var cli = require('../..'),
-  help = cli.help;
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..'), help = cli.help;
 cli(pkg, 'help/custom')
   .use(cli.middleware.color)
   .version()

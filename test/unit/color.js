@@ -1,6 +1,8 @@
 var path = require('path');
 var expect = require('chai').expect;
-var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', 'package.json'));
+var ttycolor = require('ttycolor');
 
 describe('cli-command:', function() {
   it('should use color middleware', function(done) {
@@ -10,11 +12,12 @@ describe('cli-command:', function() {
       .use(cli.middleware.color)
       .configure({exit: false})
       .parse(args);
+    ttycolor.revert();
     done();
   });
   it('should add enum validation', function(done) {
     var cli = require('../..');
-    var args = ['--no-color'];
+    var args = ['--color'];
     cli(pkg, 'mock-color')
       .use(cli.middleware.color, {validate: true, defaults: false})
       .configure({exit: false})
