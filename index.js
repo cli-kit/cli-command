@@ -167,20 +167,26 @@ define(CommandProgram.prototype, 'command', command, false);
  *  Define program middleware.
  */
 function use(middleware) {
-  var i, nm, args, result, conf = this.configure();
+  var i, nm, closure, conf = this.configure();
+  var ind = -1, args = [].slice.call(arguments, 1);
   if(middleware === false) {
     __middleware__ = [];
     this._middleware = [];
     return this;
   }
+  if(typeof middleware === 'number') {
+    ind = middleware;
+    middleware = arguments[1];
+    args = [].slice.call(arguments, 2);
+  }
   if(!arguments.length && this._middleware === undefined) {
     for(i = 0;i < all.length;i++) {
       if(conf && conf.middleware) {
-        result = all[i].call(this);
-        if(typeof result !== 'function') {
+        closure = all[i].call(this);
+        if(typeof closure !== 'function') {
           continue;
         }
-        nm = cname(result);
+        nm = cname(closure);
         //console.log('got name %s', nm);
         if(nm && conf.middleware[nm] === false) {
           continue;
@@ -190,20 +196,22 @@ function use(middleware) {
     }
     return this;
   }
-  args = [].slice.call(arguments, 1);
   if(typeof middleware != 'function') {
     throw new Error('Invalid middleware, must be a function');
   }
-  result = middleware.apply(this, args);
-
+  closure = middleware.apply(this, args);
   if(~__middleware__.indexOf(middleware)) {
     //console.dir(__middleware__);
     throw new Error('Invalid middleware, duplicate detected');
   }
 
-  if(typeof(result) == 'function') {
+  if(typeof(closure) == 'function') {
     if(this._middleware === undefined) this._middleware = [];
-    this._middleware.push(result);
+    if(ind < 0 || ind >= __middleware__.length) {
+      this._middleware.push(closure);
+    }else{
+      this._middleware.splice(ind, 0, closure);
+    }
   }
 
   __middleware__.push(middleware);
