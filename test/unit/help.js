@@ -67,6 +67,30 @@ describe('cli-command:', function() {
       .parse(args);
     done();
   });
+  it('should disable section titles', function(done) {
+    var cli = require('../..')(pkg, 'mock-null-title-help');
+    cli.configure({exit: false, help: {title: null}});
+    var args = ['-h'];
+    cli
+      .usage('[command] -h')
+      .command('test', 'a test command')
+      .help()
+      .parse(args);
+    done();
+  });
+  it('should disable section titles (CLI_TOOLKIT_HELP_MAN)', function(done) {
+    process.env.CLI_TOOLKIT_HELP_MAN = true;
+    var cli = require('../..')(pkg, 'mock-env-title-help');
+    cli.configure({exit: false});
+    var args = ['-h'];
+    cli
+      .usage('[command] -h')
+      .command('test', 'a test command')
+      .help()
+      .parse(args);
+    delete process.env.CLI_TOOLKIT_HELP_MAN;
+    done();
+  });
   it('should customize section titles', function(done) {
     var cli = require('../..')(pkg, 'mock-custom-title-help');
     cli.configure(

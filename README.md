@@ -78,6 +78,8 @@ The `help` configuration object supports the following properties:
 * `title`: A boolean or object that controls whether section titles are printed, default is `true`. Use `false` to disable section titles or specify an object containing strings, such as: `{commands: 'Command', options: 'Option'}`.
 * `vanilla`: Never use parameter replacement when printing help output, default is `false`. This is useful if you are using the [ttycolor][ttycolor] module but would prefer commands and options not to be highlighted.
 
+Note that if the environment variable `CLI_TOOLKIT_HELP_MAN` is set help titles will not be printed regardless of the setting of the `title` property.
+
 ### help([name], [description], [action])
 
 ```javascript
