@@ -11,7 +11,7 @@ describe('cli-command:', function() {
     var cli = require('../../..');
     var middleware = cli.middleware;
     cli = cli()
-      .configure({rc: {}})
+      .configure({rc: {merge: false}})
       .parse([]);
     done();
   });

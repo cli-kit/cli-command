@@ -322,7 +322,7 @@ function middleware(args) {
   }
   function next(err, parameters, e) {
     if(err === true) {
-      return scope.emit('complete');
+      return scope.emit('complete', req);
     }else if(err) {
       scope.raise(err, parameters, e);
     }
@@ -330,7 +330,7 @@ function middleware(args) {
     if(i < list.length) {
       exec();
     }else{
-      scope.emit('complete');
+      scope.emit('complete', req);
     }
   }
   if(list.length) exec();
