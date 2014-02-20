@@ -212,7 +212,7 @@ define(CommandProgram.prototype, 'error', error, false);
 function configure(conf) {
   if(!arguments.length) return this._conf;
   conf = conf || {};
-  this._conf = merge(conf, this._conf || defaults);
+  this._conf = merge(conf, this._conf);
   if(conf.stash) {
     this._conf.stash = conf.stash;
   }

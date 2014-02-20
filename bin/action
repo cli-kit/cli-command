@@ -18,6 +18,6 @@ cli.version().help()
 cli.command('print')
   .description('print command line arguments')
   .action(function(cmd, opts, raw) {
-    console.log(this._name + ' %s %s', cmd._name, raw.join(' '));
+    console.log(this._name + ' %s %j', cmd._name, raw);
   });
 cli.parse();
