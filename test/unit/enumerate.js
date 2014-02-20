@@ -12,6 +12,7 @@ describe('cli-command:', function() {
       .option('-d --default [str]',
         'an option that has a default value', 'default value')
       .parse(args);
+    console.dir(Object.keys(cli));
     expect(Object.keys(cli).length).to.eql(3);
     var enumerated = [];
     for(var z in cli) {
