@@ -10,8 +10,9 @@
 var path = require('path');
 require('ttycolor')().defaults();
 var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
-var cli = require('../..')(pkg, 'help/defaults');
-cli
+var cli = require('../..');
+cli(pkg, 'help/defaults')
+  .use(cli.middleware.color)
   .usage('[options] <command> <package...>')
   .command('install, ins, i', 'install packages')
   .command('publish, pub, p',

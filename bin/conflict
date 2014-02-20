@@ -7,9 +7,12 @@
  *  ./bin/conflict
  */
 var path = require('path');
-require('ttycolor')().defaults();
-var pkg = path.normalize(path.join(__dirname, '..', 'package.json'));
-var cli = require('..')(pkg);
-cli.version().help()
+var pkg = path.normalize(
+  path.join(__dirname, '..', 'package.json'));
+var cli = require('..');
+cli(pkg)
+  .use(cli.middleware.color)
+  .version()
+  .help()
   .option('-a, --action [action]', 'argument property conflict')
-cli.parse();
+  .parse();
