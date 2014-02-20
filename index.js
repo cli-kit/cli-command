@@ -85,26 +85,33 @@ function request(req) {
 define(CommandProgram.prototype, 'request', request, false);
 
 /**
- *  Generate an error from an error definition or plain error instance.
+ *  Wrap an error from an error definition, string
+ *  or Error instance.
  *
- *  @param err The error definition.
+ *  @param err The error definition, string or Error.
  *  @param parameters The message replacement parameters.
  *  @param source A source error to wrap.
  */
 function wrap(err, parameters, source) {
-  var e, code;//, source = data && data.error ? data.error : null;
+  var msg = 'Cannot wrap invalid error \'' + err + '\'';
+  if(!err) {
+    throw new TypeError(msg);
+  }
+  var e, code = err.code || errors.EUNCAUGHT.code;
   if(err instanceof CliError) {
     e = err;
-  }else if((err instanceof ErrorDefinition)) {
+  }else if(err instanceof ErrorDefinition) {
     e = err.toError(source);
     if(!source) e.shift();
     e.parameters = parameters || [];
     e.key = err.key;
-    //e.data = data;
   }else if(err instanceof Error) {
-    code = err.code || errors.EUNCAUGHT.code;
     e = new CliError(err, code, parameters);
     e.key = err.key || errors.EUNCAUGHT.key;
+  }else if(typeof err === 'string') {
+    e = new CliError(source || err, code, parameters);
+  }else{
+    throw new TypeError(msg);
   }
   return e;
 }
