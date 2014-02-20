@@ -27,7 +27,8 @@
     "cli-argparse": "~0.3.6",
     "cli-error": "~0.4.6",
     "cli-util": "~1.1.7",
-    "cli-fs": "~1.0.2"
+    "cli-fs": "~1.0.2",
+    "cli-rc": "~1.0.0"
   },
   "devDependencies": {
     "ttycolor": "~0.8.2",
