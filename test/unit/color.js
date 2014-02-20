@@ -12,6 +12,15 @@ describe('cli-command:', function() {
       .parse(args);
     done();
   });
+  it('should add enum validation', function(done) {
+    var cli = require('../..');
+    var args = ['--no-color'];
+    cli(pkg, 'mock-color')
+      .use(cli.middleware.color, {validate: true, defaults: false})
+      .configure({exit: false})
+      .parse(args);
+    done();
+  });
   it('should use color middleware (defaults: false)', function(done) {
     var cli = require('../..');
     var args = ['--color=never'];
