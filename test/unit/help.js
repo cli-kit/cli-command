@@ -56,6 +56,29 @@ describe('cli-command:', function() {
       .parse(args);
     done();
   });
+  it('should disable section titles', function(done) {
+    var cli = require('../..')(pkg, 'mock-title-help');
+    cli.configure({exit: false, help: {title: false}});
+    var args = ['-h'];
+    cli
+      .usage('[command] -h')
+      .command('test', 'a test command')
+      .help()
+      .parse(args);
+    done();
+  });
+  it('should customize section titles', function(done) {
+    var cli = require('../..')(pkg, 'mock-custom-title-help');
+    cli.configure(
+      {exit: false, help: {title: {commands: 'Command:', options: 'Option:'}}});
+    var args = ['-h'];
+    cli
+      .usage('[command] -h')
+      .command('test', 'a test command')
+      .help()
+      .parse(args);
+    done();
+  });
   it('should sort help keys', function(done) {
     var cli = require('../..')(pkg, 'mock-sort-help');
     cli.configure({exit: false, help: {sort: true}});

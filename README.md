@@ -31,6 +31,7 @@ cli.configure({stash: stash})
 
 * `bin`: A specific directory to use when executing commands as external programs, defaults to the same directory as the parent executable.
 * `exit`: Whether the default error handler will exit the process when an error occurs, default is `true`.
+* `help`: An object containing properties that control the default help output, see [help](#help).
 * `middleware`: An object containing booleans that allows subtractive configuration of the default middleware.
 * `stash`: An object to receive parsed options as properties, default is the program instance.
 * `strict`: Do not allow any unparsed options, default `false`.
@@ -67,6 +68,15 @@ You may re-use some of the default help functions as properties of the main help
 * `commands`: Print program commands.
 * `options`: Print program options.
 * `foot`: Print the help footer.
+
+### Help Configuration
+
+The `help` configuration object supports the following properties:
+
+* `column`: An integer of the column used to wrap long descriptions, default is `80`.
+* `sort`: Whether commands and options are sorted, default is `true`, may be a boolean or a custom sort function.
+* `title`: A boolean or object that controls whether section titles are printed, default is `true`. Use `false` to disable section titles or specify an object containing strings, such as: `{commands: 'Command', options: 'Option'}`.
+* `vanilla`: Never use parameter replacement when printing help output, default is `false`. This is useful if you are using the [ttycolor][ttycolor] module but would prefer commands and options not to be highlighted.
 
 ### help([name], [description], [action])
 
@@ -509,6 +519,7 @@ Chainable program definition inspired by [commander][commander], type conversion
 Everything is [MIT](http://en.wikipedia.org/wiki/MIT_License). Read the [license](/LICENSE) if you feel inclined.
 
 [toolkit]: https://github.com/freeformsystems/cli-toolkit
+[ttycolor]: https://github.com/freeformsystems/ttycolor
 [argparse]: https://github.com/freeformsystems/cli-argparse
 [fs]: https://github.com/freeformsystems/cli-fs
 [define]: https://github.com/freeformsystems/cli-define
