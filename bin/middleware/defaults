@@ -18,4 +18,6 @@ cli(pkg, 'middleware/defaults')
   .on('empty', function(help, version) {
     help.call(this);
   })
+  .help()
+  .version()
   .parse();

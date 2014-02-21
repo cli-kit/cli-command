@@ -28,5 +28,7 @@ cli
   .option('-n, --number [n]', 'a numeric value', Number)
   .version()
   .help()
+  .on('complete', function(req) {
+    throw new Error('a custom error message');
+  })
   .parse();
-throw new Error('a custom error message');

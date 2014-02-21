@@ -15,5 +15,7 @@ cli
   .option('-i --integer <n...>', 'an integer argument', parseInt)
   .version()
   .help()
+  .on('complete', function(req) {
+    console.dir(cli);
+  })
   .parse();
-console.dir(cli);

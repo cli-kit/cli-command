@@ -25,7 +25,7 @@ cli
   .option('-r, --range <a>..<b>', 'a range', range)
   .option('-l, --list <items>', 'a list', list)
   .option('-o, --optional [value]', 'an optional value')
-  .on('run', function() {
+  .on('complete', function(req) {
     //console.log(JSON.stringify(this));
     for(var key in this) {
       console.log(key + ': %s (%s)', this[key],

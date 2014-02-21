@@ -6,11 +6,11 @@ cli
   .usage('[options] <packages...>')
   .version()
   .help()
-  .on('run', function() {
-    console.log('install %s', this.request().args);
-  })
   .on('empty', function(help, version) {
     help.call(this, true);  // invoke help on zero arguments
     console.error(this.name() + ': no packages specified');
+  })
+  .on('complete', function(req) {
+    if(req.args.length) console.log('install %s', req.args);
   })
   .parse();

@@ -3,7 +3,10 @@
 /**
  *  Example program to test executing subcommands.
  *
- *  ./bin/exec init [...]
+ *  ./bin/exec enoent
+ *  ./bin/exec eperm
+ *  ./bin/exec init
+ *  ./bin/exec init pkg@0.0.1
  */
 var path = require('path');
 require('ttycolor')().defaults();

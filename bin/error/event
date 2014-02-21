@@ -24,5 +24,7 @@ cli
   .option('-n, --number [n]', 'a numeric value', Number)
   .version()
   .help()
+  .on('complete', function(req) {
+    throw new Error('an euncaught listener error message');
+  })
   .parse();
-throw new Error('an euncaught listener error message');

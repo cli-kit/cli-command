@@ -15,4 +15,7 @@ var cli = require('../..')(pkg, 'validate/erequired')
   .option('-i, --integer <n>', 'a required integer argument', parseInt)
   .help()
   .version()
+  .on('complete', function(req) {
+    console.log('integer %d', this.integer);
+  })
   .parse();

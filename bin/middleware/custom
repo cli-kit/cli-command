@@ -25,7 +25,7 @@ var cli = cli(pkg, 'custom_middleware')
   .use(middleware.merge)
   .use(middleware.multiple)
   .use(middleware.action)
-  .use(middleware.required)
+  .use(middleware.erequired)
   .use(middleware.command)
   .use(middleware.empty)
   .use(middleware.run)
@@ -33,9 +33,8 @@ var cli = cli(pkg, 'custom_middleware')
   .use(middleware.help)
   .option('-v --value [value]', 'an option value', 'default value')
   .option('-r --repeat [value...]', 'a repeatable value')
-  //.option('--required <value>', 'a required option')
   .converter(Boolean)
-  .on('run', function() {
+  .on('complete', function(req) {
     console.log('value: %s', this.value);
     console.log('url: %s', this.url);
     console.log('repeat is array: %s', Array.isArray(this.repeat));
@@ -43,7 +42,6 @@ var cli = cli(pkg, 'custom_middleware')
   .on('empty', function(help, version) {
     help.call(this);
   })
-
   cli.command('ls')
     .description('list files')
     .action(function(cmd, options, raw) {

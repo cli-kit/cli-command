@@ -10,4 +10,7 @@ cli
     console.error(this.name() + ': command required');
   })
   .command('install', 'install packages')
-var ps = cli.parse();   // execute pkg-install(1) upon install command
+  .on('complete', function(req) {
+    // access the child process via req.process
+  })
+cli.parse();   // execute pkg-install(1) upon install command

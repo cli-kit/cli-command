@@ -11,7 +11,7 @@
 var path = require('path');
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
-var cli = require('../..');
+var cli = require('../..'), help = cli.help, version = cli.version;
 cli(pkg, 'help/defaults')
   .use(cli.middleware.color)
   .usage('[options] <command> <package...>')
@@ -27,7 +27,7 @@ cli(pkg, 'help/defaults')
   .option('-d --debug', 'enable debugging')
   .version()
   .help()
-  .on('empty', function(help, version) {
+  .on('complete', function(req) {
     help.call(this);
   })
   .parse();

@@ -19,5 +19,7 @@ var cli = require('../..')(pkg, 'enumerate/defaults');
 cli
   .version()
   .help()
+  .on('complete', function(req) {
+    console.dir(cli);
+  })
   .parse();
-console.dir(cli);
