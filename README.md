@@ -156,7 +156,9 @@ See the [version/defaults][version/defaults] and [version/custom][version/custom
 
 Source: [version/defaults][version/defaults] and [version/custom][version/custom]
 
-# Types
+## Manual
+
+## Types
 
 A flexible, extensible and intuitive type system allows coercion between the argument string values and javascript types.
 

@@ -18,7 +18,6 @@ cli(pkg, 'help/defaults', 'Example program for default help output.')
   .command('install, ins, i', 'install packages')
   .command('publish, pub, p',
     'publish packages to the registry creating a new package version')
-  .command('update, up, u', 'update dependencies')
   .command('list, ls', 'list dependencies')
   .command('pack, pk', 'create archive')
   .option('-r --registry [url]', 'registry url')

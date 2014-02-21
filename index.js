@@ -29,7 +29,8 @@ var defaults = {
     vanilla: false,
     sort: true,
     column: 80,
-    title: true
+    title: true,
+    description: false
   },
   trace: undefined,
   unknown: true,
