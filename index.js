@@ -47,6 +47,7 @@ var all = [
   middlewares.emultiple,
   middlewares.erequired,
   middlewares.env,
+  middlewares.rc,
   middlewares.multiple,
   middlewares.merge,
   middlewares.convert,
@@ -193,12 +194,6 @@ function use(middleware) {
         }
       }
       this.use(all[i]);
-      // TODO: remove this when everything is updated
-      // TODO: to be fully asynchronous, at that point
-      // TODO: the rc middleware can be in the all list
-      if(conf.rc && all[i] === middlewares.env) {
-        this.use(middlewares.rc, conf.rc);
-      }
     }
     return this;
   }

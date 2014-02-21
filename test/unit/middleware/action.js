@@ -6,8 +6,10 @@ describe('cli-command:', function() {
     var middleware = cli.middleware;
     cli = cli()
       .use(middleware.action)
+      .on('complete', function(req) {
+        expect(this._middleware.length).to.eql(1);
+        done();
+      })
       .parse([]);
-    expect(cli._middleware.length).to.eql(1);
-    done();
   });
 });
