@@ -12,7 +12,7 @@ var path = require('path');
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..'), help = cli.help, version = cli.version;
-cli(pkg, 'help/defaults')
+cli(pkg, 'help/defaults', 'Example program for default help output.')
   .use(cli.middleware.color)
   .usage('[options] <command> <package...>')
   .command('install, ins, i', 'install packages')
