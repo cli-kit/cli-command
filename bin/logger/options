@@ -6,17 +6,16 @@
  *  options.
  *
  *  ./bin/logger/options
- *  ./bin/logger/options --log-level=trace
  *  ./bin/logger/options --no-color
- *  ./bin/logger/options --help
- *  ./bin/logger/options --help --no-color
- *  ./bin/logger/options --version
- *  ./bin/logger/options --version --no-color
+ *  ./bin/logger/options --log-level=trace
+ *  ./bin/logger/options --log-level=50
+ *  ./bin/logger/options --log-file=./log/options-logger.log
+ *  ./bin/logger/options --log-file=./log/options-logger.log --log-level=10
  */
 var path = require('path');
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
-var opts = {level: {}, file: {}, stdout: {}, stderr: {}};
+var opts = {level: {}, file: {}};
 var cli = require('../..');
 cli(pkg, 'logger/options', 'Example program for logger middleware options')
   .use(cli.middleware.color)
