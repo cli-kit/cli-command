@@ -43,6 +43,7 @@ describe('cli-command:', function() {
   it('should print json help (no indent)', function(done) {
     var method = process.stdout.write;
     process.stdout.write = function(){}
+    //process.stdout.write = function(str){console.error(str)}
     process.env.CLI_TOOLKIT_HELP_JSON=1;
     delete process.env.CLI_TOOLKIT_HELP_JSON_INDENT;
     var cli = require('../../..')
