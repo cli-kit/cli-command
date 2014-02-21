@@ -14,7 +14,7 @@ var path = require('path');
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..');
-cli(pkg, 'logger/defaults', 'Example program for logger middleware.')
+cli(pkg, 'logger/defaults', 'Example program for logger middleware')
   .use(cli.middleware.color)
   .use(cli.middleware.logger)
   .version()

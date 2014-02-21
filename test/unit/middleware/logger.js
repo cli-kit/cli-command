@@ -28,6 +28,29 @@ describe('cli-command:', function() {
       })
       .parse([]);
   });
+  it('should use logger middleware (--log-level)', function(done) {
+    var cli = require('../../..');
+    var middleware = cli.middleware;
+    cli = cli()
+      .use(middleware.logger, null, {level: {}})
+      .on('complete', function(req) {
+        expect(this.logLevel).to.eql('trace');
+        expect(this._options.logLevel).to.be.an('object');
+        expect(this._options.logFile).to.eql(undefined);
+        done();
+      })
+      .parse(['--log-level=trace']);
+  });
+  it('should error on unknown log level (--log-level)', function(done) {
+    var cli = require('../../..');
+    var middleware = cli.middleware;
+    cli = cli()
+      .use(middleware.logger, null, {level: {}})
+      .on('error', function(e) {
+        done();
+      })
+      .parse(['--log-level=unknown']);
+  });
   it('should use logger middleware with configuration', function(done) {
     var cli = require('../../..');
     var middleware = cli.middleware;

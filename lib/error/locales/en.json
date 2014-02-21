@@ -123,5 +123,10 @@
     "key": "ERC_LOAD",
     "message": "error loading rc file %s",
     "code": 88
+  },
+  {
+    "key": "EUNKNOWN_LOG_LEVEL",
+    "message": "unknown log level %s",
+    "code": 89
   }
 ]
