@@ -2,7 +2,7 @@
 
 /**
  *  Example of declaring an option that conflicts with a program
- *  property, in this case a method.
+ *  property, in this case a property decorated by the logger middleware.
  *
  *  ./bin/conflict
  */
@@ -12,7 +12,8 @@ var pkg = path.normalize(
 var cli = require('..');
 cli(pkg)
   .use(cli.middleware.color)
+  .use(cli.middleware.logger)
   .version()
   .help()
-  .option('-a, --action [action]', 'argument property conflict')
+  .option('-l, --log [file]', 'middleware property conflict')
   .parse();
