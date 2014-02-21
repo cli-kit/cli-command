@@ -159,13 +159,24 @@ Source: [version/defaults][version/defaults] and [version/custom][version/custom
 
 ## Manual
 
-The default help output is designed to be compatible with [help2man][help2man], but it is recommended that you set `CLI_TOOLKIT_HELP_MAN` before you execute `help2man`, for example:
+Help output can be converted into the following formats by setting environment variables:
+
+* Plain text help designed to be [help2man][help2man] compatible
+* JSON text used as an intermediary format for other converters
+
+### Plain
+
+The default help output is designed to be compatible with [help2man][help2man], but it is recommended that you set `CLI_TOOLKIT_HELP2MAN` before you execute `help2man`, for example:
 
 ```
-CLI_TOOLKIT_HELP_MAN=1 help2man --no-info --output=defaults.1 ./bin/help/defaults
+CLI_TOOLKIT_HELP2MAN=1 help2man --no-info --output=defaults.1 ./bin/help/defaults
 ```
 
 In addition, version `1.44.1` of `help2man` does not handle custom section headers which is useful if your program uses commands, you may wish to apply the patches in [help2man-patch][help2man-patch] for improved handling of section and subsection headers.
+
+### JSON
+
+To print help as JSON set the `CLI_TOOLKIT_HELP_JSON` variable. By default the output is compact, however you can pretty print the JSON by setting `CLI_TOOLKIT_HELP_JSON_INDENT` to a valid integer.
 
 ## Types
 

@@ -21,6 +21,78 @@ function assert(o) {
 }
 
 describe('cli-command:', function() {
+  it('should print json help', function(done) {
+    var method = process.stdout.write;
+    process.stdout.write = function(){}
+    process.env.CLI_TOOLKIT_HELP_JSON=1;
+    process.env.CLI_TOOLKIT_HELP_JSON_INDENT = 2;
+    var cli = require('../../..')
+    cli = cli(pkg, 'mock-json-string-help', 'Mock json string description');
+    cli
+      .version()
+      .help()
+      .on('complete', function(req) {
+        process.stdout.write = method;
+        delete process.env.CLI_TOOLKIT_HELP_JSON;
+        delete process.env.CLI_TOOLKIT_HELP_JSON_INDENT;
+        done();
+      })
+      .parse(['-h']);
+  });
+  it('should print json help (no indent)', function(done) {
+    var method = process.stdout.write;
+    process.stdout.write = function(){}
+    process.env.CLI_TOOLKIT_HELP_JSON=1;
+    delete process.env.CLI_TOOLKIT_HELP_JSON_INDENT;
+    var cli = require('../../..')
+    cli = cli(pkg, 'mock-json-string-help', 'Mock json string description');
+    cli
+      .version()
+      .help()
+      .on('complete', function(req) {
+        process.stdout.write = method;
+        delete process.env.CLI_TOOLKIT_HELP_JSON;
+        done();
+      })
+      .parse(['-h']);
+  });
+  it('should print json help (invalid indent)', function(done) {
+    var method = process.stdout.write;
+    process.stdout.write = function(){}
+    process.env.CLI_TOOLKIT_HELP_JSON=1;
+    process.env.CLI_TOOLKIT_HELP_JSON_INDENT='invalid';
+    var cli = require('../../..')
+    cli = cli(pkg, 'mock-json-string-help', 'Mock json string description');
+    cli
+      .version()
+      .help()
+      .on('complete', function(req) {
+        process.stdout.write = method;
+        delete process.env.CLI_TOOLKIT_HELP_JSON;
+        delete process.env.CLI_TOOLKIT_HELP_JSON_INDENT;
+        done();
+      })
+      .parse(['-h']);
+  });
+  it('should not print json help (CLI_TOOLKIT_HELP2MAN)', function(done) {
+    process.env.CLI_TOOLKIT_HELP2MAN=1;
+    var method = process.stdout.write;
+    process.stdout.write = function(){}
+    process.env.CLI_TOOLKIT_HELP_JSON=1;
+    var cli = require('../../..')
+    cli = cli(pkg, 'mock-json-string-help', 'Mock json string description');
+    cli
+      .configure({exit: false})
+      .version()
+      .help()
+      .on('complete', function(req) {
+        process.stdout.write = method;
+        delete process.env.CLI_TOOLKIT_HELP_JSON;
+        delete process.env.CLI_TOOLKIT_HELP2MAN;
+        done();
+      })
+      .parse(['-h']);
+  });
   it('should convert program to json string (default indent)', function(done) {
     var cli = require('../../..')
     cli = cli(pkg, 'mock-json-string-help', 'Mock json string description');
