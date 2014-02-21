@@ -163,6 +163,9 @@ Help output can be converted into the following formats by setting environment v
 
 * Plain text help designed to be [help2man][help2man] compatible
 * JSON text used as an intermediary format for other converters
+* TODO: man page format
+* TODO: markdown format
+* TODO: markdown+pandoc format
 
 ### Plain
 
