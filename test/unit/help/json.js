@@ -29,6 +29,7 @@ describe('cli-command:', function() {
     var cli = require('../../..')
     cli = cli(pkg, 'mock-json-string-help', 'Mock json string description');
     cli
+      .configure({exit: false})
       .version()
       .help()
       .on('complete', function(req) {
@@ -47,6 +48,7 @@ describe('cli-command:', function() {
     var cli = require('../../..')
     cli = cli(pkg, 'mock-json-string-help', 'Mock json string description');
     cli
+      .configure({exit: false})
       .version()
       .help()
       .on('complete', function(req) {
@@ -64,6 +66,7 @@ describe('cli-command:', function() {
     var cli = require('../../..')
     cli = cli(pkg, 'mock-json-string-help', 'Mock json string description');
     cli
+      .configure({exit: false})
       .version()
       .help()
       .on('complete', function(req) {
@@ -97,6 +100,7 @@ describe('cli-command:', function() {
     var cli = require('../../..')
     cli = cli(pkg, 'mock-json-string-help', 'Mock json string description');
     cli
+      .configure({exit: false})
       .version()
       .help()
       .on('complete', function(req) {
@@ -110,6 +114,7 @@ describe('cli-command:', function() {
     var cli = require('../../..')
     cli = cli(pkg, 'mock-json-string-help', 'Mock json string description');
     cli
+      .configure({exit: false})
       .version()
       .help()
       .on('complete', function(req) {
@@ -123,6 +128,7 @@ describe('cli-command:', function() {
     var cli = require('../../..')
     cli = cli(null, 'mock-json-string-help', 'Mock json string description');
     cli
+      .configure({exit: false})
       .version()
       .help()
       .on('complete', function(req) {
@@ -135,6 +141,7 @@ describe('cli-command:', function() {
     var cli = require('../../..')
     cli = cli(pkg, 'mock-json-object-help', 'Mock json object description');
     cli
+      .configure({exit: false})
       .option('--optional [value]', 'optional option')
       .command('ls', 'list files')
       .version()
