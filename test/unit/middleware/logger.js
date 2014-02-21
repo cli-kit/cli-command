@@ -20,8 +20,12 @@ describe('cli-command:', function() {
     cli = cli()
       .use(middleware.logger, {console: false})
       .on('complete', function(req) {
-        expect(this.log).to.be.an('object');
-        expect(this.log).to.be.instanceof(require('cli-logger').Logger);
+        var keys = Object.keys(this);
+        var enumerated = [];
+        for(var z in this) {
+          enumerated.push(z);
+        }
+        expect(keys).to.eql(enumerated).to.eql([]);
         done();
       })
       .parse([]);
