@@ -6,6 +6,7 @@
  *  options.
  *
  *  ./bin/logger/options
+ *  ./bin/logger/options --log-level=trace
  *  ./bin/logger/options --no-color
  *  ./bin/logger/options --help
  *  ./bin/logger/options --help --no-color
