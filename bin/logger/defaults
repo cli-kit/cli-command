@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+
+/**
+ *  Example program to test default logger output.
+ *
+ *  ./bin/logger/defaults
+ *  ./bin/logger/defaults --no-color
+ *  ./bin/logger/defaults --help
+ *  ./bin/logger/defaults --help --no-color
+ *  ./bin/logger/defaults --version
+ *  ./bin/logger/defaults --version --no-color
+ */
+var path = require('path');
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..');
+cli(pkg, 'logger/defaults', 'Example program for logger middleware.')
+  .use(cli.middleware.color)
+  .use(cli.middleware.logger)
+  .version()
+  .help()
+  .on('complete', function(req) {
+    var keys = require('cli-logger').keys;
+    var log = this.log;
+    keys.forEach(function(key) {
+      log[key]('mock %s message', key);
+    })
+  })
+  .parse();

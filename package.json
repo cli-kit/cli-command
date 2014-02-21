@@ -26,13 +26,13 @@
     "cli-env": "~1.0.3",
     "cli-argparse": "~0.3.6",
     "cli-error": "~0.4.6",
-    "cli-logger": "~0.5.3",
+    "cli-logger": "~0.5.4",
     "cli-util": "~1.1.7",
     "cli-fs": "~1.0.2",
     "cli-rc": "~1.0.0"
   },
   "devDependencies": {
-    "ttycolor": "~0.8.2",
+    "ttycolor": "~0.8.4",
     "mocha": "~1.17.0",
     "chai": "~1.9.0",
     "istanbul": "~0.2.4"
