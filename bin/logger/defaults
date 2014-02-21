@@ -25,5 +25,6 @@ cli(pkg, 'logger/defaults', 'Example program for logger middleware.')
     keys.forEach(function(key) {
       log[key]('mock %s message', key);
     })
+    //throw new Error('Mock uncaught exception via logger');
   })
   .parse();
