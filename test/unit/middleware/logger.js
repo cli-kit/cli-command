@@ -48,6 +48,17 @@ describe('cli-command:', function() {
       })
       .parse(['--log-level=trace']);
   });
+  it('should use logger middleware (--log-level=10)', function(done) {
+    var cli = require('../../..');
+    var middleware = cli.middleware;
+    cli = cli()
+      .use(middleware.logger, null, {level: {}})
+      .on('complete', function(req) {
+        expect(this.logLevel).to.eql('10');
+        done();
+      })
+      .parse(['--log-level=10']);
+  });
   it('should error on unknown log level (--log-level)', function(done) {
     var cli = require('../../..');
     var middleware = cli.middleware;
