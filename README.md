@@ -74,6 +74,7 @@ You may re-use some of the default help functions as properties of the main help
 The `help` configuration object supports the following properties:
 
 * `column`: An integer of the column used to wrap long descriptions, default is `80`.
+* `description`: A boolean indicating whether the program description is printed, default is `false`.
 * `sort`: Whether commands and options are sorted, default is `true`, may be a boolean or a custom sort function.
 * `title`: A boolean or object that controls whether section titles are printed, default is `true`. Use `false` to disable section titles or specify an object with the properties `commands` and `options` to customize the section titles.
 * `vanilla`: Never use parameter replacement when printing help output, default is `false`. This is useful if you are using the [ttycolor][ttycolor] module but would prefer commands and options not to be highlighted.
@@ -157,6 +158,14 @@ See the [version/defaults][version/defaults] and [version/custom][version/custom
 Source: [version/defaults][version/defaults] and [version/custom][version/custom]
 
 ## Manual
+
+The default help output is designed to be compatible with [help2man][help2man], but it is recommended that you set `CLI_TOOLKIT_HELP_MAN` before you execute `help2man`, for example:
+
+```
+CLI_TOOLKIT_HELP_MAN=1 help2man --no-info --output=defaults.1 ./bin/help/defaults
+```
+
+In addition, version `1.44.1` of `help2man` does not handle custom section headers which is useful if your program uses commands, you may wish to apply the patches in [help2man-patch][help2man-patch] for improved handling of section and subsection headers.
 
 ## Types
 
@@ -550,3 +559,5 @@ Everything is [MIT](http://en.wikipedia.org/wiki/MIT_License). Read the [license
 [commander]: https://github.com/visionmedia/commander.js
 [nopt]: https://github.com/npm/nopt
 [express]: http://expressjs.com/
+[help2man]: http://www.gnu.org/software/help2man/
+[help2man-patch]: https://github.com/freeformsystems/help2man
