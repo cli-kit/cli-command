@@ -69,7 +69,7 @@ describe('cli-command:', function() {
       .help()
       .on('complete', function(req) {
         var o = json.call(this);
-        console.dir(o);
+        //console.dir(o);
         assert.call(this, o);
         done();
       })
