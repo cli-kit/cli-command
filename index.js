@@ -236,8 +236,15 @@ function error(e) {
   }
   var trace =
     (conf.trace !== undefined) ? conf.trace : (e.code === errors.EUNCAUGHT.code);
-    //(e.code === errors.EUNCAUGHT.code || conf.trace) ? true : false;
-  e.error(trace);
+  var logger = this.log && typeof(this.log.error) === 'function';
+  if(logger) {
+    var args = e.parameters.slice(0);
+    args.unshift(e.message);
+    this.log.error.apply(this.log, args);
+    // TODO: log stack trace
+  }else{
+    e.error(trace)
+  }
   if(conf.exit) e.exit();
 }
 define(CommandProgram.prototype, 'error', error, false);
