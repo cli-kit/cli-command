@@ -47,6 +47,7 @@ var all = [
   middlewares.eunknown,
   middlewares.emultiple,
   middlewares.erequired,
+  middlewares.events,
   middlewares.env,
   middlewares.rc,
   middlewares.multiple,

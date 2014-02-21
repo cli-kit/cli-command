@@ -44,6 +44,18 @@ describe('cli-command:', function() {
       cli.parse(args);
     }
   );
+  it('should exit on log middleware conflict',
+    function(done) {
+      var cli = require('../..')
+      process.exit = function(code) {
+        done();
+      }
+      cli = cli(pkg, 'mock-log-conflict')
+        .use(cli.middleware.logger)
+        .option('-l, --log [file]', 'middleware property conflict')
+        .parse(['--log']);
+    }
+  );
   it('should exit on environment variable merge',
     function(done) {
       process.env.mock_env_conflict_action = true;
