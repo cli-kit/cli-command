@@ -1,0 +1,44 @@
+#!/usr/bin/env node
+
+/**
+ *  Example program to test the debug middleware.
+ *
+ *  ./bin/logger/debug
+ *  ./bin/logger/debug --debug
+ *  ./bin/logger/debug --debug --no-color
+ *  ./bin/logger/debug --debug; echo $?;
+ *  ./bin/logger/debug --required foo
+ *  ./bin/logger/debug --required foo; echo $?;
+ *  ./bin/logger/debug --help
+ *  ./bin/logger/debug --version
+ */
+var path = require('path');
+var pkg = path.normalize(
+  path.join(__dirname, '..', 'package.json'));
+var cli = require('..');
+cli(pkg, null, 'Example program for debug middleware')
+  .configure({exit: false})
+  .use(cli.middleware.color)
+  .use(cli.middleware.logger)
+  .use(cli.middleware.debug)
+  .option('--required <value>', 'required option')
+  .version()
+  .help()
+  .on('complete', function(req) {
+    // TODO: tidy this logic for determining whether
+    // TODO: help or version options were specified
+    if(this._options.helpopt.value() || this._options.versionopt.value()) {
+      process.exit();
+    }
+    if(this.required) {
+      this.log.info('required option value: %s', this.required);
+      process.exit();
+    }
+    var keys = require('cli-logger').keys;
+    var log = this.log;
+    keys.forEach(function(key) {
+      log[key]('mock %s message', key);
+    })
+    if(req.error) req.error.exit();
+  })
+  .parse();
