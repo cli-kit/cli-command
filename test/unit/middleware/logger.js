@@ -35,6 +35,17 @@ describe('cli-command:', function() {
       })
       .parse([]);
   });
+  it('should use bitwise logger middleware', function(done) {
+    var cli = require('../../..');
+    var middleware = cli.middleware;
+    cli = cli()
+      .use(middleware.logger, {bitwise: true})
+      .on('complete', function(req) {
+        expect(this.log.bitwise).to.eql(true);
+        done();
+      })
+      .parse([]);
+  });
   it('should use logger middleware (--log-level)', function(done) {
     var cli = require('../../..');
     var middleware = cli.middleware;
