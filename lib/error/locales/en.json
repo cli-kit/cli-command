@@ -128,5 +128,10 @@
     "key": "EUNKNOWN_LOG_LEVEL",
     "message": "unknown log level %s",
     "code": 89
+  },
+  {
+    "key": "ELOG_FILE",
+    "message": "unable to open log file %s",
+    "code": 90
   }
 ]
