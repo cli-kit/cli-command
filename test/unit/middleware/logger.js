@@ -10,8 +10,7 @@ var file = path.normalize(
 var redirect = path.normalize(
   path.join(__dirname, '..', '..', '..', 'log', 'logger-redirect.log'));
 
-
-var invalid = path.join('/', 'bin', 'invalid-logger.log');
+var invalid = path.join('/', 'bin', 'logger-invalid.log');
 
 var conf = {
   streams: [
@@ -161,7 +160,6 @@ describe('cli-command:', function() {
       })
       .on('complete', function(req) {
         throw new Error('Mock logger uncaught exception');
-        //done();
       })
       process.nextTick(function(){
         cli.parse([]);
