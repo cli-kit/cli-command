@@ -206,7 +206,6 @@ function use(middleware) {
     //console.dir(__middleware__);
     throw new Error('Invalid middleware, duplicate detected');
   }
-
   if(typeof(closure) == 'function') {
     if(this._middleware === undefined) this._middleware = [];
     if(ind < 0 || ind >= __middleware__.length) {
@@ -214,6 +213,9 @@ function use(middleware) {
     }else{
       this._middleware.splice(ind, 0, closure);
     }
+  }else{
+    // mark the middleware as in use
+    middleware.use = true;
   }
 
   __middleware__.push(middleware);
