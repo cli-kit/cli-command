@@ -63,7 +63,7 @@ describe('cli-command:', function() {
   it('should convert error definition with source error', function(done) {
     var cli = require('../..')(null, 'error-wrap');
     var ex = new Error(msg);
-    var e = new ErrorDefinition();
+    var e = new ErrorDefinition(null, msg);
     var err = cli.wrap(e, null, ex);
     expect(err).to.be.instanceof(CliError);
     expect(err.message).to.eql(msg);
