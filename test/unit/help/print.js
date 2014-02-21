@@ -1,17 +1,18 @@
 var path = require('path');
 var expect = require('chai').expect;
-var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', '..', 'package.json'));
 
 describe('cli-command:', function() {
   it('should execute help handler (zero commands)', function(done) {
-    var cli = require('../..')(pkg, 'mock-help');
+    var cli = require('../../..')(pkg, 'mock-help');
     cli.configure({exit: false});
     var args = ['-h'];
     cli.help().parse(args);
     done();
   });
   it('should execute help handler', function(done) {
-    var cli = require('../..')(pkg, 'mock-help');
+    var cli = require('../../..')(pkg, 'mock-help');
     cli.configure({exit: false});
     var args = ['-h'];
     cli
@@ -22,7 +23,7 @@ describe('cli-command:', function() {
     done();
   });
   it('should set wrap column', function(done) {
-    var cli = require('../..')(pkg, 'mock-column-help');
+    var cli = require('../../..')(pkg, 'mock-column-help');
     cli.configure({exit: false, help: {column: 40}});
     var args = ['-h'];
     cli
@@ -34,7 +35,7 @@ describe('cli-command:', function() {
     done();
   });
   it('should use default column value (false)', function(done) {
-    var cli = require('../..')(pkg, 'mock-column-help');
+    var cli = require('../../..')(pkg, 'mock-column-help');
     cli.configure({exit: false, help: {column: false}});
     var args = ['-h'];
     cli
@@ -46,7 +47,7 @@ describe('cli-command:', function() {
     done();
   });
   it('should print vanilla help', function(done) {
-    var cli = require('../..')(pkg, 'mock-vanilla-help');
+    var cli = require('../../..')(pkg, 'mock-vanilla-help');
     cli.configure({exit: false, help: {vanilla: true}});
     var args = ['-h'];
     cli
@@ -57,7 +58,7 @@ describe('cli-command:', function() {
     done();
   });
   it('should disable section titles', function(done) {
-    var cli = require('../..')(pkg, 'mock-title-help');
+    var cli = require('../../..')(pkg, 'mock-title-help');
     cli.configure({exit: false, help: {title: false}});
     var args = ['-h'];
     cli
@@ -68,7 +69,7 @@ describe('cli-command:', function() {
     done();
   });
   it('should disable section titles', function(done) {
-    var cli = require('../..')(pkg, 'mock-null-title-help');
+    var cli = require('../../..')(pkg, 'mock-null-title-help');
     cli.configure({exit: false, help: {title: null}});
     var args = ['-h'];
     cli
@@ -80,7 +81,7 @@ describe('cli-command:', function() {
   });
   it('should disable section titles (CLI_TOOLKIT_HELP_MAN)', function(done) {
     process.env.CLI_TOOLKIT_HELP_MAN = true;
-    var cli = require('../..')(pkg, 'mock-env-title-help');
+    var cli = require('../../..')(pkg, 'mock-env-title-help');
     cli.configure({exit: false});
     var args = ['-h'];
     cli
@@ -92,7 +93,7 @@ describe('cli-command:', function() {
     done();
   });
   it('should customize section titles', function(done) {
-    var cli = require('../..')(pkg, 'mock-custom-title-help');
+    var cli = require('../../..')(pkg, 'mock-custom-title-help');
     cli.configure(
       {exit: false, help: {title: {commands: 'Command:', options: 'Option:'}}});
     var args = ['-h'];
@@ -104,7 +105,7 @@ describe('cli-command:', function() {
     done();
   });
   it('should sort help keys', function(done) {
-    var cli = require('../..')(pkg, 'mock-sort-help');
+    var cli = require('../../..')(pkg, 'mock-sort-help');
     cli.configure({exit: false, help: {sort: true}});
     var args = ['-h'];
     cli
@@ -116,7 +117,7 @@ describe('cli-command:', function() {
     done();
   });
   it('should sort help keys (function)', function(done) {
-    var cli = require('../..')(pkg, 'mock-sort-help');
+    var cli = require('../../..')(pkg, 'mock-sort-help');
     function sort(a, b) {
       return a.localeCompare(b);
     }
@@ -132,7 +133,7 @@ describe('cli-command:', function() {
     done();
   });
   it('should override default sort behaviour (no sort)', function(done) {
-    var cli = require('../..')(pkg, 'mock-sort-help');
+    var cli = require('../../..')(pkg, 'mock-sort-help');
     cli.configure({exit: false, help: {sort: false}});
     var args = ['-h'];
     cli
@@ -144,7 +145,7 @@ describe('cli-command:', function() {
     done();
   });
   it('should execute custom help handler', function(done) {
-    var cli = require('../..')
+    var cli = require('../../..')
     var help = cli.help;
     cli = cli(pkg, 'mock-custom-help');
     cli.configure({exit: false});
@@ -165,7 +166,7 @@ describe('cli-command:', function() {
     cli.parse(args);
   });
   it('should display minimal help output', function(done) {
-    var cli = require('../..')
+    var cli = require('../../..')
     var help = cli.help;
     var args = [];
     cli = cli(pkg, 'mock-minimal-help')
