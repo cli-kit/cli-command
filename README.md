@@ -71,14 +71,14 @@ Returns the program for chaining.
 The `help` configuration object supports the following properties:
 
 * `assignment`: A string delimiter to use for options that accept values, default is `=`.
-* `maximum`: An integer of the column used to wrap long descriptions, default is `80`.
 * `delimiter`: A string delimiter to use between option names, default is `, `.
 * `exit`: A boolean that forces inclusion of an `EXIT` section generated from the program error definitions, default is `false`.
+* `maximum`: An integer of the column used to wrap long descriptions, default is `80`.
 * `messages`: An object containing strings for miscellaneous help messages.
 * `pedantic`: A boolean indicating that description should be title case and terminated with a period, default is `true`.
 * `sections`: An object containing booleans, strings or arrays that control which help sections are printed, default is `undefined`.
 * `sort`: Whether commands and options are sorted, default is `false`, may be a boolean, a custom sort function or one of the recognized sort values, see [help sort](#help-sort).
-* `style`: A string indicating the style of help output, default is `gnu`, see [help styles](#help-styles)
+* `style`: A string indicating the style of help output, default is `gnu`, see [help styles](#help-styles).
 * `titles`: Map of custom section titles.
 * `vanilla`: Never use parameter replacement when printing help output, default is `false`. This is useful if you are using the [ttycolor][ttycolor] module but would prefer commands and options not to be highlighted.
 

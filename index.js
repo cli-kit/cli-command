@@ -31,6 +31,7 @@ var defaults = {
     vanilla: false,
     sort: false,
     maximum: 80,
+    align: 'line',
     messages: {
       usage: {
         command: '[COMMAND]',
