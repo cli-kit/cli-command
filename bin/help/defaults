@@ -1,30 +1,46 @@
 #!/usr/bin/env node
+/*
+
+GNU `foo' does nothing interesting except serve as an example for `help2man'.
+
+Usage: foo [OPTION]...
+
+Options:
+ -a, --option      an option
+ -b, --another-option[=VALUE]
+                   another option
+
+     --help        display this help and exit
+     --version     output version information and exit
+
+Examples:
+ foo               do nothing
+ foo --option      the same thing, giving `--option'
+
+Report bugs to <bug-gnu-utils@gnu.org>.
+*/
 
 /**
  *  Example program to test default help output.
  *
  *  ./bin/help/defaults
- *  ./bin/help/defaults -h
  *  ./bin/help/defaults --help
- *  ./bin/help/defaults --help --no-color
  */
 var path = require('path');
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
+var package = require(pkg);
+package.bugs.email = '<bug-gnu-utils@gnu.org>';
 var cli = require('../..'), help = cli.help;
-cli(pkg, 'help/defaults', 'Test program for default help')
-  .use(cli.middleware.color)
-  .command('install, ins, i', 'install packages')
-  .command('publish, pub, p',
-    'publish packages to the registry creating a new package version')
-  .command('list, ls', 'list dependencies')
-  .command('pack, pk', 'create archive')
-  .option('-r --registry [url]', 'registry url')
-  .option('-v --verbose', 'print more information')
-  .option('-f --force', 'force overwrite')
-  .option('-d --debug', 'enable debugging')
-  .version()
+var description = "GNU `foo' does nothing interesting except serve ";
+description += "as an example for `help2man'.";
+var stash = {};
+cli(package, 'foo', description)
+  .configure({stash: stash, help: {sort: false}})
+  .option('-a, --option', 'an option')
+  .option('-b, --another-option[=VALUE]', 'another option')
   .help()
+  .version()
   .on('complete', function(req) {
     help.call(this);
   })

@@ -30,7 +30,7 @@ var defaults = {
     sort: true,
     column: 80,
     title: true,
-    description: false
+    description: true
   },
   trace: undefined,
   unknown: true,
