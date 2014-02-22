@@ -23,8 +23,8 @@ var lipsum = '' + fs.readFileSync(path.join(__dirname, 'lipsum.txt'));
 var paragraphs = lipsum.split('\n\n');
 sections.examples = [
   {
-    name: 'lipsum --no-color',
-    description: 'Disable ansi colors'
+    name: 'lipsum -j',
+    description: 'Print help as JSON'
   },
   {
     name: 'lipsum --sort null',
@@ -45,7 +45,11 @@ sections.examples = [
   {
     name: 'lipsum --sort -1',
     description: 'Sort by length of option (shortest first)'
-  }
+  },
+  {
+    name: 'lipsum --no-color',
+    description: 'Disable ansi colors'
+  },
 ]
 
 var list = [null, true, false, 1, -1];

@@ -26,6 +26,7 @@ var defaults = {
   bin: null,
   env: null,
   help: {
+    pedantic: true,
     vanilla: false,
     sort: false,
     column: 80,
