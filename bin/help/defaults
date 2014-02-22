@@ -34,9 +34,20 @@ package.bugs.email = '<bug-gnu-utils@gnu.org>';
 var cli = require('../..'), help = cli.help;
 var description = "GNU `foo' does nothing interesting except serve ";
 description += "as an example for `help2man'.";
+var sections = {};
+sections.examples = [
+  {
+    cmd: 'foo',
+    description: 'do nothing'
+  },
+  {
+    cmd: 'foo --option',
+    description: 'the same thing, giving `--option\''
+  }
+]
 var stash = {};
 cli(package, 'foo', description)
-  .configure({stash: stash, help: {sort: false}})
+  .configure({stash: stash, help: {sections: sections}})
   .option('-a, --option', 'an option')
   .option('-b, --another-option[=VALUE]', 'another option')
   .help()

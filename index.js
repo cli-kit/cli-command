@@ -27,7 +27,7 @@ var defaults = {
   env: null,
   help: {
     vanilla: false,
-    sort: true,
+    sort: false,
     column: 80,
     title: true,
     description: true
