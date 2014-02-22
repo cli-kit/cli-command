@@ -29,6 +29,7 @@ sections.examples = [
 var stash = {};
 cli(package, 'lipsum', description)
   .configure({stash: stash, help: {sections: sections}})
+  .command('lorem, dolor, sit, amet', 'Lorem dolor sit amet')
   .option('-l', 'Lorem ipsum flag')
   .option('-L, --lorem-ipsum-dolor[=VALUE]', 'Lorem ipsum dolor')
   .option('-i, --ipsum [VALUE]', 'Ipsum dolor sit amet')

@@ -45,6 +45,8 @@ sections.examples = [
     description: 'the same thing, giving `--option\''
   }
 ]
+//sections.bugs = false;
+//sections.description = false;
 var stash = {};
 cli(package, 'foo', description)
   .configure({stash: stash, help: {sections: sections}})
