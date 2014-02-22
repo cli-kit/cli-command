@@ -48,7 +48,7 @@ cli
   .parse();
 ```
 
-The `help` method adds a flag to the program which by default is mapped to `-h | --help`. The default help output is sufficient for many programs however you can pass a callback to `help` if you wish to customize the help output.
+The `help` method adds a flag to the program which by default is mapped to `--help`. The default help output is sufficient for many programs however you can pass a callback to `help` if you wish to customize the help output.
 
 ```javascript
 var cli = require('cli-command');
@@ -85,13 +85,13 @@ Note that if the environment variable `CLI_TOOLKIT_HELP_MAN` is set help titles 
 
 ```javascript
 cli.help()
-cli.help('--help', 'print help', function(){})
+cli.help('--info', 'print help information', function(){})
 cli.help(function(){})
 ```
 
 Adds a help flag to the program, scope for the `action` callback is the program instance.
 
-* `name`: A specific name for the help flag, default is `-h | --help`.
+* `name`: A specific name for the help flag, default is `--help`.
 * `description`: A specific description for the option, overrides the default.
 * `action`: A callback to invoke when the help option is encountered.
 
@@ -115,7 +115,7 @@ cli
   .parse();
 ```
 
-The `version` method adds a flag to the program which by default is mapped to `-V | --version`. If you wish to customize the version output pass a function to the `help` method, this can be useful if you want to include version information for external programs you depend upon or just to include more useful information.
+The `version` method adds a flag to the program which by default is mapped to `--version`. If you wish to customize the version output pass a function to the `help` method, this can be useful if you want to include version information for external programs you depend upon or just to include more useful information.
 
 ```javascript
 var cli = require('cli-command');
@@ -143,7 +143,7 @@ cli.version(function(){})
 Adds a version flag to the program, scope for the `action` callback is the program instance. Configured version number is available via after setting the flag option by invoking with zero arguments.
 
 * `version`: A specific version for the program, overrides any version extracted from `package.json`.
-* `name`: A specific name for the version option flags, default is `-V | --version`.
+* `name`: A specific name for the version option flags, default is `--version`.
 * `description`: A specific description for the option, overrides the default.
 * `action`: A callback to invoke when the version option is encountered.
 
