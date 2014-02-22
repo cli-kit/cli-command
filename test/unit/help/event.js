@@ -1,9 +1,13 @@
+var fs = require('fs');
 var path = require('path');
 var expect = require('chai').expect;
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', '..', 'package.json'));
 
 var HelpDocument = require('../../../lib/help/doc/doc').HelpDocument;
+
+var file = path.normalize(
+  path.join(__dirname, '..', '..', '..', 'log', 'help-stream-test.log'));
 
 describe('cli-command:', function() {
   it('should listen for help event', function(done) {
@@ -25,9 +29,38 @@ describe('cli-command:', function() {
           return 'Header'
         }
         plain.write(this, data);
+        done();
       })
       .help()
       .parse(args);
-    done();
+  });
+  it('should write to file stream', function(done) {
+    var cli = require('../../..')(pkg, 'mock-help');
+    cli.configure({exit: false});
+    var args = ['-h'];
+    cli
+      .on('help', function(data, document) {
+        document.write(
+          this, data,
+          fs.createWriteStream(file, {flags: 'w', encoding: 'utf8'}));
+        done();
+      })
+      .help()
+      .parse(args);
+  });
+  it('should write to stderr stream', function(done) {
+    var method = console.error;
+    console.error = function(){}
+    var cli = require('../../..')(pkg, 'mock-help');
+    cli.configure({exit: false});
+    var args = ['-h'];
+    cli
+      .on('help', function(data, document) {
+        document.write(this, data, process.stderr);
+        console.error = method;
+        done();
+      })
+      .help()
+      .parse(args);
   });
 })
