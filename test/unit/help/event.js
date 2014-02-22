@@ -24,7 +24,7 @@ describe('cli-command:', function() {
         document.header('Arguments:', data, process.stdout, document);
         var plain = new HelpDocument(this);
         plain.remove('unknown');
-        plain.write(this, data);
+        plain.write(data);
         plain.options = function(data, stream, doc) {
           return 'Header'
         }

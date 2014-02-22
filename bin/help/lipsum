@@ -68,6 +68,7 @@ var program = cli(package, 'lipsum', description)
   .configure({stash: stash, help: {sections: sections}})
   .use(cli.middleware.color)
   .option('-j, --json', 'Print help as json')
+  .option('-e, --exit', 'Include exit section from error definitions')
   .option('-s, --sort [value]', sort, cli.types.enum(list, true))
   .option('-L, --lorem-ipsum-dolor[=VALUE]', 'Lorem ipsum dolor')
   .option('-i, --ipsum [VALUE]', 'Ipsum dolor sit amet')
@@ -78,6 +79,9 @@ var program = cli(package, 'lipsum', description)
       process.env.CLI_TOOLKIT_HELP_JSON=true;
       process.env.CLI_TOOLKIT_HELP_JSON_INDENT=2;
     }
+  })
+  .once('exit', function(req, arg, value) {
+    this.configure().help.exit = value;
   })
   .once('sort', function(req, arg, value) {
     this.configure().help.sort = convert.to(value);

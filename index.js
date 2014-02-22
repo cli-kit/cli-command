@@ -26,7 +26,7 @@ var defaults = {
   bin: null,
   env: null,
   help: {
-    exit: true,
+    exit: false,
     pedantic: true,
     vanilla: false,
     sort: false,
