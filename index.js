@@ -26,12 +26,13 @@ var defaults = {
   bin: null,
   env: null,
   help: {
+    indent: 1,
     exit: false,
     pedantic: true,
     vanilla: false,
     sort: false,
     maximum: 80,
-    align: 'line',
+    align: 'column',
     messages: {
       usage: {
         command: '[COMMAND]',

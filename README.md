@@ -73,6 +73,7 @@ The `help` configuration object supports the following properties:
 * `assignment`: A string delimiter to use for options that accept values, default is `=`.
 * `delimiter`: A string delimiter to use between option names, default is `, `.
 * `exit`: A boolean that forces inclusion of an `EXIT` section generated from the program error definitions, default is `false`.
+* `indent`: An integer indicating the number of spaces to indent, default is `1`.
 * `maximum`: An integer of the column used to wrap long descriptions, default is `80`.
 * `messages`: An object containing strings for miscellaneous help messages.
 * `pedantic`: A boolean indicating that description should be title case and terminated with a period, default is `true`.

@@ -70,6 +70,9 @@ var program = cli(package, 'lipsum', description)
   .option('-j, --json', 'Print help as json')
   .option('-e, --exit', 'Include exit section from error definitions')
   .option('-s, --sort [value]', sort, cli.types.enum(list, true))
+  .option('-a, --align [value]',
+    'Set description alignment',
+    cli.types.enum(['column', 'line', 'flex']))
   .option('-L, --lorem-ipsum-dolor[=VALUE]', 'Lorem ipsum dolor')
   .option('-i, --ipsum [VALUE]', 'Ipsum dolor sit amet')
   .option('--mauris-pulvinar, --ut-bibendum=[VALUE]', 'Mauris pulvinar')
@@ -85,6 +88,9 @@ var program = cli(package, 'lipsum', description)
   })
   .once('sort', function(req, arg, value) {
     this.configure().help.sort = convert.to(value);
+  })
+  .once('align', function(req, arg, value) {
+    this.configure().help.align = value;
   })
   .help()
   .version()
