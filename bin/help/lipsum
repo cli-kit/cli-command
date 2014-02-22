@@ -73,6 +73,9 @@ var program = cli(package, 'lipsum', description)
   .option('-a, --align [value]',
     'Alignment style (column|line|flex)',
     cli.types.enum(['column', 'line', 'flex']))
+  .option('-m, --maximum [value]',
+    'Maximum column width, default 80',
+    cli.types.integer)
   .option('-L, --lorem-ipsum-dolor[=VALUE]', 'Lorem ipsum dolor')
   .option('-i, --ipsum [VALUE]', 'Ipsum dolor sit amet')
   .option('--mauris-pulvinar, --ut-bibendum=[VALUE]', 'Mauris pulvinar')
@@ -82,6 +85,9 @@ var program = cli(package, 'lipsum', description)
       process.env.CLI_TOOLKIT_HELP_JSON=true;
       process.env.CLI_TOOLKIT_HELP_JSON_INDENT=2;
     }
+  })
+  .once('maximum', function(req, arg, value) {
+    this.configure().help.maximum = parseInt(value);
   })
   .once('exit', function(req, arg, value) {
     this.configure().help.exit = value;
