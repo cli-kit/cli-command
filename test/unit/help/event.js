@@ -69,13 +69,13 @@ describe('cli-command:', function() {
     cli.configure({exit: false});
     var args = ['-h'];
     cli
-      .on('help', function(data, document) {
+      .on('help', function(data, document, stream) {
         data.sections = data.sections || {};
         data.sections.examples = "Show help:\n\nmock-help-examples -h";
         var str = document.indent.call(
-          this, data.sections.examples, 2, data, process.stdout, document);
+          this, data.sections.examples, 2, data, stream, document);
         document.sections.push(Object.keys(data.sections));
-        document.write(this, data, process.stdout);
+        document.write(this, data, stream);
         done();
       })
       .help()
