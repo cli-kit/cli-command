@@ -35,7 +35,7 @@ sections.examples = [
     description: 'Use default sort order'
   },
   {
-    name: 'lipsum --sort false',
+    name: 'lipsum --sort true',
     description: 'Use lexicographic sort order'
   },
   {
@@ -62,16 +62,16 @@ sort += '(Array.prototype.sort). Use 1 to sort by option string length ';
 sort += '(determined by the length of the help option string), reverse the ';
 sort += 'order with -1.';
 
-
 var stash = {};
 var program = cli(package, 'lipsum', description)
   .configure({stash: stash, help: {sections: sections}})
   .use(cli.middleware.color)
+  .use(cli.middleware.debug)
   .option('-j, --json', 'Print help as json')
   .option('-e, --exit', 'Include exit section from error definitions')
   .option('-s, --sort [value]', sort, cli.types.enum(list, true))
   .option('-a, --align [value]',
-    'Set description alignment',
+    'Alignment style (column|line|flex)',
     cli.types.enum(['column', 'line', 'flex']))
   .option('-L, --lorem-ipsum-dolor[=VALUE]', 'Lorem ipsum dolor')
   .option('-i, --ipsum [VALUE]', 'Ipsum dolor sit amet')
