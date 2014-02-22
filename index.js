@@ -28,7 +28,14 @@ var defaults = {
   help: {
     vanilla: false,
     sort: false,
-    column: 80
+    column: 80,
+    messages: {
+      usage: {
+        command: '[COMMAND]',
+        option: '[OPTION]',
+      },
+      bugs: 'Reports bugs to %s.'
+    }
   },
   trace: undefined,
   unknown: true,

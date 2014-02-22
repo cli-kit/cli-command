@@ -20,16 +20,15 @@ describe('cli-command:', function() {
         expect(document).to.be.an('object');
         expect(document.sections).to.be.an('array');
         expect(document.write).to.be.a('function');
-        document.header.call(this, null);
-        document.header.call(
-          this, 'Arguments:', data, process.stdout, document);
-        var plain = new HelpDocument();
+        document.header(null);
+        document.header('Arguments:', data, process.stdout, document);
+        var plain = new HelpDocument(this);
         plain.remove('unknown');
         plain.write(this, data);
         plain.options = function(data, stream, doc) {
           return 'Header'
         }
-        plain.write(this, data);
+        plain.write(data);
         done();
       })
       .help()
@@ -41,8 +40,7 @@ describe('cli-command:', function() {
     var args = ['--help'];
     cli
       .on('help', function(data, document) {
-        document.write(
-          this, data,
+        document.write(data,
           fs.createWriteStream(file, {flags: 'w', encoding: 'utf8'}));
         done();
       })
@@ -57,7 +55,7 @@ describe('cli-command:', function() {
     var args = ['--help'];
     cli
       .on('help', function(data, document) {
-        document.write(this, data, process.stderr);
+        document.write(data, process.stderr);
         console.error = method;
         done();
       })
@@ -72,10 +70,10 @@ describe('cli-command:', function() {
       .on('help', function(data, document, stream) {
         data.sections = data.sections || {};
         data.sections.examples = "Show help:\n\nmock-help-examples -h";
-        var str = document.indent.call(
-          this, data.sections.examples, 2, data, stream, document);
+        var str = document.indent(
+          data.sections.examples, 2, data, stream, document);
         document.sections.push(Object.keys(data.sections));
-        document.write(this, data, stream);
+        document.write(data, stream);
         done();
       })
       .help()
