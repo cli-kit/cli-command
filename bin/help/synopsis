@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+
+/**
+ *  Example program to test synopsis help style.
+ *
+ *  ./bin/help/synopsis
+ *  ./bin/help/synopsis -h
+ *  ./bin/help/synopsis --help
+ *  ./bin/help/synopsis --help --no-color
+ */
+var path = require('path');
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..'), help = cli.help;
+cli(pkg, 'help/synopsis', 'Example program for default help output.')
+  .configure({help: {style: 'synopsis'}})
+  .use(cli.middleware.color)
+  .usage('[options] <command> <package...>')
+  .version()
+  .help()
+  .on('complete', function(req) {
+    help.call(this);
+  })
+  .parse();
