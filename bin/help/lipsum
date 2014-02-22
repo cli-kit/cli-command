@@ -4,6 +4,10 @@
  *  Example program to test help column alignment.
  *
  *  ./bin/help/lipsum
+ *  ./bin/help/lipsum --no-color
+ *  ./bin/help/lipsum --sort null
+ *  ./bin/help/lipsum --sort false
+ *  ./bin/help/lipsum --sort true
  */
 var fs = require('fs');
 var path = require('path');
@@ -13,33 +17,53 @@ var pkg = path.normalize(
 var package = require(pkg);
 package.bugs.email = '<lorem@example.com>';
 var cli = require('../..'), help = cli.help;
-var description = "Lorem ipsum";
+var description = "Lorem ipsum is a program used to test help output.";
 var sections = {};
 var lipsum = '' + fs.readFileSync(path.join(__dirname, 'lipsum.txt'));
 var paragraphs = lipsum.split('\n\n');
 sections.examples = [
   {
-    cmd: 'lipsum',
-    description: paragraphs[0]
+    cmd: 'lipsum --no-color',
+    description: 'Disable ansi colors'
   },
   {
-    cmd: 'lipsum -l',
-    description: paragraphs[1]
+    cmd: 'lipsum --sort null',
+    description: 'Disable help option sort (natural order)'
+  },
+  {
+    cmd: 'lipsum --sort false',
+    description: 'Use default sort order'
+  },
+  {
+    cmd: 'lipsum --sort false',
+    description: 'Use lexicographic sort order'
+  },
+  {
+    cmd: 'lipsum --sort 1',
+    description: 'Sort by length of option (longest first)'
+  },
+  {
+    cmd: 'lipsum --sort -1',
+    description: 'Sort by length of option (shortest first)'
   }
 ]
 
-var list = [null, true, false, 1];
+var list = [null, true, false, 1, -1];
 var sort = 'Alters the help option sort order. '
 sort += 'Set to null to use natural order which ';
 sort += 'is likely the order that options were declared in however this is not ';
 sort += 'guaranteed. Use false for the default sorting logic which favours ';
 sort += 'options with more names, use true to sort lexicographically ';
-sort += '(Array.prototype.sort)';
+sort += '(Array.prototype.sort). Use 1 to sort by option string length ';
+sort += '(determined by the length of the help option string), reverse the ';
+sort += 'order with -1.';
+
 
 var stash = {};
-cli(package, 'lipsum', description)
+var program = cli(package, 'lipsum', description)
   .configure({stash: stash, help: {sections: sections}})
-  .command('lorem, dolor, sit, amet', 'Lorem dolor sit amet')
+  .use(cli.middleware.color)
+  //.command('lorem, dolor, sit, amet', 'Lorem dolor sit amet')
   .option('-l', 'Lorem ipsum flag')
   .option('-s, --sort [value]', sort, cli.types.enum(list, true))
   .option('-L, --lorem-ipsum-dolor[=VALUE]', 'Lorem ipsum dolor')
@@ -53,5 +77,13 @@ cli(package, 'lipsum', description)
   .version()
   .on('complete', function(req) {
     help.call(this);
-  })
-  .parse();
+  });
+
+paragraphs.forEach(function(para) {
+  var cmd = para.replace(/\s+.*/, '').trim().toLowerCase();
+  var desc = para.substr(0, para.indexOf('.') + 1);
+  program.command(cmd, desc);
+  console.dir(desc);
+})
+
+program.parse();
