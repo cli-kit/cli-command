@@ -63,13 +63,18 @@ var stash = {};
 var program = cli(package, 'lipsum', description)
   .configure({stash: stash, help: {sections: sections}})
   .use(cli.middleware.color)
-  //.command('lorem, dolor, sit, amet', 'Lorem dolor sit amet')
-  .option('-l', 'Lorem ipsum flag')
+  .option('-j, --json', 'Print help as json')
   .option('-s, --sort [value]', sort, cli.types.enum(list, true))
   .option('-L, --lorem-ipsum-dolor[=VALUE]', 'Lorem ipsum dolor')
   .option('-i, --ipsum [VALUE]', 'Ipsum dolor sit amet')
   .option('--mauris-pulvinar, --ut-bibendum=[VALUE]', 'Mauris pulvinar')
   .option('-a, --aliquam [VALUE]', paragraphs[2])
+  .once('json', function(req, arg, value) {
+    if(value) {
+      process.env.CLI_TOOLKIT_HELP_JSON=true;
+      process.env.CLI_TOOLKIT_HELP_JSON_INDENT=2;
+    }
+  })
   .once('sort', function(req, arg, value) {
     this.configure().help.sort = convert.to(value);
   })
@@ -83,7 +88,7 @@ paragraphs.forEach(function(para) {
   var cmd = para.replace(/\s+.*/, '').trim().toLowerCase();
   var desc = para.substr(0, para.indexOf('.') + 1);
   program.command(cmd, desc);
-  console.dir(desc);
+  //console.dir(desc);
 })
 
 program.parse();
