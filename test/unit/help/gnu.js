@@ -144,27 +144,27 @@ describe('cli-command:', function() {
       .parse(args);
     done();
   });
-  it('should execute custom help handler', function(done) {
-    var cli = require('../../..')
-    var help = cli.help;
-    cli = cli(pkg, 'mock-custom-help');
-    cli.configure({exit: false});
-    var args = ['-h'];
-    cli
-      .command('test', 'a test command')
-      .help(function() {
-        expect(cli).to.eql(this);
-        expect(help.head).to.be.a('function');
-        expect(help.usage).to.be.a('function');
-        expect(help.commands).to.be.a('function');
-        expect(help.options).to.be.a('function');
-        expect(help.foot).to.be.a('function');
-        delete this._options.help;
-        help.call(this);
-        done();
-      })
-    cli.parse(args);
-  });
+  //it('should execute custom help handler', function(done) {
+    //var cli = require('../../..')
+    //var help = cli.help;
+    //cli = cli(pkg, 'mock-custom-help');
+    //cli.configure({exit: false});
+    //var args = ['-h'];
+    //cli
+      //.command('test', 'a test command')
+      //.help(function() {
+        //expect(cli).to.eql(this);
+        //expect(help.head).to.be.a('function');
+        //expect(help.usage).to.be.a('function');
+        //expect(help.commands).to.be.a('function');
+        //expect(help.options).to.be.a('function');
+        //expect(help.foot).to.be.a('function');
+        //delete this._options.help;
+        //help.call(this);
+        //done();
+      //})
+    //cli.parse(args);
+  //});
   it('should display minimal help output', function(done) {
     var cli = require('../../..')
     var help = cli.help;
