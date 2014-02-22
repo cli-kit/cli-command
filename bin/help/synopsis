@@ -12,7 +12,7 @@ var path = require('path');
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..'), help = cli.help;
-cli(pkg, 'help/synopsis', 'Example program for default help output.')
+cli(pkg, 'help/synopsis', 'Test program for synopsis help')
   .configure({help: {style: 'synopsis'}})
   .use(cli.middleware.color)
   .usage('[options] <command> <package...>')

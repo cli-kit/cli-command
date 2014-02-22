@@ -10,11 +10,10 @@
 var path = require('path');
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
-var cli = require('../..');
-cli(pkg, 'help/vanilla')
+var cli = require('../..'), help = cli.help;
+cli(pkg, 'help/vanilla', 'Test program for vanilla help')
   .configure({help: {vanilla: true}})
   .use(cli.middleware.color)
-  .usage('[options] <command> <package...>')
   .command('install, ins, i', 'install packages')
   .command('publish, pub, p',
     'publish packages to the registry creating a new package version')
@@ -27,7 +26,7 @@ cli(pkg, 'help/vanilla')
   .option('-d --debug', 'enable debugging')
   .version()
   .help()
-  .on('empty', function(help, version) {
+  .on('complete',function(req) {
     help.call(this);
   })
   .parse();

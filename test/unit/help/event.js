@@ -21,7 +21,8 @@ describe('cli-command:', function() {
         expect(document.sections).to.be.an('array');
         expect(document.write).to.be.a('function');
         document.header.call(this, null);
-        document.header.call(this, 'Arguments:');
+        document.header.call(
+          this, 'Arguments:', data, process.stdout, document);
         var plain = new HelpDocument();
         plain.remove('unknown');
         plain.write(this, data);
@@ -58,6 +59,23 @@ describe('cli-command:', function() {
       .on('help', function(data, document) {
         document.write(this, data, process.stderr);
         console.error = method;
+        done();
+      })
+      .help()
+      .parse(args);
+  });
+  it('should customize examples section', function(done) {
+    var cli = require('../../..')(pkg, 'mock-help-examples');
+    cli.configure({exit: false});
+    var args = ['-h'];
+    cli
+      .on('help', function(data, document) {
+        data.sections = data.sections || {};
+        data.sections.examples = "Show help:\n\nmock-help-examples -h";
+        var str = document.indent.call(
+          this, data.sections.examples, 2, data, process.stdout, document);
+        document.sections.push(Object.keys(data.sections));
+        document.write(this, data, process.stdout);
         done();
       })
       .help()
