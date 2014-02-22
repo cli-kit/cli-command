@@ -36,7 +36,7 @@ describe('cli-command:', function() {
     process.exit = function(code) {
       done();
     }
-    var args = ['-V'];
+    var args = ['--version'];
     cli.version().parse(args);
   });
   it('should exit on subcommand executable', function(done) {
