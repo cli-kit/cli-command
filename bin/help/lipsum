@@ -7,6 +7,7 @@
  */
 var fs = require('fs');
 var path = require('path');
+var convert = require('cli-native');
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
 var package = require(pkg);
@@ -26,15 +27,28 @@ sections.examples = [
     description: paragraphs[1]
   }
 ]
+
+var list = [null, true, false, 1];
+var sort = 'Alters the help option sort order. '
+sort += 'Set to null to use natural order which ';
+sort += 'is likely the order that options were declared in however this is not ';
+sort += 'guaranteed. Use false for the default sorting logic which favours ';
+sort += 'options with more names, use true to sort lexicographically ';
+sort += '(Array.prototype.sort)';
+
 var stash = {};
 cli(package, 'lipsum', description)
   .configure({stash: stash, help: {sections: sections}})
   .command('lorem, dolor, sit, amet', 'Lorem dolor sit amet')
   .option('-l', 'Lorem ipsum flag')
+  .option('-s, --sort [value]', sort, cli.types.enum(list, true))
   .option('-L, --lorem-ipsum-dolor[=VALUE]', 'Lorem ipsum dolor')
   .option('-i, --ipsum [VALUE]', 'Ipsum dolor sit amet')
   .option('--mauris-pulvinar, --ut-bibendum=[VALUE]', 'Mauris pulvinar')
   .option('-a, --aliquam [VALUE]', paragraphs[2])
+  .once('sort', function(req, arg, value) {
+    this.configure().help.sort = convert.to(value);
+  })
   .help()
   .version()
   .on('complete', function(req) {
