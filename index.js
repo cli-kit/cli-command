@@ -30,7 +30,7 @@ var defaults = {
     pedantic: true,
     vanilla: false,
     sort: false,
-    column: 80,
+    maximum: 80,
     messages: {
       usage: {
         command: '[COMMAND]',
@@ -39,7 +39,7 @@ var defaults = {
       bugs: 'Reports bugs to %s.'
     }
   },
-  trace: undefined,
+  trace: false,
   unknown: true,
   strict: false,
   middleware: null
