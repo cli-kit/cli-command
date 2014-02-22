@@ -71,8 +71,8 @@ var program = cli(package, 'lipsum', description)
   .option('-e, --exit', 'Include exit section from error definitions')
   .option('-s, --sort [value]', sort, cli.types.enum(list, true))
   .option('-a, --align [value]',
-    'Alignment style (column|line|flex)',
-    cli.types.enum(['column', 'line', 'flex']))
+    'Alignment style (column|line|flex|wrap)',
+    cli.types.enum(['column', 'line', 'flex', 'wrap']))
   .option('-m, --maximum [value]',
     'Maximum column width, default 80',
     cli.types.integer)
