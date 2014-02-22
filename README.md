@@ -48,39 +48,7 @@ cli
   .parse();
 ```
 
-The `help` method adds a flag to the program which by default is mapped to `--help`. The default help output is sufficient for many programs however you can pass a callback to `help` if you wish to customize the help output.
-
-```javascript
-var cli = require('cli-command');
-var help = cli.help;
-cli()
-  .help(function() {
-    // only print usage information
-    help.usage.call(this);
-  })
-  .parse();
-```
-
-You may re-use some of the default help functions as properties of the main help function (be sure to always invoke with the correct scope, ie, `help.usage.call(this)`):
-
-* `head`: Print the help header.
-* `usage`: Print program usage.
-* `commands`: Print program commands.
-* `options`: Print program options.
-* `foot`: Print the help footer.
-
-### Help Configuration
-
-The `help` configuration object supports the following properties:
-
-* `assignment`: A string delimiter to use for options that accept values, default is `=`.
-* `column`: An integer of the column used to wrap long descriptions, default is `80`.
-* `delimiter`: A string delimiter to use between option names, default is `, `.
-* `description`: A boolean indicating whether the program description is printed, default is `true`.
-* `sort`: Whether commands and options are sorted, default is `false`, may be a boolean or a custom sort function.
-* `vanilla`: Never use parameter replacement when printing help output, default is `false`. This is useful if you are using the [ttycolor][ttycolor] module but would prefer commands and options not to be highlighted.
-
-Note that if the environment variable `CLI_TOOLKIT_HELP_MAN` is set help titles will not be printed regardless of the setting of the `title` property.
+The `help` method adds a flag to the program which by default is mapped to `--help`.
 
 ### help([name], [description], [action])
 
@@ -98,13 +66,101 @@ Adds a help flag to the program, scope for the `action` callback is the program 
 
 Returns the program for chaining.
 
-See the [help/defaults][help/defaults] and [help/custom][help/custom] example executables.
+### Help Configuration
 
-<p align="center">
-  <img src="https://raw.github.com/freeformsystems/cli-command/master/img/help-defaults.png" />
-</p>
+The `help` configuration object supports the following properties:
 
-Source: [help/defaults][help/defaults]
+* `assignment`: A string delimiter to use for options that accept values, default is `=`.
+* `column`: An integer of the column used to wrap long descriptions, default is `80`.
+* `delimiter`: A string delimiter to use between option names, default is `, `.
+* `exit`: A boolean that forces inclusion of an `EXIT` section generated from the program error definitions, default is `false`.
+* `messages`: An object containing strings for miscellaneous help messages.
+* `pedantic`: A boolean indicating that description should be title case and terminated with a period, default is `true`.
+* `sections`: An object containing booleans, strings or arrays that control which help sections are printed, default is `undefined`.
+* `sort`: Whether commands and options are sorted, default is `false`, may be a boolean, a custom sort function or one of the recognized sort values, see [help sort](#help-sort).
+* `titles`: Map of custom section titles.
+* `vanilla`: Never use parameter replacement when printing help output, default is `false`. This is useful if you are using the [ttycolor][ttycolor] module but would prefer commands and options not to be highlighted.
+
+### Help Sections
+
+Help output sections are named the same as `man` pages, the keys are:
+
+```javascript
+var sections = [
+  'name',
+  'description',
+  'synopsis',
+  'commands',
+  'options',
+  'environment',
+  'files',
+  'examples',
+  'exit',
+  'history',
+  'author',
+  'bugs',
+  'copyright',
+  'see'
+];
+```
+
+Disable output for a section with `false`:
+
+```javascript
+cli.configure({help:{sections: {description: false}}});
+```
+
+Set a section to a string value to include the string literal:
+
+```javascript
+cli.configure({help:{sections: {examples: 'Some example section text'}}});
+```
+
+Or specify an array of objects with `name` and `description` properties:
+
+```javascript
+cli.configure({
+  help:{
+    sections: {
+      examples: [
+        {
+          name: 'fu --bar',
+          description: 'Example of using fu with --bar'
+        }
+      ]
+    }
+  }
+});
+```
+
+### Help Sort
+
+// TODO
+
+### Help Manual
+
+Help output can be converted into the following formats by setting environment variables:
+
+* Plain text help designed to be [help2man][help2man] compatible
+* JSON text used as an intermediary format for other converters
+* TODO: man page format
+* TODO: markdown format
+* TODO: markdown+pandoc format
+
+#### Plain
+
+The default help output is designed to be compatible with [help2man][help2man], but it is recommended that you set `CLI_TOOLKIT_HELP2MAN` before you execute `help2man`, for example:
+
+```
+CLI_TOOLKIT_HELP2MAN=1 help2man --no-info --output=defaults.1 ./bin/help/defaults
+```
+
+In addition, version `1.44.1` of `help2man` does not handle custom section headers which is useful if your program uses commands, you may wish to apply the patches in [help2man-patch][help2man-patch] for improved handling of section and subsection headers.
+
+#### JSON
+
+To print help as JSON set the `CLI_TOOLKIT_HELP_JSON` variable. By default the output is compact, however you can pretty print the JSON by setting `CLI_TOOLKIT_HELP_JSON_INDENT` to a valid integer.
+
 
 ## Version
 
@@ -157,30 +213,6 @@ See the [version/defaults][version/defaults] and [version/custom][version/custom
 </p>
 
 Source: [version/defaults][version/defaults] and [version/custom][version/custom]
-
-## Manual
-
-Help output can be converted into the following formats by setting environment variables:
-
-* Plain text help designed to be [help2man][help2man] compatible
-* JSON text used as an intermediary format for other converters
-* TODO: man page format
-* TODO: markdown format
-* TODO: markdown+pandoc format
-
-### Plain
-
-The default help output is designed to be compatible with [help2man][help2man], but it is recommended that you set `CLI_TOOLKIT_HELP2MAN` before you execute `help2man`, for example:
-
-```
-CLI_TOOLKIT_HELP2MAN=1 help2man --no-info --output=defaults.1 ./bin/help/defaults
-```
-
-In addition, version `1.44.1` of `help2man` does not handle custom section headers which is useful if your program uses commands, you may wish to apply the patches in [help2man-patch][help2man-patch] for improved handling of section and subsection headers.
-
-### JSON
-
-To print help as JSON set the `CLI_TOOLKIT_HELP_JSON` variable. By default the output is compact, however you can pretty print the JSON by setting `CLI_TOOLKIT_HELP_JSON_INDENT` to a valid integer.
 
 ## Types
 
