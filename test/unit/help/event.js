@@ -16,6 +16,8 @@ describe('cli-command:', function() {
         expect(document).to.be.an('object');
         expect(document.sections).to.be.an('array');
         expect(document.write).to.be.a('function');
+        document.header.call(this, null);
+        document.header.call(this, 'Arguments:');
         var plain = new HelpDocument();
         plain.remove('unknown');
         plain.write(this, data);

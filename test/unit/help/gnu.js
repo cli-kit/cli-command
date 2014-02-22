@@ -16,7 +16,6 @@ describe('cli-command:', function() {
     cli.configure({exit: false});
     var args = ['-h'];
     cli
-      .usage('[command] -h')
       .command('test', 'a test command')
       .help()
       .parse(args);
