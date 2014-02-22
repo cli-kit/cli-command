@@ -21,6 +21,10 @@ describe('cli-command:', function() {
         var plain = new HelpDocument();
         plain.remove('unknown');
         plain.write(this, data);
+        plain.options = function(data, stream, doc) {
+          return 'Header'
+        }
+        plain.write(this, data);
       })
       .help()
       .parse(args);
