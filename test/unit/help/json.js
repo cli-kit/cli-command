@@ -38,7 +38,7 @@ describe('cli-command:', function() {
         delete process.env.CLI_TOOLKIT_HELP_JSON_INDENT;
         done();
       })
-      .parse(['-h']);
+      .parse(['--help']);
   });
   it('should print json help (no indent)', function(done) {
     var method = process.stdout.write;
@@ -57,7 +57,7 @@ describe('cli-command:', function() {
         delete process.env.CLI_TOOLKIT_HELP_JSON;
         done();
       })
-      .parse(['-h']);
+      .parse(['--help']);
   });
   it('should print json help (invalid indent)', function(done) {
     var method = process.stdout.write;
@@ -76,7 +76,7 @@ describe('cli-command:', function() {
         delete process.env.CLI_TOOLKIT_HELP_JSON_INDENT;
         done();
       })
-      .parse(['-h']);
+      .parse(['--help']);
   });
   it('should not print json help (CLI_TOOLKIT_HELP2MAN)', function(done) {
     process.env.CLI_TOOLKIT_HELP2MAN=1;
@@ -95,7 +95,7 @@ describe('cli-command:', function() {
         delete process.env.CLI_TOOLKIT_HELP2MAN;
         done();
       })
-      .parse(['-h']);
+      .parse(['--help']);
   });
   it('should convert program to json string (default indent)', function(done) {
     var cli = require('../../..')

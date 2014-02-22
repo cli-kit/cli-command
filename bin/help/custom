@@ -7,7 +7,6 @@
  *  and sets the output stream to process.stderr.
  *
  *  ./bin/help/custom
- *  ./bin/help/custom -h
  *  ./bin/help/custom --help
  *  ./bin/help/custom --help --no-color
  */

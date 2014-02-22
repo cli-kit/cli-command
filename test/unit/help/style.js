@@ -9,7 +9,7 @@ describe('cli-command:', function() {
   it('should use json document', function(done) {
     var cli = require('../../..')(null, 'mock-help-style-json');
     cli.configure({exit: false, help: {style: 'json'}});
-    var args = ['-h'];
+    var args = ['--help'];
     cli
       .on('help', function(data, document) {
         expect(document).to.be.instanceof(JsonDocument);
@@ -21,7 +21,7 @@ describe('cli-command:', function() {
   it('should use gnu document', function(done) {
     var cli = require('../../..')(null, 'mock-help-style-gnu');
     cli.configure({exit: false, help: {style: 'gnu'}});
-    var args = ['-h'];
+    var args = ['--help'];
     cli
       .on('help', function(data, document) {
         expect(document).to.be.instanceof(GnuDocument);
@@ -33,7 +33,7 @@ describe('cli-command:', function() {
   it('should use synopsis document', function(done) {
     var cli = require('../../..')(null, 'mock-help-style-synopsis');
     cli.configure({exit: false, help: {style: 'synopsis'}});
-    var args = ['-h'];
+    var args = ['--help'];
     cli
       .on('help', function(data, document) {
         expect(document).to.be.instanceof(SynopsisDocument);
@@ -45,7 +45,7 @@ describe('cli-command:', function() {
   it('should use gnu document (invalid style)', function(done) {
     var cli = require('../../..')(null, 'mock-help-style-invalid');
     cli.configure({exit: false, help: {style: 'invalid'}});
-    var args = ['-h'];
+    var args = ['--help'];
     cli
       .on('help', function(data, document) {
         expect(document).to.be.instanceof(GnuDocument);

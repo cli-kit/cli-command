@@ -4,7 +4,6 @@
  *  Example program for the readme screenshot.
  *
  *  ./bin/help/defaults
- *  ./bin/help/defaults -h
  *  ./bin/help/defaults --help
  *  ./bin/help/defaults --help --no-color
  */

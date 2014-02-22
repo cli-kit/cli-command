@@ -4,7 +4,6 @@
  *  Example program to test vanilla help output.
  *
  *  ./bin/help/vanilla
- *  ./bin/help/vanilla -h
  *  ./bin/help/vanilla --help
  */
 var path = require('path');

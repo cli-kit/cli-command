@@ -13,7 +13,7 @@ describe('cli-command:', function() {
   it('should listen for help event', function(done) {
     var cli = require('../../..')(pkg, 'mock-help');
     cli.configure({exit: false});
-    var args = ['-h'];
+    var args = ['--help'];
     cli
       .on('help', function(data, document) {
         expect(data).to.be.an('object');
@@ -38,7 +38,7 @@ describe('cli-command:', function() {
   it('should write to file stream', function(done) {
     var cli = require('../../..')(pkg, 'mock-help');
     cli.configure({exit: false});
-    var args = ['-h'];
+    var args = ['--help'];
     cli
       .on('help', function(data, document) {
         document.write(
@@ -54,7 +54,7 @@ describe('cli-command:', function() {
     console.error = function(){}
     var cli = require('../../..')(pkg, 'mock-help');
     cli.configure({exit: false});
-    var args = ['-h'];
+    var args = ['--help'];
     cli
       .on('help', function(data, document) {
         document.write(this, data, process.stderr);
@@ -67,7 +67,7 @@ describe('cli-command:', function() {
   it('should customize examples section', function(done) {
     var cli = require('../../..')(pkg, 'mock-help-examples');
     cli.configure({exit: false});
-    var args = ['-h'];
+    var args = ['--help'];
     cli
       .on('help', function(data, document, stream) {
         data.sections = data.sections || {};

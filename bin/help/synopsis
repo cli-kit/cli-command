@@ -4,7 +4,6 @@
  *  Example program to test synopsis help style.
  *
  *  ./bin/help/synopsis
- *  ./bin/help/synopsis -h
  *  ./bin/help/synopsis --help
  *  ./bin/help/synopsis --help --no-color
  */
