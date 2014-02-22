@@ -73,10 +73,11 @@ You may re-use some of the default help functions as properties of the main help
 
 The `help` configuration object supports the following properties:
 
+* `assignment`: A string delimiter to use for options that accept values, default is `=`.
 * `column`: An integer of the column used to wrap long descriptions, default is `80`.
-* `description`: A boolean indicating whether the program description is printed, default is `false`.
-* `sort`: Whether commands and options are sorted, default is `true`, may be a boolean or a custom sort function.
-* `title`: A boolean or object that controls whether section titles are printed, default is `true`. Use `false` to disable section titles or specify an object with the properties `commands` and `options` to customize the section titles.
+* `delimiter`: A string delimiter to use between option names, default is `, `.
+* `description`: A boolean indicating whether the program description is printed, default is `true`.
+* `sort`: Whether commands and options are sorted, default is `false`, may be a boolean or a custom sort function.
 * `vanilla`: Never use parameter replacement when printing help output, default is `false`. This is useful if you are using the [ttycolor][ttycolor] module but would prefer commands and options not to be highlighted.
 
 Note that if the environment variable `CLI_TOOLKIT_HELP_MAN` is set help titles will not be printed regardless of the setting of the `title` property.

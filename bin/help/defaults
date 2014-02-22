@@ -48,6 +48,7 @@ sections.examples = [
 var stash = {};
 cli(package, 'foo', description)
   .configure({stash: stash, help: {sections: sections}})
+  //.use(cli.middleware.color)
   .option('-a, --option', 'an option')
   .option('-b, --another-option[=VALUE]', 'another option')
   .help()
