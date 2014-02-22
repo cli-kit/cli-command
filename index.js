@@ -28,9 +28,7 @@ var defaults = {
   help: {
     vanilla: false,
     sort: false,
-    column: 80,
-    title: true,
-    description: true
+    column: 80
   },
   trace: undefined,
   unknown: true,
