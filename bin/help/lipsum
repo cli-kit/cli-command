@@ -1,0 +1,41 @@
+#!/usr/bin/env node
+
+/**
+ *  Example program to test help column alignment.
+ *
+ *  ./bin/help/lipsum
+ */
+var fs = require('fs');
+var path = require('path');
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', 'package.json'));
+var package = require(pkg);
+package.bugs.email = '<lorem@example.com>';
+var cli = require('../..'), help = cli.help;
+var description = "Lorem ipsum";
+var sections = {};
+var lipsum = '' + fs.readFileSync(path.join(__dirname, 'lipsum.txt'));
+var paragraphs = lipsum.split('\n\n');
+sections.examples = [
+  {
+    cmd: 'lipsum',
+    description: paragraphs[0]
+  },
+  {
+    cmd: 'lipsum -l',
+    description: paragraphs[1]
+  }
+]
+var stash = {};
+cli(package, 'lipsum', description)
+  .configure({stash: stash, help: {sections: sections}})
+  .option('-l', 'Lorem ipsum flag')
+  .option('-L, --lorem-ipsum-dolor[=VALUE]', 'Lorem ipsum dolor')
+  .option('-i, --ipsum [VALUE]', 'Ipsum dolor sit amet')
+  .option('-a, --aliquam [VALUE]', paragraphs[2])
+  .help()
+  .version()
+  .on('complete', function(req) {
+    help.call(this);
+  })
+  .parse();
