@@ -70,6 +70,7 @@ Returns the program for chaining.
 
 The `help` configuration object supports the following properties:
 
+* `align`: A string indicating the alignment style, possible values are `column|line|flex|wrap`, default is `column`.
 * `assignment`: A string delimiter to use for options that accept values, default is `=`.
 * `collapse`: A boolean indicating that whitespace should not be printed between sections, default is `false`.
 * `delimiter`: A string delimiter to use between option names, default is `, `.
@@ -83,6 +84,7 @@ The `help` configuration object supports the following properties:
 * `style`: A string indicating the style of help output, default is `gnu`, see [help styles](#help-styles).
 * `titles`: Map of custom section titles.
 * `vanilla`: Never use parameter replacement when printing help output, default is `false`. This is useful if you are using the [ttycolor][ttycolor] module but would prefer commands and options not to be highlighted.
+* `width`: The character width of the left column, default is `20`, only applies when `align` is set to `column`.
 
 ### Help Styles
 

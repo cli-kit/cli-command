@@ -32,6 +32,7 @@ var defaults = {
     vanilla: false,
     sort: false,
     maximum: 80,
+    width: 20,
     align: 'column',
     collapse: false,
     messages: {
