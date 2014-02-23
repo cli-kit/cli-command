@@ -40,7 +40,7 @@ var defaults = {
         command: '[COMMAND]',
         option: '[OPTION]',
       },
-      bugs: 'Reports bugs to %s.'
+      bugs: 'Report bugs to %s.'
     }
   },
   trace: false,

@@ -42,8 +42,8 @@
   "engine": [ "node >= 0.10.21" ],
   "scripts": {
     "clean": "rm -f ./log/*.log",
-    "help2man": "CLI_TOOLKIT_HELP2MAN=1 help2man --no-info --output=./.man/defaults.1 ./bin/help/defaults && man ./.man/defaults.1",
-    "help2json": "CLI_TOOLKIT_HELP_JSON=1 CLI_TOOLKIT_HELP_JSON_INDENT=2 ./bin/help/defaults",
+    "help2man": "help2man --no-info --output=./.man/lipsum.1 ./bin/help/lipsum && man ./.man/lipsum.1",
+    "help2json": "CLI_TOOLKIT_HELP_JSON=1 CLI_TOOLKIT_HELP_JSON_INDENT=2 ./bin/help/lipsum",
     "permrm": "chmod -r test/unit/rc/eaccess.json",
     "permadd": "chmod +r test/unit/rc/eaccess.json",
     "test": "npm run clean; npm run permrm; istanbul cover _mocha -- -u bdd --recursive --bail --reporter list -A test/unit/; npm run permadd"
