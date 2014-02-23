@@ -166,6 +166,12 @@ unset cli_toolkit_help_*;           // bash
 unset -m 'cli_toolkit_help_*';      // zsh requires -m option and quotes
 ```
 
+You may disable this behaviour when invoking the `help` middleware, for example:
+
+```javascript
+cli.help(null, null, null, false);
+```
+
 ### Help Manual
 
 Help output can be converted into the following formats by setting environment variables:
