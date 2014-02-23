@@ -380,3 +380,4 @@ module.exports.help = middlewares.help.action;
 module.exports.version = middlewares.version.action;
 module.exports.types = types;
 module.exports.error = require('./lib/error');
+module.exports.CommandProgram = CommandProgram;
