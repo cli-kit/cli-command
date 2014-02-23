@@ -11,30 +11,31 @@ var path = require('path');
 require('ttycolor')().defaults();
 var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..');
-var version = cli.version;
+var original = cli.version;
+function version() {
+  var user = process.env.USER;
+  original.call(this, true, os.type() +
+    ' (' + process.arch + ') ' +
+    (user ? user + '@' + os.hostname() : os.hostname()));
+  var keys = Object.keys(process.versions), key;
+  keys.sort();
+  for(var i = 0;i < keys.length;i++) {
+    key = keys[i];
+    console.log(repeat() + '+' + key + ' %s', process.versions[key]);
+  }
+  keys = [
+    'clang', 'gcc_version', 'host_arch', 'node_use_openssl',
+    'node_use_dtrace', 'v8_enable_gdbjit', 'v8_no_strict_aliasing',
+    'v8_use_snapshot'
+  ];
+  keys.forEach(function(key) {
+    console.log(repeat() + '+' + key + ' %s', process.config.variables[key]);
+  })
+  process.exit();
+}
 var repeat = require('cli-util').repeat;
 cli(pkg, 'version/custom', 'Custom help output')
-  .version(function() {
-    var user = process.env.USER;
-    version.call(this, true, os.type() +
-      ' (' + process.arch + ') ' +
-      (user ? user + '@' + os.hostname() : os.hostname()));
-    var keys = Object.keys(process.versions), key;
-    keys.sort();
-    for(var i = 0;i < keys.length;i++) {
-      key = keys[i];
-      console.log(repeat() + '+' + key + ' %s', process.versions[key]);
-    }
-    keys = [
-      'clang', 'gcc_version', 'host_arch', 'node_use_openssl',
-      'node_use_dtrace', 'v8_enable_gdbjit', 'v8_no_strict_aliasing',
-      'v8_use_snapshot'
-    ];
-    keys.forEach(function(key) {
-      console.log(repeat() + '+' + key + ' %s', process.config.variables[key]);
-    })
-    process.exit();
-  })
+  .version(version)
   .help()
   .on('complete',function(req) {
     // invoke our custom version logic

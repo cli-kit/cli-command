@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+/**
+ *  Example program to test version copyright.
+ *
+ *  ./bin/version/copyright
+ */
+var path = require('path');
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..'), version = cli.version;
+var description = "Version copyright.";
+
+var copyright = 'Copyright (C) 2014 Freeform Systems, Ltd.';
+copyright += 'This is free software; see the source for copying conditions. ';
+copyright += 'There is NO warranty; not even for MERCHANTABILITY or FITNESS ';
+copyright += 'FOR A PARTICULAR PURPOSE.';
+
+var program = cli(pkg, 'version/copyright', description)
+  .configure({copyright: copyright})
+  .use(cli.middleware.color)
+  .use(cli.middleware.debug)
+  .help()
+  .version()
+  .on('complete', function(req) {
+    version.call(this);
+  })
+  .parse();
