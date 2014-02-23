@@ -12,10 +12,8 @@ require('ttycolor')().defaults();
 var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..');
 var version = cli.version;
-cli = cli(pkg, 'version/custom');
 var repeat = require('cli-util').repeat;
-cli
-  .description('Test program for custom version')
+cli(pkg, 'version/custom', 'Custom help output')
   .version(function() {
     var user = process.env.USER;
     version.call(this, true, os.type() +
@@ -38,7 +36,7 @@ cli
     process.exit();
   })
   .help()
-  .on('empty',function(help, version) {
+  .on('complete',function(req) {
     // invoke our custom version logic
     // when zero arguments are present
     version.call(this);

@@ -78,7 +78,8 @@ var program = cli(package, 'lipsum', description)
   .use(cli.middleware.debug)
   .option('-j, --json', 'Print help as json')
   .option('-c, --collapse', 'Collapse whitespace between sections')
-  .option('-e, --exit', 'Include exit section from error definitions')
+  .option('-v, --vanilla', 'Disable parameter replacement')
+  .option('-e, --error', 'Include exit section from error definitions')
   .option('-s, --sort [value]', sort, cli.types.enum(list, true))
   .option('-a, --align [value]',
     'Alignment style (column|line|flex|wrap)',
@@ -104,6 +105,9 @@ var program = cli(package, 'lipsum', description)
   })
   .once('collapse', function(req, arg, value) {
     this.configure().help.collapse = value;
+  })
+  .once('vanilla', function(req, arg, value) {
+    this.configure().help.vanilla = value;
   })
   .once('sort', function(req, arg, value) {
     this.configure().help.sort = convert.to(value);

@@ -15,16 +15,23 @@ var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..'), help = cli.help;
 cli(pkg, 'help/custom', 'Test program for custom help')
+  .use(cli.middleware.debug)
   .use(cli.middleware.color)
   .version()
   .help()
   .on('help', function(data, document) {
     data.sections = data.sections || {};
-    data.sections.examples = "Show customized help:\n\n./bin/help/custom\n\n";
-    data.sections.examples +=
-      "Disable ansi colors:\n\n./bin/help/custom --no-color";
-    document.sections.push(Object.keys(data.sections));
-    document.write(this, data, process.stderr);
+    data.sections.examples = [
+      {
+        name: './bin/help/custom',
+        description: 'Show customized help'
+      },
+      {
+        name: './bin/help/custom --no-color',
+        description: 'Disable ansi colors'
+      }
+    ]
+    document.write(data, process.stderr);
   })
   .on('complete',function(req) {
     help.call(this);

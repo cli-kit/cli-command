@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+
+/**
+ *  Example program to test that version output
+ *  respects the vanilla configuration property.
+ *
+ *  ./bin/version/vanilla
+ *  ./bin/version/vanilla --help
+ */
+var path = require('path');
+require('ttycolor')().defaults();
+var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..')(pkg, 'version/vanilla', 'Vanilla version output');
+cli
+  .configure({help: {vanilla: true}})
+  .version()
+  .help()
+  .on('empty', function(help, version) {
+    version.call(this);
+  })
+  .parse();
