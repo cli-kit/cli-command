@@ -35,7 +35,7 @@ var defaults = {
     align: 'column',
     collapse: false,
     messages: {
-      summary: 'Commands %s',
+      summary: 'Command should be one of: %s',
       usage: {
         command: '[COMMAND]',
         option: '[OPTION]',

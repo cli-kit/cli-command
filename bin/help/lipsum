@@ -65,6 +65,9 @@ sort += 'order with -1.';
 var stash = {};
 var program = cli(package, 'lipsum', description)
   .configure({stash: stash, help: {sections: sections}})
+  //.configure(
+    //{stash: stash, help: {
+      //sections: sections, messages: {summary: paragraphs[3]}}})
   .use(cli.middleware.color)
   .use(cli.middleware.debug)
   .option('-j, --json', 'Print help as json')
@@ -108,7 +111,6 @@ paragraphs.forEach(function(para) {
   var cmd = para.replace(/\s+.*/, '').trim().toLowerCase();
   var desc = para.substr(0, para.indexOf('.') + 1);
   program.command(cmd, desc);
-  //console.dir(desc);
 })
 
 program.parse();

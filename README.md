@@ -71,6 +71,7 @@ Returns the program for chaining.
 The `help` configuration object supports the following properties:
 
 * `assignment`: A string delimiter to use for options that accept values, default is `=`.
+* `collapse`: A boolean indicating that whitespace should not be printed between sections, default is `false`.
 * `delimiter`: A string delimiter to use between option names, default is `, `.
 * `exit`: A boolean that forces inclusion of an `EXIT` section generated from the program error definitions, default is `false`.
 * `indent`: An integer indicating the number of spaces to indent, default is `1`.
