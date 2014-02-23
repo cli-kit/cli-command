@@ -163,7 +163,7 @@ Use `unset` to clear set variables:
 
 ```shell
 unset cli_toolkit_help_*;           // bash
-unset -m 'cli_toolkit_help_*';      // zsh requires -s option and quotes
+unset -m 'cli_toolkit_help_*';      // zsh requires -m option and quotes
 ```
 
 ### Help Manual
