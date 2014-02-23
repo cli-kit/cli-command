@@ -42,7 +42,7 @@ sections.examples = [
     description: 'Switch to flex alignment'
   },
   {
-    name: 'lipsum --maximum=120',
+    name: 'lipsum --maximum=100',
     description: 'Increase maximum column width'
   },
   {
@@ -89,7 +89,7 @@ copyright += 'FOR A PARTICULAR PURPOSE.';
 var prefix = cli.middleware.events.prefix;
 
 var usage = '[-jcve] [--json] [--collapse] [--vanilla] ';
-usage += '[--sort=null|false|true|1|-1] [--format=text|json|markdonw] ';
+usage += '[--sort=null|false|true|1|-1] [--format=text|json|markdown] ';
 usage += '[--align=column|line|flex|wrap] ';
 usage += '[--maximum=INT]';
 
