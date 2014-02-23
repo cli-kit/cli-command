@@ -38,6 +38,14 @@ sections.examples = [
     description: 'Print help as markdown'
   },
   {
+    name: 'lipsum --align flex',
+    description: 'Switch to flex alignment'
+  },
+  {
+    name: 'lipsum --maximum=120',
+    description: 'Increase maximum column width'
+  },
+  {
     name: 'lipsum --sort null',
     description: 'Disable help option sort (natural order)'
   },
@@ -104,8 +112,7 @@ var program = cli(package, 'lipsum', description)
   .option('-a, --align [value]',
     'Alignment style (column|line|flex|wrap)',
     cli.types.enum(['column', 'line', 'flex', 'wrap']))
-  .option('-m, --maximum [value]',
-    'Maximum column width, default 80',
+  .option('-m, --maximum [value]', 'Maximum column width, default 80',
     cli.types.integer)
   .option('-L, --lorem-ipsum-dolor[=VALUE]', 'Lorem ipsum dolor')
   .option('-i, --ipsum [VALUE]', 'Ipsum dolor sit amet')
