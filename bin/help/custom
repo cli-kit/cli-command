@@ -3,8 +3,10 @@
 /**
  *  Example program to test custom help output.
  *
+ *  This program adds some examples to the help output
+ *  and sets the output stream to process.stderr.
+ *
  *  ./bin/help/custom
- *  ./bin/help/custom -h
  *  ./bin/help/custom --help
  *  ./bin/help/custom --help --no-color
  */
@@ -12,41 +14,19 @@ var path = require('path');
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..'), help = cli.help;
-cli(pkg, 'help/custom')
+cli(pkg, 'help/custom', 'Test program for custom help')
   .use(cli.middleware.color)
   .version()
-  .description('Test program for custom help')
-  .help(function(req, next) {
-    var repeat = help.repeat;
-    var delimiter = repeat(76, '+')
-    var usage = help.usage;
-    var pkg = this.package();
-    help.foot = function() {
-      console.log();
-      console.log(delimiter);
-      console.log();
-      console.log('Author: ' + pkg.author);
-      console.log('Repository: '
-        + pkg.repository.url);
-      console.log('Bugs: '
-        + pkg.bugs.url);
-      console.log('License: '
-        + pkg.licenses[0].type);
-      console.log();
-    }
-    help.head = function() {
-      console.log();
-      console.log(repeat() + '%s %s - ' + this.description(),
-        this.name(), this.version());
-      console.log();
-      console.log(delimiter);
-      console.log();
-    }
-    help.call(this);
+  .help()
+  .on('help', function(data, document) {
+    data.sections = data.sections || {};
+    data.sections.examples = "Show customized help:\n\n./bin/help/custom\n\n";
+    data.sections.examples +=
+      "Disable ansi colors:\n\n./bin/help/custom --no-color";
+    document.sections.push(Object.keys(data.sections));
+    document.write(this, data, process.stderr);
   })
-  .on('empty',function(help, version) {
-    // invoke our custom help logic
-    // when zero arguments are present
+  .on('complete',function(req) {
     help.call(this);
   })
   .parse();

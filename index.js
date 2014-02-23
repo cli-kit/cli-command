@@ -26,13 +26,24 @@ var defaults = {
   bin: null,
   env: null,
   help: {
+    indent: 1,
+    exit: false,
+    pedantic: true,
     vanilla: false,
-    sort: true,
-    column: 80,
-    title: true,
-    description: false
+    sort: false,
+    maximum: 80,
+    align: 'column',
+    collapse: false,
+    messages: {
+      summary: 'Command should be one of: %s',
+      usage: {
+        command: '[COMMAND]',
+        option: '[OPTION]',
+      },
+      bugs: 'Reports bugs to %s.'
+    }
   },
-  trace: undefined,
+  trace: false,
   unknown: true,
   strict: false,
   middleware: null

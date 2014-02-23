@@ -1,33 +1,42 @@
 #!/usr/bin/env node
 
 /**
- *  Example program to test vanilla help output.
+ *  Example program to test vanilla output when the color
+ *  middleware is in use.
  *
  *  ./bin/help/vanilla
- *  ./bin/help/vanilla -h
+ *  ./bin/help/vanilla --plain
  *  ./bin/help/vanilla --help
  */
 var path = require('path');
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
-var cli = require('../..');
-cli(pkg, 'help/vanilla')
-  .configure({help: {vanilla: true}})
+var package = require(pkg);
+package.bugs.email = '<bug-gnu-utils@gnu.org>';
+var cli = require('../..'), help = cli.help;
+var description = "GNU `foo' does nothing interesting except serve ";
+description += "as an example for `help2man'.";
+var sections = {};
+sections.examples = [
+  {
+    cmd: 'foo',
+    description: 'do nothing'
+  },
+  {
+    cmd: 'foo --option',
+    description: 'the same thing, giving `--option\''
+  }
+]
+var stash = {};
+cli(package, 'foo', description)
+  .configure({stash: stash,
+    help: {sections: sections, vanilla: ~process.argv.indexOf('--plain')}})
   .use(cli.middleware.color)
-  .usage('[options] <command> <package...>')
-  .command('install, ins, i', 'install packages')
-  .command('publish, pub, p',
-    'publish packages to the registry creating a new package version')
-  .command('update, up, u', 'update dependencies')
-  .command('list, ls', 'list dependencies')
-  .command('pack, pk', 'create archive')
-  .option('-r --registry [url]', 'registry url')
-  .option('-v --verbose', 'print more information')
-  .option('-f --force', 'force overwrite')
-  .option('-d --debug', 'enable debugging')
-  .version()
+  .option('-a, --option', 'an option')
+  .option('-b, --another-option[=VALUE]', 'another option')
   .help()
-  .on('empty', function(help, version) {
+  .version()
+  .on('complete', function(req) {
     help.call(this);
   })
   .parse();

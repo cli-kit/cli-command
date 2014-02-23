@@ -4,7 +4,6 @@
  *  Example program to test default version output.
  *
  *  ./bin/version/defaults
- *  ./bin/version/defaults -h
  *  ./bin/version/defaults --help
  */
 var path = require('path');

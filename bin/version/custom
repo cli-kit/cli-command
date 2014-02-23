@@ -4,7 +4,6 @@
  *  Example program to test custom version output.
  *
  *  ./bin/version/custom
- *  ./bin/version/custom -h
  *  ./bin/version/custom --help
  */
 var os = require('os');

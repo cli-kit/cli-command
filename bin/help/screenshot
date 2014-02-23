@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+
+/**
+ *  Example program for the readme screenshot.
+ *
+ *  ./bin/help/defaults
+ *  ./bin/help/defaults --help
+ *  ./bin/help/defaults --help --no-color
+ */
+var path = require('path');
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..'), help = cli.help;
+cli(pkg, 'help/defaults', 'Test program for default help')
+  .use(cli.middleware.color)
+  .usage('[options] <command> <package...>')
+  .command('install, ins, i', 'install packages')
+  .command('publish, pub, p',
+    'publish packages to the registry creating a new package version')
+  .command('list, ls', 'list dependencies')
+  .command('pack, pk', 'create archive')
+  .option('-r --registry [url]', 'registry url')
+  .option('-v --verbose', 'print more information')
+  .option('-f --force', 'force overwrite')
+  .option('-d --debug', 'enable debugging')
+  .version()
+  .help()
+  .on('complete', function(req) {
+    help.call(this);
+  })
+  .parse();

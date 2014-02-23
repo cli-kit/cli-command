@@ -29,6 +29,7 @@ describe('cli-command:', function() {
     var cli = require('../../..')
     cli = cli(pkg, 'mock-json-string-help', 'Mock json string description');
     cli
+      .configure({exit: false})
       .version()
       .help()
       .on('complete', function(req) {
@@ -37,16 +38,18 @@ describe('cli-command:', function() {
         delete process.env.CLI_TOOLKIT_HELP_JSON_INDENT;
         done();
       })
-      .parse(['-h']);
+      .parse(['--help']);
   });
   it('should print json help (no indent)', function(done) {
     var method = process.stdout.write;
     process.stdout.write = function(){}
+    //process.stdout.write = function(str){console.error(str)}
     process.env.CLI_TOOLKIT_HELP_JSON=1;
     delete process.env.CLI_TOOLKIT_HELP_JSON_INDENT;
     var cli = require('../../..')
     cli = cli(pkg, 'mock-json-string-help', 'Mock json string description');
     cli
+      .configure({exit: false})
       .version()
       .help()
       .on('complete', function(req) {
@@ -54,7 +57,7 @@ describe('cli-command:', function() {
         delete process.env.CLI_TOOLKIT_HELP_JSON;
         done();
       })
-      .parse(['-h']);
+      .parse(['--help']);
   });
   it('should print json help (invalid indent)', function(done) {
     var method = process.stdout.write;
@@ -64,6 +67,7 @@ describe('cli-command:', function() {
     var cli = require('../../..')
     cli = cli(pkg, 'mock-json-string-help', 'Mock json string description');
     cli
+      .configure({exit: false})
       .version()
       .help()
       .on('complete', function(req) {
@@ -72,7 +76,7 @@ describe('cli-command:', function() {
         delete process.env.CLI_TOOLKIT_HELP_JSON_INDENT;
         done();
       })
-      .parse(['-h']);
+      .parse(['--help']);
   });
   it('should not print json help (CLI_TOOLKIT_HELP2MAN)', function(done) {
     process.env.CLI_TOOLKIT_HELP2MAN=1;
@@ -91,12 +95,13 @@ describe('cli-command:', function() {
         delete process.env.CLI_TOOLKIT_HELP2MAN;
         done();
       })
-      .parse(['-h']);
+      .parse(['--help']);
   });
   it('should convert program to json string (default indent)', function(done) {
     var cli = require('../../..')
     cli = cli(pkg, 'mock-json-string-help', 'Mock json string description');
     cli
+      .configure({exit: false})
       .version()
       .help()
       .on('complete', function(req) {
@@ -110,6 +115,7 @@ describe('cli-command:', function() {
     var cli = require('../../..')
     cli = cli(pkg, 'mock-json-string-help', 'Mock json string description');
     cli
+      .configure({exit: false})
       .version()
       .help()
       .on('complete', function(req) {
@@ -123,6 +129,7 @@ describe('cli-command:', function() {
     var cli = require('../../..')
     cli = cli(null, 'mock-json-string-help', 'Mock json string description');
     cli
+      .configure({exit: false})
       .version()
       .help()
       .on('complete', function(req) {
@@ -135,6 +142,7 @@ describe('cli-command:', function() {
     var cli = require('../../..')
     cli = cli(pkg, 'mock-json-object-help', 'Mock json object description');
     cli
+      .configure({exit: false})
       .option('--optional [value]', 'optional option')
       .command('ls', 'list files')
       .version()
