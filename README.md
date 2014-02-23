@@ -73,6 +73,7 @@ The `help` configuration object supports the following properties:
 * `align`: A string indicating the alignment style, possible values are `column|line|flex|wrap`, default is `column`.
 * `assignment`: A string delimiter to use for options that accept values, default is `=`.
 * `collapse`: A boolean indicating that whitespace should not be printed between sections, default is `false`.
+* `copyright`: A string describing the program copyright, default is `undefined`.
 * `delimiter`: A string delimiter to use between option names, default is `, `.
 * `exit`: A boolean that forces inclusion of an `EXIT` section generated from the program error definitions, default is `false`.
 * `indent`: An integer indicating the number of spaces to indent, default is `1`.

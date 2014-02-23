@@ -4,6 +4,7 @@
  *  Example program to test help column alignment.
  *
  *  ./bin/help/lipsum
+ *  ./bin/help/lipsum --version
  *  ./bin/help/lipsum --no-color
  *  ./bin/help/lipsum --sort null
  *  ./bin/help/lipsum --sort false
@@ -62,12 +63,17 @@ sort += '(Array.prototype.sort). Use 1 to sort by option string length ';
 sort += '(determined by the length of the help option string), reverse the ';
 sort += 'order with -1.';
 
+var copyright = 'Copyright (C) 2014 Freeform Systems, Ltd.';
+copyright += 'This is free software; see the source for copying conditions. ';
+copyright += 'There is NO warranty; not even for MERCHANTABILITY or FITNESS ';
+copyright += 'FOR A PARTICULAR PURPOSE.';
+
 var stash = {};
 var program = cli(package, 'lipsum', description)
-  .configure({stash: stash, help: {sections: sections}})
-  //.configure(
-    //{stash: stash, help: {
-      //sections: sections, messages: {summary: paragraphs[3]}}})
+  .configure({stash: stash, copyright: copyright, help: {sections: sections}})
+  //.configure({
+    //stash: stash, copyright: copyright,
+    //help: {sections: sections, messages: {summary: paragraphs[3]}}})
   .use(cli.middleware.color)
   .use(cli.middleware.debug)
   .option('-j, --json', 'Print help as json')
