@@ -71,6 +71,7 @@ var program = cli(package, 'lipsum', description)
   .use(cli.middleware.color)
   .use(cli.middleware.debug)
   .option('-j, --json', 'Print help as json')
+  .option('-c, --collapse', 'Collapse whitespace between sections')
   .option('-e, --exit', 'Include exit section from error definitions')
   .option('-s, --sort [value]', sort, cli.types.enum(list, true))
   .option('-a, --align [value]',
@@ -85,8 +86,8 @@ var program = cli(package, 'lipsum', description)
   .option('-a, --aliquam [VALUE]', paragraphs[2])
   .once('json', function(req, arg, value) {
     if(value) {
-      process.env.CLI_TOOLKIT_HELP_JSON=true;
-      process.env.CLI_TOOLKIT_HELP_JSON_INDENT=2;
+      this.configure().help.style = 'json';
+      this.configure().help.indent = 2;
     }
   })
   .once('maximum', function(req, arg, value) {
@@ -94,6 +95,9 @@ var program = cli(package, 'lipsum', description)
   })
   .once('exit', function(req, arg, value) {
     this.configure().help.exit = value;
+  })
+  .once('collapse', function(req, arg, value) {
+    this.configure().help.collapse = value;
   })
   .once('sort', function(req, arg, value) {
     this.configure().help.sort = convert.to(value);
