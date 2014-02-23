@@ -595,6 +595,10 @@ At times you may wish to inspect the internal structure of the program using `co
 
 See the [enumerate/defaults][enumerate/defaults] and [enumerate/debug][enumerate/debug] examples.
 
+## Interface
+
+It is important to decouple your program configuration from the binary file that user's will run so that you can easily test your program and generate code coverage. The [interface][interface] module is a tiny library that complements this command module to encourage decoupling.
+
 ## Reserved Keywords
 
 `_action`, `_commands`, `_conf`, `_converter`, `_description`, `_emitter`, `_events`, `_exec`, `_key`, `_maxListeners`, `_middleware`, `_name`, `_names`, `_options`, `_package`, `_request`, `_version`, `action`, `addListener`, `command`, `commands`, `configure`, `converter`, `description`, `domain`, `emit`, `error`, `errors`, `flag`, `help`, `key`, `listeners`, `name`, `names`, `on`, `once`, `option`, `options`, `package`, `parse`, `raise`, `removeAllListeners`, `removeListener`, `request`, `setMaxListeners`, `toString`, `use`, `version`, `wrap`
@@ -608,6 +612,7 @@ Chainable program definition inspired by [commander][commander], type conversion
 Everything is [MIT](http://en.wikipedia.org/wiki/MIT_License). Read the [license](/LICENSE) if you feel inclined.
 
 [toolkit]: https://github.com/freeformsystems/cli-toolkit
+[interface]: https://github.com/freeformsystems/cli-interface
 [ttycolor]: https://github.com/freeformsystems/ttycolor
 [argparse]: https://github.com/freeformsystems/cli-argparse
 [fs]: https://github.com/freeformsystems/cli-fs
