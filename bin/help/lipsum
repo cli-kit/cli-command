@@ -72,9 +72,13 @@ copyright += 'FOR A PARTICULAR PURPOSE.';
 
 var prefix = cli.middleware.events.prefix;
 
+var usage = '[COMMAND] [-jcve] [--json] [--collapse] [--vanilla] ';
+usage += '[--sort=VALUE] [--format=VALUE] [--align=VALUE] [--maximum=INT]'
+
 var stash = {};
 var program = cli(package, 'lipsum', description)
   .configure({stash: stash, copyright: copyright, help: {sections: sections}})
+  .usage(usage)
   //.configure({
     //stash: stash, copyright: copyright,
     //help: {sections: sections, messages: {summary: paragraphs[3]}}})
