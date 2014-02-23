@@ -70,6 +70,8 @@ copyright += 'This is free software; see the source for copying conditions. ';
 copyright += 'There is NO warranty; not even for MERCHANTABILITY or FITNESS ';
 copyright += 'FOR A PARTICULAR PURPOSE.';
 
+var prefix = cli.middleware.events.prefix;
+
 var stash = {};
 var program = cli(package, 'lipsum', description)
   .configure({stash: stash, copyright: copyright, help: {sections: sections}})
@@ -81,7 +83,7 @@ var program = cli(package, 'lipsum', description)
   .option('-j, --json', 'Print help as json')
   .option('-c, --collapse', 'Collapse whitespace between sections')
   .option('-v, --vanilla', 'Disable parameter replacement')
-  .option('-e, --error', 'Include exit section from error definitions')
+  .option('-e, --exit', 'Include exit section from error definitions')
   .option('-s, --sort [value]', sort, cli.types.enum(list, true))
   .option('-f, --format [value]', 'Set the help output format',
     cli.types.enum(formats))
