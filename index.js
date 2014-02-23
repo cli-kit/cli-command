@@ -376,7 +376,7 @@ module.exports = function(package, name, description) {
 }
 
 module.exports.middleware = middlewares;
-module.exports.doc = require('./lib/help/doc');
+module.exports.doc = require('./lib/help');
 module.exports.help = middlewares.help.action;
 module.exports.version = middlewares.version.action;
 module.exports.types = types;
