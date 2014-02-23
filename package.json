@@ -1,6 +1,6 @@
 {
   "name": "cli-command",
-  "version": "0.8.8",
+  "version": "0.8.9",
   "description": "Command execution for cli programs",
   "author": "muji <noop@xpm.io>",
   "repository": {
