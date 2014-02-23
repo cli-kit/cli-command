@@ -16,6 +16,8 @@ var convert = require('cli-native');
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
 var package = require(pkg);
+var fmt = require('../../lib/help/doc/formats');
+var formats = fmt.formats;
 package.bugs.email = '<lorem@example.com>';
 var cli = require('../..'), help = cli.help;
 var description = "Lorem ipsum is a program used to test help output.";
@@ -81,6 +83,8 @@ var program = cli(package, 'lipsum', description)
   .option('-v, --vanilla', 'Disable parameter replacement')
   .option('-e, --error', 'Include exit section from error definitions')
   .option('-s, --sort [value]', sort, cli.types.enum(list, true))
+  .option('-f, --format [value]', 'Set the help output format',
+    cli.types.enum(formats))
   .option('-a, --align [value]',
     'Alignment style (column|line|flex|wrap)',
     cli.types.enum(['column', 'line', 'flex', 'wrap']))
@@ -96,6 +100,9 @@ var program = cli(package, 'lipsum', description)
       this.configure().help.style = 'json';
       this.configure().help.indent = 2;
     }
+  })
+  .once('format', function(req, arg, value) {
+    this.configure().help.style = value;
   })
   .once('maximum', function(req, arg, value) {
     this.configure().help.maximum = parseInt(value);
