@@ -33,7 +33,9 @@ var defaults = {
     sort: false,
     maximum: 80,
     align: 'column',
+    collapse: false,
     messages: {
+      summary: 'Commands %s',
       usage: {
         command: '[COMMAND]',
         option: '[OPTION]',
