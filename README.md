@@ -148,6 +148,24 @@ cli.configure({
 
 // TODO
 
+### Help Environment
+
+All help configuration properties (with the exception of complex objects such as `sections`, `messages`, `titles` etc.) may be configured using environment variables.
+
+This enables you to quickly inspect help output under different configurations and allows users of your program to set a preference for how help output should be displayed. For example:
+
+```shell
+export cli_toolkit_help_align=line;
+export cli_toolkit_help_maximum=120;
+```
+
+Use `unset` to clear set variables:
+
+```shell
+unset cli_toolkit_help_*;           // bash
+unset -m 'cli_toolkit_help_*';      // zsh requires -s option and quotes
+```
+
 ### Help Manual
 
 Help output can be converted into the following formats by setting environment variables:

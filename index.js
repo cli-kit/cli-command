@@ -319,6 +319,8 @@ define(CommandProgram.prototype, 'help', help, false);
 function parse(args) {
   args = args || process.argv.slice(2);
   conflict.call(this);
+
+  //var conf = this.configure();
   if(this._middleware === undefined) {
     this.use();
   }
