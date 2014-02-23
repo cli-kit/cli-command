@@ -20,7 +20,11 @@ var fmt = require('../../lib/help/doc/formats');
 var formats = fmt.formats;
 package.bugs.email = '<lorem@example.com>';
 var cli = require('../..'), help = cli.help;
-var description = "Lorem ipsum is a program used to test help output.";
+var description = 'Lorem ipsum is a program used to test help output. ';
+description += 'If it looks like latin then it does nothing, other more ';
+description += 'meaningful options that have an affect are interspersed, ';
+description += 'try --align and --format in particular. The examples are ';
+description += 'valid, they illustrate some of the program functionality.';
 var sections = {};
 var lipsum = '' + fs.readFileSync(path.join(__dirname, 'lipsum.txt'));
 var paragraphs = lipsum.split('\n\n');
@@ -28,6 +32,10 @@ sections.examples = [
   {
     name: 'lipsum -j',
     description: 'Print help as JSON'
+  },
+  {
+    name: 'lipsum -f=markdown',
+    description: 'Print help as markdown'
   },
   {
     name: 'lipsum --sort null',
@@ -72,8 +80,10 @@ copyright += 'FOR A PARTICULAR PURPOSE.';
 
 var prefix = cli.middleware.events.prefix;
 
-var usage = '[COMMAND] [-jcve] [--json] [--collapse] [--vanilla] ';
-usage += '[--sort=VALUE] [--format=VALUE] [--align=VALUE] [--maximum=INT]'
+var usage = '[-jcve] [--json] [--collapse] [--vanilla] ';
+usage += '[--sort=null|false|true|1|-1] [--format=text|json|markdonw] ';
+usage += '[--align=column|line|flex|wrap] ';
+usage += '[--maximum=INT]';
 
 var stash = {};
 var program = cli(package, 'lipsum', description)
