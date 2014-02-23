@@ -20,7 +20,7 @@ var fmt = require('../../lib/help/doc/formats');
 var formats = fmt.formats;
 package.bugs.email = '<lorem@example.com>';
 var cli = require('../..'), help = cli.help;
-var description = 'Lorem ipsum is a program used to test help output. ';
+var description = 'Lorem ipsum is a program used to test help output.\n\n';
 description += 'If it looks like latin then it does nothing, other more ';
 description += 'meaningful options that have an affect are interspersed, ';
 description += 'try --align and --format in particular. The examples are ';
@@ -89,7 +89,7 @@ copyright += 'FOR A PARTICULAR PURPOSE.';
 var prefix = cli.middleware.events.prefix;
 
 var usage = '[-jcve] [--json] [--collapse] [--vanilla] ';
-usage += '[--sort=null|false|true|1|-1] [--format=text|json|markdown] ';
+usage += '[--sort=null|false|true|1|-1]\n[--format=text|json|markdown] ';
 usage += '[--align=column|line|flex|wrap] ';
 usage += '[--maximum=INT]';
 
