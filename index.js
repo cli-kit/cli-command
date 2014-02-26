@@ -38,8 +38,9 @@ var defaults = {
     messages: {
       summary: 'Command should be one of: %s',
       usage: {
-        command: '[COMMAND]',
-        option: '[OPTION]',
+        command: 'command',
+        option: 'option',
+        args: 'args'
       },
       bugs: 'Report bugs to %s.'
     }
