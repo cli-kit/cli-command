@@ -71,4 +71,28 @@ describe('cli-command:', function() {
     expect(cli.color).to.eql(true);
     done();
   });
+  it('should use --[no]-pedantic (--pedantic: true)', function(done) {
+    var cli = require('../..')(pkg);
+    var args = ['--pedantic'];
+    cli
+      .option('--[no]-pedantic', 'be pedantic or not')
+      .on('complete', function(req) {
+        //console.log(JSON.stringify(req, undefined, 2));
+        expect(this.pedantic).to.eql(true);
+      })
+      .parse(args);
+    done();
+  });
+  it('should use --[no]-pedantic (--no-pedantic: false)', function(done) {
+    var cli = require('../..')(pkg);
+    var args = ['--no-pedantic'];
+    cli
+      .option('--[no]-pedantic', 'be pedantic or not')
+      .on('complete', function(req) {
+        //console.log(JSON.stringify(req, undefined, 2));
+        expect(this.pedantic).to.eql(false);
+      })
+      .parse(args);
+    done();
+  });
 })
