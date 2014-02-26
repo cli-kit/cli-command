@@ -52,8 +52,11 @@ describe('cli-command:', function() {
       .option('-v', 'verbose')
       .option('-c --color', 'use ansi colors')
       .option('-C --no-color', 'do not use ansi colors')
+      .on('complete', function(req) {
+        //console.log(JSON.stringify(req, undefined, 2));
+        expect(this.color).to.eql(false);
+      })
       .parse(args);
-    expect(cli.color).to.eql(false);
     done();
   });
   it('should override positive override (expansion)', function(done) {
