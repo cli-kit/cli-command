@@ -53,7 +53,7 @@ describe('cli-command:', function() {
       .option('-c --color', 'use ansi colors')
       .option('-C --no-color', 'do not use ansi colors')
       .on('complete', function(req) {
-        //console.log(JSON.stringify(req, undefined, 2));
+        console.log(JSON.stringify(req, undefined, 2));
         expect(this.color).to.eql(false);
       })
       .parse(args);
