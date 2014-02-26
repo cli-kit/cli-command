@@ -28,5 +28,6 @@ cli(pkg, 'logger/options', 'Example program for logger middleware options')
     keys.forEach(function(key) {
       log[key]('mock %s message', key);
     })
+    log.info('%s message\nwith lots of %s\n', 'multiline', 'information');
   })
   .parse();
