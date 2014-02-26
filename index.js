@@ -248,17 +248,15 @@ function error(e) {
     e = this.wrap(e);
   }
   var trace =
-    (conf.trace !== undefined) ? conf.trace : (e.code === errors.EUNCAUGHT.code);
+    (conf.trace !== undefined)
+      ? conf.trace : (e.code === errors.EUNCAUGHT.code);
   var logger = this.log && typeof(this.log.error) === 'function';
   if(logger) {
     var args = e.parameters.slice(0);
     args.unshift(e.message);
     this.log.error.apply(this.log, args);
-    if(trace) {
-      var prefix = this.log.conf.prefix;
-      this.log.conf.prefix = null;
-      e.printstack(this.log.error, this.log);
-      this.log.conf.prefix = prefix;
+    if(trace && e.stack) {
+      this.log.error(e.stack.split('\n').slice(1).join('\n'));
     }
   }else{
     e.error(trace)
