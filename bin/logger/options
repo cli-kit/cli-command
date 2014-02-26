@@ -20,6 +20,8 @@ var cli = require('../..');
 cli(pkg, 'logger/options', 'Example program for logger middleware options')
   .use(cli.middleware.color)
   .use(cli.middleware.logger, null, opts)
+  //.use(cli.middleware.logger, {prefix: false}, opts)
+  .use(cli.middleware.debug)
   .version()
   .help()
   .on('complete', function(req) {
@@ -30,5 +32,6 @@ cli(pkg, 'logger/options', 'Example program for logger middleware options')
     })
     log.info('%s message\nwith lots of %s\n', 'multiline', 'information');
     log.info('%s message', 'multiline\nparameter');
+    log.error(new Error('mock error message'));
   })
   .parse();
