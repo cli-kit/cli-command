@@ -1,6 +1,6 @@
 {
   "name": "cli-command",
-  "version": "0.8.16",
+  "version": "0.8.17",
   "description": "Command execution for cli programs",
   "author": "muji <noop@xpm.io>",
   "repository": {
@@ -11,10 +11,12 @@
     "url": "https://github.com/freeformsystems/cli-command/issues",
     "email": "muji <noop@xpm.io>"
   },
-  "licenses": [{
-    "type": "MIT",
-    "url": "https://github.com/freeformsystems/cli-command/blob/master/LICENSE"
-  }],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/freeformsystems/cli-command/blob/master/LICENSE"
+    }
+  ],
   "keywords": [
     "cli",
     "parse",
@@ -39,7 +41,9 @@
     "chai": "~1.9.0",
     "istanbul": "~0.2.4"
   },
-  "engine": [ "node >= 0.10.21" ],
+  "engine": [
+    "node >= 0.10.21"
+  ],
   "scripts": {
     "clean": "rm -f ./log/*.log; rm -f .man/*",
     "help2man": "help2man=true help2man --no-info --output=./.man/lipsum.1 ./bin/help/lipsum && man ./.man/lipsum.1",
@@ -48,5 +52,5 @@
     "permadd": "chmod +r test/unit/rc/eaccess.json",
     "test": "npm run clean; npm run permrm; istanbul cover _mocha -- -u bdd --recursive --bail --reporter list -A test/unit/; npm run permadd"
   },
-  "config" : {}
+  "config": {}
 }
