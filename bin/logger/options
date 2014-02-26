@@ -25,6 +25,7 @@ cli(pkg, 'logger/options', 'Example program for logger middleware options')
   .version()
   .help()
   .on('complete', function(req) {
+    console.log(JSON.stringify(req, undefined, 2));
     var keys = require('cli-logger').keys;
     var log = this.log;
     keys.forEach(function(key) {
