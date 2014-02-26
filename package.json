@@ -23,7 +23,7 @@
     "command"
   ],
   "dependencies": {
-    "cli-define": "~0.4.12",
+    "cli-define": "~0.4.13",
     "cli-native": "~1.0.0",
     "cli-env": "~1.0.3",
     "cli-argparse": "~0.3.6",
