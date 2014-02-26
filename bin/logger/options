@@ -29,5 +29,6 @@ cli(pkg, 'logger/options', 'Example program for logger middleware options')
       log[key]('mock %s message', key);
     })
     log.info('%s message\nwith lots of %s\n', 'multiline', 'information');
+    log.info('%s message', 'multiline\nparameter');
   })
   .parse();
