@@ -13,12 +13,12 @@ describe('cli-command:', function() {
         'an option that has a default value', 'default value')
       .parse(args);
     console.dir(Object.keys(cli));
-    expect(Object.keys(cli).length).to.eql(3);
+    expect(Object.keys(cli).length).to.eql(2);
     var enumerated = [];
     for(var z in cli) {
       enumerated.push(z);
     }
-    expect(enumerated.length).to.eql(3);
+    expect(enumerated.length).to.eql(2);
     done();
   });
 })
