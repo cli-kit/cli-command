@@ -53,7 +53,7 @@ var defaults = {
 }
 
 var all = [
-  //middlewares.error,
+  middlewares.error,
   middlewares.parser,
   middlewares.unparsed,
   middlewares.defaults,
@@ -75,8 +75,9 @@ var all = [
 var CommandProgram = function() {
   Program.apply(this, arguments);
   __middleware__ = [];
+  //middlewares.error.call(this)
   // private
-  define(this, '_middleware', [middlewares.error.call(this)], true);
+  define(this, '_middleware', undefined, true);
   define(this, '_conf', merge(defaults, {}), true);
   define(this, '_exec', {}, false);
   define(this, '_request', undefined, true);
@@ -354,6 +355,7 @@ function middleware(args) {
   var req = {argv: args};
   function exec() {
     var func = list[i];
+    //console.dir(func);
     //console.log('' + func);
     func.call(scope, req, next);
     //console.log('' + func);

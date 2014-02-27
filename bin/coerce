@@ -5,6 +5,7 @@
  *
  *  ./bin/coerce -i 10 -f 3.14 --range 1..10 -o=10 --list=apples,oranges file.txt
  */
+//process.env.CLI_TOOLKIT_DEBUG=true;
 var path = require('path');
 require('ttycolor')().defaults();
 var pkg = path.normalize(path.join(__dirname, '..', 'package.json'));
@@ -19,14 +20,33 @@ function list(val) {
 }
 
 var defs = {
-  integer: parseInt,
-  float: parseFloat,
-  range: range
+  options: {
+    integer: parseInt,
+    float: parseFloat,
+    range: range
+  }
 }
 
 cli
   .load(path.join(__dirname, 'coerce.md'), defs, function(cli) {
-    console.log('load complete');
+    //console.log('load complete: ' + (this === cli));
+    //console.dir(this);
+    this
+      .on('complete', function(req) {
+        //console.log('parse complete called');
+        //console.log(JSON.stringify(this));
+        for(var key in this) {
+          console.log(key + ': %s (%s)', this[key],
+            Array.isArray(this[key]) ? 'array' : typeof(this[key]));
+        }
+        var args = this.request().args;
+        if(args && args.length) {
+          console.log('args: %s', args.join(', '));
+        }
+      })
+      .version()
+      .help()
+      .parse();
   })
   //.usage('[options] <file ...>')
   //.option('-i, --integer <n>', 'an integer argument', parseInt)
