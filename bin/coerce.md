@@ -3,7 +3,7 @@ coerce
 
 ## Description
 
-An example program to illustrate option validation and coercion.
+An ***example*** program to illustrate option validation and coercion.
 
 ## Synopsis
 
