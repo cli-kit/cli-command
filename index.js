@@ -88,6 +88,8 @@ var CommandProgram = function() {
 
   // public
   define(this, 'errors', errors, false);
+
+  //this.use(middlewares.error);
 }
 
 util.inherits(CommandProgram, Program);

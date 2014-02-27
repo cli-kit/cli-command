@@ -1,10 +1,10 @@
-# abc
-
 An example program to illustrate option validation and coercion.
 
 ## Usage
 
+```
 [options] <file ...>
+```
 
 ## Options
 
