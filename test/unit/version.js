@@ -18,7 +18,7 @@ describe('cli-command:', function() {
     var ver = '0.0.1', name = '-v', description = 'print version';
     cli.version(ver, name, description);
     expect(cli._version).to.eql(ver);
-    expect(cli._options.versionopt.description()).to.eql(description);
+    expect('' + cli._options.versionopt.description()).to.eql(description);
     done();
   });
   it('should set program version as action', function(done) {
