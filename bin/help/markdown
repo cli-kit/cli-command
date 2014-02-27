@@ -1,24 +1,4 @@
 #!/usr/bin/env node
-/*
-
-GNU `foo' does nothing interesting except serve as an example for `help2man'.
-
-Usage: foo [OPTION]...
-
-Options:
- -a, --option      an option
- -b, --another-option[=VALUE]
-                   another option
-
-     --help        display this help and exit
-     --version     output version information and exit
-
-Examples:
- foo               do nothing
- foo --option      the same thing, giving `--option'
-
-Report bugs to <bug-gnu-utils@gnu.org>.
-*/
 
 /**
  *  Example program to test default help output.
@@ -47,13 +27,13 @@ sections.examples = [
 ]
 //sections.bugs = false;
 //sections.description = false;
-//console.dir(sections);
 var stash = {};
 cli(package, 'foo', description)
-  .configure({stash: stash, help: {sections: sections}})
+  .configure({stash: stash, help: {sections: sections, style: 'markdown'}})
   //.use(cli.middleware.color)
   .option('-a, --option', 'an option')
-  .option('-b, --another-option[=VALUE]', 'another option')
+  .option('-b, --another-option[=VALUE]',
+    'another option with *some* `inline` ***markdown***')
   .help()
   .version()
   .on('complete', function(req) {
