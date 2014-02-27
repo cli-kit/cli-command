@@ -25,7 +25,7 @@ var defs = {
 }
 
 cli
-  .load(path.join(__dirname, 'coerce.md'), function(cli) {
+  .load(path.join(__dirname, 'coerce.md'), defs, function(cli) {
     console.log('load complete');
   })
   //.usage('[options] <file ...>')

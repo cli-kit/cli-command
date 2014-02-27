@@ -328,9 +328,13 @@ function parse(args) {
 define(CommandProgram.prototype, 'parse', parse, false);
 
 
-function load(file, callback) {
+function load(file, def, callback) {
+  if(typeof def === 'function') {
+    callback = def;
+    def = null;
+  }
   var scope = this;
-  loader.call(this, file, function() {
+  loader.call(this, file, def, function() {
     if(arguments.length) {
       return scope.raise.apply(scope, arguments);
     }
