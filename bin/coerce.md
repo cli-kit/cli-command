@@ -23,6 +23,10 @@ An ***example*** program to illustrate option validation and coercion.
 * `-l, --list <items>`: a list
 * `-o, --optional [value]`: an *optional* value
 
+with hard line breaks in the description
+
+that contains multiple paragraphs
+
 ## Examples
 
 Generate an error on missing required option.
