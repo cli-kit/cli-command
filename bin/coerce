@@ -18,7 +18,14 @@ function list(val) {
   return val.split(',');
 }
 
+function print(cmd) {
+  console.log('command: %s', cmd.getOptionString(null));
+}
+
 var defs = {
+  commands: {
+    print: print
+  },
   options: {
     integer: parseInt,
     float: parseFloat,

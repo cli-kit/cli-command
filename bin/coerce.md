@@ -11,6 +11,10 @@ An example program to illustrate option validation and coercion.
 [options] <file ...>
 ```
 
+## Commands
+
+* `print`: Print some messages using the log middleware
+
 ## Options
 
 * `-i, --integer <n>`: an integer argument

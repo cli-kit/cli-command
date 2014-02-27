@@ -14,6 +14,7 @@ var define = cli.define;
 var key = cli.key;
 var Program = cli.Program;
 var Option = cli.Option;
+var Command = cli.Command;
 
 var errors = clierr.errors;
 var ErrorDefinition = clierr.ErrorDefinition;
@@ -79,7 +80,6 @@ var CommandProgram = function() {
   // private
   define(this, '_middleware', undefined, true);
   define(this, '_conf', merge(defaults, {}), true);
-  define(this, '_exec', {}, false);
   define(this, '_request', undefined, true);
   define(this, '_usage', undefined, true);
 
