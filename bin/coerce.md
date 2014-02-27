@@ -31,7 +31,7 @@ Generate an error on missing required option.
 coerce
 ```
 
-Pass all required options with valid values.
+Pass all required options with valid values:
 
 ```
 coerce -i 10 -f 3.14 --range 1..10 -o=10 --list=apples,oranges file.txt
