@@ -2,6 +2,7 @@ var path = require('path');
 var util = require('util');
 
 var merge = require('cli-util').merge;
+var loader = require('./lib/loader');
 var types = require('./lib/types');
 var clierr = require('cli-error');
 var conflict = require('./lib/conflict');
@@ -52,7 +53,7 @@ var defaults = {
 }
 
 var all = [
-  middlewares.error,
+  //middlewares.error,
   middlewares.parser,
   middlewares.unparsed,
   middlewares.defaults,
@@ -75,7 +76,7 @@ var CommandProgram = function() {
   Program.apply(this, arguments);
   __middleware__ = [];
   // private
-  define(this, '_middleware', undefined, true);
+  define(this, '_middleware', [middlewares.error.call(this)], true);
   define(this, '_conf', merge(defaults, {}), true);
   define(this, '_exec', {}, false);
   define(this, '_request', undefined, true);
@@ -325,6 +326,19 @@ function parse(args) {
   return this;
 }
 define(CommandProgram.prototype, 'parse', parse, false);
+
+
+function load(file, callback) {
+  var scope = this;
+  loader.call(this, file, function() {
+    if(arguments.length) {
+      return scope.raise.apply(scope, arguments);
+    }
+    callback();
+  });
+  return this;
+}
+define(CommandProgram.prototype, 'load', load, false);
 
 /**
  *  Execute middleware.

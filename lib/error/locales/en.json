@@ -160,5 +160,11 @@
     "description": "Unable to open log file",
     "message": "unable to open log file %s",
     "code": 90
+  },
+  {
+    "key": "EEXIST",
+    "description": "Generic file does not exist",
+    "message": "file %s does not exist",
+    "code": 91
   }
 ]

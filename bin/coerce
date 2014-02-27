@@ -8,7 +8,7 @@
 var path = require('path');
 require('ttycolor')().defaults();
 var pkg = path.normalize(path.join(__dirname, '..', 'package.json'));
-var cli = require('..')(pkg);
+var cli = require('..')(pkg, null, null);
 
 function range(val) {
   return val.split('..').map(Number);
@@ -18,24 +18,33 @@ function list(val) {
   return val.split(',');
 }
 
+var defs = {
+  integer: parseInt,
+  float: parseFloat,
+  range: range
+}
+
 cli
-  .usage('[options] <file ...>')
-  .option('-i, --integer <n>', 'an integer argument', parseInt)
-  .option('-f, --float <n>', 'a float argument', parseFloat)
-  .option('-r, --range <a>..<b>', 'a range', range)
-  .option('-l, --list <items>', 'a list', list)
-  .option('-o, --optional [value]', 'an optional value')
-  .on('complete', function(req) {
-    //console.log(JSON.stringify(this));
-    for(var key in this) {
-      console.log(key + ': %s (%s)', this[key],
-        Array.isArray(this[key]) ? 'array' : typeof(this[key]));
-    }
-    var args = this.request().args;
-    if(args && args.length) {
-      console.log('args: %s', args.join(', '));
-    }
+  .load(path.join(__dirname, 'coerce.md'), function(cli) {
+    console.log('load complete');
   })
-  .version()
-  .help()
-  .parse();
+  //.usage('[options] <file ...>')
+  //.option('-i, --integer <n>', 'an integer argument', parseInt)
+  //.option('-f, --float <n>', 'a float argument', parseFloat)
+  //.option('-r, --range <a>..<b>', 'a range', range)
+  //.option('-l, --list <items>', 'a list', list)
+  //.option('-o, --optional [value]', 'an optional value')
+  //.on('complete', function(req) {
+    ////console.log(JSON.stringify(this));
+    //for(var key in this) {
+      //console.log(key + ': %s (%s)', this[key],
+        //Array.isArray(this[key]) ? 'array' : typeof(this[key]));
+    //}
+    //var args = this.request().args;
+    //if(args && args.length) {
+      //console.log('args: %s', args.join(', '));
+    //}
+  //})
+  //.version()
+  //.help()
+  //.parse();
