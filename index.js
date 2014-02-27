@@ -46,7 +46,7 @@ var defaults = {
       bugs: 'Report bugs to %s.'
     }
   },
-  trace: false,
+  trace: true,
   unknown: true,
   strict: false,
   middleware: null
@@ -338,7 +338,7 @@ function load(file, def, callback) {
     if(arguments.length) {
       return scope.raise.apply(scope, arguments);
     }
-    callback();
+    callback.call(scope);
   });
   return this;
 }
