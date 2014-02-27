@@ -37,11 +37,11 @@ description += "as an example for `help2man'.";
 var sections = {};
 sections.examples = [
   {
-    cmd: 'foo',
+    name: 'foo',
     description: 'do nothing'
   },
   {
-    cmd: 'foo --option',
+    name: 'foo --option',
     description: 'the same thing, giving `--option\''
   }
 ]
