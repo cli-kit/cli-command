@@ -31,7 +31,7 @@ cli(pkg, 'help/custom', 'Test program for custom help')
         description: 'Disable ansi colors'
       }
     ]
-    document.write(data, process.stderr);
+    document.write(data, process.stdout);
   })
   .on('complete',function(req) {
     help.call(this);
