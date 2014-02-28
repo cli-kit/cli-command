@@ -17,6 +17,7 @@ The format `text` and style `gnu` are equivalent.
 ## Options
 
 * `-f, --format [format]`: Set the help output format, run the `format` command to see the list of available formats.
+* `-o, --output [file]`: Write the result to *file*.
 
 ## Examples
 
@@ -30,4 +31,10 @@ Use the minimal `synopsis` format:
 
 ```
 format -f synopsis
+```
+
+Print the underlying `JSON` structure that is used to create help output:
+
+```
+format -f json
 ```

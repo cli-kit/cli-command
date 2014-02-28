@@ -1,18 +1,41 @@
 #!/usr/bin/env node
 
+var fs = require('fs');
 var path = require('path');
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..'), help = cli.help;
 var formats = cli.doc.fmt.formats;
 var styles = cli.doc.fmt.styles;
+function write(keepalive, callback) {
+  var scope = this;
+  if(!this.output) {
+    help.call(this, keepalive);
+    callback();
+  }else{
+    var stream = fs.createWriteStream(this.output, {flags: 'w'});
+    stream.on('error', function(e) {
+      scope.raise(e);
+    })
+    stream.on('open', function() {
+      console.log('stream open for writing: ' + stream);
+      help.call(scope, keepalive, stream);
+      callback();
+    })
+  }
+}
 var defs = {
   commands: {
     format: function(info) {
-      help.call(this, true);
-      console.info('formats: %s', formats.join(', '));
-      console.info('styles: %s', styles.join(', '));
+      console.log('format comand invoked');
+      write.call(this, true, function() {
+        console.info('formats: %s', formats.join(', '));
+        console.info('styles: %s', styles.join(', '));
+      });
     }
+  },
+  options: {
+    output: cli.types.path
   }
 }
 cli(pkg)
@@ -25,7 +48,7 @@ cli(pkg)
       })
       .on('complete', function(req) {
         //console.dir(req);
-        if(!req.command) help.call(this);
+        if(!req.command) write.call(this);
       })
       .version()
       .help()
