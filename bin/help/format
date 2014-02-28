@@ -5,10 +5,13 @@ var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..'), help = cli.help;
 var formats = cli.doc.fmt.formats;
+var styles = cli.doc.fmt.styles;
 var defs = {
   commands: {
-    format: function(cmd, args) {
-      console.dir(this);
+    format: function(info) {
+      help.call(this, true);
+      console.info('formats: %s', formats.join(', '));
+      console.info('styles: %s', styles.join(', '));
     }
   }
 }
@@ -21,8 +24,8 @@ cli(pkg)
         this.configure().help.style = value;
       })
       .on('complete', function(req) {
-        console.dir(req);
-        help.call(this);
+        //console.dir(req);
+        if(!req.command) help.call(this);
       })
       .version()
       .help()
