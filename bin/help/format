@@ -18,7 +18,6 @@ function write(keepalive, callback) {
       scope.raise(e);
     })
     stream.on('open', function() {
-      console.log('stream open for writing: ' + stream);
       help.call(scope, keepalive, stream);
       callback();
     })
@@ -27,7 +26,6 @@ function write(keepalive, callback) {
 var defs = {
   commands: {
     format: function(info) {
-      console.log('format comand invoked');
       write.call(this, true, function() {
         console.info('formats: %s', formats.join(', '));
         console.info('styles: %s', styles.join(', '));

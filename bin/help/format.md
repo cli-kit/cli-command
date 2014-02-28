@@ -16,7 +16,7 @@ The format `text` and style `gnu` are equivalent.
 
 ## Options
 
-* `-f, --format [format]`: Set the help output format, run the `format` command to see the list of available formats.
+* `-f, --format [format]`: Set the help output format, run the `format` command to see the list of available formats. If an unknown format is specified the default will be used.
 * `-o, --output [file]`: Write the result to *file*.
 
 ## Examples
