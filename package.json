@@ -37,7 +37,7 @@
     "markzero": "~0.1.0"
   },
   "devDependencies": {
-    "ttycolor": "~0.8.8",
+    "ttycolor": "~0.8.9",
     "mocha": "~1.17.0",
     "chai": "~1.9.0",
     "istanbul": "~0.2.4"
