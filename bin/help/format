@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', 'package.json'));
+var cli = require('../..'), help = cli.help;
+var formats = cli.doc.fmt.formats;
+var defs = {
+  commands: {
+    format: function(cmd, args) {
+      console.dir(this);
+    }
+  }
+}
+cli(pkg)
+  .configure({help: {style: 'markdown'}})
+  .use(cli.middleware.color)
+  .load(path.join(__dirname, 'format.md'), defs, function(cli) {
+    this
+      .once('format', function(req, arg, value) {
+        this.configure().help.style = value;
+      })
+      .on('complete', function(req) {
+        console.dir(req);
+        help.call(this);
+      })
+      .version()
+      .help()
+      .parse();
+  })

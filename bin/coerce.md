@@ -29,7 +29,7 @@ that contains multiple paragraphs
 
 ## Examples
 
-Generate an error on missing required option.
+Generate an *error* on missing required option.
 
 ```
 coerce
