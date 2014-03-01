@@ -15,8 +15,8 @@ require('ttycolor')().defaults();
 process.env.CLI_TOOLKIT_DEBUG=true;
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
-var cli = require('../..')(pkg, 'enumerate/defaults');
-cli
+var cli = require('../..');
+cli(pkg, 'enumerate/defaults', null, {log: false})
   .version()
   .help()
   .on('complete', function(req) {

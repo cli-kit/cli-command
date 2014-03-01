@@ -7,6 +7,10 @@ var clierr = require('cli-error');
 var conflict = require('./lib/conflict');
 var middlewares = require('./lib/middleware');
 var cname = require('./lib/util/name');
+var logger = require('cli-logger');
+var syslog = require('./lib/syslog').log;
+var circular = require('circular');
+var debug = !!process.env.CLI_TOOLKIT_DEBUG;
 
 var cli = require('cli-define');
 var define = cli.define;
@@ -329,6 +333,7 @@ define(CommandProgram.prototype, 'help', help, false);
  *  @param args The arguments to parse, default is process.argv.slice(2).
  */
 function parse(args) {
+  if(debug) syslog.trace(circular.stringify(this, 2));
   args = args || process.argv.slice(2);
   conflict.call(this);
   if(this._middleware === undefined) {
@@ -346,9 +351,14 @@ define(CommandProgram.prototype, 'parse', parse, false);
  */
 function middleware(args) {
   var i = 0, list = this._middleware, scope = this;
-  var req = {argv: args};
+  var req = {argv: args}, name;
   function exec() {
     var func = list[i];
+    name = cname(func);
+    if(debug) {
+      syslog.trace('middleware/start: %s', name);
+      syslog.trace(circular.stringify(req, 2));
+    }
     //console.dir(func);
     //console.log('' + func);
     func.call(scope, req, next);
@@ -356,6 +366,9 @@ function middleware(args) {
     //console.log('file %s', scope.file);
   }
   function next(err, parameters, e) {
+    if(debug) {
+      syslog.trace('middleware/end: %s', name);
+    }
     if(err === true) {
       return scope.emit('complete', req);
     }else if(err) {
@@ -372,7 +385,8 @@ function middleware(args) {
   if(list.length) exec();
 }
 
-module.exports = function(package, name, description) {
+module.exports = function(package, name, description, options) {
+  options = options || {};
   var locales = path.join(__dirname, 'lib', 'error', 'locales');
   clierr.file({locales: locales});
   var program = cli(package, name, description, CommandProgram);
@@ -382,6 +396,12 @@ module.exports = function(package, name, description) {
       err.code = errors.EUNCAUGHT.code;
       program.raise(err);
     })
+  }
+  if(debug) {
+    syslog.level(logger.TRACE);
+  }
+  if(options.log === false) {
+    syslog.level(logger.NONE);
   }
   // TODO: allow setting error configuration on the program configuration
   clierr({name: program.name()});
@@ -395,3 +415,4 @@ module.exports.version = middlewares.version.action;
 module.exports.types = types;
 module.exports.error = require('./lib/error');
 module.exports.CommandProgram = CommandProgram;
+module.exports.log = syslog;
