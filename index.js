@@ -25,7 +25,8 @@ var defaults = {
   load: {
     file: null,
     options: null,
-    env: true
+    env: true,
+    escape: true
   },
   exit: true,
   stash: null,

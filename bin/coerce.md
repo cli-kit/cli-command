@@ -1,5 +1,5 @@
-coerce
-======
+$0
+==
 
 ## Description
 
@@ -23,25 +23,16 @@ An ***example*** program to illustrate option validation and coercion.
 * `-l, --list <items>`: a list
 * `-o, --optional [value]`: an *optional* value
 
-with hard line breaks in the description
-
-that contains multiple paragraphs
-
 ## Examples
 
 Generate an *error* on missing required option.
 
 ```
-coerce
+$0
 ```
 
 Pass all required options with valid values:
 
 ```
-coerce -i 10 -f 3.14 --range 1..10 -o=10 --list=apples,oranges file.txt
+$0 -i 10 -f 3.14 --range 1..10 -o=10 --list=apples,oranges file.txt
 ```
-
-## Copyright
-
-Copyright (C) 2014 Freeform Systems, Ltd.
-This is free software; see the source for copying conditions. There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
