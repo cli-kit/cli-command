@@ -26,7 +26,7 @@ function write(keepalive, callback) {
 }
 var options = {
   commands: {
-    format: function(info) {
+    format: function(info, req) {
       write.call(this, true, function() {
         console.info('formats: %s', formats.join(', '));
         console.info('styles: %s', styles.join(', '));
@@ -38,7 +38,13 @@ var options = {
   }
 }
 cli(pkg)
-  .configure({load: {file: file, options: options}, help: {style: 'markdown'}})
+  .configure(
+    {
+      load: {file: file, options: options},
+      substitute: {enabled: true},
+      help: {style: 'markdown'}
+    }
+  )
   .use(cli.middleware.color)
   .once('format', function(req, arg, value) {
     this.configure().help.style = value;

@@ -24,9 +24,11 @@ var __middleware__;
 var defaults = {
   load: {
     file: null,
-    options: null,
-    env: true,
-    escape: true
+    options: null
+  },
+  substitute: {
+    escaping: true,
+    enabled: false
   },
   exit: true,
   stash: null,
@@ -61,6 +63,7 @@ var defaults = {
 var all = [
   middlewares.error,
   middlewares.load,
+  middlewares.substitute,
   middlewares.parser,
   middlewares.unparsed,
   middlewares.defaults,

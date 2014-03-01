@@ -35,7 +35,7 @@ var options = {
 }
 
 cli
-  .configure({load: {file: file, options: options}})
+  .configure({load: {file: file, options: options}, substitute: {enabled: true}})
   .on('load', function(req) {
     this.version()
       .help();
