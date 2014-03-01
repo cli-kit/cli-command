@@ -55,6 +55,7 @@ var defaults = {
 
 var all = [
   middlewares.error,
+  middlewares.load,
   middlewares.parser,
   middlewares.unparsed,
   middlewares.defaults,
