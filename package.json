@@ -27,7 +27,7 @@
   "dependencies": {
     "cli-define": "~0.5.18",
     "cli-native": "~1.0.0",
-    "cli-env": "~1.0.4",
+    "cli-env": "~1.0.5",
     "cli-argparse": "~0.3.6",
     "cli-error": "~0.5.0",
     "cli-logger": "~0.5.10",
