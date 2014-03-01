@@ -24,7 +24,8 @@ var __middleware__;
 var defaults = {
   load: {
     file: null,
-    options: null
+    options: null,
+    env: true
   },
   exit: true,
   stash: null,
