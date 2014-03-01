@@ -27,6 +27,7 @@ function write(keepalive, callback) {
 var options = {
   commands: {
     format: function(info, req) {
+      //console.dir(req);
       write.call(this, true, function() {
         console.info('formats: %s', formats.join(', '));
         console.info('styles: %s', styles.join(', '));
