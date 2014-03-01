@@ -8,6 +8,7 @@
 var path = require('path');
 require('ttycolor')().defaults();
 var pkg = path.normalize(path.join(__dirname, '..', 'package.json'));
+var file = path.join(__dirname, path.basename(process.argv[1]) + '.md')
 var cli = require('..')(pkg, null, null);
 
 function range(val) {
@@ -22,7 +23,7 @@ function print(cmd) {
   console.log('command: %s', cmd.getOptionString(null));
 }
 
-var defs = {
+var options = {
   commands: {
     print: print
   },
@@ -34,24 +35,21 @@ var defs = {
 }
 
 cli
-  //.configure({help: {style: 'markdown'}})
-  .load(path.join(__dirname, 'coerce.md'), defs, function(cli) {
-    //console.log('load complete: ' + (this === cli));
-    //console.dir(this);
-    this
-      .on('complete', function(req) {
-        //console.log('parse complete called');
-        //console.log(JSON.stringify(this));
-        for(var key in this) {
-          console.log(key + ': %s (%s)', this[key],
-            Array.isArray(this[key]) ? 'array' : typeof(this[key]));
-        }
-        var args = this.request().args;
-        if(args && args.length) {
-          console.log('args: %s', args.join(', '));
-        }
-      })
-      .version()
-      .help()
-      .parse();
+  .configure({load: {file: file, options: options}})
+  .on('load', function(req) {
+    this.version()
+      .help();
   })
+  .on('complete', function(req) {
+    //console.log('parse complete called');
+    //console.log(JSON.stringify(this));
+    for(var key in this) {
+      console.log(key + ': %s (%s)', this[key],
+        Array.isArray(this[key]) ? 'array' : typeof(this[key]));
+    }
+    var args = this.request().args;
+    if(args && args.length) {
+      console.log('args: %s', args.join(', '));
+    }
+  })
+  .parse();

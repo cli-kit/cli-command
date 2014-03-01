@@ -4,6 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
+var file = path.join(__dirname, path.basename(process.argv[1]) + '.md')
 var cli = require('../..'), help = cli.help;
 var formats = cli.doc.fmt.formats;
 var styles = cli.doc.fmt.styles;
@@ -23,7 +24,7 @@ function write(keepalive, callback) {
     })
   }
 }
-var defs = {
+var options = {
   commands: {
     format: function(info) {
       write.call(this, true, function() {
@@ -37,18 +38,16 @@ var defs = {
   }
 }
 cli(pkg)
-  .configure({help: {style: 'markdown'}})
+  .configure({load: {file: file, options: options}, help: {style: 'markdown'}})
   .use(cli.middleware.color)
-  .load(path.join(__dirname, 'format.md'), defs, function(cli) {
-    this
-      .once('format', function(req, arg, value) {
-        this.configure().help.style = value;
-      })
-      .on('complete', function(req) {
-        //console.dir(req);
-        if(!req.command) write.call(this);
-      })
-      .version()
-      .help()
-      .parse();
+  .once('format', function(req, arg, value) {
+    this.configure().help.style = value;
   })
+  .on('complete', function(req) {
+    if(!req.command) write.call(this);
+  })
+  .on('load', function(req) {
+    this.version()
+      .help();
+  })
+  .parse();
