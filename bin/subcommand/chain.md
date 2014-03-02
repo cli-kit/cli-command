@@ -15,6 +15,10 @@ Subcommands may return an object of valid subcommands to invoke ad infinitum.
 
 * `config`: Command to operate on a configuration, expects a subcommand of `get`, `set` or `ls`.
 
+## Config
+
+* `ls`: List configuration items.
+
 ## Examples
 
 Print all configuration data:
