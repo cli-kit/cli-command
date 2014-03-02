@@ -166,5 +166,11 @@
     "description": "Generic file does not exist",
     "message": "file %s does not exist",
     "code": 91
+  },
+  {
+    "key": "ECMD_ARRAY",
+    "description": "Command callback invoked with an array",
+    "message": "command callback does not accept array argument",
+    "code": 92
   }
 ]
