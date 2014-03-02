@@ -1,0 +1,85 @@
+#!/usr/bin/env node
+
+//process.env.CLI_TOOLKIT_DEBUG=true;
+var fs = require('fs');
+var path = require('path');
+var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
+var file = path.join(__dirname, path.basename(process.argv[1]) + '.md')
+var cli = require('../..'), help = cli.help;
+
+var store = path.join(__dirname, 'chain-data.json');
+var data = require(store);
+
+var config = {
+  set: function set(info, req, next){
+    var key = info.args[0];
+    var value = info.args[1];
+    if(!info.args.length) {
+      return next(new Error('set command expects a key'));
+    }else if(info.args.length == 1) {
+      return next(new Error('set command expects a value for key %s'), [key]);
+    }
+    console.log(key + '=%s', value);
+    data[key] = value;
+    fs.writeFileSync(store, JSON.stringify(data, undefined, 2));
+    next(null);
+  },
+  get: function get(info, req, next) {
+    if(!info.args.length) {
+      return next(new Error('get command expects a key'));
+    }
+    var key = info.args[0];
+    var value = data[key];
+    if(!value) {
+      console.error('no data for key %s, try %s or %s', key, 'ls', 'set');
+    }else{
+      console.log(key + '=%s', value);
+    }
+    next(null);
+  },
+  ls: function ls(info, req, next) {
+    for(var z in data) {
+      console.log(z + '=%s', data[z]);
+    }
+    next(null);
+  }
+}
+var keys = Object.keys(config);
+var options = {
+  commands: {
+    config: function(info, req, next) {
+      // validate subcommands
+      if(!info.args.length) {
+        return next(
+          new Error('config command expects a subcommand: %s'),
+          [keys.join(', ')]);
+      }else if(info.args.length) {
+        var subcommand = info.args[0];
+        if(!~keys.indexOf(subcommand)) {
+          return next(
+            new Error('invalid subcommand: %s, expected %s'),
+            [subcommand, keys.join(', ')]);
+        }
+      }
+      // callback with the subcommand definitions
+      next(config);
+    }
+  }
+}
+cli(pkg)
+  .configure(
+    {
+      load: {file: file, options: options},
+      substitute: {enabled: true}
+    }
+  )
+  .use(cli.middleware.color)
+  .on('complete', function(req) {
+    console.log('complete firing');
+    help.call(this);
+  })
+  .on('load', function(req) {
+    this.version()
+      .help();
+  })
+  .parse();
