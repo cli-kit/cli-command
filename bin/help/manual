@@ -27,12 +27,15 @@ function write(keepalive, callback) {
 }
 var options = {
   commands: {
-    format: function(info, req) {
+    format: function(info, req, next) {
       //console.dir(req);
       write.call(this, true, function() {
         console.info('formats: %s', formats.join(', '));
         console.info('styles: %s', styles.join(', '));
       });
+      // halt middleware processing and do not fire
+      // the complete event
+      next(null);
     }
   },
   options: {
@@ -52,7 +55,7 @@ cli(pkg)
     this.configure().help.style = value;
   })
   .on('complete', function(req) {
-    if(!req.command) write.call(this);
+    write.call(this);
   })
   .on('load', function(req) {
     this.version()

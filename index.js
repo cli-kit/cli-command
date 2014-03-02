@@ -369,7 +369,10 @@ function middleware(args) {
     if(debug) {
       syslog.trace('middleware/end: %s', name);
     }
-    if(err === true) {
+    if(err === null) {
+      // halt processing, complete never fires
+      return;
+    }else if(err === true) {
       return scope.emit('complete', req);
     }else if(err) {
       req.error = scope.wrap(err, parameters, e);
