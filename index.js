@@ -92,10 +92,17 @@ var all = [
 var CommandProgram = function() {
   Program.apply(this, arguments);
   __middleware__ = [];
-  //middlewares.error.call(this)
+
+  // not that merge maintains object references so defaults
+  // would get polluted with this merge, for most programs this
+  // is not an issue however it breaks the unit tests so that
+  // quick fix is the stringify/parse clone
+  // really merge() should be able to create new object and merge them
+  // both
+  var conf = merge(JSON.parse(JSON.stringify(defaults)), {});
   // private
   define(this, '_middleware', undefined, true);
-  define(this, '_conf', merge(defaults, {}), true);
+  define(this, '_conf', conf, true);
   define(this, '_request', undefined, true);
   define(this, '_usage', undefined, true);
 
@@ -398,6 +405,7 @@ module.exports = function(package, name, description, options) {
   return program;
 }
 
+module.exports.defaults = defaults;
 module.exports.middleware = middlewares;
 module.exports.doc = require('./lib/help');
 module.exports.help = middlewares.help.action;

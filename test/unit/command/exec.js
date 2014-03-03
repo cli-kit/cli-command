@@ -20,6 +20,7 @@ describe('cli-command:', function() {
     cli.once('close', function() {
       done();
     })
+    //console.log('program name is %s', cli.name());
     cli.command('build', 'build files')
     cli.parse(args);
   });
