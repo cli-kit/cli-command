@@ -7,7 +7,7 @@ var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
 var file = path.join(__dirname, path.basename(process.argv[1]) + '.md')
 var cli = require('../..'), help = cli.help;
 
-var store = path.join(__dirname, 'chain-data.json');
+var store = path.join(__dirname, 'data.json');
 var data = require(store);
 
 var config = {
