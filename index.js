@@ -34,6 +34,9 @@ var defaults = {
     escaping: true,
     enabled: false
   },
+  command: {
+    exec: false
+  },
   exit: true,
   stash: null,
   bin: null,
