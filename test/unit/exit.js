@@ -39,14 +39,4 @@ describe('cli-command:', function() {
     var args = ['--version'];
     cli.version().parse(args);
   });
-  it('should exit on subcommand executable', function(done) {
-    var cli = require('../..')(pkg, 'mock-subcommand');
-    cli.configure({bin: bin, exit: true, command: {exec: true}});
-    var args = ['build'];
-    process.exit = function(code) {
-      done();
-    }
-    cli.command('build', 'build files')
-    var ps = cli.parse(args);
-  });
 })

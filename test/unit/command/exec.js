@@ -1,7 +1,8 @@
 var path = require('path');
 var expect = require('chai').expect;
-var pkg = path.normalize(path.join(__dirname, '..', '..', 'package.json'));
-var bin = path.normalize(path.join(__dirname, '..', 'bin'));
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', '..', 'package.json'));
+var bin = path.normalize(path.join(__dirname, '..', '..', 'bin'));
 
 describe('cli-command:', function() {
   beforeEach(function(done) {
@@ -13,7 +14,7 @@ describe('cli-command:', function() {
     done();
   });
   it('should execute subcommand executable', function(done) {
-    var cli = require('../..')(pkg, 'mock-subcommand');
+    var cli = require('../../..')(pkg, 'mock-subcommand');
     cli.configure({exit: false, bin: bin, command: {exec: true}});
     var args = ['build'];
     cli.once('close', function() {
@@ -23,7 +24,7 @@ describe('cli-command:', function() {
     cli.parse(args);
   });
   it('should error on not found (ENOENT)', function(done) {
-    var cli = require('../..')(pkg, 'mock-subcommand');
+    var cli = require('../../..')(pkg, 'mock-subcommand');
     cli.configure({exit: false, bin: bin, command: {exec: true}});
     var args = ['enoent'];
     cli.command('enoent', 'not found')
@@ -34,7 +35,7 @@ describe('cli-command:', function() {
     cli.parse(args);
   });
   it('should error on not found with invalid bin (ENOENT)', function(done) {
-    var cli = require('../..')(pkg, 'mock-subcommand');
+    var cli = require('../../..')(pkg, 'mock-subcommand');
     cli.configure({exit: false, bin: false, command: {exec: true}});
     var args = ['enoent'];
     cli.command('enoent', 'not found')
@@ -45,7 +46,7 @@ describe('cli-command:', function() {
     cli.parse(args);
   });
   it('should error on permission denied (EPERM)', function(done) {
-    var cli = require('../..')(pkg, 'mock-subcommand');
+    var cli = require('../../..')(pkg, 'mock-subcommand');
     cli.configure({exit: false, bin: bin, command: {exec: true}});
     var args = ['eperm'];
     cli.command('eperm', 'permission denied')
@@ -56,7 +57,7 @@ describe('cli-command:', function() {
     cli.parse(args);
   });
   it('should error gracefully on SIGINT', function(done) {
-    var cli = require('../..')(pkg, 'mock-subcommand');
+    var cli = require('../../..')(pkg, 'mock-subcommand');
     cli.configure({exit: false, bin: bin, command: {exec: true}});
     var args = ['build'];
     process.exit = function(code) {
@@ -68,5 +69,15 @@ describe('cli-command:', function() {
       process.kill(ps.pid, 'SIGINT');
     })
     cli.parse(args);
+  });
+  it('should exit on subcommand executable', function(done) {
+    var cli = require('../../..')(pkg, 'mock-subcommand');
+    cli.configure({bin: bin, exit: true, command: {exec: true}});
+    var args = ['build'];
+    process.exit = function(code) {
+      done();
+    }
+    cli.command('build', 'build files')
+    var ps = cli.parse(args);
   });
 })
