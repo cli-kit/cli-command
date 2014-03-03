@@ -35,7 +35,8 @@ var defaults = {
     enabled: false
   },
   command: {
-    exec: false
+    exec: false,
+    dir: null
   },
   exit: true,
   stash: null,

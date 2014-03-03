@@ -172,5 +172,17 @@
     "description": "Command callback invoked with an array",
     "message": "command callback does not accept array argument",
     "code": 92
+  },
+  {
+    "key": "ECMD_REQUIRE",
+    "description": "Command module require generated an error",
+    "message": "error loading command module %s",
+    "code": 93
+  },
+  {
+    "key": "ECMD_TYPE",
+    "description": "Command module exports the wrong type (non-function)",
+    "message": "command module %s is not a function",
+    "code": 94
   }
 ]
