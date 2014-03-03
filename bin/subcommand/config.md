@@ -13,7 +13,7 @@ Demonstrates chaining commands using subcommands declared in a markdown definiti
 
 #### Commands
 
-* `ls`: List configuration items.
+* `!ls`: List configuration items.
 * `get`: Get a configuration item.
 * `set`: Set a configuration item.
 

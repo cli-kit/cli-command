@@ -179,24 +179,6 @@ function usage(usage) {
 define(CommandProgram.prototype, 'usage', usage, false);
 
 /**
- *  Override so we can maintain a list of commands
- *  that should be executed as external child processes.
- *
- *  @param name The command name.
- *  @param description The command description.
- *  @param options The command options.
- */
-function command(name, description, options) {
-  var cmd = Program.prototype.command.apply(this, arguments);
-  if(description) {
-    var id = key(name);
-    this._exec[id] = cmd;
-  }
-  return cmd;
-}
-define(CommandProgram.prototype, 'command', command, false);
-
-/**
  *  Define program middleware.
  */
 function use(middleware) {
@@ -369,6 +351,8 @@ function middleware(args) {
     if(debug) {
       syslog.trace('middleware/end: %s', name);
     }
+    //console.log('next being called ... with %s', err);
+    //console.log(new Error().stack);
     if(err === null) {
       // halt processing, complete never fires
       return;
