@@ -34,7 +34,8 @@
     "cli-util": "~1.1.13",
     "cli-fs": "~1.0.3",
     "cli-rc": "~1.0.0",
-    "markzero": "~0.1.0"
+    "markzero": "~0.1.0",
+    "circular": "~1.0.3"
   },
   "devDependencies": {
     "ttycolor": "~0.8.9",
