@@ -65,7 +65,8 @@ var defaults = {
   trace: true,
   unknown: true,
   strict: false,
-  middleware: null
+  middleware: null,
+  error: null
 }
 
 var all = [
@@ -287,6 +288,13 @@ function configure(conf) {
   this._conf = merge(conf, this._conf);
   if(conf.stash) {
     this._conf.stash = conf.stash;
+  }
+
+  // load custom error definitions
+  if(conf && conf.error && typeof conf.error === 'object') {
+    clierr.file(conf.error, function(err) {
+      if(err) throw err;
+    })
   }
   return this;
 }
