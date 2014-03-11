@@ -47,10 +47,12 @@ cli(pkg)
     {
       load: {file: file, options: options},
       substitute: {enabled: true},
-      help: {style: 'markdown'}
+      help: {style: 'markdown'},
+      manual: {}
     }
   )
   .use(cli.middleware.color)
+  .use(cli.middleware.manual)
   .once('format', function(req, arg, value) {
     this.configure().help.style = value;
   })

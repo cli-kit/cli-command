@@ -66,7 +66,8 @@ var defaults = {
   unknown: true,
   strict: false,
   middleware: null,
-  error: null
+  error: null,
+  manual: null
 }
 
 var all = [

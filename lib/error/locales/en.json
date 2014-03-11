@@ -184,5 +184,11 @@
     "description": "Command module exports the wrong type (non-function)",
     "message": "command module %s is not a function",
     "code": 94
+  },
+  {
+    "key": "EUNKNOWN_HELP_CMD",
+    "description": "Unknown command passed to help",
+    "message": "no help available for %s, unknown command",
+    "code": 95
   }
 ]
