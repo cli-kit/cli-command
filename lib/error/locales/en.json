@@ -190,5 +190,11 @@
     "description": "Unknown command passed to help",
     "message": "no help available for %s, unknown command",
     "code": 95
+  },
+  {
+    "key": "EMAN_NOTFOUND",
+    "description": "Man page does not exist",
+    "message": "no manual entry for %s",
+    "code": 96
   }
 ]
