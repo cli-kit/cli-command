@@ -196,5 +196,11 @@
     "description": "Man page does not exist",
     "message": "no manual entry for %s",
     "code": 96
+  },
+  {
+    "key": "EGENERIC",
+    "description": "Generic error code",
+    "message": "%s",
+    "code": 97
   }
 ]

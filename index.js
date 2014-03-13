@@ -62,7 +62,7 @@ var defaults = {
       bugs: 'Report bugs to %s.'
     }
   },
-  trace: true,
+  trace: undefined,
   unknown: true,
   strict: false,
   middleware: null,
@@ -144,7 +144,7 @@ function wrap(err, parameters, source) {
   if(!err) {
     throw new TypeError(msg);
   }
-  var e, code = err.code || errors.EUNCAUGHT.code;
+  var e, code = err.code || errors.EGENERIC.code;
   if(err instanceof CliError) {
     e = err;
   }else if(err instanceof ErrorDefinition) {
@@ -154,7 +154,7 @@ function wrap(err, parameters, source) {
     e.key = err.key;
   }else if(err instanceof Error) {
     e = new CliError(err, code, parameters);
-    e.key = err.key || errors.EUNCAUGHT.key;
+    e.key = err.key || errors.EGENERIC.key;
   }else if(typeof err === 'string') {
     e = new CliError(source || err, code, parameters);
   }else{
@@ -250,6 +250,9 @@ function error(e) {
   var trace =
     (conf.trace !== undefined)
       ? conf.trace : (e.code === errors.EUNCAUGHT.code);
+  //console.log('conf.trace %s', conf.trace);
+  //console.log('trace %s', trace);
+  //console.log('code %s', e.code);
   var logger = this.log && typeof(this.log.error) === 'function';
   if(logger) {
     var args = e.parameters.slice(0);
