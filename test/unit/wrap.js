@@ -38,7 +38,7 @@ describe('cli-command:', function() {
     expect(err).to.be.instanceof(CliError);
     //expect(err.cause()).to.eql(e);
     expect(err.message).to.eql(msg);
-    expect(err.code).to.eql(cli.errors.EUNCAUGHT.code);
+    expect(err.code).to.eql(cli.errors.EGENERIC.code);
     done();
   });
   it('should wrap plain error', function(done) {
@@ -48,7 +48,7 @@ describe('cli-command:', function() {
     expect(err).to.be.instanceof(CliError);
     expect(err.cause()).to.eql(e);
     expect(err.message).to.eql(msg);
-    expect(err.code).to.eql(cli.errors.EUNCAUGHT.code);
+    expect(err.code).to.eql(cli.errors.EGENERIC.code);
     done();
   });
   it('should convert error definition', function(done) {
