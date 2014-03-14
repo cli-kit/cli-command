@@ -34,7 +34,7 @@
     "cli-util": "~1.1.13",
     "cli-fs": "~1.0.3",
     "cli-rc": "~1.0.0",
-    "markzero": "~0.1.3",
+    "markzero": "~0.1.4",
     "circular": "~1.0.3",
     "moment": "2.5.1"
   },
