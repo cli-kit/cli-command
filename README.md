@@ -431,7 +431,7 @@ var program = cli()
   .parse(); 
 ```
 
-Note that because the unparsed arguments list is always an arrray specifying the `Array` type will result in a multi-dimensional array of strings.
+Note that because the unparsed arguments list is always an array specifying the `Array` type will result in a multi-dimensional array of strings.
 
 ## Commands
 
