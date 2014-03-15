@@ -33,12 +33,12 @@
     "cli-logger": "~0.5.12",
     "cli-util": "~1.1.13",
     "cli-fs": "~1.0.3",
-    "cli-rc": "~1.0.0",
     "markzero": "~0.1.5",
     "circular": "~1.0.3",
     "moment": "2.5.1"
   },
   "devDependencies": {
+    "cli-rc": "~1.0.0",
     "ttycolor": "~0.8.10",
     "mocha": "~1.17.0",
     "chai": "~1.9.0",

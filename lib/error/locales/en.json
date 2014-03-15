@@ -202,5 +202,11 @@
     "description": "Generic error code",
     "message": "%s",
     "code": 97
+  },
+  {
+    "key": "ERC_MODULE",
+    "description": "Error loading cli-rc module",
+    "message": "could not load cli-rc module, you should depend upon this module",
+    "code": 98
   }
 ]
