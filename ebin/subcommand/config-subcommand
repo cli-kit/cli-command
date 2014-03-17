@@ -81,10 +81,15 @@ cli(pkg)
   .configure(
     {
       load: {file: file, options: options},
-      substitute: {enabled: true}
+      substitute: {enabled: true},
+      manual: {
+        dir: path.normalize(path.join(__dirname, '..', '..', 'doc', 'man')),
+        dynamic: true
+      }
     }
   )
   .use(cli.middleware.color)
+  .use(cli.middleware.manual)
   .on('load', function(req) {
     this.version()
       .help();

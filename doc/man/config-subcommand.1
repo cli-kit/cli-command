@@ -1,0 +1,41 @@
+.TH "CONFIG-SUBCOMMAND" "1" "March 2014" "config-subcommand 1.0" "User Commands"
+.SH "NAME"
+config-subcommand
+.SH "DESCRIPTION"
+.PP
+Demonstrates chaining commands using subcommands declared in a markdown definition file.
+.SH "SYNOPSIS"
+
+.LT
+config\-subcommand <command> [\-\-color|\-\-no\-color]
+                  [\-\-version] [\-\-help] <args>
+.SH "COMMANDS"
+.BL
+.IP "\[ci]" 4
+\fBhelp\fR: Show help for commands.
+.IP "\[ci]" 4
+\fBconf\fR: Command to operate on a configuration.
+.EL
+.SH "OPTIONS"
+.BL
+.IP "\[ci]" 4
+\fB\-\-[no]\-color\fR: Enable or disable terminal colors.
+.IP "\[ci]" 4
+\fB\-\-version\fR: Output version information and exit.
+.IP "\[ci]" 4
+\fB\-\-help\fR: Display this help and exit.
+.EL
+.SH "EXAMPLES"
+.BL
+.IP "\[ci]" 4
+\fBconfig\-subcommand conf ls\fR: Print all configuration data.
+.IP "\[ci]" 4
+\fBconfig\-subcommand conf get foo\fR: Print the value of foo.
+.IP "\[ci]" 4
+\fBconfig\-subcommand conf set foo baz\fR: Overwrite the value of foo.
+.IP "\[ci]" 4
+\fBconfig\-subcommand conf set baz fubar\fR: Add the value of baz.
+.EL
+.SH "BUGS"
+.PP
+Report bugs to muji noop@xpm.io.
