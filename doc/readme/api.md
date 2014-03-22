@@ -22,7 +22,7 @@ Adds a help flag to the program, scope for the `action` callback is the program 
 
 Returns the program for chaining.
 
-### version([version], [name], [description], [action])
+##### version([version], [name], [description], [action])
 
 ```javascript
 cli.version()

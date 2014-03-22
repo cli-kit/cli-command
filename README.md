@@ -34,7 +34,7 @@ Table of Contents
     * [Program](#program)
       * [Methods](#methods)
         * [help([name], [description], [action])](#helpname-description-action)
-    * [version([version], [name], [description], [action])](#versionversion-name-description-action)
+        * [version([version], [name], [description], [action])](#versionversion-name-description-action)
   * [Conflicts](#conflicts)
   * [Enumerate](#enumerate)
   * [Interface](#interface)
@@ -572,7 +572,7 @@ Adds a help flag to the program, scope for the `action` callback is the program 
 
 Returns the program for chaining.
 
-### version([version], [name], [description], [action])
+##### version([version], [name], [description], [action])
 
 ```javascript
 cli.version()
