@@ -31,7 +31,7 @@ cli
 throw new Error('a custom error message');
 ```
 
-Source: [error/custom](https://github.com/freeformsystems/cli-command/tree/master/bin/error/custom)
+Source: [error/custom][error/custom]
 
 If you are only interested in a particular error you can listen for the error event by error definition `key` (note the event name is lowercase). When you listen for a particular error the generic `error` event is not dispatched for that error condition.
 
@@ -57,4 +57,4 @@ cli
 throw new Error('an euncaught listener error message');
 ```
 
-Source: [error/event](https://github.com/freeformsystems/cli-command/tree/master/bin/error/event)
+Source: [error/event][error/event]
