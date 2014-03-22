@@ -6,6 +6,10 @@
 [define]: https://github.com/freeformsystems/cli-define
 [error]: https://github.com/freeformsystems/cli-error
 
+[lipsum]: https://github.com/freeformsystems/lipsum
+[mdp]: https://github.com/freeformsystems/mdp
+[manpage]: https://github.com/freeformsystems/cli-manpage
+
 [help/defaults]: /ebin/help/defaults
 [help/custom]: /ebin/help/custom
 [enumerate/defaults]: /ebin/enumerate/defaults
