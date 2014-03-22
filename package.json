@@ -77,8 +77,19 @@
           "help.md",
           "version.md",
           "types.md",
-          "commands.md",
-          "executable-commands.md",
+          "commands.md"
+        ]
+      },
+      {
+        "title": "Executable Commands",
+        "text": "If you wish to structure your program as a series of executables for each command ([git][git] style) use the alternative syntax:",
+        "inc": "../../ebin/example/pkg",
+        "type": "code",
+        "language": "javascript",
+        "footer": "Source: [pkg][pkg]"
+      },
+      {
+        "inc": [
           "errors.md",
           "api.md",
           "conflicts.md",

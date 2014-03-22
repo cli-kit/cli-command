@@ -18,6 +18,7 @@
 [version/custom]: /ebin/version/custom
 [error/defaults]: /ebin/error/defaults
 [error/custom]: /ebin/error/custom
+[pkg]: /ebin/example/pkg
 
 [en.json]: /lib/error/locales/en.json
 [scream]: /lib/conflict.js#L11

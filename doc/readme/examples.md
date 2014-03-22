@@ -1,6 +1,6 @@
 ## Examples
 
-The [lipsum][lipsum] program is the canonical example for this module. It is a fully functional program that demonstrates much of the help configuration flexibility.
+The [lipsum][lipsum] program is the canonical example for this module, it is a fully functional program that demonstrates much of the help configuration flexibility.
 
 More useful real-world programs are [mdp][mdp] (markdown partial processor) which was used to generate this document and [manpage][manpage] a tool that can generate man pages from any program created using this module.
 
