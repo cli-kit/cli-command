@@ -5,25 +5,21 @@
 [fs]: https://github.com/freeformsystems/cli-fs
 [define]: https://github.com/freeformsystems/cli-define
 [error]: https://github.com/freeformsystems/cli-error
+
+[help/defaults]: /ebin/help/defaults
+[help/custom]: /ebin/help/custom
+[enumerate/defaults]: /ebin/enumerate/defaults
+[enumerate/debug]: /ebin/enumerate/debug
+[version/defaults]: /ebin/version/defaults
+[version/custom]: /ebin/version/custom
+[error/defaults]: /ebin/error/defaults
+[error/custom]: /ebin/error/custom
+
+[en.json]: /lib/error/locales/en.json
+[scream]: /lib/conflict.js#L11
+[conflict]: /ebin/conflict
+
 [git]: http://git-scm.com
-
-[help/defaults]: https://github.com/freeformsystems/cli-command/blob/master/bin/help/defaults
-[help/custom]: https://github.com/freeformsystems/cli-command/blob/master/bin/help/custom
-
-[enumerate/defaults]: https://github.com/freeformsystems/cli-command/blob/master/bin/enumerate/defaults
-[enumerate/debug]: https://github.com/freeformsystems/cli-command/blob/master/bin/enumerate/debug
-
-[version/defaults]: https://github.com/freeformsystems/cli-command/blob/master/bin/version/defaults
-[version/custom]: https://github.com/freeformsystems/cli-command/blob/master/bin/version/custom
-
-[en.json]: https://github.com/freeformsystems/cli-command/blob/master/lib/error/locales/en.json
-
-[scream]: https://github.com/freeformsystems/cli-command/blob/master/lib/conflict.js#L11
-[conflict]: https://github.com/freeformsystems/cli-command/blob/master/bin/conflict
-
-[error/defaults]: https://github.com/freeformsystems/cli-command/blob/master/bin/error/defaults
-[error/custom]: https://github.com/freeformsystems/cli-command/blob/master/bin/error/custom
-
 [commander]: https://github.com/visionmedia/commander.js
 [nopt]: https://github.com/npm/nopt
 [express]: http://expressjs.com/

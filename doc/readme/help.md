@@ -10,22 +10,6 @@ cli
 
 The `help` method adds a flag to the program which by default is mapped to `--help`.
 
-### help([name], [description], [action])
-
-```javascript
-cli.help()
-cli.help('--info', 'print help information', function(){})
-cli.help(function(){})
-```
-
-Adds a help flag to the program, scope for the `action` callback is the program instance.
-
-* `name`: A specific name for the help flag, default is `--help`.
-* `description`: A specific description for the option, overrides the default.
-* `action`: A callback to invoke when the help option is encountered.
-
-Returns the program for chaining.
-
 ### Help Configuration
 
 The `help` configuration object supports the following properties:

@@ -7,7 +7,6 @@ Table of Contents
   * [Examples](#examples)
   * [Configuration](#configuration)
   * [Help](#help)
-    * [help([name], [description], [action])](#helpname-description-action)
     * [Help Configuration](#help-configuration)
     * [Help Styles](#help-styles)
     * [Help Sections](#help-sections)
@@ -17,7 +16,6 @@ Table of Contents
       * [Plain](#plain)
       * [JSON](#json)
   * [Version](#version)
-    * [version([version], [name], [description], [action])](#versionversion-name-description-action)
   * [Types](#types)
     * [Type List](#type-list)
     * [Type Map](#type-map)
@@ -33,6 +31,10 @@ Table of Contents
   * [Executable Commands](#executable-commands)
   * [Errors](#errors)
   * [API](#api)
+    * [Program](#program)
+      * [Methods](#methods)
+        * [help([name], [description], [action])](#helpname-description-action)
+    * [version([version], [name], [description], [action])](#versionversion-name-description-action)
   * [Conflicts](#conflicts)
   * [Enumerate](#enumerate)
   * [Interface](#interface)
@@ -92,22 +94,6 @@ cli
 ```
 
 The `help` method adds a flag to the program which by default is mapped to `--help`.
-
-### help([name], [description], [action])
-
-```javascript
-cli.help()
-cli.help('--info', 'print help information', function(){})
-cli.help(function(){})
-```
-
-Adds a help flag to the program, scope for the `action` callback is the program instance.
-
-* `name`: A specific name for the help flag, default is `--help`.
-* `description`: A specific description for the option, overrides the default.
-* `action`: A callback to invoke when the help option is encountered.
-
-Returns the program for chaining.
 
 ### Help Configuration
 
@@ -260,31 +246,11 @@ cli()
   .parse();
 ```
 
-### version([version], [name], [description], [action])
-
-```javascript
-cli.version()
-cli.version('1.0.0')
-cli.version('1.0.0', '--version', 'print version', function(){})
-cli.version(function(){})
-```
-
-Adds a version flag to the program, scope for the `action` callback is the program instance. Configured version number is available via after setting the flag option by invoking with zero arguments.
-
-* `version`: A specific version for the program, overrides any version extracted from `package.json`.
-* `name`: A specific name for the version option flags, default is `--version`.
-* `description`: A specific description for the option, overrides the default.
-* `action`: A callback to invoke when the version option is encountered.
-
-Returns the program for chaining or the version string if a version flag exists and zero arguments are passed.
-
-See the [version/defaults](https://github.com/freeformsystems/cli-command/blob/master/bin/version/defaults) and [version/custom](https://github.com/freeformsystems/cli-command/blob/master/bin/version/custom) example executables.
-
 <p align="center">
   <img src="https://raw.github.com/freeformsystems/cli-command/master/img/version.png" />
 </p>
 
-Source: [version/defaults](https://github.com/freeformsystems/cli-command/blob/master/bin/version/defaults) and [version/custom](https://github.com/freeformsystems/cli-command/blob/master/bin/version/custom).
+Source: [version/defaults](https://github.com/freeformsystems/cli-command/blob/master/ebin/version/defaults) and [version/custom](https://github.com/freeformsystems/cli-command/blob/master/ebin/version/custom).
 
 ## Types
 
@@ -586,6 +552,44 @@ Source: [error/event](https://github.com/freeformsystems/cli-command/tree/master
 
 The [define](https://github.com/freeformsystems/cli-define) module is thoroughly documented so you should check that out to learn more about defining program options, if you want to dig under the hood a little also read the [argparse](https://github.com/freeformsystems/cli-argparse) documentation.
 
+### Program
+
+#### Methods
+
+##### help([name], [description], [action])
+
+```javascript
+cli.help()
+cli.help('--info', 'print help information', function(){})
+cli.help(function(){})
+```
+
+Adds a help flag to the program, scope for the `action` callback is the program instance.
+
+* `name`: A specific name for the help flag, default is `--help`.
+* `description`: A specific description for the option, overrides the default.
+* `action`: A callback to invoke when the help option is encountered.
+
+Returns the program for chaining.
+
+### version([version], [name], [description], [action])
+
+```javascript
+cli.version()
+cli.version('1.0.0')
+cli.version('1.0.0', '--version', 'print version', function(){})
+cli.version(function(){})
+```
+
+Adds a version flag to the program, scope for the `action` callback is the program instance. Configured version number is available via after setting the flag option by invoking with zero arguments.
+
+* `version`: A specific version for the program, overrides any version extracted from `package.json`.
+* `name`: A specific name for the version option flags, default is `--version`.
+* `description`: A specific description for the option, overrides the default.
+* `action`: A callback to invoke when the version option is encountered.
+
+Returns the program for chaining or the version string if a version flag exists and zero arguments are passed.
+
 ## Conflicts
 
 By default the module will set parsed options as properties of the program. This makes for very convenient access to option values, it is just `this.option` (or `program.option` if the scope is not the program).
@@ -606,7 +610,7 @@ If a `stash` has not been configured and your program declares an option that wo
   <img src="https://raw.github.com/freeformsystems/cli-command/master/img/conflict.png" />
 </p>
 
-Source: [conflict](https://github.com/freeformsystems/cli-command/blob/master/bin/conflict).
+Source: [conflict](https://github.com/freeformsystems/cli-command/blob/master/ebin/conflict).
 
 ## Enumerate
 
@@ -616,7 +620,7 @@ The only drawback to this design is that the `console.dir()` method no longer al
 
 At times you may wish to inspect the internal structure of the program using `console.dir()`, to enable this functionality set the `CLI_TOOLKIT_DEBUG` environment variable *before all require() statements*. This forces all properties and methods to be enumerable and `console.dir()` will work as expected.
 
-See the [enumerate/defaults](https://github.com/freeformsystems/cli-command/blob/master/bin/enumerate/defaults) and [enumerate/debug](https://github.com/freeformsystems/cli-command/blob/master/bin/enumerate/debug) examples.
+See the [enumerate/defaults](https://github.com/freeformsystems/cli-command/blob/master/ebin/enumerate/defaults) and [enumerate/debug](https://github.com/freeformsystems/cli-command/blob/master/ebin/enumerate/debug) examples.
 
 ## Interface
 
@@ -643,18 +647,18 @@ Generated by [mdp(1)](https://github.com/freeformsystems/mdp).
 [fs]: https://github.com/freeformsystems/cli-fs
 [define]: https://github.com/freeformsystems/cli-define
 [error]: https://github.com/freeformsystems/cli-error
-[git]: http://git-scm.com
-[help/defaults]: https://github.com/freeformsystems/cli-command/blob/master/bin/help/defaults
-[help/custom]: https://github.com/freeformsystems/cli-command/blob/master/bin/help/custom
-[enumerate/defaults]: https://github.com/freeformsystems/cli-command/blob/master/bin/enumerate/defaults
-[enumerate/debug]: https://github.com/freeformsystems/cli-command/blob/master/bin/enumerate/debug
-[version/defaults]: https://github.com/freeformsystems/cli-command/blob/master/bin/version/defaults
-[version/custom]: https://github.com/freeformsystems/cli-command/blob/master/bin/version/custom
+[help/defaults]: https://github.com/freeformsystems/cli-command/blob/master/ebin/help/defaults
+[help/custom]: https://github.com/freeformsystems/cli-command/blob/master/ebin/help/custom
+[enumerate/defaults]: https://github.com/freeformsystems/cli-command/blob/master/ebin/enumerate/defaults
+[enumerate/debug]: https://github.com/freeformsystems/cli-command/blob/master/ebin/enumerate/debug
+[version/defaults]: https://github.com/freeformsystems/cli-command/blob/master/ebin/version/defaults
+[version/custom]: https://github.com/freeformsystems/cli-command/blob/master/ebin/version/custom
+[error/defaults]: https://github.com/freeformsystems/cli-command/blob/master/ebin/error/defaults
+[error/custom]: https://github.com/freeformsystems/cli-command/blob/master/ebin/error/custom
 [en.json]: https://github.com/freeformsystems/cli-command/blob/master/lib/error/locales/en.json
 [scream]: https://github.com/freeformsystems/cli-command/blob/master/lib/conflict.js#L11
-[conflict]: https://github.com/freeformsystems/cli-command/blob/master/bin/conflict
-[error/defaults]: https://github.com/freeformsystems/cli-command/blob/master/bin/error/defaults
-[error/custom]: https://github.com/freeformsystems/cli-command/blob/master/bin/error/custom
+[conflict]: https://github.com/freeformsystems/cli-command/blob/master/ebin/conflict
+[git]: http://git-scm.com
 [commander]: https://github.com/visionmedia/commander.js
 [nopt]: https://github.com/npm/nopt
 [express]: http://expressjs.com/
