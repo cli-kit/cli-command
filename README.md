@@ -469,7 +469,7 @@ cli.command('cp')
 cli.parse();  // defaults to process.argv.slice(2)
 ```
 
-Source: [command](https://github.com/freeformsystems/cli-command/tree/master/bin/example/command).
+Source: [command](https://github.com/freeformsystems/cli-command/tree/master/ebin/example/command).
 
 ## Executable Commands
 
