@@ -1,8 +1,51 @@
-# Command
+Table of Contents
+=================
 
-Command execution for command line interfaces, a component of the [toolkit][toolkit].
+* [Command](#command)
+  * [Install](#install)
+  * [Test](#test)
+  * [Examples](#examples)
+  * [Configuration](#configuration)
+  * [Help](#help)
+    * [help([name], [description], [action])](#helpname-description action)
+    * [Help Configuration](#help-configuration)
+    * [Help Styles](#help-styles)
+    * [Help Sections](#help-sections)
+    * [Help Sort](#help-sort)
+    * [Help Environment](#help-environment)
+    * [Help Manual](#help-manual)
+      * [Plain](#plain)
+      * [JSON](#json)
+  * [Version](#version)
+    * [version([version], [name], [description], [action])](#versionversion-name description action)
+  * [Types](#types)
+    * [Type List](#type-list)
+    * [Type Map](#type-map)
+    * [Multiple Types](#multiple-types)
+    * [Custom Types](#custom-types)
+    * [Complex Types](#complex-types)
+      * [Enum](#enum)
+      * [File](#file)
+      * [List](#list)
+      * [Object](#object)
+    * [Unparsed Types](#unparsed-types)
+  * [Commands](#commands)
+  * [Executable Commands](#executable-commands)
+  * [Errors](#errors)
+  * [API](#api)
+  * [Conflicts](#conflicts)
+  * [Enumerate](#enumerate)
+  * [Interface](#interface)
+  * [Reserved Keywords](#reserved-keywords)
+  * [Credits](#credits)
+  * [License](#license)
 
-This module is a binding of the [define][define] and [argparse][argparse] modules to provide option parsing and command execution for more complex programs. If your requirements are not very complex you may prefer to use [argparse][argparse] by itself.
+Command
+=======
+
+Command execution for command line interfaces, a component of the [toolkit](https://github.com/freeformsystems/cli-toolkit).
+
+This module is a binding of the [define](https://github.com/freeformsystems/cli-define) and [argparse](https://github.com/freeformsystems/cli-argparse) modules to provide option parsing and command execution for more complex programs. If your requirements are not very complex you may prefer to use [argparse](https://github.com/freeformsystems/cli-argparse) by itself.
 
 ## Install
 
@@ -74,7 +117,7 @@ The `help` configuration object supports the following properties:
 * `assignment`: A string delimiter to use for options that accept values, default is `=`.
 * `collapse`: A boolean indicating that whitespace should not be printed between sections, default is `false`.
 * `copyright`: A string describing the program copyright, default is `undefined`.
-* `delimiter`: A string delimiter to use between option names, default is `, `.
+* `delimiter`: A string delimiter to use between option names, default is `,`.
 * `exit`: A boolean that forces inclusion of an `EXIT` section generated from the program error definitions, default is `false`.
 * `indent`: An integer indicating the number of spaces to indent, default is `1`.
 * `maximum`: An integer of the column used to wrap long descriptions, default is `80`.
@@ -84,7 +127,7 @@ The `help` configuration object supports the following properties:
 * `sort`: Whether commands and options are sorted, default is `false`, may be a boolean, a custom sort function or one of the recognized sort values, see [help sort](#help-sort).
 * `style`: A string indicating the style of help output, default is `gnu`, see [help styles](#help-styles).
 * `titles`: Map of custom section titles.
-* `vanilla`: Never use parameter replacement when printing help output, default is `false`. This is useful if you are using the [ttycolor][ttycolor] module but would prefer commands and options not to be highlighted.
+* `vanilla`: Never use parameter replacement when printing help output, default is `false`. This is useful if you are using the [ttycolor](https://github.com/freeformsystems/ttycolor) module but would prefer commands and options not to be highlighted.
 * `width`: The character width of the left column, default is `20`, only applies when `align` is set to `column`.
 
 ### Help Styles
@@ -147,7 +190,7 @@ cli.configure({
 
 ### Help Sort
 
-// TODO
+// TODO.
 
 ### Help Environment
 
@@ -177,15 +220,15 @@ cli.help(null, null, null, false);
 
 Help output can be converted into the following formats by setting environment variables:
 
-* Plain text help designed to be [help2man][help2man] compatible
-* JSON text used as an intermediary format for other converters
-* TODO: man page format
-* TODO: markdown format
-* TODO: markdown+pandoc format
+* Plain text help designed to be [help2man](http://www.gnu.org/software/help2man/) compatible.
+* JSON text used as an intermediary format for other converters.
+* TODO: man page format.
+* TODO: markdown format.
+* TODO: markdown+pandoc format.
 
 #### Plain
 
-The default `GNU` style help output is designed to be compatible with [help2man][help2man].
+The default `GNU` style help output is designed to be compatible with [help2man](http://www.gnu.org/software/help2man/).
 
 #### JSON
 
@@ -235,13 +278,13 @@ Adds a version flag to the program, scope for the `action` callback is the progr
 
 Returns the program for chaining or the version string if a version flag exists and zero arguments are passed.
 
-See the [version/defaults][version/defaults] and [version/custom][version/custom] example executables.
+See the [version/defaults](https://github.com/freeformsystems/cli-command/blob/master/bin/version/defaults) and [version/custom](https://github.com/freeformsystems/cli-command/blob/master/bin/version/custom) example executables.
 
 <p align="center">
   <img src="https://raw.github.com/freeformsystems/cli-command/master/img/version.png" />
 </p>
 
-Source: [version/defaults][version/defaults] and [version/custom][version/custom]
+Source: [version/defaults](https://github.com/freeformsystems/cli-command/blob/master/bin/version/defaults) and [version/custom](https://github.com/freeformsystems/cli-command/blob/master/bin/version/custom).
 
 ## Types
 
@@ -264,7 +307,8 @@ cli
   .option('-l, --list <items>', 'a list', list)
 // ...
 ```
-Source: [test/unit/coerce](https://github.com/freeformsystems/cli-command/blob/master/test/unit/coerce.js)
+
+Source: [test/unit/coerce](https://github.com/freeformsystems/cli-command/blob/master/test/unit/coerce.js).
 
 The coercion function (referred to as a `converter`) may be more complex, the signature is:
 
@@ -276,7 +320,7 @@ Where `value` is the argument string value, `arg` is the option definition and `
 
 Native functions are good if you are willing to accept `NaN` as a possible value; for those cases where you must have a valid number you should use one of the pre-defined type coercion functions that will throw an error if the value is `NaN`. The type error will then be emitted as an `error` event (`ETYPE`). If there is no listener for `error` and `etype` a useful error message is printed and the program will exit, otherwise you are free to handle the error as you like.
 
-Source [test/unit/types](https://github.com/freeformsystems/cli-command/tree/master/test/unit/types)
+Source [test/unit/types](https://github.com/freeformsystems/cli-command/tree/master/test/unit/types).
 
 ```javascript
 var cli = require('cli-command');
@@ -386,7 +430,7 @@ cli.option('-f, --file <file>',
     'file to process', types.file('f'))
 ```
 
-See the [fs][fs] documentation for the list of file expressions and some caveats. Note that multiple expressions can be specified, so to test a file is readable and has it's executable bit set you could use `rx`.
+See the [fs](https://github.com/freeformsystems/cli-fs) documentation for the list of file expressions and some caveats. Note that multiple expressions can be specified, so to test a file is readable and has it's executable bit set you could use `rx`.
 
 #### List
 
@@ -428,7 +472,7 @@ var cli = require('cli-command');
 var types = cli.types;
 var program = cli()
   .converter(types.integer)
-  .parse(); 
+  .parse();
 ```
 
 Note that because the unparsed arguments list is always an array specifying the `Array` type will result in a multi-dimensional array of strings.
@@ -455,11 +499,11 @@ cli.command('cp')
 cli.parse();  // defaults to process.argv.slice(2)
 ```
 
-Source: [command](https://github.com/freeformsystems/cli-command/tree/master/bin/example/command)
+Source: [command](https://github.com/freeformsystems/cli-command/tree/master/bin/example/command).
 
-## Subcommands
+## Executable Commands
 
-If you wish to structure your program as a series of executables for each command ([git][git] style) use the alternative syntax:
+If you wish to structure your program as a series of executables for each command ([git](http://git-scm.com) style) use the alternative syntax:
 
 ```javascript
 require('ttycolor')().defaults();
@@ -475,32 +519,13 @@ cli
 var ps = cli.parse();   // execute pkg-install(1) upon install command
 ```
 
-Source: [pkg](https://github.com/freeformsystems/cli-command/tree/master/bin/example/pkg)
-
-```javascript
-require('ttycolor')().defaults();
-var cli = require('../..')();
-cli
-  .usage('[options] <packages...>')
-  .version()
-  .help()
-  .on('run', function() {
-    console.log('install %s', this.request().args);
-  })
-  .on('empty', function(help, version) {
-    help.call(this, true);  // invoke help on zero arguments
-    console.error(this.name() + ': no packages specified');
-  })
-  .parse();
-```
-
-Source: [pkg-install](https://github.com/freeformsystems/cli-command/tree/master/bin/example/pkg-install)
+Source: [pkg](https://github.com/freeformsystems/cli-command/tree/master/bin/example/pkg).
 
 ## Errors
 
-Handling errors in any program is important but doing it elegantly in a command line program can be tricky, so the [error] module has been integrated to make error handling consistent and robust.
+Handling errors in any program is important but doing it elegantly in a command line program can be tricky, so the [error](https://github.com/freeformsystems/cli-error) module has been integrated to make error handling consistent and robust.
 
-The pre-defined error conditions are in [en.json][en.json]. The [error][error] module intentionally starts incrementing exit status codes from `128` so as not to conflict with low exit status codes, for example, `node` uses exit code `8` to indicate an uncaught exception. The command module uses exit codes from `64-127` and you are encouraged to start your exit codes from `128`.
+The pre-defined error conditions are in [en.json](https://github.com/freeformsystems/cli-command/blob/master/lib/error/locales/en.json). The [error](https://github.com/freeformsystems/cli-error) module intentionally starts incrementing exit status codes from `128` so as not to conflict with low exit status codes, for example, `node` uses exit code `8` to indicate an uncaught exception. The command module uses exit codes from `64-127` and you are encouraged to start your exit codes from `128`.
 
 Error conditions encountered by the module are treated in an idiomatic manner, they are dispatched as an `error` event from the program. However, you may just want some default error handling, so if you have not registered an `eror` listener on the program by the time `parse()` is called then the default error handling will be used.
 
@@ -529,7 +554,7 @@ cli
 throw new Error('a custom error message');
 ```
 
-Source: [error/custom](https://github.com/freeformsystems/cli-command/tree/master/bin/error/custom)
+Source: [error/custom](https://github.com/freeformsystems/cli-command/tree/master/bin/error/custom).
 
 If you are only interested in a particular error you can listen for the error event by error definition `key` (note the event name is lowercase). When you listen for a particular error the generic `error` event is not dispatched for that error condition.
 
@@ -555,13 +580,11 @@ cli
 throw new Error('an euncaught listener error message');
 ```
 
-Source: [error/event](https://github.com/freeformsystems/cli-command/tree/master/bin/error/event)
+Source: [error/event](https://github.com/freeformsystems/cli-command/tree/master/bin/error/event).
 
 ## API
 
-The [define][define] module is thoroughly documented so you should check that out to learn more about defining program options, if you want to dig under the hood a little also read the [argparse][argparse] documentation.
-
-### Methods
+The [define](https://github.com/freeformsystems/cli-define) module is thoroughly documented so you should check that out to learn more about defining program options, if you want to dig under the hood a little also read the [argparse](https://github.com/freeformsystems/cli-argparse) documentation.
 
 ## Conflicts
 
@@ -577,13 +600,13 @@ cli.configure({stash: stash});
 cli.parse();
 ```
 
-If a `stash` has not been configured and your program declares an option that would cause a conflict, the program will scream at you, literally [scream][scream].
+If a `stash` has not been configured and your program declares an option that would cause a conflict, the program will scream at you, literally [scream](https://github.com/freeformsystems/cli-command/blob/master/lib/conflict.js#L11).
 
 <p align="center">
   <img src="https://raw.github.com/freeformsystems/cli-command/master/img/conflict.png" />
 </p>
 
-Source: [conflict][conflict]
+Source: [conflict](https://github.com/freeformsystems/cli-command/blob/master/bin/conflict).
 
 ## Enumerate
 
@@ -593,23 +616,25 @@ The only drawback to this design is that the `console.dir()` method no longer al
 
 At times you may wish to inspect the internal structure of the program using `console.dir()`, to enable this functionality set the `CLI_TOOLKIT_DEBUG` environment variable *before all require() statements*. This forces all properties and methods to be enumerable and `console.dir()` will work as expected.
 
-See the [enumerate/defaults][enumerate/defaults] and [enumerate/debug][enumerate/debug] examples.
+See the [enumerate/defaults](https://github.com/freeformsystems/cli-command/blob/master/bin/enumerate/defaults) and [enumerate/debug](https://github.com/freeformsystems/cli-command/blob/master/bin/enumerate/debug) examples.
 
 ## Interface
 
-It is important to decouple your program configuration from the binary file that user's will run so that you can easily test your program and generate code coverage. The [interface][interface] module is a tiny library that complements this command module to encourage decoupling.
+It is important to decouple your program configuration from the binary file that user's will run so that you can easily test your program and generate code coverage. The [interface](https://github.com/freeformsystems/cli-interface) module is a tiny library that complements this command module to encourage decoupling.
 
 ## Reserved Keywords
 
-`_action`, `_commands`, `_conf`, `_converter`, `_description`, `_emitter`, `_events`, `_exec`, `_key`, `_maxListeners`, `_middleware`, `_name`, `_names`, `_options`, `_package`, `_request`, `_version`, `action`, `addListener`, `command`, `commands`, `configure`, `converter`, `description`, `domain`, `emit`, `error`, `errors`, `flag`, `help`, `key`, `listeners`, `name`, `names`, `on`, `once`, `option`, `options`, `package`, `parse`, `raise`, `removeAllListeners`, `removeListener`, `request`, `setMaxListeners`, `toString`, `use`, `version`, `wrap`
+`_action`, `_commands`, `_conf`, `_converter`, `_description`, `_detail`, `_emitter`, `_events`, `_exec`, `_key`, `_last`, `_maxListeners`, `_middleware`, `_name`, `_names`, `_options`, `_package`, `_parent`, `_request`, `_usage`, `_version`, `action`, `addListener`, `command`, `commands`, `configure`, `converter`, `description`, `detail`, `domain`, `emit`, `error`, `errors`, `flag`, `getFullName`, `getLongName`, `getOptionString`, `getParents`, `help`, `key`, `last`, `listeners`, `name`, `names`, `on`, `once`, `option`, `options`, `package`, `parent`, `parse`, `raise`, `removeAllListeners`, `removeListener`, `request`, `setMaxListeners`, `toString`, `usage`, `use`, `version`, `wrap`.
 
 ## Credits
 
-Chainable program definition inspired by [commander][commander], type conversion on native type constructors lifted from [nopt][nopt] and middleware concept thanks to [express][express].
+Chainable program definition inspired by [commander](https://github.com/visionmedia/commander.js), type conversion on native type constructors lifted from [nopt](https://github.com/npm/nopt) and middleware concept thanks to [express](http://expressjs.com/).
 
 ## License
 
-Everything is [MIT](http://en.wikipedia.org/wiki/MIT_License). Read the [license](/LICENSE) if you feel inclined.
+Everything is [MIT](http://en.wikipedia.org/wiki/MIT_License). Read the [license](https://github.com/freeformsystems/cli-command/blob/master/LICENSE) if you feel inclined.
+
+Generated by [mdp(1)](https://github.com/freeformsystems/mdp).
 
 [toolkit]: https://github.com/freeformsystems/cli-toolkit
 [interface]: https://github.com/freeformsystems/cli-interface
@@ -619,24 +644,17 @@ Everything is [MIT](http://en.wikipedia.org/wiki/MIT_License). Read the [license
 [define]: https://github.com/freeformsystems/cli-define
 [error]: https://github.com/freeformsystems/cli-error
 [git]: http://git-scm.com
-
 [help/defaults]: https://github.com/freeformsystems/cli-command/blob/master/bin/help/defaults
 [help/custom]: https://github.com/freeformsystems/cli-command/blob/master/bin/help/custom
-
 [enumerate/defaults]: https://github.com/freeformsystems/cli-command/blob/master/bin/enumerate/defaults
 [enumerate/debug]: https://github.com/freeformsystems/cli-command/blob/master/bin/enumerate/debug
-
 [version/defaults]: https://github.com/freeformsystems/cli-command/blob/master/bin/version/defaults
 [version/custom]: https://github.com/freeformsystems/cli-command/blob/master/bin/version/custom
-
 [en.json]: https://github.com/freeformsystems/cli-command/blob/master/lib/error/locales/en.json
-
 [scream]: https://github.com/freeformsystems/cli-command/blob/master/lib/conflict.js#L11
 [conflict]: https://github.com/freeformsystems/cli-command/blob/master/bin/conflict
-
 [error/defaults]: https://github.com/freeformsystems/cli-command/blob/master/bin/error/defaults
 [error/custom]: https://github.com/freeformsystems/cli-command/blob/master/bin/error/custom
-
 [commander]: https://github.com/visionmedia/commander.js
 [nopt]: https://github.com/npm/nopt
 [express]: http://expressjs.com/

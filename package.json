@@ -48,10 +48,54 @@
     "node >= 0.10.21"
   ],
   "scripts": {
+    "build": "mdp --force -v",
     "clean": "rm -f ./log/*.log; rm -f .man/*",
     "permrm": "chmod -r test/unit/rc/eaccess.json",
     "permadd": "chmod +r test/unit/rc/eaccess.json",
     "test": "npm run clean; npm run permrm; istanbul cover _mocha -- -u bdd --recursive --bail --reporter list -A test/unit/; npm run permadd"
   },
-  "config": {}
+  "mdp": {
+    "title": "Command",
+    "pedantic": true,
+    "include": "doc/readme",
+    "require": "lib",
+    "links": "links.md",
+    "toc": "Table of Contents",
+    "base": "https://github.com/freeformsystems/cli-command",
+    "partial": [
+      {
+        "inc": [
+          "introduction.md",
+          "install.md",
+          "test.md",
+          "examples.md"
+        ]
+      },
+      {
+        "inc": [
+          "configuration.md",
+          "help.md",
+          "version.md",
+          "types.md",
+          "commands.md",
+          "executable-commands.md",
+          "errors.md",
+          "api.md",
+          "conflicts.md",
+          "enumerate.md",
+          "interface.md"
+        ]
+      },
+      {
+        "title": "Reserved Keywords",
+        "bin": "./ebin/reserved"
+      },
+      {
+        "inc": [
+          "credits.md",
+          "license.md"
+        ]
+      }
+    ]
+  }
 }
