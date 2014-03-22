@@ -4,7 +4,7 @@ Handling errors in any program is important but doing it elegantly in a command 
 
 The pre-defined error conditions are in [en.json][en.json]. The [error][error] module intentionally starts incrementing exit status codes from `128` so as not to conflict with low exit status codes, for example, `node` uses exit code `8` to indicate an uncaught exception. The command module uses exit codes from `64-127` and you are encouraged to start your exit codes from `128`.
 
-Error conditions encountered by the module are treated in an idiomatic manner, they are dispatched as an `error` event from the program. However, you may just want some default error handling, so if you have not registered an `eror` listener on the program by the time `parse()` is called then the default error handling will be used.
+Error conditions encountered by the module are treated in an idiomatic manner, they are dispatched as an `error` event from the program. However, you may just want some default error handling, so if you have not registered an `error` listener on the program by the time `parse()` is called then the default error handling will be used.
 
 The default error handling prints useful messages to `stderr` with information about the error except for an uncaught exception which will also print the stack trace.
 
