@@ -72,6 +72,7 @@ var defaults = {
 
 var all = [
   middlewares.error,
+  middlewares.boot,
   middlewares.load,
   middlewares.substitute,
   middlewares.parser,
