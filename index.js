@@ -259,8 +259,14 @@ function error(e) {
     var args = e.parameters.slice(0);
     args.unshift(e.message);
     this.log.error.apply(this.log, args);
-    if(trace && e.stack) {
-      this.log.error(e.stack.split('\n').slice(1).join('\n'));
+    if(trace) {
+      // NOTE: prefer the stack of a source error
+      // TODO: make this configurable
+      var stack = e._source && e._source.stack ?
+        e._source.stack : e.stack;
+      if(stack) {
+        this.log.error(stack.split('\n').slice(1).join('\n'));
+      }
     }
   }else{
     e.error(trace)

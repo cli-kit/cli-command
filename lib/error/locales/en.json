@@ -176,7 +176,7 @@
   {
     "key": "ECMD_REQUIRE",
     "description": "Command module require generated an error",
-    "message": "error loading command module %s",
+    "message": "error loading command module %s\n%s",
     "code": 93
   },
   {
