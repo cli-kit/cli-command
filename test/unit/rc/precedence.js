@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
 describe('cli-command:', function() {
-  it('should override environment variable', function(done) {
+  it('should override rc with environment variable', function(done) {
     process.env.mock_variable = 'value';
     process.env.mock_prefix = '/usr/local/etc/env';
     var cli = require('../../..');
@@ -16,7 +16,7 @@ describe('cli-command:', function() {
         expect(req.env.prefix).to.eql('/usr/local/etc/env');
         expect(req.rc).to.be.an('object');
         expect(req.rc.prefix).to.be.a('string');
-        expect(this.prefix).to.eql(req.rc.prefix);
+        expect(this.prefix).to.eql(process.env.mock_prefix);
         done();
       })
       .parse([]);
