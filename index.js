@@ -88,6 +88,7 @@ var all = [
   middlewares.multiple,
   middlewares.merge,
   middlewares.convert,
+  middlewares.ready,
   middlewares.exec,
   middlewares.command,
   middlewares.empty,
