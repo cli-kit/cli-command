@@ -208,5 +208,11 @@
     "description": "Error loading cli-rc module",
     "message": "could not load cli-rc module, you should depend upon this module",
     "code": 98
+  },
+  {
+    "key": "EVARIABLE_DECLARATION",
+    "description": "Invalid variable declaration (missing assignment)",
+    "message": "invalid variable declaration %s, missing assignment operator (=)",
+    "code": 99
   }
 ]
