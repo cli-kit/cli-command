@@ -423,3 +423,4 @@ module.exports.types = types;
 module.exports.error = require('./lib/error');
 module.exports.CommandProgram = CommandProgram;
 module.exports.log = syslog;
+module.exports.fs = require('cli-fs');
