@@ -425,3 +425,5 @@ module.exports.CommandProgram = CommandProgram;
 module.exports.log = syslog;
 module.exports.fs = require('cli-fs');
 module.exports.env = require('cli-env');
+module.exports.native = require('cli-native');
+for(var k in clierr) module.exports.error[k] = clierr[k];
