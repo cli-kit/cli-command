@@ -25,16 +25,16 @@
     "command"
   ],
   "dependencies": {
-    "cli-define": "~0.5.30",
-    "cli-native": "~1.0.0",
-    "cli-env": "~1.0.5",
-    "cli-argparse": "~0.3.7",
-    "cli-error": "~0.5.0",
-    "cli-logger": "~0.5.14",
-    "cli-util": "~1.1.13",
-    "cli-fs": "~1.0.3",
-    "markzero": "~0.1.5",
     "circular": "~1.0.3",
+    "cli-argparse": "~0.3.7",
+    "cli-define": "^0.5.32",
+    "cli-env": "~1.0.5",
+    "cli-error": "~0.5.0",
+    "cli-fs": "~1.0.3",
+    "cli-logger": "~0.5.14",
+    "cli-native": "~1.0.0",
+    "cli-util": "~1.1.13",
+    "markzero": "^0.1.9",
     "moment": "2.5.1"
   },
   "devDependencies": {
