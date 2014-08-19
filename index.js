@@ -38,7 +38,7 @@ var defaults = {
     exec: false,
     dir: null
   },
-  exit: true,
+  exit: !(process.env.NODE_ENV === 'test'),
   stash: null,
   bin: null,
   env: null,
