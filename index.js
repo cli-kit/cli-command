@@ -376,7 +376,7 @@ function middleware(args) {
     }else if(err === true) {
       return scope.emit('complete', req);
     }else if(err) {
-      req.error = scope.wrap(err, parameters, e);
+      //req.error = scope.wrap(err, parameters, e);
       scope.raise(err, parameters, e);
     }
     i++;
