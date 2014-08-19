@@ -214,5 +214,11 @@
     "description": "Invalid variable declaration (missing assignment)",
     "message": "invalid variable declaration %s, missing assignment operator (=)",
     "code": 99
+  },
+  {
+    "key": "EUNKNOWN_SUBCOMMAND",
+    "description": "Specified subcommand is not valid for parent command",
+    "message": "invalid subcommand %s for %s",
+    "code": 100
   }
 ]
