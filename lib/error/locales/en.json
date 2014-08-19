@@ -220,5 +220,11 @@
     "description": "Specified subcommand is not valid for parent command",
     "message": "unknown subcommand %s for %s",
     "code": 100
+  },
+  {
+    "key": "EUNKNOWN_COMMAND",
+    "description": "Program requires a command but the specified command is unknown",
+    "message": "unknown command %s",
+    "code": 101
   }
 ]
