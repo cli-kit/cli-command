@@ -158,6 +158,7 @@ function wrap(err, parameters, source) {
   }else if(err instanceof Error) {
     e = new CliError(err, code, parameters);
     e.key = err.key || errors.EGENERIC.key;
+    err.key = e.key;
   }else if(typeof err === 'string') {
     e = new CliError(source || err, code, parameters);
   }else{
@@ -262,10 +263,7 @@ function error(e) {
     args.unshift(e.message);
     this.log.error.apply(this.log, args);
     if(trace) {
-      // NOTE: prefer the stack of a source error
-      // TODO: make this configurable
-      var stack = e._source && e._source.stack ?
-        e._source.stack : e.stack;
+      var stack = e.stack;
       if(stack) {
         this.log.error(stack.split('\n').slice(1).join('\n'));
       }
@@ -400,6 +398,8 @@ module.exports = function(package, name, description, options) {
   if(!listeners.length) {
     process.on('uncaughtException', function(err) {
       err.code = errors.EUNCAUGHT.code;
+      //console.dir(err);
+      //console.log(err.stack);
       program.raise(err);
     })
   }
