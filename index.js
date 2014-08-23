@@ -72,6 +72,7 @@ var defaults = {
 
 var all = [
   middlewares.error,
+  middlewares.stdin,
   middlewares.boot,
   middlewares.load,
   middlewares.substitute,
@@ -368,7 +369,7 @@ function middleware(args) {
     if(debug) {
       syslog.trace('middleware/end: %s', name);
     }
-    //console.log('next being called ... with %s', err);
+    //console.log('next being called ... with %s', name);
     //console.log(new Error().stack);
     if(err === null) {
       // halt processing, complete never fires
