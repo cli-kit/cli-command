@@ -380,6 +380,9 @@ function middleware(args) {
     }else if(err) {
       //req.error = scope.wrap(err, parameters, e);
       scope.raise(err, parameters, e);
+      if(process.env.NODE_ENV === 'test') {
+        return scope.emit('complete', req);
+      }
     }
     i++;
     if(i < list.length) {
