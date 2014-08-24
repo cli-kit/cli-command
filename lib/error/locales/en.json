@@ -222,15 +222,21 @@
     "code": 100
   },
   {
+    "key": "ECOMMAND_REQUIRED",
+    "description": "Program requires a command but no command was specified",
+    "message": "command is required",
+    "code": 101
+  },
+  {
     "key": "EUNKNOWN_COMMAND",
     "description": "Program requires a command but the specified command is unknown",
     "message": "unknown command %s",
-    "code": 101
+    "code": 102
   },
   {
     "key": "ESTDIN_TIMEOUT",
     "description": "Could not complete reading from stdin, timeout exceeded",
     "message": "timeout while waiting for input in stdin (%ss)",
-    "code": 102
+    "code": 103
   }
 ]

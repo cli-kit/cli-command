@@ -90,6 +90,7 @@ var all = [
   middlewares.merge,
   middlewares.convert,
   middlewares.variables,
+  middlewares.ecommand,
   middlewares.ready,
   middlewares.exec,
   middlewares.command,
