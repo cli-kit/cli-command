@@ -28,7 +28,7 @@
     "circular": "~1.0.3",
     "cli-argparse": "~0.3.7",
     "cli-define": "^0.5.32",
-    "cli-env": "~1.0.5",
+    "cli-env": "^1.0.7",
     "cli-error": "~0.5.0",
     "cli-fs": "~1.0.3",
     "cli-logger": "~0.5.14",
