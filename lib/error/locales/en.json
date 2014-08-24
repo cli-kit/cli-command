@@ -226,5 +226,11 @@
     "description": "Program requires a command but the specified command is unknown",
     "message": "unknown command %s",
     "code": 101
+  },
+  {
+    "key": "ESTDIN_TIMEOUT",
+    "description": "Could not complete reading from stdin, timeout exceeded",
+    "message": "timeout while waiting for input in stdin (%ss)",
+    "code": 102
   }
 ]
