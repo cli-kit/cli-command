@@ -39,6 +39,7 @@ var defaults = {
     dir: null
   },
   exit: !(process.env.NODE_ENV === 'test'),
+  bail: (process.env.NODE_ENV === 'test'),
   stash: null,
   bin: null,
   env: null,
@@ -351,7 +352,7 @@ define(CommandProgram.prototype, 'parse', parse, false);
  *  @param args The arguments passed to parse.
  */
 function middleware(args) {
-  var i = 0, list = this._middleware, scope = this;
+  var i = 0, list = this._middleware, scope = this, conf = this.configure();
   var req = {argv: args}, name;
   function exec() {
     var func = list[i];
@@ -380,7 +381,7 @@ function middleware(args) {
     }else if(err) {
       //req.error = scope.wrap(err, parameters, e);
       scope.raise(err, parameters, e);
-      if(process.env.NODE_ENV === 'test') {
+      if(conf.bail) {
         return scope.emit('complete', req);
       }
     }
