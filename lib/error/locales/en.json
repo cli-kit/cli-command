@@ -6,7 +6,7 @@
     "code": 64
   },
   {
-    "key": "ENOENT",
+    "key": "EEXEC_NOENT",
     "description": "Executable does not exist",
     "message": "%s(1) does not exist, try --help",
     "code": 65
