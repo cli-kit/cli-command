@@ -63,7 +63,7 @@ var defaults = {
       bugs: 'Report bugs to %s.'
     }
   },
-  trace: undefined,
+  trace: process.env.NODE_ENV === 'test',
   unknown: true,
   strict: false,
   middleware: null,
