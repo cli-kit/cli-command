@@ -432,4 +432,5 @@ module.exports.log = syslog;
 module.exports.fs = require('cli-fs');
 module.exports.env = require('cli-env');
 module.exports.native = require('cli-native');
+module.exports.ConverterMap = require('./lib/util/map');
 for(var k in clierr) module.exports.error[k] = clierr[k];
