@@ -34,7 +34,7 @@
     "cli-logger": "~0.5.14",
     "cli-native": "~1.0.0",
     "cli-util": "^1.1.16",
-    "markzero": "^0.1.22",
+    "markzero": "^0.1.26",
     "moment": "2.5.1"
   },
   "devDependencies": {
