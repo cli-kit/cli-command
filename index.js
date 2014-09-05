@@ -154,10 +154,10 @@ function wrap(err, parameters, source) {
   if(err instanceof CliError) {
     e = err;
   }else if(err instanceof ErrorDefinition) {
-    e = err.toError(source);
+    e = err.toError(source, parameters);
     if(!source) e.shift();
-    e.parameters = parameters || [];
-    e.key = err.key;
+    e.parameters = parameters;
+    //e.key = err.key;
   }else if(err instanceof Error) {
     e = new CliError(err, code, parameters);
     e.key = err.key || errors.EGENERIC.key;
@@ -181,6 +181,7 @@ define(CommandProgram.prototype, 'wrap', wrap, false);
  */
 function raise(err, parameters, source) {
   var e = this.wrap(err, parameters, source);
+  //console.log('raise emitting %s', e._source);
   this.emit('error', e, errors);
 }
 define(CommandProgram.prototype, 'raise', raise, false);
@@ -268,7 +269,12 @@ function error(e) {
     if(trace) {
       var stack = e.stack;
       if(stack) {
-        this.log.error(stack.split('\n').slice(1).join('\n'));
+        var lines = e._stacktrace || [];
+        lines = lines.map(function(value) {
+          return '  ' + value;
+        })
+        stack = lines.join('\n');
+        this.log.error(stack);
       }
     }
   }else{
