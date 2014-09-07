@@ -375,8 +375,6 @@ function middleware(args, cb) {
   }
   function complete(err) {
     if(cb) return cb.call(scope, null, req);
-    // complete event does not fire on null
-    if(err === null) return;
     return scope.emit('complete', req);
   }
 
