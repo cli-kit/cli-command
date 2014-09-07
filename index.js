@@ -263,7 +263,7 @@ function error(e) {
   //console.log('code %s', e.code);
   var logger = this.log && typeof(this.log.error) === 'function';
   if(logger) {
-    var args = e.parameters.slice(0);
+    var args = (e.parameters || []).slice(0);
     args.unshift(e.message);
     this.log.error.apply(this.log, args);
     if(trace) {
