@@ -340,14 +340,14 @@ define(CommandProgram.prototype, 'help', help, false);
  *
  *  @param args The arguments to parse, default is process.argv.slice(2).
  */
-function parse(args) {
+function parse(args, cb) {
   if(debug) syslog.trace(circular.stringify(this, 2));
   args = args || process.argv.slice(2);
   conflict.call(this);
   if(this._middleware === undefined) {
     this.use();
   }
-  middleware.call(this, args);
+  middleware.call(this, args, cb);
   return this;
 }
 define(CommandProgram.prototype, 'parse', parse, false);
@@ -357,7 +357,7 @@ define(CommandProgram.prototype, 'parse', parse, false);
  *
  *  @param args The arguments passed to parse.
  */
-function middleware(args) {
+function middleware(args, cb) {
   var i = 0, list = this._middleware, scope = this, conf = this.configure();
   var req = {argv: args}, name;
   function exec() {
@@ -373,9 +373,19 @@ function middleware(args) {
     //console.log('' + func);
     //console.log('file %s', scope.file);
   }
+  function complete(err) {
+    if(cb) return cb.call(scope, null, req);
+    // complete event does not fire on null
+    if(err === null) return;
+    return scope.emit('complete', req);
+  }
+
   function next(err, parameters, e) {
     if(debug) {
       syslog.trace('middleware/end: %s', name);
+    }
+    if(arguments.length && typeof cb === 'function') {
+      return cb.call(scope, err, req, parameters, e);
     }
     //console.log('next being called ... with %s', name);
     //console.log(new Error().stack);
@@ -383,19 +393,22 @@ function middleware(args) {
       // halt processing, complete never fires
       return;
     }else if(err === true) {
-      return scope.emit('complete', req);
+      //return scope.emit('complete', req);
+      return complete();
     }else if(err) {
       //req.error = scope.wrap(err, parameters, e);
       scope.raise(err, parameters, e);
       if(conf.bail) {
-        return scope.emit('complete', req);
+        //return scope.emit('complete', req);
+        return complete();
       }
     }
     i++;
     if(i < list.length) {
       exec();
     }else{
-      scope.emit('complete', req);
+      //scope.emit('complete', req);
+      return complete();
     }
   }
   if(list.length) exec();
