@@ -26,6 +26,10 @@ var CliError = clierr.CliError;
 var __middleware__;
 
 var defaults = {
+  // mark this program as an interactive REPL
+  // console, use this flag to modify program
+  // behaviour when running interactively
+  interactive: false,
   load: {
     file: null,
     options: null
@@ -43,6 +47,10 @@ var defaults = {
   stash: null,
   bin: null,
   env: null,
+  synopsis: {
+    options: true,
+    commands: true
+  },
   help: {
     indent: 1,
     exit: false,
@@ -55,6 +63,7 @@ var defaults = {
     collapse: false,
     messages: {
       summary: 'Command should be one of: %s',
+      cmd: 'where <command> is one of:\n',
       usage: {
         command: 'command',
         option: 'option',
@@ -295,7 +304,6 @@ define(CommandProgram.prototype, 'error', error, false);
  */
 function configure(conf) {
   if(!arguments.length) return this._conf;
-  console.log('creating program configuration');
   conf = conf || {};
   this._conf = merge(conf, this._conf);
   if(conf.stash) {
