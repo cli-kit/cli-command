@@ -6,6 +6,7 @@ describe('cli-command:', function() {
     cli = cli()
       .configure({exit: false, rc: {name: 'rc.json', path: [__dirname]}})
       .on('complete', function(req) {
+        console.dir(req.rc);
         expect(req.rc).to.be.an('object');
         expect(req.rc.prefix).to.be.a('string');
         expect(this.prefix).to.eql(req.rc.prefix);

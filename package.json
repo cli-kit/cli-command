@@ -52,7 +52,8 @@
     "clean": "rm -f ./log/*.log; rm -f .man/*",
     "permrm": "chmod -r test/unit/rc/eaccess.json",
     "permadd": "chmod +r test/unit/rc/eaccess.json",
-    "test": "npm run clean; npm run permrm; istanbul cover _mocha -- -u bdd --recursive --bail --reporter list -A test/unit/; npm run permadd"
+    "pretest": "npm run clean; npm run permrm",
+    "test": "istanbul cover _mocha -- -u bdd --recursive --bail --reporter list -A test/unit/; npm run permadd"
   },
   "mdp": {
     "title": "Command",
