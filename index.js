@@ -68,7 +68,11 @@ var defaults = {
   strict: false,
   middleware: null,
   error: null,
-  manual: null
+  manual: null,
+  // property name conflict detection enabled by default
+  // should typically remain enabled, however for interactive
+  // programs that may parse() multiple times this allows it
+  conflict: true
 }
 
 var all = [
