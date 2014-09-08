@@ -295,6 +295,7 @@ define(CommandProgram.prototype, 'error', error, false);
  */
 function configure(conf) {
   if(!arguments.length) return this._conf;
+  console.log('creating program configuration');
   conf = conf || {};
   this._conf = merge(conf, this._conf);
   if(conf.stash) {
