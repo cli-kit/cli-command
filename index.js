@@ -395,12 +395,6 @@ function middleware(args, cb) {
     if(debug) {
       syslog.trace('middleware/end: %s', name);
     }
-    if(arguments.length && typeof cb === 'function') {
-      //console.log('invoking callback %s', cb);
-      return cb.call(scope, err, req, parameters, e);
-    }
-    //console.log('next being called ... with %s', name);
-    //console.log(new Error().stack);
     if(err === null) {
       // halt processing, complete never fires
       return;
