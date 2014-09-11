@@ -378,7 +378,9 @@ function middleware(args, cb) {
     name = cname(func);
     if(debug) {
       syslog.trace('middleware/start: %s', name);
-      syslog.trace(circular.stringify(req, 2));
+      if(process.env.CLI_TOOLKIT_MIDDLEWARE_REQUEST) {
+        syslog.trace(circular.stringify(req, 2));
+      }
     }
     //console.dir(func);
     //console.log('' + func);
