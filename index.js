@@ -335,6 +335,26 @@ function version(semver, name, description, action) {
 define(CommandProgram.prototype, 'version', version, false);
 
 /**
+ *  Reset all values assigned to options.
+ *
+ *  Designed to be used in the scenario that you wish
+ *  to re-parse through the same instance and ensure that
+ *  values do not carry through.
+ */
+function reset(target) {
+  target = target || this;
+  var opts = target.options(), k;
+  for(k in opts) {
+    delete opts[k].value(undefined);
+  }
+  var cmds = target.commands();
+  for(k in cmds) {
+    reset(cmds[k]);
+  }
+}
+define(CommandProgram.prototype, 'reset', reset, false);
+
+/**
  *  Adds a help flag to the program.
  *
  *  @param name The argument name.
