@@ -30,6 +30,11 @@ var defaults = {
   // console, use this flag to modify program
   // behaviour when running interactively
   interactive: false,
+  parser: {
+    // map be a function, gets passed the parser configuration
+    // and should modify it in place
+    configure: null
+  },
   load: {
     file: null,
     options: null
