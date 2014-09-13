@@ -342,7 +342,7 @@ define(CommandProgram.prototype, 'version', version, false);
  *  values do not carry through.
  */
 function reset(target) {
-  target = target || this;
+  target = target || this.configure().stash || this;
   var opts = target.options(), k;
   for(k in opts) {
     delete opts[k].value(undefined);
