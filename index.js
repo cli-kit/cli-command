@@ -199,8 +199,9 @@ define(CommandProgram.prototype, 'wrap', wrap, false);
  */
 function raise(err, parameters, source) {
   var e = this.wrap(err, parameters, source);
+  this.emit('raise', e, errors, err, parameters, source);
   //console.log('raise emitting %s', e._source);
-  this.emit('error', e, errors);
+  this.emit('error', e, errors, err, parameters, source);
 }
 define(CommandProgram.prototype, 'raise', raise, false);
 
