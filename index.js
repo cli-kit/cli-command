@@ -435,10 +435,13 @@ function middleware(args, cb) {
     //console.log('' + func);
     //console.log('file %s', scope.file);
   }
+
   function complete(err) {
     if(cb) return cb.call(scope, null, req);
     return scope.emit('complete', req);
   }
+
+  req.complete = complete;
 
   function next(err, parameters, e) {
     if(debug) {
