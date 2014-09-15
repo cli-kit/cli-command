@@ -81,7 +81,22 @@ var defaults = {
   unknown: true,
   strict: false,
   middleware: null,
-  error: null,
+  // logger middleware configuration
+  log: null,
+
+  // error handling configuration
+  // declare a locales property to merge
+  // custom error definitions with the default
+  // error definitions
+  error: {
+    // if a logger is available, send errors to the log
+    log: {
+      // print errors
+      print: true
+    }
+  },
+  // programs may maintain a list of errors encountered
+  errors: null,
   manual: null,
   // property name conflict detection enabled by default
   // should typically remain enabled, however for interactive
@@ -281,20 +296,25 @@ function error(e) {
   //console.log('trace %s', trace);
   //console.log('code %s', e.code);
   var logger = this.log && typeof(this.log.error) === 'function';
-  if(logger) {
-    var args = (e.parameters || []).slice(0);
-    args.unshift(e.message);
-    this.log.error.apply(this.log, args);
-    if(trace) {
-      var stack = e.stack;
-      if(stack) {
-        var lines = e._stacktrace || [];
-        lines = lines.map(function(value) {
-          return '  ' + value;
-        })
-        stack = lines.join('\n');
-        this.log.error(stack);
+  if(logger && conf.error.log) {
+    if(conf.error.log.print) {
+      var args = (e.parameters || []).slice(0);
+      args.unshift(e.message);
+      this.log.error.apply(this.log, args);
+      if(trace) {
+        var stack = e.stack;
+        if(stack) {
+          var lines = e._stacktrace || [];
+          lines = lines.map(function(value) {
+            return '  ' + value;
+          })
+          stack = lines.join('\n');
+          this.log.error(stack);
+        }
       }
+    }else{
+      //console.dir(e);
+      this.log.error(e);
     }
   }else{
     e.error(trace)
@@ -317,7 +337,8 @@ function configure(conf) {
   }
 
   // load custom error definitions
-  if(conf && conf.error && typeof conf.error === 'object') {
+  if(conf && conf.error
+    && typeof conf.error === 'object' && conf.error.locales) {
     clierr.file(conf.error, function(err) {
       if(err) throw err;
     })
