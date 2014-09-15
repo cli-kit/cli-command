@@ -38,11 +38,11 @@
     "moment": "2.5.1"
   },
   "devDependencies": {
-    "cli-rc": "~1.0.1",
-    "ttycolor": "~0.8.10",
-    "mocha": "~1.17.0",
     "chai": "~1.9.0",
-    "istanbul": "~0.2.6"
+    "cli-rc": "~1.0.1",
+    "istanbul": "~0.2.6",
+    "mocha": "~1.17.0",
+    "ttycolor": "^0.8.10"
   },
   "engine": [
     "node >= 0.10.21"
