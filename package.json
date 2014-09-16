@@ -42,7 +42,7 @@
     "cli-rc": "~1.0.1",
     "istanbul": "~0.2.6",
     "mocha": "~1.17.0",
-    "ttycolor": "^0.8.10"
+    "ttycolor": "^0.8.12"
   },
   "engine": [
     "node >= 0.10.21"
