@@ -93,7 +93,8 @@ var defaults = {
     log: {
       // print errors
       print: true
-    }
+    },
+    intercept: null
   },
   // programs may maintain a list of errors encountered
   errors: null,
@@ -215,7 +216,6 @@ define(CommandProgram.prototype, 'wrap', wrap, false);
 function raise(err, parameters, source) {
   var e = this.wrap(err, parameters, source);
   this.emit('raise', e, errors, err, parameters, source);
-  //console.log('raise emitting %s', e._source);
   this.emit('error', e, errors, err, parameters, source);
 }
 define(CommandProgram.prototype, 'raise', raise, false);
@@ -418,8 +418,13 @@ define(CommandProgram.prototype, 'parse', parse, false);
  *  @param args The arguments passed to parse.
  */
 function middleware(args, cb) {
-  var i = 0, list = this._middleware, scope = this, conf = this.configure();
+  var i = 0
+    , list = this._middleware
+    , scope = this
+    , conf = this.configure();
+
   var req = {argv: args}, name;
+
   function exec() {
     var func = list[i];
     name = cname(func);
@@ -437,6 +442,7 @@ function middleware(args, cb) {
   }
 
   function complete(err) {
+    //console.log('completing %s', cb);
     if(cb) return cb.call(scope, null, req);
     return scope.emit('complete', req);
   }
@@ -454,7 +460,20 @@ function middleware(args, cb) {
       //return scope.emit('complete', req);
       return complete();
     }else if(err) {
-      scope.raise(err, parameters, e);
+      var intercepts = typeof conf.error.intercept === 'function';
+      if(intercepts) {
+        var er = scope.wrap(err, parameters, e);
+        var raise = conf.error.intercept.call(
+          scope, er, req, next, err, parameters, e);
+        if(raise) {
+          scope.raise(er, parameters, e);
+        }else{
+          // passed flow control to the error intercept handler
+          return;
+        }
+      }else{
+        scope.raise(err, parameters, e);
+      }
       if(conf.bail) {
         //return scope.emit('complete', req);
         return complete();
