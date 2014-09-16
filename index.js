@@ -454,7 +454,6 @@ function middleware(args, cb) {
       //return scope.emit('complete', req);
       return complete();
     }else if(err) {
-      //req.error = scope.wrap(err, parameters, e);
       scope.raise(err, parameters, e);
       if(conf.bail) {
         //return scope.emit('complete', req);
