@@ -443,7 +443,7 @@ function middleware(args, cb) {
 
   function complete(err) {
     //console.log('completing %s', cb);
-    if(cb) return cb.call(scope, null, req);
+    if(cb) return cb.call(scope, err, req);
     return scope.emit('complete', req);
   }
 
