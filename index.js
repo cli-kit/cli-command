@@ -218,6 +218,7 @@ function raise(err, parameters, source) {
   var e = this.wrap(err, parameters, source);
   this.emit('raise', e, errors, err, parameters, source);
   this.emit('error', e, errors, err, parameters, source);
+  return e;
 }
 define(CommandProgram.prototype, 'raise', raise, false);
 
@@ -425,7 +426,12 @@ function middleware(args, cb) {
     , conf = this.configure();
 
   var req = {argv: args}, name;
-  req.errors = req.errors || [];
+
+  // keep track of errors that occured
+  req.errors = req.errors || {cause: null, list: []};
+  req.errors.has = function() {
+    return this.cause !== null || this.list.length > 0;
+  }.bind(req.errors);
 
   function exec() {
     var func = list[i];
@@ -445,39 +451,55 @@ function middleware(args, cb) {
 
   function complete(err) {
     //console.log('completing %s', cb);
-    if(cb) return cb.call(scope, err, req);
-    return scope.emit('complete', req);
+    var errs = req.errors.list;
+    err = err ||
+      (errs.length ? errs[errs.length - 1] : (req.errors.cause || undefined));
+    if(cb) return cb.call(scope, req, err);
+    return scope.emit('complete', req, err);
   }
 
   req.complete = complete;
 
   function next(err, parameters, e) {
+
     if(debug) {
       syslog.trace('middleware/end: %s', name);
     }
 
+    var er, intercepts, raise;
+
     //console.log('next err %s', err.message);
     if(err === null) {
+      req.errors.cause = scope.wrap(scope.errors.EMIDDLEWARE_ABORT);
       // halt processing, complete never fires
       return;
     }else if(err === true || err && err.bail === true) {
+      req.errors.cause = err && err.bail
+        ? err : scope.wrap(scope.errors.EMIDDLEWARE_BAIL);
+      if(err && err.bail) req.errors.list.push(err);
       //return scope.emit('complete', req);
+      //console.log('next got bail %s', req.errors.cause);
       return complete(err);
     }else if(err) {
-      var intercepts = typeof conf.error.intercept === 'function';
+      //console.log('next got err %s', err);
+      intercepts = typeof conf.error.intercept === 'function';
+      er = scope.wrap(err, parameters, e);
       if(intercepts) {
-        var er = scope.wrap(err, parameters, e);
-        var raise = conf.error.intercept.call(
-          scope, er, req, next, err, parameters, e);
+        raise = conf.error.intercept.call(
+          scope, req, next, er, err, parameters, e);
         if(raise) {
-          scope.raise(er, parameters, e);
+          er = scope.raise(er, parameters, e);
         }else{
+          req.errors.list.push(er);
           // passed flow control to the error intercept handler
           return;
         }
       }else{
-        scope.raise(err, parameters, e);
+        er = scope.raise(err, parameters, e);
       }
+      // add the wrapped error to to the list
+      req.errors.list.push(er);
+
       if(conf.bail) {
         //return scope.emit('complete', req);
         return complete(er || err);
@@ -488,7 +510,7 @@ function middleware(args, cb) {
       exec();
     }else{
       //scope.emit('complete', req);
-      return complete(err);
+      return complete(er || err);
     }
   }
   if(list.length) exec();

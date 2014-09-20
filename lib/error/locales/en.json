@@ -232,5 +232,17 @@
     "description": "Could not complete reading from stdin, timeout exceeded",
     "message": "timeout while waiting for input in stdin (%ss)",
     "code": 103
+  },
+  {
+    "key": "EMIDDLEWARE_ABORT",
+    "description": "Middleware processing was aborted (null error so complete never fires)",
+    "message": "middleware aborted",
+    "code": 104
+  },
+  {
+    "key": "EMIDDLEWARE_BAIL",
+    "description": "Middleware process bailed on error (error with bail set to true)",
+    "message": "middleware bailed on error",
+    "code": 105
   }
 ]
