@@ -125,6 +125,7 @@ var all = [
   middlewares.merge,
   middlewares.convert,
   middlewares.variables,
+  middlewares.notify,
   middlewares.ecommand,
   middlewares.ready,
   middlewares.exec,
@@ -424,6 +425,7 @@ function middleware(args, cb) {
     , conf = this.configure();
 
   var req = {argv: args}, name;
+  req.errors = req.errors || [];
 
   function exec() {
     var func = list[i];
@@ -453,12 +455,14 @@ function middleware(args, cb) {
     if(debug) {
       syslog.trace('middleware/end: %s', name);
     }
+
+    //console.log('next err %s', err.message);
     if(err === null) {
       // halt processing, complete never fires
       return;
-    }else if(err === true) {
+    }else if(err === true || err && err.bail === true) {
       //return scope.emit('complete', req);
-      return complete();
+      return complete(err);
     }else if(err) {
       var intercepts = typeof conf.error.intercept === 'function';
       if(intercepts) {
@@ -476,7 +480,7 @@ function middleware(args, cb) {
       }
       if(conf.bail) {
         //return scope.emit('complete', req);
-        return complete();
+        return complete(er || err);
       }
     }
     i++;
@@ -484,7 +488,7 @@ function middleware(args, cb) {
       exec();
     }else{
       //scope.emit('complete', req);
-      return complete();
+      return complete(err);
     }
   }
   if(list.length) exec();
