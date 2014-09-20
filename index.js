@@ -481,7 +481,7 @@ function middleware(args, cb) {
       //console.log('next got bail %s', req.errors.cause);
       return complete(err);
     }else if(err) {
-      //console.log('next got err %s', err);
+      //console.log('next got err %s (calling intercept)', err);
       intercepts = typeof conf.error.intercept === 'function';
       er = scope.wrap(err, parameters, e);
       if(intercepts) {
