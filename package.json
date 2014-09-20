@@ -27,7 +27,7 @@
   "dependencies": {
     "circular": "~1.0.3",
     "cli-argparse": "^0.4.1",
-    "cli-define": "^0.5.38",
+    "cli-define": "^0.5.39",
     "cli-env": "^1.0.9",
     "cli-error": "^0.5.7",
     "cli-fs": "~1.0.3",
