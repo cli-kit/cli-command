@@ -67,18 +67,18 @@ describe('cli-command:', function() {
       .parse(args);
     done();
   });
-  it('should print description', function(done) {
-    var cli = require('../../..')
-      (pkg, 'mock-description-help', 'Mock program description');
-    cli.configure({exit: false, help: {description: true}});
-    var args = ['--help'];
-    cli
-      .usage('[command] -h')
-      .command('test', 'a test command')
-      .help()
-      .parse(args);
-    done();
-  });
+  //it('should print description', function(done) {
+    //var cli = require('../../..')
+      //(pkg, 'mock-description-help', 'Mock program description');
+    //cli.configure({exit: false, help: {description: true}});
+    //var args = ['--help'];
+    //cli
+      //.usage('[command] -h')
+      //.command('test', 'a test command')
+      //.help()
+      //.parse(args);
+    //done();
+  //});
   it('should disable section titles', function(done) {
     var cli = require('../../..')(pkg, 'mock-null-title-help');
     cli.configure({exit: false, help: {title: null}});
