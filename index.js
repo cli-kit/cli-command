@@ -75,7 +75,9 @@ var defaults = {
         args: 'args'
       },
       bugs: 'Report bugs to %s.'
-    }
+    },
+    name: '--help',
+    description: 'display this help and exit'
   },
   trace: process.env.NODE_ENV === 'test',
   unknown: true,
