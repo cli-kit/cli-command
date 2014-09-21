@@ -9,7 +9,7 @@ describe('cli-command:', function() {
       .use(0, middleware.defaults);
     expect(cli._middleware.length).to.eql(2);
     var func = cli._middleware[0];
-    var nm = new func().constructor.name;
+    var nm = func.name;
     expect(nm).to.eql('defaults');
     done();
   });
