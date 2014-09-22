@@ -1,18 +1,18 @@
-var path = require('path');
-var util = require('util');
+var path = require('path')
+  , util = require('util')
+  , merge = require('cli-util').merge
+  , types = require('./lib/types')
+  , clierr = require('cli-error')
+  , conflict = require('./lib/conflict')
+  , middlewares = require('./lib/middleware')
+  , cname = require('./lib/util/name')
+  , logger = require('cli-logger')
+  , syslog = require('./lib/syslog').log
+  , circular = require('circular')
+  , cli = require('cli-define');
 
-var merge = require('cli-util').merge;
-var types = require('./lib/types');
-var clierr = require('cli-error');
-var conflict = require('./lib/conflict');
-var middlewares = require('./lib/middleware');
-var cname = require('./lib/util/name');
-var logger = require('cli-logger');
-var syslog = require('./lib/syslog').log;
-var circular = require('circular');
 var debug = !!process.env.CLI_TOOLKIT_DEBUG;
 
-var cli = require('cli-define');
 var define = cli.define;
 var key = cli.key;
 var Program = cli.Program;
