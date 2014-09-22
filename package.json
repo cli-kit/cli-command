@@ -25,24 +25,24 @@
     "command"
   ],
   "dependencies": {
-    "circular": "~1.0.3",
-    "cli-argparse": "^0.4.1",
-    "cli-define": "^0.5.39",
+    "circular": "^1.0.5",
+    "cli-argparse": "^0.4.2",
+    "cli-define": "^0.5.40",
     "cli-env": "^1.0.9",
     "cli-error": "^0.5.7",
     "cli-fs": "~1.0.3",
-    "cli-logger": "~0.5.14",
+    "cli-logger": "^0.5.27",
     "cli-native": "~1.0.0",
     "cli-rc": "^1.0.9",
-    "cli-util": "^1.1.17",
-    "markzero": "^0.1.26",
+    "cli-util": "^1.1.19",
+    "markzero": "^0.1.29",
     "moment": "^2.8.3"
   },
   "devDependencies": {
-    "chai": "~1.9.0",
+    "chai": "^1.9.1",
     "cli-rc": "~1.0.1",
-    "istanbul": "~0.2.6",
-    "mocha": "~1.17.0",
+    "istanbul": "^0.3.2",
+    "mocha": "^1.21.4",
     "ttycolor": "^0.8.12"
   },
   "engine": [
