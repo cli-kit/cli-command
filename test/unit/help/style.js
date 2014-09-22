@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
 
-var docs = require('../../../lib/help/doc');
+var docs = require('cli-help').documents;
 var JsonDocument = docs.json.JsonDocument;
 var GnuDocument = docs.gnu.GnuDocument;
 var SynopsisDocument = docs.synopsis.SynopsisDocument;

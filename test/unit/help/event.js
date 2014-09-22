@@ -4,7 +4,7 @@ var expect = require('chai').expect;
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', '..', 'package.json'));
 
-var HelpDocument = require('../../../lib/help/doc/doc').HelpDocument;
+var HelpDocument = require('cli-help').HelpDocument;
 
 var file = path.normalize(
   path.join(__dirname, '..', '..', '..', 'log', 'help-stream-test.log'));

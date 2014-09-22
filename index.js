@@ -23,7 +23,7 @@ var path = require('path')
   , CliError = clierr.CliError
 
   , errs = require('./lib/error')
-  , doc = require('./lib/help')
+  , doc = require('cli-help')
   , types = require('./lib/types')
   , conflict = require('./lib/conflict')
   , middlewares = require('./lib/middleware')

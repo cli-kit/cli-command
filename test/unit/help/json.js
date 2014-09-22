@@ -3,8 +3,8 @@ var expect = require('chai').expect;
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', '..', 'package.json'));
 
-var json = require('../../../lib/help').json;
-var stringify = require('../../../lib/help').stringify;
+var json = require('cli-help').json;
+var stringify = require('cli-help').stringify;
 var fields = json.fields;
 
 function assert(o) {
