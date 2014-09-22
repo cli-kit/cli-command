@@ -36,8 +36,7 @@
     "cli-native": "~1.0.0",
     "cli-rc": "^1.0.9",
     "cli-util": "^1.1.19",
-    "markzero": "^0.1.29",
-    "moment": "^2.8.3"
+    "markzero": "^0.1.29"
   },
   "devDependencies": {
     "chai": "^1.9.1",
