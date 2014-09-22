@@ -1,4 +1,6 @@
-/bin
 coverage
-example
-img
+/ebin
+/log
+/test
+/img
+/target
