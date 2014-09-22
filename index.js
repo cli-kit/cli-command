@@ -1,27 +1,37 @@
 var path = require('path')
   , util = require('util')
-  , merge = require('cli-util').merge
-  , types = require('./lib/types')
+  , utils = require('cli-util')
+  , merge = utils.merge
+  , argparse = require('cli-argparse')
+  , fs = require('cli-fs')
+  , env = require('cli-env')
+  , native = require('cli-native')
+  , logger = require('cli-logger')
+  , circular = require('circular')
+
+  , cli = require('cli-define')
+  , Program = cli.Program
+  , Option = cli.Option
+  , Flag = cli.Flag
+  , Command = cli.Command
+  , define = cli.define
+  , key = cli.key
+
   , clierr = require('cli-error')
+  , errors = clierr.errors
+  , ErrorDefinition = clierr.ErrorDefinition
+  , CliError = clierr.CliError
+
+  , errs = require('./lib/error')
+  , doc = require('./lib/help')
+  , types = require('./lib/types')
   , conflict = require('./lib/conflict')
   , middlewares = require('./lib/middleware')
   , cname = require('./lib/util/name')
-  , logger = require('cli-logger')
   , syslog = require('./lib/syslog').log
-  , circular = require('circular')
-  , cli = require('cli-define');
+  , ConverterMap = require('./lib/util/map');
 
 var debug = !!process.env.CLI_TOOLKIT_DEBUG;
-
-var define = cli.define;
-var key = cli.key;
-var Program = cli.Program;
-var Option = cli.Option;
-var Command = cli.Command;
-
-var errors = clierr.errors;
-var ErrorDefinition = clierr.ErrorDefinition;
-var CliError = clierr.CliError;
 
 var __middleware__;
 
@@ -544,17 +554,38 @@ module.exports = function(package, name, description, options) {
   return program;
 }
 
+// classes
+module.exports.CommandProgram = CommandProgram;
+module.exports.Program = Program;
+module.exports.Command = Command;
+module.exports.Option = Option;
+module.exports.Flag = Flag;
+module.exports.ConverterMap = ConverterMap;
+module.exports.ErrorDefinition = ErrorDefinition;
+module.exports.CliError = CliError;
+
+// library exports
 module.exports.defaults = defaults;
 module.exports.middleware = middlewares;
-module.exports.doc = require('./lib/help');
 module.exports.help = middlewares.help.action;
 module.exports.version = middlewares.version.action;
+
+// dependency exports
+module.exports.argparse = argparse;
+module.exports.util = utils;
+module.exports.define = cli;
+module.exports.logger = logger;
+module.exports.circular = circular;
+module.exports.fs = fs;
+module.exports.env = env;
+module.exports.native = native;
+
+// decorate with internal error classes
+clierr.ArgumentTypeError = errs.type;
+clierr.ExecError = errs.exec;
+module.exports.error = clierr;
+
+// internal libraries
 module.exports.types = types;
-module.exports.error = require('./lib/error');
-module.exports.CommandProgram = CommandProgram;
 module.exports.log = syslog;
-module.exports.fs = require('cli-fs');
-module.exports.env = require('cli-env');
-module.exports.native = require('cli-native');
-module.exports.ConverterMap = require('./lib/util/map');
-for(var k in clierr) module.exports.error[k] = clierr[k];
+module.exports.doc = doc;
