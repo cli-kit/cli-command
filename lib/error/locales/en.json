@@ -230,7 +230,7 @@
   {
     "key": "ESTDIN_TIMEOUT",
     "description": "Could not complete reading from stdin, timeout exceeded",
-    "message": "timeout while waiting for input in stdin (%ss)",
+    "message": "timeout while waiting for input on stdin (%ss)",
     "code": 103
   },
   {
