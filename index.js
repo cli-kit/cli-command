@@ -429,7 +429,7 @@ function parse(args, cb) {
   var opts = {
     syslog: syslog,
     list: this._middleware,
-    errors: errors,
+    errors: this.errors,
     bail: conf.bail,
     throws: true,
     intercept: conf.error.intercept,
