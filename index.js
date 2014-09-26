@@ -27,7 +27,7 @@ var path = require('path')
   , types = require('./lib/types')
   , conflict = require('./lib/conflict')
   , middlewares = require('./lib/middleware')
-  , cname = require('./lib/util/name')
+  , funcname = utils.funcname
   , syslog = require('./lib/syslog').log
   , ConverterMap = require('./lib/util/map');
 
@@ -258,7 +258,7 @@ function use(middleware) {
         if(typeof closure !== 'function') {
           continue;
         }
-        nm = cname(closure);
+        nm = funcname(closure);
         //console.log('got name %s', nm);
         if(nm && conf.middleware[nm] === false) {
           continue;
@@ -448,7 +448,7 @@ function middleware(args, cb) {
 
   function exec() {
     var func = list[i];
-    name = cname(func);
+    name = funcname(func);
     if(debug) {
       syslog.trace('middleware/start: %s', name);
       if(process.env.CLI_TOOLKIT_MIDDLEWARE_REQUEST) {
