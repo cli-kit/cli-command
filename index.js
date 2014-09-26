@@ -26,7 +26,7 @@ var path = require('path')
   , errs = require('./lib/error')
   , doc = require('cli-help')
   , types = require('./lib/types')
-  , conflict = require('./lib/conflict')
+  , conflict = require('cli-conflict')
   , middlewares = require('./lib/middleware')
   , funcname = utils.funcname
   , syslog = require('./lib/syslog').log
@@ -424,8 +424,7 @@ function parse(args, cb) {
   if(this._middleware === undefined) {
     this.use();
   }
-  //middleware.call(this, args, cb);
-  //
+
   var opts = {
     syslog: syslog,
     list: this._middleware,
