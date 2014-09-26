@@ -1,6 +1,6 @@
 {
   "name": "cli-command",
-  "version": "0.8.236",
+  "version": "0.8.235",
   "description": "Command execution for cli programs",
   "author": "muji <noop@xpm.io>",
   "repository": {
@@ -26,7 +26,6 @@
   ],
   "dependencies": {
     "circular": "~1.0.5",
-    "cli-argparse": "~0.4.2",
     "cli-conflict": "~0.0.2",
     "cli-define": "~0.5.43",
     "cli-env": "~1.0.9",
@@ -37,9 +36,9 @@
     "cli-middleware": "~0.0.3",
     "cli-native": "~1.0.0",
     "cli-rc": "~1.0.9",
-    "cli-system": "~0.0.2",
+    "cli-system": "0.0.3",
     "cli-types": "~0.0.4",
-    "cli-util": "~1.1.23"
+    "cli-util": "~1.1.24"
   },
   "devDependencies": {
     "chai": "^1.9.1",

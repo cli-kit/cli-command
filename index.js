@@ -4,7 +4,6 @@ var path = require('path')
   , middleware = require('cli-middleware')
   , utils = require('cli-util')
   , merge = utils.merge
-  , argparse = require('cli-argparse')
   , fs = require('cli-fs')
   , env = require('cli-env')
   , native = require('cli-native')
@@ -405,7 +404,6 @@ module.exports.help = middlewares.help.action;
 module.exports.version = middlewares.version.action;
 
 // dependency exports
-module.exports.argparse = argparse;
 module.exports.util = utils;
 module.exports.define = cli;
 module.exports.logger = logger;
