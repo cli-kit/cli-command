@@ -19,7 +19,7 @@ cli
   .option('-l, --list <items>', 'a list', list)
 // ...
 ```
-Source: [test/unit/coerce](https://github.com/freeformsystems/cli-command/blob/master/test/unit/coerce.js)
+Source: [test/spec/coerce](https://github.com/freeformsystems/cli-command/blob/master/test/spec/coerce.js)
 
 The coercion function (referred to as a `converter`) may be more complex, the signature is:
 
@@ -31,7 +31,7 @@ Where `value` is the argument string value, `arg` is the option definition and `
 
 Native functions are good if you are willing to accept `NaN` as a possible value; for those cases where you must have a valid number you should use one of the pre-defined type coercion functions that will throw an error if the value is `NaN`. The type error will then be emitted as an `error` event (`ETYPE`). If there is no listener for `error` and `etype` a useful error message is printed and the program will exit, otherwise you are free to handle the error as you like.
 
-Source [test/unit/types](https://github.com/freeformsystems/cli-command/tree/master/test/unit/types)
+Source [test/spec/types](https://github.com/freeformsystems/cli-command/tree/master/test/spec/types)
 
 ```javascript
 var cli = require('cli-command');

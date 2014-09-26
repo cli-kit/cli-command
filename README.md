@@ -278,7 +278,7 @@ cli
 // ...
 ```
 
-Source: [test/unit/coerce](https://github.com/freeformsystems/cli-command/blob/master/test/unit/coerce.js).
+Source: [test/spec/coerce](https://github.com/freeformsystems/cli-command/blob/master/test/spec/coerce.js).
 
 The coercion function (referred to as a `converter`) may be more complex, the signature is:
 
@@ -290,7 +290,7 @@ Where `value` is the argument string value, `arg` is the option definition and `
 
 Native functions are good if you are willing to accept `NaN` as a possible value; for those cases where you must have a valid number you should use one of the pre-defined type coercion functions that will throw an error if the value is `NaN`. The type error will then be emitted as an `error` event (`ETYPE`). If there is no listener for `error` and `etype` a useful error message is printed and the program will exit, otherwise you are free to handle the error as you like.
 
-Source [test/unit/types](https://github.com/freeformsystems/cli-command/tree/master/test/unit/types).
+Source [test/spec/types](https://github.com/freeformsystems/cli-command/tree/master/test/spec/types).
 
 ```javascript
 var cli = require('cli-command');
@@ -638,7 +638,7 @@ It is important to decouple your program configuration from the binary file that
 
 ## Reserved Keywords
 
-`_action`, `_commands`, `_conf`, `_converter`, `_description`, `_detail`, `_emitter`, `_events`, `_exec`, `_key`, `_last`, `_maxListeners`, `_middleware`, `_name`, `_names`, `_options`, `_package`, `_parent`, `_request`, `_usage`, `_version`, `action`, `addListener`, `command`, `commands`, `configure`, `converter`, `description`, `detail`, `domain`, `emit`, `error`, `errors`, `flag`, `getFullName`, `getLongName`, `getOptionString`, `getParents`, `help`, `key`, `last`, `listeners`, `name`, `names`, `on`, `once`, `option`, `options`, `package`, `parent`, `parse`, `raise`, `removeAllListeners`, `removeListener`, `request`, `setMaxListeners`, `toString`, `usage`, `use`, `version`, `wrap`.
+`_action`, `_commands`, `_conf`, `_configure`, `_converter`, `_description`, `_detail`, `_emitter`, `_events`, `_exec`, `_extra`, `_key`, `_last`, `_maxListeners`, `_middleware`, `_name`, `_names`, `_options`, `_package`, `_parent`, `_request`, `_usage`, `_version`, `action`, `addListener`, `command`, `commands`, `configure`, `converter`, `description`, `detail`, `domain`, `emit`, `error`, `errors`, `extra`, `finder`, `flag`, `getFullName`, `getLongName`, `getOptionString`, `getParents`, `getShortName`, `help`, `key`, `last`, `listeners`, `name`, `names`, `on`, `once`, `option`, `options`, `package`, `parent`, `parse`, `raise`, `removeAllListeners`, `removeListener`, `request`, `reset`, `setMaxListeners`, `toString`, `usage`, `use`, `version`, `wrap`.
 
 ## Credits
 

@@ -50,12 +50,12 @@
     "node >= 0.10.21"
   ],
   "scripts": {
-    "build": "mdp --force -v",
+    "readme": "mdp --force -v",
     "clean": "rm -f ./log/*.log; rm -f .man/*",
-    "permrm": "chmod -r test/unit/rc/eaccess.json",
-    "permadd": "chmod +r test/unit/rc/eaccess.json",
+    "permrm": "chmod -r test/spec/rc/eaccess.json",
+    "permadd": "chmod +r test/spec/rc/eaccess.json",
     "pretest": "npm run clean; npm run permrm",
-    "test": "istanbul cover _mocha -- -u bdd --recursive --bail --reporter list -A test/unit/; npm run permadd"
+    "test": "istanbul cover _mocha -- -u bdd --recursive --bail --reporter list -A test/spec/; npm run permadd"
   },
   "mdp": {
     "title": "Command",
