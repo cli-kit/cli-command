@@ -1,5 +1,6 @@
 var path = require('path')
   , util = require('util')
+
   , middleware = require('cli-middleware')
   , utils = require('cli-util')
   , merge = utils.merge
@@ -23,12 +24,12 @@ var path = require('path')
   , ErrorDefinition = clierr.ErrorDefinition
   , CliError = clierr.CliError
 
-  , errs = require('./lib/error')
+  // TODO: make ExecError available
+  , errs = {}
   , doc = require('cli-help')
   , types = require('cli-types')
   , conflict = require('cli-conflict')
-  , middlewares = require('./lib/middleware')
-  //, middlewares = require('cli-system')
+  , middlewares = require('cli-system')
   , funcname = utils.funcname
   , syslog = require('./lib/syslog').log
   , ConverterMap = require('./lib/util/map');
@@ -496,7 +497,7 @@ module.exports.native = native;
 
 // decorate with internal error classes
 clierr.ArgumentTypeError = errs.type;
-clierr.ExecError = errs.exec;
+clierr.ExecError = middlewares.exec.error;
 module.exports.error = clierr;
 
 // internal libraries
