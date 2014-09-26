@@ -37,6 +37,8 @@ var debug = !!process.env.CLI_TOOLKIT_DEBUG;
 
 var __middleware__;
 
+errs.type = types.ArgumentTypeError;
+
 var defaults = {
   // mark this program as an interactive REPL
   // console, use this flag to modify program
