@@ -1,5 +1,6 @@
 var path = require('path')
   , util = require('util')
+  , middleware = require('cli-middleware')
   , utils = require('cli-util')
   , merge = utils.merge
   , argparse = require('cli-argparse')
@@ -417,117 +418,28 @@ define(CommandProgram.prototype, 'help', help, false);
  */
 function parse(args, cb) {
   if(debug) syslog.trace(circular.stringify(this, 2));
+  var conf = this.configure();
   args = args || process.argv.slice(2);
   conflict.call(this);
   if(this._middleware === undefined) {
     this.use();
   }
-  middleware.call(this, args, cb);
+  //middleware.call(this, args, cb);
+  //
+  var opts = {
+    syslog: syslog,
+    list: this._middleware,
+    errors: errors,
+    bail: conf.bail,
+    throws: true,
+    intercept: conf.error.intercept,
+    scope: this
+  }
+  var runner = middleware(opts);
+  runner(args, cb);
   return this;
 }
 define(CommandProgram.prototype, 'parse', parse, false);
-
-/**
- *  Execute middleware.
- *
- *  @param args The arguments passed to parse.
- */
-function middleware(args, cb) {
-  var i = 0
-    , list = this._middleware
-    , scope = this
-    , conf = this.configure();
-
-  var req = {argv: args}, name;
-
-  // keep track of errors that occured
-  req.errors = req.errors || {cause: null, list: []};
-  req.errors.has = function() {
-    return this.cause !== null || this.list.length > 0;
-  }.bind(req.errors);
-
-  function exec() {
-    var func = list[i];
-    name = funcname(func);
-    if(debug) {
-      syslog.trace('middleware/start: %s', name);
-      if(process.env.CLI_TOOLKIT_MIDDLEWARE_REQUEST) {
-        syslog.trace(circular.stringify(req, 2));
-      }
-    }
-    //console.dir(func);
-    //console.log('' + func);
-    func.call(scope, req, next);
-    //console.log('' + func);
-    //console.log('file %s', scope.file);
-  }
-
-  function complete(err) {
-    //console.log('completing %s', cb);
-    var errs = req.errors.list;
-    err = err ||
-      (errs.length ? errs[errs.length - 1] : (req.errors.cause || undefined));
-    if(cb) return cb.call(scope, req, err);
-    return scope.emit('complete', req, err);
-  }
-
-  req.complete = complete;
-
-  function next(err, parameters, e) {
-
-    if(debug) {
-      syslog.trace('middleware/end: %s', name);
-    }
-
-    var er, intercepts, raise;
-
-    //console.log('next err %s', err.message);
-    if(err === null) {
-      req.errors.cause = scope.wrap(scope.errors.EMIDDLEWARE_ABORT);
-      // halt processing, complete never fires
-      return;
-    }else if(err === true || err && err.bail === true) {
-      req.errors.cause = err && err.bail
-        ? err : scope.wrap(scope.errors.EMIDDLEWARE_BAIL);
-      if(err && err.bail) req.errors.list.push(err);
-      //return scope.emit('complete', req);
-      //console.log('next got bail %s', req.errors.cause);
-      return complete(err);
-    }else if(err) {
-      //console.log('next got err %s (calling intercept)', err);
-      intercepts = typeof conf.error.intercept === 'function';
-      er = scope.wrap(err, parameters, e);
-      if(intercepts) {
-        raise = conf.error.intercept.call(
-          scope, req, next, er, err, parameters, e);
-        if(raise) {
-          er = scope.raise(er, parameters, e);
-        }else{
-          req.errors.list.push(er);
-          // passed flow control to the error intercept handler
-          return;
-        }
-      }else{
-        er = scope.raise(err, parameters, e);
-      }
-      // add the wrapped error to to the list
-      req.errors.list.push(er);
-
-      if(conf.bail) {
-        //return scope.emit('complete', req);
-        return complete(er || err);
-      }
-    }
-    i++;
-    if(i < list.length) {
-      exec();
-    }else{
-      //scope.emit('complete', req);
-      return complete(er || err);
-    }
-  }
-  if(list.length) exec();
-}
 
 module.exports = function(package, name, description, options) {
   options = options || {};
