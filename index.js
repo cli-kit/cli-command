@@ -25,9 +25,10 @@ var path = require('path')
 
   , errs = require('./lib/error')
   , doc = require('cli-help')
-  , types = require('./lib/types')
+  , types = require('cli-types')
   , conflict = require('cli-conflict')
   , middlewares = require('./lib/middleware')
+  //, middlewares = require('cli-system')
   , funcname = utils.funcname
   , syslog = require('./lib/syslog').log
   , ConverterMap = require('./lib/util/map');
