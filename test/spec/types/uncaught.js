@@ -1,6 +1,7 @@
 var path = require('path');
 var expect = require('chai').expect;
-var pkg = path.normalize(path.join(__dirname, '..', '..', '..', 'package.json'));
+var pkg = path.normalize(
+  path.join(__dirname, '..', '..', '..', 'package.json'));
 var ArgumentTypeError = require('cli-types').ArgumentTypeError;
 
 describe('cli-command:', function() {

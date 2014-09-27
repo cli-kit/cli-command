@@ -29,18 +29,7 @@ describe('cli-command:', function() {
     expect(cli.url).to.be.an('object').that.eqls(expected);
     done();
   });
-  it('should coerce multiple urls', function(done) {
-    var cli = require('../../..')(pkg);
-    cli.configure({exit:false});
-    var u = '//nodejs.org#about';
-    var expected = url.parse(u, true, true);
-    var args = ['-u', u, '--url=' + u];
-    cli
-      .option('-u, --url <url...>', 'a url argument', types.url)
-      .parse(args);
-    expect(cli.url).to.eql([expected, expected]);
-    done();
-  });
+
   it('should error on invalid url', function(done) {
     var cli = require('../../..')(pkg);
     cli.configure({exit:false});
@@ -56,4 +45,18 @@ describe('cli-command:', function() {
       .option('-u, --url <url>', 'a url argument', types.url)
     cli.parse(args);
   });
+
+  it('should coerce multiple urls', function(done) {
+    var cli = require('../../..')(pkg);
+    cli.configure({exit:false});
+    var u = '//nodejs.org#about';
+    var expected = url.parse(u, true, true);
+    var args = ['-u', u, '--url=' + u];
+    cli
+      .option('-u, --url <url...>', 'a url argument', types.url)
+      .parse(args);
+    expect(cli.url).to.eql([expected, expected]);
+    done();
+  });
+
 })
