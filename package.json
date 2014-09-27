@@ -51,6 +51,7 @@
     "cli-mid-eunknown": "^1.0.0",
     "cli-mid-exec": "^1.0.1",
     "cli-mid-logger": "^1.0.0",
+    "cli-mid-manual": "^1.0.0",
     "cli-mid-parser": "^1.0.0",
     "cli-mid-unparsed": "^1.0.1",
     "cli-rc": "~1.0.1",

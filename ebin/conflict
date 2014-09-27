@@ -11,8 +11,8 @@ var pkg = path.normalize(
   path.join(__dirname, '..', 'package.json'));
 var cli = require('..');
 cli(pkg)
-  .use(cli.middleware.color)
-  .use(cli.middleware.logger)
+  .use(require('cli-mid-color'))
+  .use(require('cli-mid-logger'))
   .version()
   .help()
   .option('-l, --log [file]', 'middleware property conflict')

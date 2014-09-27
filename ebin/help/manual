@@ -51,8 +51,8 @@ cli(pkg)
       manual: {}
     }
   )
-  .use(cli.middleware.color)
-  .use(cli.middleware.manual)
+  .use(require('cli-mid-color'))
+  .use(require('cli-mid-manual'))
   .once('format', function(req, arg, value) {
     this.configure().help.style = value;
   })

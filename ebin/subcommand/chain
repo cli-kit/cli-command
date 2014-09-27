@@ -73,7 +73,7 @@ cli(pkg)
       substitute: {enabled: true}
     }
   )
-  .use(cli.middleware.color)
+  .use(require('cli-mid-color'))
   .on('complete', function(req) {
     console.log('complete firing');
     help.call(this);

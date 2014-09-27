@@ -18,8 +18,8 @@ copyright += 'FOR A PARTICULAR PURPOSE.';
 
 var program = cli(pkg, 'version/copyright', description)
   .configure({copyright: copyright})
-  .use(cli.middleware.color)
-  .use(cli.middleware.debug)
+  .use(require('cli-mid-color'))
+  .use(require('cli-mid-debug'))
   .help()
   .version()
   .on('complete', function(req) {

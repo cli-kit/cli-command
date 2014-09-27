@@ -15,8 +15,8 @@ var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
 var cli = require('../..'), help = cli.help;
 cli(pkg, 'help/custom', 'Test program for custom help')
-  .use(cli.middleware.debug)
-  .use(cli.middleware.color)
+  .use(require('cli-mid-debug'))
+  .use(require('cli-mid-color'))
   .version()
   .help()
   .on('help', function(data, document) {

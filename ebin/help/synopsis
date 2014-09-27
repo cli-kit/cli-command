@@ -13,7 +13,7 @@ var pkg = path.normalize(
 var cli = require('../..'), help = cli.help;
 cli(pkg, 'help/synopsis', 'Test program for synopsis help')
   .configure({help: {style: 'synopsis'}})
-  .use(cli.middleware.color)
+  .use(require('cli-mid-color'))
   .usage('[options] <command> <package...>')
   .version()
   .help()

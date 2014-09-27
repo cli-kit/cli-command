@@ -18,9 +18,9 @@ var pkg = path.normalize(
 var cli = require('..');
 cli(pkg, null, 'Example program for debug middleware')
   .configure({exit: false})
-  .use(cli.middleware.color)
-  .use(cli.middleware.logger)
-  .use(cli.middleware.debug)
+  .use(require('cli-mid-color'))
+  .use(require('cli-mid-logger'))
+  .use(require('cli-mid-debug'))
   .option('--required <value>', 'required option')
   .version()
   .help()

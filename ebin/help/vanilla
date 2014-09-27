@@ -31,7 +31,7 @@ var stash = {};
 cli(package, 'foo', description)
   .configure({stash: stash,
     help: {sections: sections, vanilla: ~process.argv.indexOf('--plain')}})
-  .use(cli.middleware.color)
+  .use(require('cli-mid-color'))
   .option('-a, --option', 'an option')
   .option('-b, --another-option[=VALUE]', 'another option')
   .help()

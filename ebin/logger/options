@@ -18,10 +18,10 @@ var pkg = path.normalize(
 var opts = {level: {}, file: {}};
 var cli = require('../..');
 cli(pkg, 'logger/options', 'Example program for logger middleware options')
-  .use(cli.middleware.color)
-  .use(cli.middleware.logger, null, opts)
-  //.use(cli.middleware.logger, {prefix: false}, opts)
-  .use(cli.middleware.debug)
+  .use(require('cli-mid-color'))
+  .use(require('cli-mid-logger'), null, opts)
+  //.use(require('cli-mid-logger'), {prefix: false}, opts)
+  .use(require('cli-mid-debug'))
   .version()
   .help()
   .on('complete', function(req) {
