@@ -8,6 +8,7 @@ var fs = require('cli-fs');
 describe('cli-command:', function() {
   var cwd = process.cwd();
   var home = fs.home();
+
   it('should resolve relative path', function(done) {
     var cli = require('../../..')(pkg);
     var file = 'file.txt';

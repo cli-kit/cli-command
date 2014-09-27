@@ -5,6 +5,7 @@ var pkg = path.normalize(
 var types = require('../../..').types;
 
 describe('cli-command:', function() {
+
   it('should group arguments into object', function(done) {
     var cli = require('../../..')(pkg);
     var scheme = 'http';

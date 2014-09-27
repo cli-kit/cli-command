@@ -7,6 +7,7 @@ describe('cli-command:', function() {
   var pi = 3.14159265359;
   var golden = 1.61803398875;
   var integer = 128;
+
   it('should coerce single value to number', function(done) {
     var cli = require('../../..')(pkg);
     cli.configure({exit:false});
@@ -15,16 +16,6 @@ describe('cli-command:', function() {
       .option('-n, --number <n>', 'a number argument', types.number)
     cli.parse(args);
     expect(cli.number).to.eql(pi);
-    done();
-  });
-  it('should coerce multiple values to array of numbers', function(done) {
-    var cli = require('../../..')(pkg);
-    cli.configure({exit:false});
-    var args = ['-n', '' + pi, '--number=' + golden, '--number', '' + integer];
-    cli
-      .option('-n, --number <n...>', 'a number argument', types.number)
-    cli.parse(args);
-    expect(cli.number).to.eql([pi, golden, integer]);
     done();
   });
   it('should error on invalid number', function(done) {
@@ -41,6 +32,17 @@ describe('cli-command:', function() {
       })
       .option('-n, --number <n>', 'a number argument', types.number)
     cli.parse(args);
+  });
+
+  it('should coerce multiple values to array of numbers', function(done) {
+    var cli = require('../../..')(pkg);
+    cli.configure({exit:false});
+    var args = ['-n', '' + pi, '--number=' + golden, '--number', '' + integer];
+    cli
+      .option('-n, --number <n...>', 'a number argument', types.number)
+    cli.parse(args);
+    expect(cli.number).to.eql([pi, golden, integer]);
+    done();
   });
   it('should error on invalid number in array', function(done) {
     var cli = require('../../..')(pkg);

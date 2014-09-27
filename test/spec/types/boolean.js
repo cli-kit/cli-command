@@ -5,69 +5,6 @@ var pkg = path.normalize(
 var types = require('../../..').types;
 
 describe('cli-command:', function() {
-  it('should coerce to boolean (true)', function(done) {
-    var cli = require('../../..')(pkg);
-    var args = ['-b', 'true'];
-    cli
-      .option('-b, --boolean <boolean>', 'a boolean argument', types.boolean)
-    cli.parse(args);
-    expect(cli.boolean).to.eql(true);
-    done();
-  });
-  it('should coerce to boolean (false)', function(done) {
-    var cli = require('../../..')(pkg);
-    var args = ['-b', 'false'];
-    cli
-      .option('-b, --boolean <boolean>', 'a boolean argument', types.boolean)
-    cli.parse(args);
-    expect(cli.boolean).to.eql(false);
-    done();
-  });
-  it('should coerce to boolean (true) insensitive', function(done) {
-    var cli = require('../../..')(pkg);
-    var args = ['-b', 'TRUE'];
-    cli
-      .option('-b, --boolean <boolean>', 'a boolean argument', types.boolean)
-    cli.parse(args);
-    expect(cli.boolean).to.eql(true);
-    done();
-  });
-  it('should coerce to boolean (false) insensitive', function(done) {
-    var cli = require('../../..')(pkg);
-    var args = ['-b', 'FALSE'];
-    cli
-      .option('-b, --boolean <boolean>', 'a boolean argument', types.boolean)
-    cli.parse(args);
-    expect(cli.boolean).to.eql(false);
-    done();
-  });
-  it('should coerce to boolean (true) integer', function(done) {
-    var cli = require('../../..')(pkg);
-    var args = ['-b', '1'];
-    cli
-      .option('-b, --boolean <boolean>', 'a boolean argument', types.boolean)
-    cli.parse(args);
-    expect(cli.boolean).to.eql(true);
-    done();
-  });
-  it('should coerce to boolean (false) integer', function(done) {
-    var cli = require('../../..')(pkg);
-    var args = ['-b', '0'];
-    cli
-      .option('-b, --boolean <boolean>', 'a boolean argument', types.boolean)
-    cli.parse(args);
-    expect(cli.boolean).to.eql(false);
-    done();
-  });
-  it('should coerce to boolean (true) positive string length', function(done) {
-    var cli = require('../../..')(pkg);
-    var args = ['-b', 'value'];
-    cli
-      .option('-b, --boolean <boolean>', 'a boolean argument', types.boolean)
-    cli.parse(args);
-    expect(cli.boolean).to.eql(true);
-    done();
-  });
   it('should coerce to array of booleans', function(done) {
     var cli = require('../../..')(pkg);
     var args = ['-b', 'true', '--boolean=False', '-b=1', '-b', '0' ];
