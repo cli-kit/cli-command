@@ -24,9 +24,8 @@ var conf = {
 describe('cli-command:', function() {
   it('should use logger middleware', function(done) {
     var cli = require('../../..');
-    var middleware = cli.middleware;
     cli = cli()
-      .use(middleware.logger)
+      .use(require('cli-mid-logger'))
       .on('complete', function(req) {
         expect(this.log).to.be.an('object');
         //expect(this.log).to.be.instanceof(require('cli-logger').Logger);
@@ -36,9 +35,8 @@ describe('cli-command:', function() {
   });
   it('should use bitwise logger middleware', function(done) {
     var cli = require('../../..');
-    var middleware = cli.middleware;
     cli = cli()
-      .use(middleware.logger, {bitwise: true})
+      .use(require('cli-mid-logger'), {bitwise: true})
       .on('complete', function(req) {
         expect(this.log.bitwise).to.eql(true);
         done();
@@ -47,9 +45,8 @@ describe('cli-command:', function() {
   });
   it('should use logger middleware (--log-level)', function(done) {
     var cli = require('../../..');
-    var middleware = cli.middleware;
     cli = cli()
-      .use(middleware.logger, null, {level: {}})
+      .use(require('cli-mid-logger'), null, {level: {}})
       .on('complete', function(req) {
         expect(this.logLevel).to.eql('trace');
         expect(this._options.logLevel).to.be.an('object');
@@ -60,9 +57,8 @@ describe('cli-command:', function() {
   });
   it('should use logger middleware (--log-level=10)', function(done) {
     var cli = require('../../..');
-    var middleware = cli.middleware;
     cli = cli()
-      .use(middleware.logger, null, {level: {}})
+      .use(require('cli-mid-logger'), null, {level: {}})
       .on('complete', function(req) {
         expect(this.logLevel).to.eql('10');
         done();
@@ -71,9 +67,8 @@ describe('cli-command:', function() {
   });
   it('should error on unknown log level (--log-level)', function(done) {
     var cli = require('../../..');
-    var middleware = cli.middleware;
     cli = cli()
-      .use(middleware.logger, null, {level: {}})
+      .use(require('cli-mid-logger'), null, {level: {}})
       .on('error', function(e) {
         done();
       })
@@ -81,9 +76,8 @@ describe('cli-command:', function() {
   });
   it('should use logger middleware with configuration', function(done) {
     var cli = require('../../..');
-    var middleware = cli.middleware;
     cli = cli()
-      .use(middleware.logger, {console: false})
+      .use(require('cli-mid-logger'), {console: false})
       .on('complete', function(req) {
         var keys = Object.keys(this);
         var enumerated = [];
@@ -97,9 +91,8 @@ describe('cli-command:', function() {
   });
   it('should use logger middleware (--log-file)', function(done) {
     var cli = require('../../..');
-    var middleware = cli.middleware;
     cli = cli()
-      .use(middleware.logger, null, {file: {}})
+      .use(require('cli-mid-logger'), null, {file: {}})
       .on('complete', function(req) {
         expect(this.logFile).to.eql(redirect);
         expect(this._options.logFile).to.be.an('object');
@@ -114,9 +107,8 @@ describe('cli-command:', function() {
   });
   it('should error on log file (--log-file)', function(done) {
     var cli = require('../../..');
-    var middleware = cli.middleware;
     cli = cli()
-      .use(middleware.logger, null, {file: {}})
+      .use(require('cli-mid-logger'), null, {file: {}})
       .on('error', function(e) {
         function fn() {
           throw e;
@@ -128,11 +120,10 @@ describe('cli-command:', function() {
   });
   it('should print error via logger', function(done) {
     var cli = require('../../..');
-    var middleware = cli.middleware;
     cli = cli(null, 'mock-logger-error')
       .configure({exit: false})
-      .use(middleware.color)
-      .use(middleware.logger)
+      .use(require('cli-mid-color'))
+      .use(require('cli-mid-logger'))
       .option('--required <value>', 'required option')
       .on('complete', function(req) {
         if(typeof ttycolor.revert === 'function') ttycolor.revert();
@@ -147,10 +138,9 @@ describe('cli-command:', function() {
     process.once('uncaughtException', function(e) {
       cli.emit('error', e);
     });
-    var middleware = cli.middleware;
     cli = cli(null, 'mock-logger-error')
       .configure({exit: false})
-      .use(middleware.logger, conf)
+      .use(require('cli-mid-logger'), conf)
       .once('error', function(e) {
         this.error(e);
         for(var i = 0;i < listeners.length;i++) {

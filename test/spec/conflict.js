@@ -51,7 +51,7 @@ describe('cli-command:', function() {
         done();
       }
       cli = cli(pkg, 'mock-log-conflict')
-        .use(cli.middleware.logger)
+        .use(require('cli-mid-logger'))
         .option('-l, --log [file]', 'middleware property conflict')
         .parse(['--log']);
     }

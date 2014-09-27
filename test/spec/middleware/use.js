@@ -15,11 +15,10 @@ describe('cli-command:', function() {
 
   it('should throw error on duplicate middleware', function(done) {
     var cli = require('../../..');
-    var middleware = cli.middleware;
     cli = cli(pkg);
-    cli.use(middleware.error);
+    cli.use(require('cli-mid-error'));
     function fn() {
-      cli.use(middleware.error);
+      cli.use(require('cli-mid-error'));
     }
     expect(fn).throws(Error);
     expect(fn).throws(/^Invalid middleware/);
@@ -27,8 +26,7 @@ describe('cli-command:', function() {
   });
   it('should subtract middleware from default middleware', function(done) {
     var cli = require('../../..');
-    var env = cli.middleware.env;
-    var middleware = cli.middleware;
+    var env = require('cli-mid-env');
     var conf = {middleware: {env: false}};
     var prg = cli(pkg).use();
     var len = prg._middleware.length;
@@ -41,10 +39,9 @@ describe('cli-command:', function() {
     var argv = process.argv.slice(0);
     process.argv = process.argv.slice(0, 2);
     var cli = require('../../..');
-    var middleware = cli.middleware;
     cli = cli(pkg)
-      .use(middleware.error)
-      .use(middleware.parser)
+      .use(require('cli-mid-error'))
+      .use(require('cli-mid-parser'))
       .parse();
     // NOTE: the error middleware does not return a function
     // NOTE: therefore does not become part of the middleware execution chain

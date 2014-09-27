@@ -1,6 +1,6 @@
 var path = require('path');
 var expect = require('chai').expect;
-var error = require('cli-system').exec.error;
+var error = require('cli-mid-exec').error;
 describe('cli-command:', function() {
   it('should raise error (EACCES)', function(done) {
     var cli = require('../../..');

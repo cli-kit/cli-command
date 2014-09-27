@@ -3,13 +3,14 @@ var expect = require('chai').expect;
 var pkg = path.normalize(
   path.join(__dirname, '..', '..', 'package.json'));
 var ttycolor = require('ttycolor');
+var color = require('cli-mid-color');
 
 describe('cli-command:', function() {
   it('should use color middleware', function(done) {
     var cli = require('../..');
     var args = ['--color=never'];
     cli(pkg, 'mock-color')
-      .use(cli.middleware.color)
+      .use(color)
       .configure({exit: false})
       .parse(args);
     ttycolor.revert();
@@ -19,7 +20,7 @@ describe('cli-command:', function() {
     var cli = require('../..');
     var args = ['--color'];
     cli(pkg, 'mock-color')
-      .use(cli.middleware.color, {validate: true, defaults: false})
+      .use(color, {validate: true, defaults: false})
       .configure({exit: false})
       .parse(args);
     done();
@@ -28,7 +29,7 @@ describe('cli-command:', function() {
     var cli = require('../..');
     var args = ['--color=never'];
     cli(pkg, 'mock-color')
-      .use(cli.middleware.color, {defaults: false})
+      .use(color, {defaults: false})
       .configure({exit: false})
       .parse(args);
     done();
@@ -37,7 +38,7 @@ describe('cli-command:', function() {
     var cli = require('../..');
     var args = ['--color=never'];
     cli(pkg, 'mock-color')
-      .use(cli.middleware.color, {defaults: false, option: {always: '-c'}})
+      .use(color, {defaults: false, option: {always: '-c'}})
       .configure({exit: false})
       .parse(args);
     done();
@@ -46,7 +47,7 @@ describe('cli-command:', function() {
     var cli = require('../..');
     var args = ['--color=never'];
     cli(pkg, 'mock-color')
-      .use(cli.middleware.color, {styles: {}})
+      .use(color, {styles: {}})
       .configure({exit: false})
       .parse(args);
     done();

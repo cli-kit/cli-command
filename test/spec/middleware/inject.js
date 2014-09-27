@@ -3,11 +3,10 @@ var expect = require('chai').expect;
 describe('cli-command:', function() {
   it('should inject middleware', function(done) {
     var cli = require('../../..');
-    var middleware = cli.middleware;
     cli = cli()
-      .use(middleware.parser)
-      .use(middleware.defaults)
-      .use(1, middleware.unparsed);
+      .use(require('cli-mid-parser'))
+      .use(require('cli-mid-defaults'))
+      .use(1, require('cli-mid-unparsed'));
     expect(cli._middleware.length).to.eql(3);
     var func = cli._middleware[1];
     var nm = func.name;

@@ -4,7 +4,6 @@ describe('cli-command:', function() {
     process.env.mock_variable = 'value';
     process.env.mock_prefix = '/usr/local/etc/env';
     var cli = require('../../..');
-    var middleware = cli.middleware;
     cli = cli()
       .configure({
           exit: false,
@@ -24,7 +23,6 @@ describe('cli-command:', function() {
   it('should override environment and rc with argument', function(done) {
     process.env.mock_prefix = '/usr/local/etc/env';
     var cli = require('../../..');
-    var middleware = cli.middleware;
     cli = cli()
       .configure({
           exit: false,

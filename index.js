@@ -41,33 +41,35 @@ errs.type = types.ArgumentTypeError;
 
 var defaults = require('./lib/defaults');
 
-var all = [
-  middlewares.error,
-  middlewares.stdin,
-  middlewares.boot,
-  middlewares.load,
-  middlewares.substitute,
-  middlewares.parser,
-  middlewares.unparsed,
-  middlewares.defaults,
-  middlewares.events,
-  middlewares.action,
-  middlewares.eunknown,
-  middlewares.emultiple,
-  middlewares.erequired,
-  middlewares.rc,
-  middlewares.env,
-  middlewares.multiple,
-  middlewares.merge,
-  middlewares.convert,
-  middlewares.variables,
-  middlewares.notify,
-  middlewares.ecommand,
-  middlewares.ready,
-  middlewares.exec,
-  middlewares.command,
-  middlewares.empty,
-  middlewares.run];
+//console.dir(all);
+
+//var all = [
+  //middlewares.error,
+  //middlewares.stdin,
+  //middlewares.boot,
+  //middlewares.load,
+  //middlewares.substitute,
+  //middlewares.parser,
+  //middlewares.unparsed,
+  //middlewares.defaults,
+  //middlewares.events,
+  //middlewares.action,
+  //middlewares.eunknown,
+  //middlewares.emultiple,
+  //middlewares.erequired,
+  //middlewares.rc,
+  //middlewares.env,
+  //middlewares.multiple,
+  //middlewares.merge,
+  //middlewares.convert,
+  //middlewares.variables,
+  //middlewares.notify,
+  //middlewares.ecommand,
+  //middlewares.ready,
+  //middlewares.exec,
+  //middlewares.command,
+  //middlewares.empty,
+  //middlewares.run];
 
 var CommandProgram = function() {
   Program.apply(this, arguments);
@@ -175,6 +177,7 @@ function use(middleware) {
     args = [].slice.call(arguments, 2);
   }
   if(!arguments.length && this._middleware === undefined) {
+    var all = middlewares.standard();
     for(i = 0;i < all.length;i++) {
       if(conf && conf.middleware) {
         closure = all[i].call(this);
@@ -343,6 +346,7 @@ function parse(args, cb) {
   var conf = this.configure();
   args = args || process.argv.slice(2);
   conflict.call(this);
+
   if(this._middleware === undefined) {
     this.use();
   }
@@ -414,7 +418,6 @@ module.exports.native = native;
 
 // decorate with internal error classes
 clierr.ArgumentTypeError = errs.type;
-clierr.ExecError = middlewares.exec.error;
 module.exports.error = clierr;
 
 // internal libraries
