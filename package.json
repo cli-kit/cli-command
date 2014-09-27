@@ -27,17 +27,17 @@
   "dependencies": {
     "circular": "~1.0.5",
     "cli-conflict": "~0.0.2",
-    "cli-define": "~0.5.43",
+    "cli-define": "^0.5.44",
     "cli-env": "~1.0.9",
-    "cli-error": "~0.5.7",
+    "cli-error": "^0.5.7",
     "cli-fs": "~1.0.3",
     "cli-help": "~0.0.3",
-    "cli-logger": "~0.5.27",
+    "cli-logger": "^0.5.30",
     "cli-middleware": "~0.0.3",
     "cli-native": "~1.0.0",
     "cli-rc": "~1.0.9",
-    "cli-system": "0.0.4",
-    "cli-types": "0.0.7",
+    "cli-system": "^0.0.13",
+    "cli-types": "^0.0.7",
     "cli-util": "~1.1.24"
   },
   "devDependencies": {
