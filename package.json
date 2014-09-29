@@ -54,7 +54,7 @@
     "cli-mid-manual": "^1.0.2",
     "cli-mid-parser": "^1.0.1",
     "cli-mid-unparsed": "^1.0.1",
-    "cli-rc": "~1.0.1",
+    "cli-rc": "^1.0.10",
     "istanbul": "^0.3.2",
     "mocha": "^1.21.4",
     "ttycolor": "^0.8.13"
