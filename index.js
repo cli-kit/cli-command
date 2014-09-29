@@ -4,7 +4,7 @@ var path = require('path')
   , middleware = require('cli-middleware')
   , utils = require('cli-util')
   , merge = utils.merge
-  , fs = require('cli-fs')
+  , funcname = utils.funcname
   , logger = require('cli-logger')
 
   , cli = require('cli-define')
@@ -26,8 +26,9 @@ var path = require('path')
   , types = require('cli-types')
   , conflict = require('cli-conflict')
   , system = require('cli-system')
+
   , ConverterMap = system.ConverterMap
-  , funcname = utils.funcname
+
   , syslog = require('./lib/syslog').log;
 
 var debug = !!process.env.CLI_TOOLKIT_DEBUG;
@@ -388,7 +389,6 @@ module.exports.version = system.version.action;
 module.exports.util = utils;
 module.exports.define = cli;
 module.exports.logger = logger;
-module.exports.fs = fs;
 
 // decorate with internal error classes
 clierr.ArgumentTypeError = errs.type;
