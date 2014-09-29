@@ -35,7 +35,7 @@ var path = require('path')
 
 var debug = !!process.env.CLI_TOOLKIT_DEBUG;
 
-var __middleware__;
+var __middleware__, all;
 
 errs.type = types.ArgumentTypeError;
 
@@ -147,7 +147,9 @@ function use(middleware) {
     args = [].slice.call(arguments, 2);
   }
   if(!arguments.length && this._middleware === undefined) {
-    var all = system.standard();
+    if(!all) {
+      all = system.standard();
+    }
     for(i = 0;i < all.length;i++) {
       if(conf && conf.middleware) {
         closure = all[i].call(this);
