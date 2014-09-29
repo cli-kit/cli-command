@@ -28,8 +28,8 @@ var path = require('path')
   , doc = require('cli-help')
   , types = require('cli-types')
   , conflict = require('cli-conflict')
-  , middlewares = require('cli-system')
-  , ConverterMap = middlewares.ConverterMap
+  , system = require('cli-system')
+  , ConverterMap = system.ConverterMap
   , funcname = utils.funcname
   , syslog = require('./lib/syslog').log;
 
@@ -40,36 +40,6 @@ var __middleware__;
 errs.type = types.ArgumentTypeError;
 
 var defaults = require('./lib/defaults');
-
-//console.dir(all);
-
-//var all = [
-  //middlewares.error,
-  //middlewares.stdin,
-  //middlewares.boot,
-  //middlewares.load,
-  //middlewares.substitute,
-  //middlewares.parser,
-  //middlewares.unparsed,
-  //middlewares.defaults,
-  //middlewares.events,
-  //middlewares.action,
-  //middlewares.eunknown,
-  //middlewares.emultiple,
-  //middlewares.erequired,
-  //middlewares.rc,
-  //middlewares.env,
-  //middlewares.multiple,
-  //middlewares.merge,
-  //middlewares.convert,
-  //middlewares.variables,
-  //middlewares.notify,
-  //middlewares.ecommand,
-  //middlewares.ready,
-  //middlewares.exec,
-  //middlewares.command,
-  //middlewares.empty,
-  //middlewares.run];
 
 var CommandProgram = function() {
   Program.apply(this, arguments);
@@ -93,7 +63,7 @@ var CommandProgram = function() {
   // public
   define(this, 'errors', errors, false);
 
-  //this.use(middlewares.error);
+  //this.use(system.error);
 }
 
 util.inherits(CommandProgram, Program);
@@ -177,7 +147,7 @@ function use(middleware) {
     args = [].slice.call(arguments, 2);
   }
   if(!arguments.length && this._middleware === undefined) {
-    var all = middlewares.standard();
+    var all = system.standard();
     for(i = 0;i < all.length;i++) {
       if(conf && conf.middleware) {
         closure = all[i].call(this);
@@ -298,7 +268,7 @@ define(CommandProgram.prototype, 'configure', configure, false);
  */
 function version(semver, name, description, action) {
   if(!arguments.length && this._options.versionopt) return this._version;
-  return this.use(middlewares.version, semver, name, description, action);
+  return this.use(system.version, semver, name, description, action);
 }
 define(CommandProgram.prototype, 'version', version, false);
 
@@ -330,7 +300,7 @@ define(CommandProgram.prototype, 'reset', reset, false);
  *  @param action A function to invoke.
  */
 function help(name, description, action) {
-  return this.use(middlewares.help, name, description, action);
+  return this.use(system.help, name, description, action);
 }
 define(CommandProgram.prototype, 'help', help, false);
 
@@ -403,9 +373,15 @@ module.exports.CliError = CliError;
 
 // library exports
 module.exports.defaults = defaults;
-module.exports.middleware = middlewares;
-module.exports.help = middlewares.help.action;
-module.exports.version = middlewares.version.action;
+
+// deprecated legacy access via middleware
+module.exports.middleware = system;
+
+// new access via system (use this)
+module.exports.system = system;
+
+module.exports.help = system.help.action;
+module.exports.version = system.version.action;
 
 // dependency exports
 module.exports.util = utils;
