@@ -5,8 +5,6 @@ var path = require('path')
   , utils = require('cli-util')
   , merge = utils.merge
   , fs = require('cli-fs')
-  , env = require('cli-env')
-  , native = require('cli-native')
   , logger = require('cli-logger')
   , circular = require('circular')
 
@@ -35,7 +33,10 @@ var path = require('path')
 
 var debug = !!process.env.CLI_TOOLKIT_DEBUG;
 
-var __middleware__, all;
+// backward compatible property access
+system.include(true);
+
+var __middleware__, all = system.standard();
 
 errs.type = types.ArgumentTypeError;
 
@@ -147,9 +148,9 @@ function use(middleware) {
     args = [].slice.call(arguments, 2);
   }
   if(!arguments.length && this._middleware === undefined) {
-    if(!all) {
-      all = system.standard();
-    }
+    //if(!all) {
+      //all = system.standard();
+    //}
     for(i = 0;i < all.length;i++) {
       if(conf && conf.middleware) {
         closure = all[i].call(this);
@@ -391,8 +392,6 @@ module.exports.define = cli;
 module.exports.logger = logger;
 module.exports.circular = circular;
 module.exports.fs = fs;
-module.exports.env = env;
-module.exports.native = native;
 
 // decorate with internal error classes
 clierr.ArgumentTypeError = errs.type;
