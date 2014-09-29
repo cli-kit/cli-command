@@ -6,7 +6,6 @@ var path = require('path')
   , merge = utils.merge
   , fs = require('cli-fs')
   , logger = require('cli-logger')
-  , circular = require('circular')
 
   , cli = require('cli-define')
   , Program = cli.Program
@@ -315,7 +314,6 @@ define(CommandProgram.prototype, 'help', help, false);
  *  @param args The arguments to parse, default is process.argv.slice(2).
  */
 function parse(args, cb) {
-  if(debug) syslog.trace(circular.stringify(this, 2));
   var conf = this.configure();
   args = args || process.argv.slice(2);
   conflict.call(this);
@@ -390,7 +388,6 @@ module.exports.version = system.version.action;
 module.exports.util = utils;
 module.exports.define = cli;
 module.exports.logger = logger;
-module.exports.circular = circular;
 module.exports.fs = fs;
 
 // decorate with internal error classes

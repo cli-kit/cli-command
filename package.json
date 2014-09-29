@@ -25,7 +25,6 @@
     "command"
   ],
   "dependencies": {
-    "circular": "^1.0.5",
     "cli-conflict": "^0.0.2",
     "cli-define": "^0.6.4",
     "cli-error": "^0.5.7",
