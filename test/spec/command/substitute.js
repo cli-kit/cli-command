@@ -7,7 +7,7 @@ var file = path.join(
 var Command = require('cli-define').Command;
 
 describe('cli-command:', function() {
-  it('should load command definition', function(done) {
+  it('should load command definition (substitute event)', function(done) {
     var cli = require('../../..');
     var options = {};
     var name = 'mock-substitute-definition';
