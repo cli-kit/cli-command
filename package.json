@@ -43,7 +43,7 @@
   "devDependencies": {
     "chai": "^1.9.1",
     "cli-mid-action": "^1.0.1",
-    "cli-mid-color": "^1.0.6",
+    "cli-mid-color": "^1.0.7",
     "cli-mid-debug": "^1.0.2",
     "cli-mid-defaults": "^1.0.0",
     "cli-mid-env": "^1.0.2",
@@ -68,7 +68,7 @@
     "permrm": "chmod -r test/spec/rc/eaccess.json",
     "permadd": "chmod +r test/spec/rc/eaccess.json",
     "pretest": "npm run clean; npm run permrm",
-    "test": "istanbul cover _mocha -- -u bdd --recursive --bail --reporter list -A test/spec/; npm run permadd"
+    "test": "NODE_ENV=test istanbul cover _mocha -- -u bdd --recursive --bail --reporter list -A test/spec/; npm run permadd"
   },
   "mdp": {
     "title": "Command",

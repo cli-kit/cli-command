@@ -15,6 +15,7 @@ describe('cli-command:', function() {
   });
   it('should exit on erequired error', function(done) {
     var cli = require('../..')(pkg, 'mock-erequired-error');
+    cli.configure({exit: true});
     process.exit = function(code) {
       done();
     }
@@ -25,6 +26,7 @@ describe('cli-command:', function() {
   });
   it('should exit on help', function(done) {
     var cli = require('../..')(pkg, 'mock-help-exit');
+    cli.configure({exit: true});
     process.exit = function(code) {
       done();
     }
@@ -33,6 +35,7 @@ describe('cli-command:', function() {
   });
   it('should exit on version', function(done) {
     var cli = require('../..')(pkg, 'mock-version-exit');
+    cli.configure({exit: true});
     process.exit = function(code) {
       done();
     }

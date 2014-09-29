@@ -7,22 +7,24 @@ describe('cli-command:', function() {
     var cli = require('../..')(pkg, 'configuration');
     cli.configure(false);
     var config = cli.configure();
-    expect(config.exit).to.eql(true);
+    // exit is false in test mode
+    expect(config.exit).to.eql(false);
     expect(config.bin).to.eql(null);
     done();
   });
   it('should use default configuration', function(done) {
     var cli = require('../..')(pkg, 'configuration');
     var config = cli.configure();
-    expect(config.exit).to.eql(true);
+    // exit is false in test mode
+    expect(config.exit).to.eql(false);
     expect(config.bin).to.eql(null);
     done();
   });
   it('should set configuration (exit)', function(done) {
     var cli = require('../..')(pkg, 'configuration');
-    cli.configure({exit: false});
+    cli.configure({exit: true});
     var config = cli.configure();
-    expect(config.exit).to.eql(false);
+    expect(config.exit).to.eql(true);
     expect(config.bin).to.eql(null);
     done();
   });
@@ -30,7 +32,8 @@ describe('cli-command:', function() {
     var cli = require('../..')(pkg, 'configuration');
     cli.configure({bin: './bin'});
     var config = cli.configure();
-    expect(config.exit).to.eql(true);
+    // exit is false in test mode
+    expect(config.exit).to.eql(false);
     expect(config.bin).to.eql('./bin');
     done();
   });
