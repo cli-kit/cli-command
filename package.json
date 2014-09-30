@@ -26,7 +26,7 @@
   ],
   "dependencies": {
     "cli-conflict": "^0.0.2",
-    "cli-define": "^0.6.10",
+    "cli-define": "^0.6.11",
     "cli-error": "^0.5.7",
     "cli-logger": "^0.5.31",
     "cli-middleware": "^0.0.3",
