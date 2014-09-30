@@ -256,6 +256,9 @@ define(CommandProgram.prototype, 'configure', configure, false);
  *  @param description The argument description.
  *  @param action A function to invoke.
  */
+
+// WARN: do not use, this is too overloaded, will be removed
+// WARN: do: cli.use(require('cli-mid-version')) instead for the middleware
 function version(semver, name, description, action) {
   if(arguments.length === 1 && typeof semver === 'string') {
     this._version = semver;
