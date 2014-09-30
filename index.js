@@ -183,9 +183,12 @@ function use(middleware) {
     }else{
       this._middleware.splice(ind, 0, closure);
     }
-  }else{
+  //}else{
     // mark the middleware as in use
-    middleware.use = true;
+    //
+    // DEPRECATED: we need a better way to determine is middleware
+    // is being used
+    //middleware.use = true;
   }
 
   __middleware__.push(middleware);
