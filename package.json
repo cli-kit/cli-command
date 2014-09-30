@@ -26,11 +26,11 @@
   ],
   "dependencies": {
     "cli-conflict": "^0.0.2",
-    "cli-define": "^0.6.7",
+    "cli-define": "^0.6.8",
     "cli-error": "^0.5.7",
     "cli-logger": "^0.5.31",
     "cli-middleware": "^0.0.3",
-    "cli-system": "^0.1.26",
+    "cli-system": "^0.1.28",
     "cli-types": "0.0.8",
     "cli-util": "^1.1.26"
   },
@@ -47,7 +47,7 @@
     "cli-mid-eunknown": "^1.0.0",
     "cli-mid-exec": "^1.0.1",
     "cli-mid-logger": "^1.0.1",
-    "cli-mid-manual": "^1.0.4",
+    "cli-mid-manual": "^1.0.5",
     "cli-mid-parser": "^1.0.6",
     "cli-mid-unparsed": "^1.0.1",
     "cli-rc": "^1.0.10",
