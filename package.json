@@ -30,7 +30,7 @@
     "cli-error": "^0.5.7",
     "cli-logger": "^0.5.31",
     "cli-middleware": "^0.0.3",
-    "cli-system": "^0.1.31",
+    "cli-system": "^0.1.32",
     "cli-types": "0.0.8",
     "cli-util": "^1.1.26"
   },

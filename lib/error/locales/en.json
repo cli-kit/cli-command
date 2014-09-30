@@ -204,12 +204,6 @@
     "code": 97
   },
   {
-    "key": "ERC_MODULE",
-    "description": "Error loading cli-rc module",
-    "message": "could not load cli-rc module, you should depend upon this module",
-    "code": 98
-  },
-  {
     "key": "EUNKNOWN_SUBCOMMAND",
     "description": "Specified subcommand is not valid for parent command",
     "message": "unknown subcommand %s for %s",
