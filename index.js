@@ -3,6 +3,7 @@ var path = require('path')
 
   , middleware = require('cli-middleware')
   , utils = require('cli-util')
+  , define = utils.define
   , merge = utils.merge
   , funcname = utils.funcname
   , logger = require('cli-logger')
@@ -12,7 +13,6 @@ var path = require('path')
   , Option = cli.Option
   , Flag = cli.Flag
   , Command = cli.Command
-  , define = cli.define
   , key = cli.key
 
   , clierr = require('cli-error')
