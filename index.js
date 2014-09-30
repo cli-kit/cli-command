@@ -52,7 +52,8 @@ var CommandProgram = function() {
   // quick fix is the stringify/parse clone
   // really merge() should be able to create new object and merge them
   // both
-  var conf = merge(JSON.parse(JSON.stringify(defaults)), {});
+  //var conf = merge(JSON.parse(JSON.stringify(defaults)), {});
+  var conf = merge(defaults, {}, {copy: true})
   // private
   define(this, '_middleware', undefined, true);
   define(this, '_conf', conf, true);
