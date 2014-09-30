@@ -10,30 +10,33 @@ describe('cli-command:', function() {
     var args = ['1', '2', '3'];
     cli
       .converter(parseInt)
-      .parse(args);
-    expect(cli.request().unparsed).to.eql([]);
-    expect(cli.request().args).to.eql([1,2,3]);
-    done();
+      .parse(args, function onparse(req) {
+        expect(req.unparsed).to.eql([]);
+        expect(req.args).to.eql([1,2,3]);
+        done();
+      });
   });
   it('should coerce unparsed arguments (Array)', function(done) {
     var cli = require('../../..')(pkg);
     var args = ['1', '2', '3'];
     cli
       .converter(Array)
-      .parse(args);
-    expect(cli.request().unparsed).to.eql([]);
-    expect(cli.request().args).to.eql([['1'],['2'],['3']]);
-    done();
+      .parse(args, function onparse(req) {
+        expect(req.unparsed).to.eql([]);
+        expect(req.args).to.eql([['1'],['2'],['3']]);
+        done();
+      });
   });
   it('should coerce unparsed arguments (Boolean)', function(done) {
     var cli = require('../../..')(pkg);
     var args = ['true', 'False', '1', '0'];
     cli
       .converter(Boolean)
-      .parse(args);
-    expect(cli.request().unparsed).to.eql([]);
-    expect(cli.request().args).to.eql([true, false, true, false]);
-    done();
+      .parse(args, function onparse(req) {
+        expect(req.unparsed).to.eql([]);
+        expect(req.args).to.eql([true, false, true, false]);
+        done();
+      });
   });
   it('should coerce unparsed arguments (Date)', function(done) {
     var d = '2014-02-01';
@@ -42,10 +45,11 @@ describe('cli-command:', function() {
     var args = [d];
     cli
       .converter(Date)
-      .parse(args);
-    expect(cli.request().unparsed).to.eql([]);
-    expect(cli.request().args).to.eql([dt]);
-    done();
+      .parse(args, function onparse(req) {
+        expect(req.unparsed).to.eql([]);
+        expect(req.args).to.eql([dt]);
+        done();
+      });
   });
   it('should coerce unparsed arguments (enum)', function(done) {
     var list = ['css', 'scss', 'less'];
@@ -53,10 +57,11 @@ describe('cli-command:', function() {
     var args = ['css', 'scss'];
     cli
       .converter(types.enum(list))
-      .parse(args);
-    expect(cli.request().unparsed).to.eql([]);
-    expect(cli.request().args).to.eql(['css', 'scss']);
-    done();
+      .parse(args, function onparse(req) {
+        expect(req.unparsed).to.eql([]);
+        expect(req.args).to.eql(['css', 'scss']);
+        done();
+      });
   });
   it('should coerce unparsed arguments (float)', function(done) {
     var golden = 1.61803398875;
@@ -64,10 +69,11 @@ describe('cli-command:', function() {
     var args = ['' + golden];
     cli
       .converter(types.float)
-      .parse(args);
-    expect(cli.request().unparsed).to.eql([]);
-    expect(cli.request().args).to.eql([golden]);
-    done();
+      .parse(args, function onparse(req) {
+        expect(req.unparsed).to.eql([]);
+        expect(req.args).to.eql([golden]);
+        done();
+      });
   });
   it('should coerce unparsed arguments (integer)', function(done) {
     var integer = 128;
@@ -75,10 +81,11 @@ describe('cli-command:', function() {
     var args = ['' + integer];
     cli
       .converter(types.integer)
-      .parse(args);
-    expect(cli.request().unparsed).to.eql([]);
-    expect(cli.request().args).to.eql([integer]);
-    done();
+      .parse(args, function onparse(req) {
+        expect(req.unparsed).to.eql([]);
+        expect(req.args).to.eql([integer]);
+        done();
+      });
   });
   it('should coerce unparsed arguments (JSON)', function(done) {
     var cli = require('../../..')(pkg);
@@ -88,10 +95,11 @@ describe('cli-command:', function() {
     var args = [stringified];
     cli
       .converter(JSON)
-      .parse(args);
-    expect(cli.request().unparsed).to.eql([]);
-    expect(cli.request().args).to.eql([value]);
-    done();
+      .parse(args, function onparse(req) {
+        expect(req.unparsed).to.eql([]);
+        expect(req.args).to.eql([value]);
+        done();
+      });
   });
   it('should error on invalid number', function(done) {
     var cli = require('../../..')(pkg);

@@ -24,6 +24,7 @@ describe('cli-command:', function() {
       .option('--required <value>', 'required options')
       .parse(args);
   });
+
   it('should exit on help', function(done) {
     var cli = require('../..')(pkg, 'mock-help-exit');
     cli.configure({exit: true});
@@ -31,8 +32,11 @@ describe('cli-command:', function() {
       done();
     }
     var args = ['--help'];
-    cli.help().parse(args);
+    cli
+      .help()
+      .parse(args);
   });
+
   it('should exit on version', function(done) {
     var cli = require('../..')(pkg, 'mock-version-exit');
     cli.configure({exit: true});

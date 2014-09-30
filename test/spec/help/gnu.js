@@ -161,8 +161,9 @@ describe('cli-command:', function() {
     var args = [];
     cli = cli(pkg, 'mock-minimal-help')
       .configure({exit: false})
-      .on('empty', function(help, version) {
-        help.call(this);
+      .on('empty', function(help, version, req, next) {
+        //console.dir(req);
+        help.call(this, true, req);
         done();
       })
       .parse(args);

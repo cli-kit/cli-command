@@ -17,30 +17,33 @@ describe('cli-command:', function() {
     var cli = require('../..')(pkg);
     var args = ['unknown value'];
     cli.configure({unknown: false})
-      .parse(args);
-    expect(cli.request().args).to.eql(args);
-    expect(cli.request().unparsed).to.eql(args);
-    done();
+      .parse(args, function onparse(req) {
+        expect(req.args).to.eql(args);
+        expect(req.unparsed).to.eql(args);
+        done();
+      });
   });
   it('should allow all unknown options (string converter)', function(done) {
     var cli = require('../..')(pkg);
     var args = ['unknown value'];
     cli
       .converter(String)
-      .parse(args);
-    expect(cli.request().args).to.eql(args);
-    expect(cli.request().unparsed).to.eql([]);
-    done();
+      .parse(args, function onparse(req) {
+        expect(req.args).to.eql(args);
+        expect(req.unparsed).to.eql([]);
+        done();
+      });
   });
   it('should allow all unknown options (number converter)', function(done) {
     var cli = require('../..')(pkg);
     var args = ['1', '2', '3'];
     cli
       .converter(Number)
-      .parse(args);
-    expect(cli.request().args).to.eql([1,2,3]);
-    expect(cli.request().unparsed).to.eql([]);
-    done();
+      .parse(args, function onparse(req) {
+        expect(req.args).to.eql([1,2,3]);
+        expect(req.unparsed).to.eql([]);
+        done();
+      });
   });
   it('should emit unknown event (-strict -converter)', function(done) {
     var cli = require('../..')(pkg);

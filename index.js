@@ -46,26 +46,18 @@ var CommandProgram = function() {
   Program.apply(this, arguments);
   __middleware__ = [];
 
-  // not that merge maintains object references so defaults
-  // would get polluted with this merge, for most programs this
-  // is not an issue however it breaks the unit tests so that
-  // quick fix is the stringify/parse clone
-  // really merge() should be able to create new object and merge them
-  // both
-  //var conf = merge(JSON.parse(JSON.stringify(defaults)), {});
   var conf = merge(defaults, {}, {copy: true})
+
   // private
   define(this, '_middleware', undefined, true);
   define(this, '_conf', conf, true);
   define(this, '_request', undefined, true);
 
-  //
+  // TODO: remove this circular reference
   this._conf.stash = this;
 
   // public
   define(this, 'errors', errors, false);
-
-  //this.use(system.error);
 }
 
 util.inherits(CommandProgram, Program);

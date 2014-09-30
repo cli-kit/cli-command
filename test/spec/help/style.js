@@ -12,6 +12,7 @@ describe('cli-command:', function() {
     var args = ['--help'];
     cli
       .on('help', function(data, document) {
+        //console.dir(document);
         expect(document).to.be.instanceof(JsonDocument);
         done();
       })

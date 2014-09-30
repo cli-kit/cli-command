@@ -6,17 +6,17 @@ describe('cli-command:', function() {
   it('should access empty args via request', function(done) {
     var cli = require('../..')(pkg);
     var args = [];
-    cli.parse(args);
-    var req = cli.request();
-    expect(req.args).to.eql([]);
-    done();
+    cli.parse(args, function onparse(req) {
+      expect(req.args).to.eql([]);
+      done();
+    });
   });
   it('should access args via request', function(done) {
     var cli = require('../..')(pkg);
     var args = ['file.txt', 'file.json'];
-    cli.parse(args);
-    var req = cli.request();
-    expect(req.args).to.eql(['file.txt', 'file.json']);
-    done();
+    cli.parse(args, function onparse(req) {
+      expect(req.args).to.eql(['file.txt', 'file.json']);
+      done();
+    });
   });
 })

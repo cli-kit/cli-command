@@ -24,13 +24,12 @@ describe('cli-command:', function() {
       .option('-v, --value [value]', 'an optional value')
       .command('assert')
         .description('assert on arguments')
-        .action(function(cmd, args) {
+        .action(function(cmd, req, next) {
           expect(cli.integer).to.eql(10);
           expect(cli.float).to.eql(3.14);
           expect(cli.range).to.eql([1,10]);
           expect(cli.list).to.eql(['apples','oranges']);
-          //console.dir(cli.request());
-          expect(cli.request().args).to.eql(['file.txt']);
+          expect(req.args).to.eql(['file.txt']);
           expect(cli.value).to.eql('value');
           done();
         })
