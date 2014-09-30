@@ -22,7 +22,6 @@ var path = require('path')
 
   // TODO: make ExecError available
   , errs = {}
-  , doc = require('cli-help')
   , types = require('cli-types')
   , conflict = require('cli-conflict')
   , system = require('cli-system')
@@ -399,4 +398,3 @@ module.exports.error = clierr;
 // internal libraries
 module.exports.types = types;
 module.exports.log = syslog;
-module.exports.doc = doc;
