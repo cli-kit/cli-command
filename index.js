@@ -161,10 +161,9 @@ function use(middleware) {
     throw new Error('Invalid middleware, must be a function');
   }
   closure = middleware.apply(this, args);
-  if(~__middleware__.indexOf(middleware)) {
-    //console.dir(__middleware__);
-    throw new Error('Invalid middleware, duplicate detected');
-  }
+  //if(this._middleware && ~this._middleware.indexOf(middleware)) {
+    //throw new Error('Invalid middleware, duplicate detected');
+  //}
   if(typeof(closure) == 'function') {
     if(this._middleware === undefined) this._middleware = [];
     if(ind < 0 || ind >= __middleware__.length) {
@@ -172,12 +171,6 @@ function use(middleware) {
     }else{
       this._middleware.splice(ind, 0, closure);
     }
-  //}else{
-    // mark the middleware as in use
-    //
-    // DEPRECATED: we need a better way to determine is middleware
-    // is being used
-    //middleware.use = true;
   }
 
   __middleware__.push(middleware);
