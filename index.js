@@ -33,7 +33,7 @@ var debug = !!process.env.CLI_TOOLKIT_DEBUG;
 // backward compatible property access
 system.include(true);
 
-var __middleware__, all = system.standard();
+var all = system.standard();
 
 errs.type = types.ArgumentTypeError;
 
@@ -41,7 +41,6 @@ var defaults = require('./lib/defaults');
 
 var CommandProgram = function() {
   Program.apply(this, arguments);
-  __middleware__ = [];
 
   var conf = merge(defaults, {}, {copy: true})
 
@@ -49,6 +48,7 @@ var CommandProgram = function() {
   define(this, '_middleware', undefined, true);
   define(this, '_conf', conf, true);
   define(this, '_request', undefined, true);
+  define(this, '_middlecache', [], true);
 
   // TODO: remove this circular reference
   this._conf.stash = this;
@@ -128,7 +128,7 @@ function use(middleware) {
   var i, nm, closure, conf = this.configure();
   var ind = -1, args = [].slice.call(arguments, 1);
   if(middleware === false) {
-    __middleware__ = [];
+    this._middlecache = [];
     this._middleware = [];
     return this;
   }
@@ -161,19 +161,20 @@ function use(middleware) {
     throw new Error('Invalid middleware, must be a function');
   }
   closure = middleware.apply(this, args);
-  //if(this._middleware && ~this._middleware.indexOf(middleware)) {
-    //throw new Error('Invalid middleware, duplicate detected');
-  //}
+  if(this._middlecache && ~this._middlecache.indexOf(middleware)) {
+    throw new Error('Invalid middleware, duplicate detected');
+  }
   if(typeof(closure) == 'function') {
     if(this._middleware === undefined) this._middleware = [];
-    if(ind < 0 || ind >= __middleware__.length) {
+    if(ind < 0 || ind >= this._middleware.length) {
+      //console.log('adding closure... %s', closure);
       this._middleware.push(closure);
     }else{
       this._middleware.splice(ind, 0, closure);
     }
   }
 
-  __middleware__.push(middleware);
+  this._middlecache.push(middleware);
 
   return this;
 }
