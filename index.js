@@ -26,8 +26,6 @@ var path = require('path')
   , conflict = require('cli-conflict')
   , system = require('cli-system')
 
-  , ConverterMap = system.ConverterMap
-
   , syslog = require('./lib/syslog').log;
 
 var debug = !!process.env.CLI_TOOLKIT_DEBUG;
@@ -370,7 +368,6 @@ module.exports.Program = Program;
 module.exports.Command = Command;
 module.exports.Option = Option;
 module.exports.Flag = Flag;
-module.exports.ConverterMap = ConverterMap;
 module.exports.ErrorDefinition = ErrorDefinition;
 module.exports.CliError = CliError;
 
