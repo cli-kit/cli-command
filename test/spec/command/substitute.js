@@ -8,6 +8,9 @@ var Command = require('cli-define').Command;
 
 describe('cli-command:', function() {
   it('should load command definition (substitute event)', function(done) {
+    return done();
+
+    // NOTE: the substitute event was removed with the new compiler
     var cli = require('../../..');
     var options = {};
     var name = 'mock-substitute-definition';
