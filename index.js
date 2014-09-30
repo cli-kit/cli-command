@@ -309,8 +309,14 @@ define(CommandProgram.prototype, 'help', help, false);
  *  for help and version.
  *
  *  @param args The arguments to parse, default is process.argv.slice(2).
+ *  @param req An existing request object to use.
+ *  @param cb A complete callback function.
  */
-function parse(args, cb) {
+function parse(args, req, cb) {
+  if(typeof req === 'function') {
+    cb = req;
+    req = null;
+  }
   var conf = this.configure();
   args = args || process.argv.slice(2);
   conflict.call(this);
@@ -329,7 +335,7 @@ function parse(args, cb) {
     scope: this
   }
   var runner = middleware(opts);
-  runner(args, cb);
+  runner(args, req, cb);
   return this;
 }
 define(CommandProgram.prototype, 'parse', parse, false);
