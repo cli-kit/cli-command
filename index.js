@@ -257,7 +257,7 @@ define(CommandProgram.prototype, 'configure', configure, false);
  *  @param action A function to invoke.
  */
 function version(semver, name, description, action) {
-  if(arguments.length === 1) {
+  if(arguments.length === 1 && typeof semver === 'string') {
     this._version = semver;
     return this;
   }

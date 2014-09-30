@@ -7,7 +7,11 @@ describe('cli-command:', function() {
   it('should set program version', function(done) {
     var cli = require('../..')(
       path.join(__dirname, '..', '..', 'package.json'));
+    // use the middleware
+    cli.version();
     var ver = '0.0.1';
+
+    // set the version
     cli.version(ver);
     expect(cli.version()).to.eql(ver);
     done();
