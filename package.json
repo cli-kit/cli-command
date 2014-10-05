@@ -29,15 +29,17 @@
     "cli-define": "^0.6.13",
     "cli-error": "^0.5.7",
     "cli-logger": "^0.5.31",
+    "cli-mid-logger": "~1.0.3",
+    "cli-mid-manual": "~1.0.15",
     "cli-middleware": "^0.0.3",
-    "cli-system": "~0.1.54",
+    "cli-system": "~0.1.55",
     "cli-types": "0.0.8",
     "cli-util": "^1.1.26"
   },
   "devDependencies": {
     "chai": "^1.9.1",
     "cli-env": "^1.0.9",
-    "cli-help": "0.0.11",
+    "cli-help": "0.0.21",
     "cli-mid-action": "^1.0.1",
     "cli-mid-color": "^1.0.7",
     "cli-mid-debug": "^1.0.3",
@@ -50,7 +52,7 @@
     "cli-mid-manual": "^1.0.5",
     "cli-mid-parser": "^1.0.6",
     "cli-mid-unparsed": "^1.0.1",
-    "cli-rc": "^1.0.10",
+    "cli-rc": "~1.0.11",
     "istanbul": "^0.3.2",
     "mocha": "^1.21.4",
     "ttycolor": "^0.8.13"
