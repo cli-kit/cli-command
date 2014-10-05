@@ -31,7 +31,7 @@
     "cli-logger": "^0.5.31",
     "cli-mid-logger": "~1.0.3",
     "cli-mid-manual": "~1.0.15",
-    "cli-middleware": "^0.0.3",
+    "cli-middleware": "~1.0.0",
     "cli-system": "~0.1.56",
     "cli-types": "0.0.8",
     "cli-util": "^1.1.26"

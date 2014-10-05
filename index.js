@@ -333,7 +333,19 @@ function parse(args, req, cb) {
     scope: this
   }
   var runner = middleware(opts);
-  runner(args, req, cb);
+  // NOTE: want to be using this again!
+  //runner(args, req, cb);
+
+  // NOTE: backward compatible argument order switch
+  // NOTE: allows us to upgrade cli-middleware but not
+  // NOTE: break absolutely everything
+  runner(args, req, function(err, req) {
+    if(cb) {
+      cb.call(this, req, err);
+    }else{
+      this.emit('complete', req, err);
+    }
+  });
   return this;
 }
 define(CommandProgram.prototype, 'parse', parse, false);
