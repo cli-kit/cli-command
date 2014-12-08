@@ -57,6 +57,8 @@ npm install cli-command
 
 ## Test
 
+Tests are not included in the package, clone the repository and install dependencies to run the test suite:
+
 ```
 npm test
 ```
@@ -638,7 +640,7 @@ It is important to decouple your program configuration from the binary file that
 
 ## Reserved Keywords
 
-`_action`, `_commands`, `_conf`, `_configure`, `_converter`, `_description`, `_detail`, `_emitter`, `_events`, `_exec`, `_extra`, `_key`, `_last`, `_maxListeners`, `_middleware`, `_name`, `_names`, `_options`, `_package`, `_parent`, `_request`, `_usage`, `_version`, `action`, `addListener`, `command`, `commands`, `configure`, `converter`, `description`, `detail`, `domain`, `emit`, `error`, `errors`, `extra`, `finder`, `flag`, `getFullName`, `getLongName`, `getOptionString`, `getParents`, `getShortName`, `help`, `key`, `last`, `listeners`, `name`, `names`, `on`, `once`, `option`, `options`, `package`, `parent`, `parse`, `raise`, `removeAllListeners`, `removeListener`, `request`, `reset`, `setMaxListeners`, `toString`, `usage`, `use`, `version`, `wrap`.
+`_action`, `_commands`, `_conf`, `_configure`, `_converter`, `_description`, `_detail`, `_emitter`, `_events`, `_exec`, `_extra`, `_key`, `_last`, `_maxListeners`, `_middlecache`, `_middleware`, `_name`, `_names`, `_options`, `_package`, `_parent`, `_request`, `_sections`, `_usage`, `_version`, `action`, `addListener`, `assign`, `command`, `commands`, `configure`, `converter`, `createCommand`, `createFlag`, `createOption`, `description`, `detail`, `domain`, `emit`, `error`, `errors`, `extra`, `finder`, `flag`, `getFullName`, `getLongName`, `getOptionString`, `getParents`, `getShortName`, `hasCommands`, `hasOptions`, `help`, `isArgument`, `isCommand`, `isFlag`, `isOption`, `isProgram`, `key`, `last`, `listeners`, `name`, `names`, `on`, `once`, `option`, `options`, `package`, `parent`, `parse`, `raise`, `removeAllListeners`, `removeListener`, `request`, `reset`, `sections`, `setMaxListeners`, `toObject`, `toString`, `usage`, `use`, `version`, `wrap`.
 
 ## Credits
 
