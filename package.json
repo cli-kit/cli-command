@@ -62,10 +62,11 @@
   ],
   "scripts": {
     "readme": "mdp --force -v",
-    "clean": "rm -f ./log/*.log; rm -f .man/*",
+    "clean": "rm -f ./log/*.log",
     "permrm": "chmod -r test/spec/rc/eaccess.json",
     "permadd": "chmod +r test/spec/rc/eaccess.json",
-    "pretest": "npm run clean; npm run permrm",
+    "test-verify": "test -d ./test || (echo run tests from: $npm_package_repository_url && false)",
+    "pretest": "npm run test-verify && npm run clean && npm run permrm",
     "test": "NODE_ENV=test istanbul cover _mocha -- -u bdd --recursive --bail --reporter list -A test/spec/; npm run permadd"
   },
   "mdp": {
