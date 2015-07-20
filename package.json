@@ -28,18 +28,18 @@
     "cli-conflict": "~0.1.0",
     "cli-define": "^0.6.13",
     "cli-error": "^0.5.7",
-    "cli-logger": "^0.5.31",
-    "cli-mid-logger": "~1.0.3",
+    "cli-logger": "~0.5.38",
+    "cli-mid-logger": "~1.0.8",
     "cli-mid-manual": "~1.0.15",
     "cli-middleware": "~1.0.0",
-    "cli-system": "~0.1.60",
+    "cli-system": "~0.1.61",
     "cli-types": "~0.1.1",
-    "cli-util": "^1.1.26"
+    "cli-util": "~1.1.27"
   },
   "devDependencies": {
-    "chai": "^1.9.1",
-    "cli-env": "^1.0.9",
-    "cli-help": "~0.1.0",
+    "chai": "~3.2.0",
+    "cli-env": "~1.0.10",
+    "cli-help": "~0.1.1",
     "cli-mid-action": "^1.0.1",
     "cli-mid-color": "^1.0.7",
     "cli-mid-debug": "^1.0.3",
@@ -50,12 +50,12 @@
     "cli-mid-exec": "^1.0.1",
     "cli-mid-logger": "~1.0.4",
     "cli-mid-manual": "~1.0.16",
-    "cli-mid-parser": "^1.0.6",
+    "cli-mid-parser": "~1.0.7",
     "cli-mid-unparsed": "~1.0.4",
-    "cli-rc": "~1.0.11",
-    "istanbul": "^0.3.2",
-    "mocha": "^1.21.4",
-    "ttycolor": "^0.8.13"
+    "cli-rc": "~1.0.12",
+    "istanbul": "~0.3.17",
+    "mocha": "~2.2.5",
+    "ttycolor": "~0.8.14"
   },
   "engine": [
     "node >= 0.10.21"
