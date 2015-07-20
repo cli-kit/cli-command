@@ -32,7 +32,7 @@
     "cli-mid-logger": "~1.0.8",
     "cli-mid-manual": "~1.0.15",
     "cli-middleware": "~1.0.0",
-    "cli-system": "~0.1.61",
+    "cli-system": "~0.1.62",
     "cli-types": "~0.1.1",
     "cli-util": "~1.1.27"
   },
@@ -49,7 +49,6 @@
     "cli-mid-eunknown": "^1.0.0",
     "cli-mid-exec": "^1.0.1",
     "cli-mid-logger": "~1.0.4",
-    "cli-mid-manual": "~1.0.16",
     "cli-mid-parser": "~1.0.7",
     "cli-mid-unparsed": "~1.0.4",
     "cli-rc": "~1.0.12",
