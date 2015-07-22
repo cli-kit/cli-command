@@ -28,12 +28,13 @@
     "cli-conflict": "~0.1.0",
     "cli-define": "^0.6.13",
     "cli-error": "^0.5.7",
-    "cli-logger": "~0.5.38",
-    "cli-mid-logger": "~1.0.8",
+    "cli-logger": "~0.5.39",
+    "cli-mid-color": "~1.0.9",
+    "cli-mid-logger": "~1.0.9",
     "cli-mid-manual": "~1.0.15",
     "cli-middleware": "~1.0.0",
-    "cli-system": "~0.1.62",
-    "cli-types": "~0.1.1",
+    "cli-system": "~0.1.63",
+    "cli-types": "~0.1.2",
     "cli-util": "~1.1.27"
   },
   "devDependencies": {
@@ -50,11 +51,11 @@
     "cli-mid-exec": "^1.0.1",
     "cli-mid-logger": "~1.0.4",
     "cli-mid-parser": "~1.0.7",
-    "cli-mid-unparsed": "~1.0.4",
+    "cli-mid-unparsed": "~1.0.5",
     "cli-rc": "~1.0.12",
     "istanbul": "~0.3.17",
     "mocha": "~2.2.5",
-    "ttycolor": "~0.8.14"
+    "ttycolor": "~0.8.16"
   },
   "engine": [
     "node >= 0.10.21"
@@ -65,7 +66,7 @@
     "permrm": "chmod -r test/spec/rc/eaccess.json",
     "permadd": "chmod +r test/spec/rc/eaccess.json",
     "test-verify": "test -d ./test || (echo run tests from: $npm_package_repository_url && false)",
-    "pretest": "npm run test-verify && npm run clean && npm run permrm",
+    "pretest": "npm run test-verify && npm run clean && npm run permrm && npm dedupe",
     "test": "NODE_ENV=test mocha test/spec; npm run permadd",
     "cover": "npm run pretest && NODE_ENV=test istanbul cover _mocha -- test/spec; npm run permadd"
   },

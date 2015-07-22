@@ -9,7 +9,6 @@ function range(val) {
 function list(val) {
   return val.split(',');
 }
-
 describe('cli-command:', function() {
   it('should coerce argument values', function(done) {
     var cli = require('../..')(pkg);

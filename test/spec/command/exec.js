@@ -5,6 +5,7 @@ var pkg = path.normalize(
 var bin = path.normalize(path.join(__dirname, '..', '..', 'bin'));
 
 describe('cli-command:', function() {
+  var exit;
   beforeEach(function(done) {
     exit = process.exit;
     done();

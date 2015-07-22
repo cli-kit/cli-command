@@ -6,6 +6,13 @@ var file = path.join(
   __dirname, path.basename(__filename).replace(/\.js$/, '') + '.md')
 var Command = require('cli-define').Command;
 
+
+Object.defineProperty(global, "name", {
+  set: function(value) {
+    throw new Error('leak!')
+  }
+})
+
 describe('cli-command:', function() {
   it('should load command definition', function(done) {
     var cli = require('../../..');

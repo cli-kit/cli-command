@@ -9,11 +9,11 @@ describe('cli-command:', function() {
   it('should use color middleware', function(done) {
     var cli = require('../..');
     var args = ['--color=never'];
-    cli(pkg, 'mock-color')
+    cli = cli(pkg, 'mock-color')
       .use(color)
       .configure({exit: false})
       .parse(args);
-    ttycolor.revert();
+    cli.configure().ttycolor.revert();
     done();
   });
   it('should add enum validation', function(done) {
