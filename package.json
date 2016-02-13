@@ -2,7 +2,8 @@
   "name": "cli-command",
   "version": "0.8.300",
   "description": "Command execution for cli programs",
-  "author": "muji <noop@xpm.io>",
+  "author": "muji",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/freeformsystems/cli-command"
@@ -26,14 +27,14 @@
   ],
   "dependencies": {
     "cli-conflict": "~0.1.0",
-    "cli-define": "^0.6.13",
-    "cli-error": "^0.5.7",
-    "cli-logger": "~0.5.39",
-    "cli-mid-color": "~1.0.9",
-    "cli-mid-logger": "~1.0.9",
-    "cli-mid-manual": "~1.0.15",
+    "cli-define": "~0.6.13",
+    "cli-error": "~0.5.7",
+    "cli-logger": "~0.5.40",
+    "cli-mid-color": "~1.0.10",
+    "cli-mid-logger": "~1.0.10",
+    "cli-mid-manual": "~1.0.16",
     "cli-middleware": "~1.0.0",
-    "cli-system": "~0.1.66",
+    "cli-system": "~0.1.67",
     "cli-types": "~0.1.2",
     "cli-util": "~1.1.27"
   },
