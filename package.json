@@ -39,24 +39,24 @@
     "cli-util": "~1.1.27"
   },
   "devDependencies": {
-    "chai": "~3.2.0",
+    "chai": "~3.5.0",
     "cli-env": "~1.0.10",
-    "cli-help": "~0.1.1",
+    "cli-help": "~1.0.2",
     "cli-mid-action": "^1.0.1",
-    "cli-mid-color": "^1.0.7",
+    "cli-mid-color": "~1.0.12",
     "cli-mid-debug": "^1.0.3",
     "cli-mid-defaults": "^1.0.0",
     "cli-mid-env": "~1.0.4",
     "cli-mid-error": "^1.0.0",
     "cli-mid-eunknown": "^1.0.0",
     "cli-mid-exec": "^1.0.1",
-    "cli-mid-logger": "~1.0.4",
+    "cli-mid-logger": "~1.0.11",
     "cli-mid-parser": "~1.0.7",
     "cli-mid-unparsed": "~1.0.5",
     "cli-rc": "~1.0.12",
-    "istanbul": "~0.3.17",
-    "mocha": "~2.2.5",
-    "ttycolor": "~0.8.16"
+    "istanbul": "~0.4.2",
+    "mocha": "~2.4.5",
+    "ttycolor": "~1.1.0"
   },
   "engine": [
     "node >= 0.10.21"
