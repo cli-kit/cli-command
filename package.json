@@ -50,6 +50,7 @@
     "cli-mid-error": "^1.0.0",
     "cli-mid-eunknown": "^1.0.0",
     "cli-mid-exec": "^1.0.1",
+    "cli-mid-help": "~1.0.19",
     "cli-mid-logger": "~1.0.11",
     "cli-mid-parser": "~1.0.7",
     "cli-mid-unparsed": "~1.0.5",
