@@ -21,7 +21,7 @@ var CommandInterface = function(pkg, name, description, clazz) {
   this.use.call(this.program);
   this.command.call(this.program);
   this.option.call(this.program);
-  this.on.call(this.program);
+  this.events.call(this.program);
 };
 
 /**
