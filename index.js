@@ -376,6 +376,7 @@ module.exports = function(package, name, description, options) {
 }
 
 // classes
+module.exports.Interface = require('./interface');
 module.exports.CommandProgram = CommandProgram;
 module.exports.Program = Program;
 module.exports.Command = Command;
